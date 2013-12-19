@@ -5,28 +5,31 @@ import java.util.Vector;
 
 import android.util.Log;
 
-public class World {
+public class World implements WorldIF {
 
-    private Vector<Blob> objs;
+    private Vector<BlobIF> objs;
 
     public World() {
         Log.d("trace", "World created");
-        objs = new Vector<Blob>();
+        objs = new Vector<BlobIF>();
     }
     
-    public Boolean addBlobToWorld(Blob b) {
+    @Override
+    public Boolean addBlobToWorld(BlobIF b) {
         return objs.add(b);
     }
     
-    public Boolean removeBlobFromWorld(Blob b) {
+    @Override
+    public Boolean removeBlobFromWorld(BlobIF b) {
         return objs.remove(b);
     }
     
+    @Override
     public void tick() {
-        Iterator<Blob> iter = objs.iterator();
+        Iterator<BlobIF> iter = objs.iterator();
         
         while (iter.hasNext()) {
-            Blob b = iter.next();
+            BlobIF b = iter.next();
             b.tick();
         }
     }
