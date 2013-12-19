@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import java.util.Vector;
+
 /** this blob has a mass, size, position, velocity and can be given
  * impulses.
  * @author andrew
@@ -31,6 +33,18 @@ public class Blob {
         // update velocity with its accelleration
         acceleration.accellerate(velocity);
     }
+    
+    /* split this blob up into numPieces new blobs.
+     * conserving momentum etc.
+     * Caller will have to
+     * - remove this blob from the world
+     * - add the new blobs to the world
+     * 
+     */
+    public Vector<Blob> explode(Integer numPieces) {
+        Vector<Blob> vec = new Vector<Blob>();
+        return vec;
+    }
         
     /* return true if we overlap with "with" 
      * delegate to our "extent" which knows our shape.
@@ -45,7 +59,7 @@ public class Blob {
          * Blob will have to call .collision(us) to change its properties.
          */
         if (this.intersects(with)) {
-            
+
         }
         return this;
     }
