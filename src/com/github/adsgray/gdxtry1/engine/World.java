@@ -93,7 +93,16 @@ public class World implements WorldIF {
             b.tick();
         }
         
+        // save collisions for the next iteration and use it to optimize collision detection?
         CollisionMap collisions = findCollisions();
         handleCollisions(collisions);
+    }
+
+    @Override
+    public void render() {
+        Iterator<BlobIF> iter = objs.iterator();
+        while(iter.hasNext()) {
+            iter.next().render();
+        }
     }
 }
