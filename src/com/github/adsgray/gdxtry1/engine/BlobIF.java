@@ -10,6 +10,7 @@ public interface BlobIF {
     public void setExtent(ExtentIF e);
 
     public void tick();
+    public void render();
 
     public boolean intersects(BlobIF with);
     public BlobIF collision(BlobIF with);

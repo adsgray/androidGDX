@@ -14,15 +14,16 @@ import android.util.Log;
  */
 public class Blob implements BlobIF {
     
-    private Integer mass;
-    private PositionIF position;
-    private VelocityIF velocity;
-    private ExtentIF extent;
-    private AccelIF acceleration;
-    private WorldIF world = null;
-    private SoundIF sound = new NullSound();
+    protected Integer mass;
+    protected PositionIF position;
+    protected VelocityIF velocity;
+    protected ExtentIF extent;
+    protected AccelIF acceleration;
+    protected WorldIF world = null;
+    protected SoundIF sound = new NullSound();
     
-    private static final Integer EXPLODE_INTENSITY = 5;
+    protected static final Integer EXPLODE_INTENSITY = 5;
+    protected static final Integer BUMP_INTENSITY = 2;
     
     public Blob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel) {
         mass = massin;
@@ -46,7 +47,7 @@ public class Blob implements BlobIF {
         acceleration.accellerate(velocity);
     }
     
-    private void updateWorldAfterExplode(Vector<BlobIF> b) {
+    protected void updateWorldAfterExplode(Vector<BlobIF> b) {
         Iterator<BlobIF> it;
         
         if (world == null) {
@@ -89,10 +90,15 @@ public class Blob implements BlobIF {
          * Blob will have to call .collision(us) to change its properties.
          */
         if (this.intersects(with)) {
+            sound.crash(BUMP_INTENSITY);
             // this.explode(5);
             // with.explode(5);
         }
         return this;
+    }
+
+    @Override
+    public void render() {
     }
     
 
