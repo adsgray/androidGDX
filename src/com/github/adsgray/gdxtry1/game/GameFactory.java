@@ -3,10 +3,15 @@ package com.github.adsgray.gdxtry1.game;
 import java.util.Random;
 
 import com.github.adsgray.gdxtry1.engine.*;
+import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 public class GameFactory {
     public static WorldIF defaultWorld() {
         return new World();
+    }
+    
+    public static RenderConfig defaultGDXRender() {
+        return new RenderConfig();
     }
     
     private static Random rnd = new Random();
@@ -50,18 +55,18 @@ public class GameFactory {
         return new RectangleExtent(rnd.nextInt(MAX_W) + MIN_W, rnd.nextInt(MAX_H) + MIN_H);
     }
 
-    static BlobIF createDefaultBlob(WorldIF inWorld) {
-        BlobIF b = new Blob(randomMass(), randomPosition(), randomVelocity(), randomAccel());
+    static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
+        BlobIF b = new Blob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         b.setWorld(inWorld);
         b.setExtent(randomExtent());
         inWorld.addBlobToWorld(b);
         return b;
     }
     
-    public static WorldIF populateWorldWithBlobs(WorldIF inWorld, int howMany) {
+    public static WorldIF populateWorldWithBlobs(WorldIF inWorld, int howMany, RenderConfig r) {
 
         while (howMany > 0) {
-            createDefaultBlob(inWorld);
+            createDefaultBlob(inWorld, r);
             howMany -= 1;
         }
         

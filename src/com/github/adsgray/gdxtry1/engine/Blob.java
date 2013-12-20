@@ -1,11 +1,8 @@
 package com.github.adsgray.gdxtry1.engine;
 
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Vector;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.github.adsgray.gdxtry1.output.*;
 import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
 
@@ -18,6 +15,13 @@ import android.util.Log;
  */
 public class Blob implements BlobIF {
     
+    protected static final Integer EXPLODE_INTENSITY = 5;
+    protected static final Integer BUMP_INTENSITY = 2;
+    protected static final Integer MAX_TICKS = 250; // die after this number of ticks
+
+    protected Integer ticks; // how many ticks this Blob has been alive for 
+    protected Integer maxTicks = MAX_TICKS; // when Blob reaches this number of ticks it'll remove itself from World
+
     protected Integer mass;
     protected PositionIF position;
     protected VelocityIF velocity;
@@ -25,24 +29,23 @@ public class Blob implements BlobIF {
     protected AccelIF acceleration;
     protected WorldIF world = null;
     protected SoundIF sound = new NullSound();
-    private RectConfig renderConfig;
     
-    protected static final Integer EXPLODE_INTENSITY = 5;
-    protected static final Integer BUMP_INTENSITY = 2;
-    protected static final Integer MAX_TICKS = 250; // die after this number of ticks
+    /* every Blob has a renderer and a config object that tells the renderer how to draw this Blob */
+    private RenderConfig renderer;
+    private RectConfig rectConfig;
     
-    protected Integer ticks;
-    protected Integer maxTicks = MAX_TICKS;
     
-    public Blob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel) {
+    public Blob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
         mass = massin;
         position = posin;
         velocity = velin;
         acceleration = accel;
+        renderer = gdx;
         
         ticks = 0;
         
-        renderConfig = RenderConfig.randomRectConfig();
+        // TODO have these render specific options passed in somehow
+        rectConfig = renderer.randomRectConfig();
     }
 
     public PositionIF getPosition() { return position; }
@@ -76,10 +79,10 @@ public class Blob implements BlobIF {
         
         it = b.iterator();
         while (it.hasNext()) {
-            world.addBlobToWorld(it.next());
+            world.scheduleAddToWorld(it.next());
         }
 
-        world.removeBlobFromWorld(this);
+        world.scheduleRemovalFromWorld(this);
     }
     
     /* split this blob up into numPieces new blobs.
@@ -116,17 +119,10 @@ public class Blob implements BlobIF {
         return this;
     }
 
+    // Blobs have full knowledge of what they are and how they should be rendered.
     @Override
     public void render() {
+        renderer.renderRect(this,  rectConfig);
     }
-
-    @Override
-    public void renderWithShapeRenderer(ShapeRenderer shapes) {
-        shapes.setColor(renderConfig.color);
-        shapes.rect(position.getX(), position.getY(), renderConfig.w, renderConfig.h);
-	    //shapeRenderer.setColor(0, 1, 0, 1);
-	    //shapeRenderer.rect(x, y, width, height);
-    }
-    
 
 }

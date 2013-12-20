@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 public class MainPanel implements ApplicationListener {
 
@@ -31,19 +32,22 @@ public class MainPanel implements ApplicationListener {
 	private static final int numBlobs = 25;
 
 	private WorldIF world;
+	private RenderConfig renderConfig;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private ShapeRenderer shapes;
 	
 	@Override
 	public void create() {
+		shapes = new ShapeRenderer();
+		batch = new SpriteBatch();
+
+	    renderConfig = new RenderConfig(shapes, batch);
 	    world = GameFactory.defaultWorld();
-	    GameFactory.populateWorldWithBlobs(world, numBlobs);
+	    GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
-		batch = new SpriteBatch();
-		shapes = new ShapeRenderer();
 		
 		/** Instantiate smiley face image **/
 		/*
@@ -95,7 +99,7 @@ public class MainPanel implements ApplicationListener {
 
 	    world.tick();
 	    shapes.begin(ShapeType.Filled);
-	    world.renderWithShapeRenderer(shapes);
+	    world.render();
 	    //shapeRenderer.setColor(0, 1, 0, 1);
 	    //shapeRenderer.rect(x, y, width, height);
 	    //shapeRenderer.circle(x, y, radius);
@@ -111,7 +115,7 @@ public class MainPanel implements ApplicationListener {
 	        Log.d("input", "screen touched");
 	        
 	        // add some more blobs
-	        GameFactory.populateWorldWithBlobs(world, numBlobs);
+	        GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
 	        
 	        /** center the smiley face on the touch (x,y) coordinates **/
 	        //rect_smiley.x = touchPos.x - 128 / 2;

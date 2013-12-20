@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 import android.util.Log;
 
@@ -13,13 +14,23 @@ public class World implements WorldIF {
 
     private Vector<BlobIF> objs;
     private Vector<BlobIF> toRemove;
+    private Vector<BlobIF> toAdd;
     private Vector<BlobIF> ephemerals; // these are ignored wrt collisions
+    //private RenderConfig renderer;
 
     public World() {
         Log.d("trace", "World created");
         objs = new Vector<BlobIF>();
         toRemove = new Vector<BlobIF>();
+        toAdd = new Vector<BlobIF>();
+        ephemerals = new Vector<BlobIF>();
     }
+
+    /*
+    public World(RenderConfig r) { renderer = r; }
+    public RenderConfig getRenderer() { return renderer; }
+    public void setRenderer(RenderConfig r) { renderer = r; }
+    */
     
     @Override
     public Boolean addBlobToWorld(BlobIF b) {
@@ -46,13 +57,24 @@ public class World implements WorldIF {
         toRemove.add(b);
     }
     
-    private void handleScheduledRemovals() {
+    @Override
+    public void scheduleAddToWorld(BlobIF b) {
+        toAdd.add(b);
+    }
+    
+    private void handleScheduledRemovalsAndAdds() {
         Iterator<BlobIF> iter = toRemove.iterator();
         
         while (iter.hasNext()) {
             removeBlobFromWorld(iter.next());
         }
         
+        iter = toAdd.iterator();
+        while (iter.hasNext()) {
+            addBlobToWorld(iter.next());
+        }
+        
+        toAdd.clear();
         toRemove.clear();
     }
     
@@ -123,7 +145,7 @@ public class World implements WorldIF {
             b.tick();
         }
         
-        handleScheduledRemovals();
+        handleScheduledRemovalsAndAdds();
         
         // save collisions for the next iteration and use it to optimize collision detection?
         //CollisionMap collisions = findCollisions();
@@ -136,20 +158,11 @@ public class World implements WorldIF {
             iter.next().render();
         }
     }
-
+    
     @Override
     public void render() {
         renderBlobVector(objs);
         renderBlobVector(ephemerals);
-    }
-
-    @Override
-    public void renderWithShapeRenderer(ShapeRenderer shapes) {
-        Iterator<BlobIF> iter = objs.iterator();
-        while(iter.hasNext()) {
-            iter.next().renderWithShapeRenderer(shapes);
-        }
-        
     }
 
 }

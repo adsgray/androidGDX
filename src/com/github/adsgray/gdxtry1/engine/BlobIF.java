@@ -14,7 +14,6 @@ public interface BlobIF {
 
     public void tick();
     public void render();
-    public void renderWithShapeRenderer(ShapeRenderer shapes);
 
     public boolean intersects(BlobIF with);
     public BlobIF collision(BlobIF with);
