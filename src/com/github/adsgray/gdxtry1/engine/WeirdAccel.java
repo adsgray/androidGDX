@@ -1,75 +1,98 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import android.util.Log;
+
 public class WeirdAccel implements AccelIF {
 
-    private int maxvel = 10;
-    private int minvel = -10;
-    private int step = 4;
-    
-    private enum accelDirection {
+    public enum accelDirection {
         UP, DOWN 
     }
     
-    accelDirection xDirection = accelDirection.UP;
-    accelDirection yDirection = accelDirection.DOWN;
+    // defaults
+    public static class AxisConfig {
+        public int maxVel = 10;
+        public int minVel = -10;
+        public int step = 4;
+        public accelDirection dir = accelDirection.UP;
+    }
 
-    public WeirdAccel() {
+    public static class WeirdAccelConfig {
+
+        public AxisConfig xConfig;
+        public AxisConfig yConfig;
+
+        public WeirdAccelConfig() {
+            xConfig = new AxisConfig();
+            yConfig = new AxisConfig();
+        }
     }
     
-    public WeirdAccel(int max, int min, int s) {
-        maxvel = max;
-        minvel = min;
-        step = s;
+    private WeirdAccelConfig accelConfig;
+
+    public WeirdAccel() {
+        accelConfig = new WeirdAccelConfig();
+    }
+    
+    public WeirdAccel(WeirdAccelConfig conf) {
+        accelConfig = conf;
+    }
+    
+    private static class VelAndConfig {
+        public int vel;
+        public AxisConfig axisConf;
+
+        public VelAndConfig(int v, AxisConfig ax) {
+            vel = v;
+            axisConf = ax;
+        }
+        
+        public VelAndConfig() {}
+    }
+    
+    private VelAndConfig mangle(VelAndConfig in) {
+        VelAndConfig ret = in; // new VelAndConfig();
+        int vel = in.vel;
+
+        ret.axisConf = in.axisConf;
+        switch(in.axisConf.dir) {
+            case UP:
+                if (vel < in.axisConf.maxVel) {
+                    vel += in.axisConf.step;
+                } else {
+                    vel -= in.axisConf.step;
+                    ret.axisConf.dir = accelDirection.DOWN;
+                }
+            break;
+
+            case DOWN:
+                if (vel > in.axisConf.minVel) {
+                    vel -= in.axisConf.step;
+                } else {
+                    vel += in.axisConf.step;
+                    ret.axisConf.dir = accelDirection.UP;
+                }
+        }
+        
+        //Log.d("accel", String.format("vel is now %d", vel));
+        ret.vel = vel;
+        return ret;
     }
     
     @Override
     public VelocityIF accellerate(VelocityIF vel) {
+        
+        VelAndConfig xconf = new VelAndConfig(vel.getXVelocity(), accelConfig.xConfig);
+        VelAndConfig yconf = new VelAndConfig(vel.getYVelocity(), accelConfig.yConfig);
+        xconf = mangle(xconf);
+        yconf = mangle(yconf);
+        
+        accelConfig.xConfig = xconf.axisConf;
+        accelConfig.yConfig = yconf.axisConf;
+        
         VelocityIF newvel = new BlobVelocity();
-        
-        int x = vel.getXVelocity();
-        int y = vel.getYVelocity();
-        
-        switch(xDirection) {
-            case UP:
-                if (x < maxvel) {
-                    x += step;
-                } else {
-                    x -= step;
-                    xDirection = accelDirection.DOWN;
-                }
-            break;
-            case DOWN:
-                if (x > minvel) {
-                    x -= step;
-                } else {
-                    x += step;
-                    xDirection = accelDirection.UP;
-                }
-        }
-         
-        switch(yDirection) {
-            case UP:
-                if (y < maxvel) {
-                    y += step;
-                } else {
-                    y -= step;
-                    yDirection = accelDirection.DOWN;
-                }
-            break;
-            case DOWN:
-                if (y > minvel) {
-                    y -= step;
-                } else {
-                    y += step;
-                    yDirection = accelDirection.UP;
-                }
-        }
-       
-
-        newvel.setXVelocity(x);
-        newvel.setYVelocity(y);
+        newvel.setXVelocity(xconf.vel);
+        newvel.setYVelocity(yconf.vel);
         return newvel;
-
     }
 
 }
