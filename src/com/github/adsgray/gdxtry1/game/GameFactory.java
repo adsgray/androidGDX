@@ -42,7 +42,8 @@ public class GameFactory {
     }
     
     private static AccelIF randomAccel() {
-        return new LinearAccel(rnd.nextInt(6) - 3, rnd.nextInt(6) - 3);
+        //return new LinearAccel(rnd.nextInt(6) - 3, rnd.nextInt(6) - 3);
+        return new WeirdAccel();
         //return new LinearAccel(0,0);
     }
     

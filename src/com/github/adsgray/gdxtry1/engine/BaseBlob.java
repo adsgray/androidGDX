@@ -51,7 +51,7 @@ public class BaseBlob implements BlobIF {
     public void tick() {
         position.updateByVelocity(velocity);
         // update velocity with its accelleration
-        acceleration.accellerate(velocity);
+        velocity = acceleration.accellerate(velocity);
         
         ticks += 1;
         if (ticks >= maxTicks) {
