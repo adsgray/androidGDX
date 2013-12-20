@@ -54,9 +54,15 @@ public class GameFactory {
     private static ExtentIF randomExtent() {
         return new RectangleExtent(rnd.nextInt(MAX_W) + MIN_W, rnd.nextInt(MAX_H) + MIN_H);
     }
+    
 
     static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
-        BlobIF b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+        BlobIF b;
+        if (rnd.nextInt(100) < 50) {
+            b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+        } else {
+            b = new CircleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+        }
         b.setWorld(inWorld);
         b.setExtent(randomExtent());
         inWorld.addBlobToWorld(b);

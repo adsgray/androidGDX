@@ -36,9 +36,26 @@ public class RenderConfig {
         rc.h = rnd.nextInt(100);
         return rc;
     }
+    
+    public class CircleConfig {
+        public Color color;
+        public float radius;
+    }
+
+    public CircleConfig randomCircleConfig() {
+        CircleConfig cc = new CircleConfig();
+        cc.color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
+        cc.radius = rnd.nextInt(100);
+        return cc;
+    }
 
     public void renderRect(BlobIF b, RectConfig rc) {
         shapeRenderer.setColor(rc.color);
         shapeRenderer.rect(b.getPosition().getX(), b.getPosition().getY(), rc.w, rc.h);
+    }
+    
+    public void renderCircle(BlobIF b, CircleConfig cc) {
+        shapeRenderer.setColor(cc.color);
+        shapeRenderer.circle(b.getPosition().getX(), b.getPosition().getY(), cc.radius);
     }
 }

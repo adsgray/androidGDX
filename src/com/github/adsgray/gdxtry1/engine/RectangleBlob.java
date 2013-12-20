@@ -1,6 +1,5 @@
 package com.github.adsgray.gdxtry1.engine;
 
-import java.util.Iterator;
 import java.util.Vector;
 
 import com.github.adsgray.gdxtry1.output.*;
@@ -43,7 +42,7 @@ public class RectangleBlob extends BaseBlob {
     // Blobs have full knowledge of what they are and how they should be rendered.
     @Override
     public void render() {
-        renderer.renderRect(this,  rectConfig);
+        renderer.renderRect(this, rectConfig);
     }
 
 }
