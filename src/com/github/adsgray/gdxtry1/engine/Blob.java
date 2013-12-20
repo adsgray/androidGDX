@@ -7,6 +7,7 @@ import java.util.Vector;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.github.adsgray.gdxtry1.output.*;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
 
 import android.util.Log;
 
@@ -24,13 +25,14 @@ public class Blob implements BlobIF {
     protected AccelIF acceleration;
     protected WorldIF world = null;
     protected SoundIF sound = new NullSound();
-    private RenderConfig renderConfig;
+    private RectConfig renderConfig;
     
     protected static final Integer EXPLODE_INTENSITY = 5;
     protected static final Integer BUMP_INTENSITY = 2;
     protected static final Integer MAX_TICKS = 250; // die after this number of ticks
     
     protected Integer ticks;
+    protected Integer maxTicks = MAX_TICKS;
     
     public Blob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel) {
         mass = massin;
@@ -40,7 +42,7 @@ public class Blob implements BlobIF {
         
         ticks = 0;
         
-        renderConfig = generateRenderConfig();
+        renderConfig = RenderConfig.randomRectConfig();
     }
 
     public PositionIF getPosition() { return position; }
@@ -48,6 +50,7 @@ public class Blob implements BlobIF {
     public void setWorld(WorldIF w) { world = w; }
     public void setSound(SoundIF s) { sound = s; }
     public void setExtent(ExtentIF e) { extent = e; }
+    public void setLifeTime(Integer ticks) { maxTicks = ticks; }
     
     /* called by outside controller to tell this Blob
      * to advance one time unit.
@@ -58,7 +61,7 @@ public class Blob implements BlobIF {
         acceleration.accellerate(velocity);
         
         ticks += 1;
-        if (ticks >= MAX_TICKS) {
+        if (ticks >= maxTicks) {
             world.scheduleRemovalFromWorld(this);
         }
     }
@@ -115,23 +118,6 @@ public class Blob implements BlobIF {
 
     @Override
     public void render() {
-    }
-    
-    // TODO: make this match Extent width and height
-    private class RenderConfig {
-        Color color;
-        
-        public float w;
-        public float h;
-    }
-    
-    private RenderConfig generateRenderConfig() {
-        Random rnd = new Random();
-        RenderConfig rc = new RenderConfig();
-        rc.color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
-        rc.w = rnd.nextInt(100);
-        rc.h = rnd.nextInt(100);
-        return rc;
     }
 
     @Override

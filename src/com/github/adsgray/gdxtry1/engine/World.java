@@ -13,6 +13,7 @@ public class World implements WorldIF {
 
     private Vector<BlobIF> objs;
     private Vector<BlobIF> toRemove;
+    private Vector<BlobIF> ephemerals; // these are ignored wrt collisions
 
     public World() {
         Log.d("trace", "World created");
@@ -24,10 +25,20 @@ public class World implements WorldIF {
     public Boolean addBlobToWorld(BlobIF b) {
         return objs.add(b);
     }
-    
+  
+    @Override
+    public Boolean addEphemeralBlobToWorld(BlobIF b) {
+        return ephemerals.add(b);
+    }
+  
     @Override
     public Boolean removeBlobFromWorld(BlobIF b) {
-        return objs.remove(b);
+        if (objs.contains(b)) {
+            return objs.remove(b);
+        } else if (ephemerals.contains(b)) {
+            return ephemerals.remove(b);
+        } 
+        return false;
     }
 
     @Override
@@ -119,12 +130,17 @@ public class World implements WorldIF {
         //handleCollisions(collisions);
     }
 
-    @Override
-    public void render() {
-        Iterator<BlobIF> iter = objs.iterator();
+    private void renderBlobVector(Vector<BlobIF> these) {
+        Iterator<BlobIF> iter = these.iterator();
         while(iter.hasNext()) {
             iter.next().render();
         }
+    }
+
+    @Override
+    public void render() {
+        renderBlobVector(objs);
+        renderBlobVector(ephemerals);
     }
 
     @Override
@@ -135,4 +151,5 @@ public class World implements WorldIF {
         }
         
     }
+
 }
