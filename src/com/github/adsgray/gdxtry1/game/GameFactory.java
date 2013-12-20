@@ -42,9 +42,21 @@ public class GameFactory {
     }
     
     private static AccelIF randomAccel() {
-        //return new LinearAccel(rnd.nextInt(6) - 3, rnd.nextInt(6) - 3);
-        return new WeirdAccel();
+        // more Weirds
+        if (rnd.nextInt(100) < 25) {
+            return randomLinearAccel();
+        } else {
+            return randomWeirdAccel();
+        }
+    }
+    
+    private static AccelIF randomLinearAccel() {
+        return new LinearAccel(rnd.nextInt(6) - 3, rnd.nextInt(6) - 3);
         //return new LinearAccel(0,0);
+    }
+    
+    private static AccelIF randomWeirdAccel() {
+        return WeirdAccel.randomWeirdAccel();
     }
     
     private static final int MIN_W = 50;

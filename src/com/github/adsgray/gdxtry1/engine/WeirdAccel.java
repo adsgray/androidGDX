@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import java.util.Random;
+
 import android.util.Log;
 
 public class WeirdAccel implements AccelIF {
@@ -25,6 +27,27 @@ public class WeirdAccel implements AccelIF {
             xConfig = new AxisConfig();
             yConfig = new AxisConfig();
         }
+    }
+    
+    // it makes sense to me to have these static factory methods right in the class
+    private static Random rnd = new Random();
+
+    private static void randomizeAxisConfig(AxisConfig ax) {
+        ax.maxVel = rnd.nextInt(15);
+        ax.minVel = - rnd.nextInt(15);
+        ax.step = rnd.nextInt(8);
+        if (rnd.nextInt(100) < 50) {
+           ax.dir = accelDirection.UP; 
+        } else {
+           ax.dir = accelDirection.DOWN; 
+        }
+    }
+
+    public static AccelIF randomWeirdAccel() {
+        WeirdAccelConfig wc = new WeirdAccelConfig();
+        randomizeAxisConfig(wc.xConfig);
+        randomizeAxisConfig(wc.yConfig);
+        return new WeirdAccel(wc);
     }
     
     private WeirdAccelConfig accelConfig;
