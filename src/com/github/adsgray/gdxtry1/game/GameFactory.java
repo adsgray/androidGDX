@@ -51,7 +51,7 @@ public class GameFactory {
     private static final int MIN_H = MIN_W;
     private static final int MAX_H = MAX_W;
 
-    private static ExtentIF randomExtent() {
+    public static ExtentIF randomExtent() {
         return new RectangleExtent(rnd.nextInt(MAX_W) + MIN_W, rnd.nextInt(MAX_H) + MIN_H);
     }
     
@@ -59,7 +59,8 @@ public class GameFactory {
     static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
         BlobIF b;
         if (rnd.nextInt(100) < 50) {
-            b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+            //b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+            b = new SplittingRectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         } else {
             b = new ShrinkingCircleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         }
