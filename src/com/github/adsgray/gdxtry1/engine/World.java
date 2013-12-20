@@ -145,6 +145,11 @@ public class World implements WorldIF {
             b.tick();
         }
         
+        iter = ephemerals.iterator();
+        while (iter.hasNext()) {
+            iter.next().tick();
+        }
+        
         handleScheduledRemovalsAndAdds();
         
         // save collisions for the next iteration and use it to optimize collision detection?

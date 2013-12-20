@@ -16,8 +16,9 @@ public class GameFactory {
     
     private static Random rnd = new Random();
     
-    private static final int BOUNDS_X = 1024;
-    private static final int BOUNDS_Y = 1024;
+    // this should be a property of world?
+    private static final int BOUNDS_X = 480;
+    private static final int BOUNDS_Y = 800;
 
     private static PositionIF randomPosition() {
         return new BlobPosition(rnd.nextInt(BOUNDS_X), rnd.nextInt(BOUNDS_Y));
