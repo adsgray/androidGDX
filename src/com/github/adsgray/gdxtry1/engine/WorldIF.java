@@ -1,7 +1,9 @@
 package com.github.adsgray.gdxtry1.engine;
 
+/*
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
+*/
 
 public interface WorldIF {
     public Boolean addBlobToWorld(BlobIF b);

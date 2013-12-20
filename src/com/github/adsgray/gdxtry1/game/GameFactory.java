@@ -56,7 +56,7 @@ public class GameFactory {
     }
 
     static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
-        BlobIF b = new Blob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+        BlobIF b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         b.setWorld(inWorld);
         b.setExtent(randomExtent());
         inWorld.addBlobToWorld(b);
