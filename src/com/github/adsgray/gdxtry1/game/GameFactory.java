@@ -5,7 +5,7 @@ import java.util.Random;
 import com.github.adsgray.gdxtry1.engine.*;
 
 public class GameFactory {
-    static WorldIF World() {
+    public static WorldIF defaultWorld() {
         return new World();
     }
     
@@ -16,6 +16,7 @@ public class GameFactory {
 
     private static PositionIF randomPosition() {
         return new BlobPosition(rnd.nextInt(BOUNDS_X), rnd.nextInt(BOUNDS_Y));
+        //return new BlobPosition(0,0);
     }
     
     private static final int MIN_MASS = 15;
@@ -25,18 +26,19 @@ public class GameFactory {
         return rnd.nextInt(MAX_MASS) + MIN_MASS;
     }
     
-    private static final int MIN_VEL = 15;
-    private static final int MAX_VEL = 100;
+    private static final int MIN_VEL = 1;
+    private static final int MAX_VEL = 4;
 
     private static VelocityIF randomVelocity() {
          BlobVelocity vel = new BlobVelocity();
-         vel.setXVelocity(rnd.nextInt(MAX_VEL) + MIN_VEL);
-         vel.setYVelocity(rnd.nextInt(MAX_VEL) + MIN_VEL);
+         vel.setXVelocity(rnd.nextInt(MAX_VEL * 2) - MAX_VEL + MIN_VEL);
+         vel.setYVelocity(rnd.nextInt(MAX_VEL * 2) - MAX_VEL + MIN_VEL);
          return vel;
     }
     
     private static AccelIF randomAccel() {
-        return new LinearAccel(rnd.nextInt(MAX_VEL - MIN_VEL), rnd.nextInt(MAX_VEL - MIN_VEL));
+        return new LinearAccel(rnd.nextInt(6) - 3, rnd.nextInt(6) - 3);
+        //return new LinearAccel(0,0);
     }
     
     private static final int MIN_W = 50;
@@ -48,7 +50,7 @@ public class GameFactory {
         return new RectangleExtent(rnd.nextInt(MAX_W) + MIN_W, rnd.nextInt(MAX_H) + MIN_H);
     }
 
-    static BlobIF CreateDefaultBlob(WorldIF inWorld) {
+    static BlobIF createDefaultBlob(WorldIF inWorld) {
         BlobIF b = new Blob(randomMass(), randomPosition(), randomVelocity(), randomAccel());
         b.setWorld(inWorld);
         b.setExtent(randomExtent());
@@ -56,10 +58,10 @@ public class GameFactory {
         return b;
     }
     
-    static WorldIF populateWorldWithBlobs(WorldIF inWorld, int howMany) {
+    public static WorldIF populateWorldWithBlobs(WorldIF inWorld, int howMany) {
 
         while (howMany > 0) {
-            CreateDefaultBlob(inWorld);
+            createDefaultBlob(inWorld);
             howMany -= 1;
         }
         

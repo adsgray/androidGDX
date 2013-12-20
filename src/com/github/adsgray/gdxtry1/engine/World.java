@@ -5,15 +5,19 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import android.util.Log;
 
 public class World implements WorldIF {
 
     private Vector<BlobIF> objs;
+    private Vector<BlobIF> toRemove;
 
     public World() {
         Log.d("trace", "World created");
         objs = new Vector<BlobIF>();
+        toRemove = new Vector<BlobIF>();
     }
     
     @Override
@@ -24,6 +28,21 @@ public class World implements WorldIF {
     @Override
     public Boolean removeBlobFromWorld(BlobIF b) {
         return objs.remove(b);
+    }
+
+    @Override
+    public void scheduleRemovalFromWorld(BlobIF b) {
+        toRemove.add(b);
+    }
+    
+    private void handleScheduledRemovals() {
+        Iterator<BlobIF> iter = toRemove.iterator();
+        
+        while (iter.hasNext()) {
+            removeBlobFromWorld(iter.next());
+        }
+        
+        toRemove.clear();
     }
     
     // this is the accepted lame way of doing type aliases in Java?
@@ -93,9 +112,11 @@ public class World implements WorldIF {
             b.tick();
         }
         
+        handleScheduledRemovals();
+        
         // save collisions for the next iteration and use it to optimize collision detection?
-        CollisionMap collisions = findCollisions();
-        handleCollisions(collisions);
+        //CollisionMap collisions = findCollisions();
+        //handleCollisions(collisions);
     }
 
     @Override
@@ -104,5 +125,14 @@ public class World implements WorldIF {
         while(iter.hasNext()) {
             iter.next().render();
         }
+    }
+
+    @Override
+    public void renderWithShapeRenderer(ShapeRenderer shapes) {
+        Iterator<BlobIF> iter = objs.iterator();
+        while(iter.hasNext()) {
+            iter.next().renderWithShapeRenderer(shapes);
+        }
+        
     }
 }

@@ -1,8 +1,11 @@
 package com.github.adsgray.gdxtry1.engine;
 
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Vector;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.github.adsgray.gdxtry1.output.*;
 
 import android.util.Log;
@@ -21,15 +24,23 @@ public class Blob implements BlobIF {
     protected AccelIF acceleration;
     protected WorldIF world = null;
     protected SoundIF sound = new NullSound();
+    private RenderConfig renderConfig;
     
     protected static final Integer EXPLODE_INTENSITY = 5;
     protected static final Integer BUMP_INTENSITY = 2;
+    protected static final Integer MAX_TICKS = 250; // die after this number of ticks
+    
+    protected Integer ticks;
     
     public Blob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel) {
         mass = massin;
         position = posin;
         velocity = velin;
         acceleration = accel;
+        
+        ticks = 0;
+        
+        renderConfig = generateRenderConfig();
     }
 
     public PositionIF getPosition() { return position; }
@@ -45,6 +56,11 @@ public class Blob implements BlobIF {
         position.updateByVelocity(velocity);
         // update velocity with its accelleration
         acceleration.accellerate(velocity);
+        
+        ticks += 1;
+        if (ticks >= MAX_TICKS) {
+            world.scheduleRemovalFromWorld(this);
+        }
     }
     
     protected void updateWorldAfterExplode(Vector<BlobIF> b) {
@@ -99,6 +115,31 @@ public class Blob implements BlobIF {
 
     @Override
     public void render() {
+    }
+    
+    // TODO: make this match Extent width and height
+    private class RenderConfig {
+        Color color;
+        
+        public float w;
+        public float h;
+    }
+    
+    private RenderConfig generateRenderConfig() {
+        Random rnd = new Random();
+        RenderConfig rc = new RenderConfig();
+        rc.color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
+        rc.w = rnd.nextInt(100);
+        rc.h = rnd.nextInt(100);
+        return rc;
+    }
+
+    @Override
+    public void renderWithShapeRenderer(ShapeRenderer shapes) {
+        shapes.setColor(renderConfig.color);
+        shapes.rect(position.getX(), position.getY(), renderConfig.w, renderConfig.h);
+	    //shapeRenderer.setColor(0, 1, 0, 1);
+	    //shapeRenderer.rect(x, y, width, height);
     }
     
 
