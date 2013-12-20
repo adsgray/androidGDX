@@ -61,7 +61,7 @@ public class GameFactory {
         if (rnd.nextInt(100) < 50) {
             b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         } else {
-            b = new CircleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+            b = new ShrinkingCircleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         }
         b.setWorld(inWorld);
         b.setExtent(randomExtent());
