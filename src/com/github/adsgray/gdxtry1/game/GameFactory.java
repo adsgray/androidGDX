@@ -42,7 +42,7 @@ public class GameFactory {
          return vel;
     }
     
-    private static AccelIF randomAccel() {
+    public static AccelIF randomAccel() {
         // more Weirds
         if (rnd.nextInt(100) < 25) {
             return randomLinearAccel();
@@ -81,7 +81,16 @@ public class GameFactory {
         
         b.setWorld(inWorld);
         b.setExtent(randomExtent());
-        b = new BlobTrailDecorator(b);
+
+        if (rnd.nextInt(100) < 10) {
+            b = new BlobTrailDecorator(b);
+        }
+
+        // possibly stack some decorators:
+        if (rnd.nextInt(100) < 50) {
+            b = new BlobCrazyAccelDecorator(b);
+        }
+
         inWorld.addBlobToWorld(b);
         return b;
     }
