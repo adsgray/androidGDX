@@ -18,12 +18,13 @@ public class SplittingRectangleBlob extends RectangleBlob {
     
     
     @Override
-    public void tick() {
-        super.tick();
+    public Boolean tick() {
         // explode into 2 pieces at a predetermined time
         if (ticks == explodeTime) {
             explode(2);
         }
+
+        return super.tick();
     }
 
     private VelocityIF mangleVelocity(VelocityIF vel) {

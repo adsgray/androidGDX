@@ -50,17 +50,21 @@ public class BaseBlob implements BlobIF {
 
     /* called by outside controller to tell this Blob
      * to advance one time unit.
+     * Return true if blob should remain in world
+     * Return false if it should be removed from world
      */
     @Override
-    public void tick() {
+    public Boolean tick() {
         position.updateByVelocity(velocity);
         // update velocity with its accelleration
         velocity = acceleration.accellerate(velocity);
         
         ticks += 1;
         if (ticks >= maxTicks) {
-            world.scheduleRemovalFromWorld(this);
+            return false;
         }
+        
+        return true;
     }
    
     @Override

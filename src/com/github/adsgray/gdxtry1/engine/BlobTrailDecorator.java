@@ -2,24 +2,49 @@ package com.github.adsgray.gdxtry1.engine;
 
 public class BlobTrailDecorator extends BlobDecorator {
 
+    protected int step = 5;
+    protected int count = 0;
+    protected int lifetime = 5;
+
     public BlobTrailDecorator(BlobIF component) {
         super(component);
     }
+
+    public BlobTrailDecorator(BlobIF component, int step) {
+        super(component);
+        this.step = step;
+    }
+
+    public BlobTrailDecorator(BlobIF component, int step, int lifetime) {
+        super(component);
+        this.step = step;
+        this.lifetime = lifetime;
+    }
+   
     
-    @Override public void tick() {
+    @Override public Boolean tick() {
         // now add a short-lived ephemeral blob to the world at
         // this position
         // could inject a blob factory so that this same decorator
         // can be used to create trails of different types of blobs
-        BlobIF b = new CircleBlob(0, component.getPosition(), component.getVelocity(), 
+        
+        Boolean ret = component.tick();
+        count += 1;
+
+        if (count < step) {
+            return ret;
+        }
+        
+        count = 0;
+        
+        BlobIF b = new ShrinkingCircleBlob(0, component.getPosition(), component.getVelocity(), 
                 WeirdAccel.randomWeirdAccel(), component.getRenderer());
 
-        b.setLifeTime(5);
+        b.setLifeTime(lifetime);
         b.setWorld(world);
         
         world.scheduleEphemeralAddToWorld(b);
-
-        component.tick();
+        return ret;
     }
 
 }

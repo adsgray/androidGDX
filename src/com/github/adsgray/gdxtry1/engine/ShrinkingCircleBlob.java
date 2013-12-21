@@ -11,14 +11,15 @@ public class ShrinkingCircleBlob extends CircleBlob {
     }
     
     @Override
-    public void tick() {
-        super.tick();
+    public Boolean tick() {
         // the only difference in this class is that we shrink the radius and mess with the color
         circleConfig.radius = circleConfig.radius * 0.98f;
 
         Color c = circleConfig.color;
         float factor = 1.025f;
         circleConfig.color.set(c.r * factor, c.g * factor, c.b * factor, c.a);
+        
+        return super.tick();
     }
     
 

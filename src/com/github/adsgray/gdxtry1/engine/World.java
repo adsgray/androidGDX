@@ -47,8 +47,10 @@ public class World implements WorldIF {
     @Override
     public Boolean removeBlobFromWorld(BlobIF b) {
         if (objs.contains(b)) {
+            Log.d("trace", "removing blob from world");
             return objs.remove(b);
         } else if (ephemerals.contains(b)) {
+            Log.d("trace", "removing ephemeral from world");
             return ephemerals.remove(b);
         } 
         return false;
@@ -73,6 +75,7 @@ public class World implements WorldIF {
         Iterator<BlobIF> iter = toRemove.iterator();
         
         while (iter.hasNext()) {
+            Log.d("trace", "trying to remove blob from world");
             removeBlobFromWorld(iter.next());
         }
         
@@ -163,12 +166,17 @@ public class World implements WorldIF {
             // Note that this may add or remove Blobs from objs.
             // They will be tick()ed on the next World tick()
             // BUT they will be rendered to the screen during this World tick()
-            b.tick();
+            if (!b.tick()) {
+                scheduleRemovalFromWorld(b);
+            }
         }
         
         iter = ephemerals.iterator();
         while (iter.hasNext()) {
-            iter.next().tick();
+            BlobIF b = iter.next();
+            if (!b.tick()) {
+                scheduleRemovalFromWorld(b);
+            }
         }
         
         handleScheduledRemovalsAndAdds();

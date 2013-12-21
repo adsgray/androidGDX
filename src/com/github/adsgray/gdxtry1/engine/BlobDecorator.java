@@ -32,6 +32,6 @@ public abstract class BlobDecorator implements BlobIF {
     @Override public BlobIF collision(BlobIF with) { return component.collision(with); }
 
     // these are the most interesting places to hook into:
-    @Override public void tick() { component.tick(); }
+    @Override public Boolean tick() { return component.tick(); }
     @Override public void render() { component.render(); }
 }

@@ -79,9 +79,9 @@ public class GameFactory {
             b = new ShrinkingCircleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         }
         
-        b = new BlobTrailDecorator(b);
         b.setWorld(inWorld);
         b.setExtent(randomExtent());
+        b = new BlobTrailDecorator(b);
         inWorld.addBlobToWorld(b);
         return b;
     }
