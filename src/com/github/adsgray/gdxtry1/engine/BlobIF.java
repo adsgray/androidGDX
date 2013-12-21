@@ -8,6 +8,10 @@ public interface BlobIF {
     public void setWorld(WorldIF w);
     public void setSound(SoundIF s);
     public void setExtent(ExtentIF e);
+    public void setAccel(AccelIF a);
+    
+    
+    public WorldIF getWorld();
     
     public void setLifeTime(Integer ticks);
 

@@ -26,9 +26,11 @@ public class BaseBlob implements BlobIF {
     protected WorldIF world = null;
     protected SoundIF sound = new NullSound();
    
+    @Override public WorldIF getWorld() { return world; }
     @Override public PositionIF getPosition() { return position; }
     @Override public Integer getMass() { return mass; }
     @Override public void setWorld(WorldIF w) { world = w; }
+    @Override public void setAccel(AccelIF a) { acceleration = a; }
     @Override public void setSound(SoundIF s) { sound = s; }
     @Override public void setExtent(ExtentIF e) { extent = e; }
     @Override public void setLifeTime(Integer ticks) { maxTicks = ticks; }
