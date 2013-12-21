@@ -13,6 +13,12 @@ public class CircleBlob extends BaseBlob {
         circleConfig = renderer.randomCircleConfig();
     }     
 
+    public CircleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx, CircleConfig cc) {
+        super(massin, posin, velin, accel, gdx);
+
+        circleConfig = cc;
+    }     
+
     @Override
     public void render() {
         renderer.renderCircle(this, circleConfig);

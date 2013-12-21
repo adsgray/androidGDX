@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import android.util.Log;
+
 public class BlobVelocity implements VelocityIF {
     
     private Integer x;
@@ -30,6 +32,7 @@ public class BlobVelocity implements VelocityIF {
 
     @Override
     public Integer deltaX(Integer xin) {
+        Log.d("velocity", String.format("xin is %d x is %d", xin, x));
         xin = xin + x;
         return xin;
     }

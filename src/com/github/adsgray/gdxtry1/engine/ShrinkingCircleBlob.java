@@ -2,6 +2,7 @@ package com.github.adsgray.gdxtry1.engine;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
 
 public class ShrinkingCircleBlob extends CircleBlob {
 
@@ -10,6 +11,11 @@ public class ShrinkingCircleBlob extends CircleBlob {
         super(massin, posin, velin, accel, gdx);
     }
     
+    public ShrinkingCircleBlob(Integer massin, PositionIF posin,
+            VelocityIF velin, AccelIF accel, RenderConfig gdx, CircleConfig cc) {
+        super(massin, posin, velin, accel, gdx, cc);
+    }
+   
     @Override
     public Boolean tick() {
         // the only difference in this class is that we shrink the radius and mess with the color

@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import android.util.Log;
+
 public class LinearAccel implements AccelIF {
 
     private Integer x;
@@ -12,6 +14,7 @@ public class LinearAccel implements AccelIF {
 
     @Override
     public VelocityIF accellerate(VelocityIF vel) {
+        Log.d("velocity", String.format("accelerate x is %d y is %d", x, y));
         vel.setXVelocity(vel.getXVelocity() + x);
         vel.setXVelocity(vel.getYVelocity() + y);
         return vel;

@@ -2,8 +2,10 @@ package com.github.adsgray.gdxtry1.game;
 
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
 
 public class GameFactory {
     public static WorldIF defaultWorld() {
@@ -95,6 +97,20 @@ public class GameFactory {
         return b;
     }
     
+    static private CircleConfig smokeTrail() {
+        return new CircleConfig(Color.GRAY, 7);
+    }
+    public static BlobIF createSmokeTrailBlob(BlobIF c) {
+        BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
+                WeirdAccel.randomWeirdAccel(), c.getRenderer(), smokeTrail());
+
+        b = new BlobCrazyAccelDecorator(b);
+        b.setWorld(c.getWorld());
+        
+        return b;
+    }
+    
+    
     public static WorldIF populateWorldWithBlobs(WorldIF inWorld, int howMany, RenderConfig r) {
 
         while (howMany > 0) {
@@ -105,4 +121,25 @@ public class GameFactory {
         return inWorld;
     }
 
+    private static VelocityIF zeroVelocity() {
+        VelocityIF v = new BlobVelocity();
+        v.setXVelocity(0);
+        v.setYVelocity(0);
+        return v;
+    }
+    public static WorldIF populateWorldNonRandom(WorldIF inWorld, RenderConfig r) {
+        AccelIF a = new LinearAccel(0, 0);
+
+        BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), zeroVelocity(), a, r);
+        //BlobIF b2 = new CircleBlob(randomMass(), new BlobPosition(300,300), zeroVelocity(), new AccelRandomDecorator(a), r, smokeTrail);
+        //BlobIF b2 = createSmokeTrailBlob(b1);
+
+        b1.setWorld(inWorld);
+        b1.setLifeTime(10000000);
+        inWorld.addBlobToWorld(new BlobTrailDecorator(b1, 5, 25));
+        //b2.setWorld(inWorld);
+        //inWorld.addBlobToWorld(b2);
+
+        return inWorld;
+    }
 }

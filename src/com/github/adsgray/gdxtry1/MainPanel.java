@@ -30,7 +30,7 @@ public class MainPanel implements ApplicationListener {
 
     private static final int CAMERA_WIDTH = 480;
 	private static final int CAMERA_HEIGHT = 800;
-	private static final int numBlobs = 25;
+	private static final int numBlobs = 10;
 
 	private WorldIF world;
 	private RenderConfig renderConfig;
@@ -46,6 +46,7 @@ public class MainPanel implements ApplicationListener {
 	    renderConfig = new RenderConfig(shapes, batch);
 	    world = GameFactory.defaultWorld();
 	    GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
+	    //GameFactory.populateWorldNonRandom(world, renderConfig);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
@@ -58,6 +59,7 @@ public class MainPanel implements ApplicationListener {
 		        // TODO Auto-generated method stub
 		        Log.d("input", "screen swiped UP");
 		        GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
+		        //GameFactory.populateWorldNonRandom(world, renderConfig);
 		    }
 
 		    @Override

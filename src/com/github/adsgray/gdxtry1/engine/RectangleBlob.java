@@ -23,6 +23,12 @@ public class RectangleBlob extends BaseBlob {
         // TODO have these render specific options passed in somehow
         rectConfig = renderer.randomRectConfig();
     }
+ 
+    public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx, RectConfig rc) {
+        super(massin, posin, velin, accel, gdx);
+        // TODO have these render specific options passed in somehow
+        rectConfig = rc;
+    }
 
     /* split this blob up into numPieces new blobs.
      * conserving momentum etc.

@@ -1,10 +1,14 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import android.util.Log;
+
+import com.github.adsgray.gdxtry1.game.GameFactory;
+
 public class BlobTrailDecorator extends BlobDecorator {
 
-    protected int step = 5;
+    protected int step = 3;
     protected int count = 0;
-    protected int lifetime = 5;
+    protected int lifetime = 25;
 
     public BlobTrailDecorator(BlobIF component) {
         super(component);
@@ -37,11 +41,14 @@ public class BlobTrailDecorator extends BlobDecorator {
         
         count = 0;
         
+        /*
         BlobIF b = new ShrinkingCircleBlob(0, component.getPosition(), component.getVelocity(), 
                 WeirdAccel.randomWeirdAccel(), component.getRenderer());
+                */
 
+        Log.d("smoke", String.format("creating smoke trail blob pos %d %d", component.getPosition().getX(), component.getPosition().getY()));
+        BlobIF b = GameFactory.createSmokeTrailBlob(component);
         b.setLifeTime(lifetime);
-        b.setWorld(world);
         
         world.scheduleEphemeralAddToWorld(b);
         return ret;

@@ -14,4 +14,5 @@ public abstract class AccelDecorator implements AccelIF {
         // TODO Auto-generated method stub
         return component.accellerate(vel);
     }
+
 }

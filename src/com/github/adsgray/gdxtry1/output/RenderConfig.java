@@ -23,7 +23,7 @@ public class RenderConfig {
 
     // Unashamedly using this like a C struct.
     // 
-    public class RectConfig {
+    public static class RectConfig {
         public Color color;
         public float w;
         public float h;
@@ -37,7 +37,13 @@ public class RenderConfig {
         return rc;
     }
     
-    public class CircleConfig {
+    public static class CircleConfig {
+        public CircleConfig(Color color, float radius) {
+            this.color = color;
+            this.radius = radius;
+        }
+        public CircleConfig() {}
+
         public Color color;
         public float radius;
     }
