@@ -13,6 +13,7 @@ public interface WorldIF {
     public Boolean addEphemeralBlobToWorld(BlobIF b);
     public void scheduleRemovalFromWorld(BlobIF b);
     public void scheduleAddToWorld(BlobIF b);
+    public void scheduleEphemeralAddToWorld(BlobIF b);
     
     public void tick();
     public void render();

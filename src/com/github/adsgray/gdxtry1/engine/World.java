@@ -15,6 +15,7 @@ public class World implements WorldIF {
     private Vector<BlobIF> objs;
     private Vector<BlobIF> toRemove;
     private Vector<BlobIF> toAdd;
+    private Vector<BlobIF> toAddEphemeral;
     private Vector<BlobIF> ephemerals; // these are ignored wrt collisions
     //private RenderConfig renderer;
 
@@ -23,6 +24,7 @@ public class World implements WorldIF {
         objs = new Vector<BlobIF>();
         toRemove = new Vector<BlobIF>();
         toAdd = new Vector<BlobIF>();
+        toAddEphemeral = new Vector<BlobIF>();
         ephemerals = new Vector<BlobIF>();
     }
 
@@ -61,7 +63,12 @@ public class World implements WorldIF {
     public void scheduleAddToWorld(BlobIF b) {
         toAdd.add(b);
     }
-    
+     
+    @Override
+    public void scheduleEphemeralAddToWorld(BlobIF b) {
+        toAddEphemeral.add(b);
+    }
+   
     private void handleScheduledRemovalsAndAdds() {
         Iterator<BlobIF> iter = toRemove.iterator();
         
@@ -74,7 +81,13 @@ public class World implements WorldIF {
             addBlobToWorld(iter.next());
         }
         
+        iter = toAddEphemeral.iterator();
+        while (iter.hasNext()) {
+            addEphemeralBlobToWorld(iter.next());
+        }
+        
         toAdd.clear();
+        toAddEphemeral.clear();
         toRemove.clear();
     }
     
@@ -174,8 +187,8 @@ public class World implements WorldIF {
     
     @Override
     public void render() {
-        renderBlobVector(objs);
         renderBlobVector(ephemerals);
+        renderBlobVector(objs);
     }
 
 }

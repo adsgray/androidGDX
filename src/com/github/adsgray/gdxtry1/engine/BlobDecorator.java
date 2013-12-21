@@ -1,5 +1,6 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.SoundIF;
 
 public abstract class BlobDecorator implements BlobIF {
@@ -14,6 +15,8 @@ public abstract class BlobDecorator implements BlobIF {
 
     @Override public WorldIF getWorld() { return component.getWorld(); }
     @Override public PositionIF getPosition() { return component.getPosition(); }
+    @Override public VelocityIF getVelocity() { return component.getVelocity(); }
+    @Override public RenderConfig getRenderer() { return component.getRenderer(); }
     @Override public Integer getMass() { return component.getMass(); }
     @Override public void setAccel(AccelIF a) { component.setAccel(a); }
     @Override public void setSound(SoundIF s) { component.setSound(s); }
