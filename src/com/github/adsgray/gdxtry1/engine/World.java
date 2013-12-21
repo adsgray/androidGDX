@@ -78,6 +78,14 @@ public class World implements WorldIF {
         toRemove.clear();
     }
     
+    @Override
+    public void killAllBlobs() {
+        Iterator<BlobIF> iter = objs.iterator(); 
+        while (iter.hasNext()) { scheduleRemovalFromWorld(iter.next()); }
+        iter = ephemerals.iterator();
+        while (iter.hasNext()) { scheduleRemovalFromWorld(iter.next()); }
+    }
+    
     // this is the accepted lame way of doing type aliases in Java?
     private class CollisionMap extends HashMap<BlobIF, BlobIF> {
         /**

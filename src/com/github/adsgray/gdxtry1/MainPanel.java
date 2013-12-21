@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 public class MainPanel implements ApplicationListener {
@@ -49,26 +50,37 @@ public class MainPanel implements ApplicationListener {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
 		
-		/** Instantiate smiley face image **/
-		/*
-		smileyface = new Texture(Gdx.files.internal("128px-Yellow_Happy.jpg"));
-		rect_smiley = new Rectangle();
-		rect_smiley.width = 128;										// "Yellow_Happy.jpg" is 128x128 pixels
-		rect_smiley.height = 128;
-		rect_smiley.x = (CAMERA_WIDTH / 2) - (rect_smiley.width / 2);	// center the image horizontally
-		rect_smiley.y = (CAMERA_HEIGHT / 2) - (rect_smiley.height / 2);	// center the image vertically
-		*/
+		// Setup swipe/touch handling:
+		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+	        
+		    @Override
+		    public void onUp() {
+		        // TODO Auto-generated method stub
+		        Log.d("input", "screen swiped UP");
+		        GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
+		    }
 
+		    @Override
+		    public void onRight() {
+		        // TODO Auto-generated method stub
+
+		    }
+
+		    @Override
+		    public void onLeft() {
+		        // TODO Auto-generated method stub
+
+		    }
+
+		    @Override
+		    public void onDown() {
+		        // TODO Auto-generated method stub
+		        world.killAllBlobs();
+		    }
+		}));
 		
-		/** Instantiate hello world image **/
-		/*
-		helloworld = new Texture(Gdx.files.internal("helloworld.png"));
-		rect_hello = new Rectangle();
-		rect_hello.width = 256;											// "helloworld.png" is 256x64 pixels
-		rect_hello.height = 64;
-		rect_hello.x = (CAMERA_WIDTH / 2) - (rect_hello.width / 2);		// center the image horizontally
-		rect_hello.y = rect_smiley.y + 200;								// place helloworld just above the smiley face
-		*/
+		
+		
 	}
 
     @Override
@@ -112,10 +124,10 @@ public class MainPanel implements ApplicationListener {
 	        touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 	        camera.unproject(touchPos);
 	        
-	        Log.d("input", "screen touched");
+	        //Log.d("input", "screen touched");
 	        
 	        // add some more blobs
-	        GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
+	        //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
 	        
 	        /** center the smiley face on the touch (x,y) coordinates **/
 	        //rect_smiley.x = touchPos.x - 128 / 2;
