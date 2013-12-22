@@ -39,9 +39,8 @@ public class GameFactory {
     private static final int MAX_VEL = 4;
 
     private static VelocityIF randomVelocity() {
-         BlobVelocity vel = new BlobVelocity();
-         vel.setXVelocity(rnd.nextInt(MAX_VEL * 2) - MAX_VEL + MIN_VEL);
-         vel.setYVelocity(rnd.nextInt(MAX_VEL * 2) - MAX_VEL + MIN_VEL);
+         BlobVelocity vel = new BlobVelocity(rnd.nextInt(MAX_VEL * 2) - MAX_VEL + MIN_VEL,
+                     rnd.nextInt(MAX_VEL * 2) - MAX_VEL + MIN_VEL);
          return vel;
     }
     
@@ -148,9 +147,7 @@ public class GameFactory {
     }
 
     private static VelocityIF zeroVelocity() {
-        VelocityIF v = new BlobVelocity();
-        v.setXVelocity(0);
-        v.setYVelocity(0);
+        VelocityIF v = new BlobVelocity(0,0);
         return v;
     }
     public static WorldIF populateWorldNonRandom(WorldIF inWorld, RenderConfig r) {
@@ -190,9 +187,7 @@ public class GameFactory {
     
     public static BlobPath jigglePath(int speed) {
          
-        BlobVelocity vel = new BlobVelocity();
-        vel.setXVelocity(0);
-        vel.setYVelocity(0);
+        BlobVelocity vel = new BlobVelocity(0,0);
 
         WeirdAccel.WeirdAccelConfig wc = new WeirdAccel.WeirdAccelConfig();
 

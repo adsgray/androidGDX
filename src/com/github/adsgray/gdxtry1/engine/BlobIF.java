@@ -15,6 +15,7 @@ public interface BlobIF {
    
     public WorldIF getWorld();
     public VelocityIF getVelocity();
+    public AccelIF getAccel();
     public RenderConfig getRenderer();
     
     public void setLifeTime(Integer ticks);

@@ -28,6 +28,7 @@ public class BaseBlob implements BlobIF {
    
     @Override public WorldIF getWorld() { return world; }
     @Override public VelocityIF getVelocity() { return velocity; }
+    @Override public AccelIF getAccel() { return acceleration; }
     @Override public PositionIF getPosition() { return position; }
     @Override public RenderConfig getRenderer() { return renderer; }
     @Override public Integer getMass() { return mass; }
