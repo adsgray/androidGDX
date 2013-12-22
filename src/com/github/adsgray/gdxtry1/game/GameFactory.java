@@ -156,10 +156,14 @@ public class GameFactory {
 
         //BlobPath p = jigglePath(10);
         BlobPath p = squarePath(5, 5);
+        //BlobPath p = trianglePath(4, 4);
+        //BlobPath p = backAndForth(10, 1);
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), zeroVelocity(), a, r);
+        //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), new BlobVelocity(100,0), a, r);
+        BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), p.vel, p.acc, r);
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(100, 100), p.vel, p.acc, r);
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(rnd.nextInt(600), rnd.nextInt(600)), p.vel, p.acc, r);
-        BlobIF b1 = new ThrobbingCircleBlob(randomMass(), new BlobPosition(rnd.nextInt(1024), rnd.nextInt(1024)), p.vel, p.acc, r);
+        //BlobIF b1 = new ThrobbingCircleBlob(randomMass(), new BlobPosition(rnd.nextInt(1024), rnd.nextInt(1024)), p.vel, p.acc, r);
         //BlobIF b2 = new CircleBlob(randomMass(), new BlobPosition(300,300), zeroVelocity(), new AccelRandomDecorator(a), r, smokeTrail);
         //BlobIF b2 = createSmokeTrailBlob(b1);
         
@@ -170,7 +174,8 @@ public class GameFactory {
 
         b1.setWorld(inWorld);
         b1.setLifeTime(10000000);
-        inWorld.addBlobToWorld(new BlobTrailDecorator(b1, 2, 18));
+        //inWorld.addBlobToWorld(new BlobTrailDecorator(b1, 2, 18));
+        inWorld.addBlobToWorld(b1);
         //b2.setWorld(inWorld);
         //inWorld.addBlobToWorld(b2);
 
@@ -268,6 +273,37 @@ public class GameFactory {
 
         AccelIF acc = new HardCodeAccel(arr);
         return new BlobPath(vel, acc);
+    }
+    
+    public static BlobPath trianglePath(int speed, int intervalFactor) {
+         
+        VelocityIF vel = new BlobVelocity(0,0);
+        int interval = 5 * intervalFactor;
+        
+        int[][] arr = {
+                { speed, 0, interval * 2},
+                { -speed, speed, interval },
+                { -speed, -speed, interval }
+        };
+
+        AccelIF acc = new HardCodeAccel(arr);
+        return new BlobPath(vel, acc);       
+    }
+    
+    public static BlobPath backAndForth(int speed, int intervalFactor) {
+          
+        VelocityIF vel = new BlobVelocity(0,0);
+        int interval = 5 * intervalFactor;
+        
+        int[][] arr = {
+                //{ 0, -speed, interval },
+                //{ 0, speed, interval }
+                { -speed, 0, interval },
+                { speed, 0, interval }
+        };
+
+        AccelIF acc = new HardCodeAccel(arr);
+        return new BlobPath(vel, acc);              
     }
     
 }

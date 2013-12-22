@@ -27,8 +27,8 @@ public class BlobPosition implements PositionIF {
     public Integer setY(Integer yin) { y = yin; return y; }
 
     public PositionIF updateByVelocity(VelocityIF vel) {
-        this.x = vel.deltaX(this.x);
-        this.y = vel.deltaY(this.y);
+        x = vel.deltaX(x);
+        y = vel.deltaY(y);
         return this;
     }
 }

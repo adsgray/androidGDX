@@ -24,7 +24,8 @@ public class BlobVelocity implements VelocityIF {
 
     @Override
     public Integer getYVelocity() {
-        return x;
+        // argh copy-paste typo, this was "x"
+        return y;
     }
 
     /*
@@ -49,6 +50,8 @@ public class BlobVelocity implements VelocityIF {
 
     @Override
     public Integer deltaY(Integer yin) {
+        //Log.d("velocity", String.format("yin is %d y is %d", yin, y));
+        // THESE TWO LINES ARE MOVING WHEN Y is 0??
         yin = yin + y;
         return yin;
     }

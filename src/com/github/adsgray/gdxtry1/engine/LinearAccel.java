@@ -14,7 +14,10 @@ public class LinearAccel implements AccelIF {
 
     @Override
     public VelocityIF accellerate(VelocityIF vel) {
-        Log.d("velocity", String.format("accelerate x is %d y is %d", x, y));
+        //Log.d("velocity", String.format("accelerate x is %d y is %d", x, y));
+        //VelocityIF newvel = new BlobVelocity(vel.getXVelocity() + x, vel.getYVelocity() + y);
+        //return newvel;
+
         vel.setXVelocity(vel.getXVelocity() + x);
         vel.setXVelocity(vel.getYVelocity() + y);
         return vel;
