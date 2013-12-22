@@ -18,13 +18,13 @@ public class GameFactory {
         return new RenderConfig();
     }
     
-    private static Random rnd = new Random();
+    public static Random rnd = new Random();
     
     // this should be a property of world?
     private static final int BOUNDS_X = 480;
     private static final int BOUNDS_Y = 800;
 
-    private static PositionIF randomPosition() {
+    public static PositionIF randomPosition() {
         return new BlobPosition(rnd.nextInt(BOUNDS_X), rnd.nextInt(BOUNDS_Y));
         //return new BlobPosition(0,0);
     }
@@ -32,14 +32,14 @@ public class GameFactory {
     private static final int MIN_MASS = 15;
     private static final int MAX_MASS = 100;
 
-    private static int randomMass() {
+    public static int randomMass() {
         return rnd.nextInt(MAX_MASS) + MIN_MASS;
     }
     
     private static final int MIN_VEL = 1;
     private static final int MAX_VEL = 4;
 
-    private static VelocityIF randomVelocity() {
+    public static VelocityIF randomVelocity() {
          BlobVelocity vel = new BlobVelocity(rnd.nextInt(MAX_VEL * 2) - MAX_VEL + MIN_VEL,
                      rnd.nextInt(MAX_VEL * 2) - MAX_VEL + MIN_VEL);
          return vel;
@@ -54,12 +54,12 @@ public class GameFactory {
         }
     }
     
-    private static AccelIF randomLinearAccel() {
+    public static AccelIF randomLinearAccel() {
         return new LinearAccel(rnd.nextInt(6) - 3, rnd.nextInt(6) - 3);
         //return new LinearAccel(0,0);
     }
     
-    private static AccelIF randomWeirdAccel() {
+    public static AccelIF randomWeirdAccel() {
         return WeirdAccel.randomWeirdAccel();
     }
     
@@ -72,75 +72,15 @@ public class GameFactory {
         return new RectangleExtent(rnd.nextInt(MAX_W) + MIN_W, rnd.nextInt(MAX_H) + MIN_H);
     }
     
-
-    static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
-        BlobIF b;
-        if (rnd.nextInt(100) < 50) {
-            //b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
-            b = new SplittingRectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
-        } else {
-            b = new ShrinkingCircleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
-        }
-        
-        b.setWorld(inWorld);
-        b.setExtent(randomExtent());
-
-        if (rnd.nextInt(100) < 10) {
-            b = new BlobTrailDecorator(b);
-        }
-
-        // possibly stack some decorators:
-        if (rnd.nextInt(100) < 50) {
-            b = new BlobCrazyAccelDecorator(b);
-        }
-
-        inWorld.addBlobToWorld(b);
-        return b;
-    }
-    
+ 
 
     static final int[] a = new int[]{ 100,200 };
-
-    static Color[] colors = new Color[] {
-        Color.RED,Color.BLACK,Color.BLUE,Color.CYAN,Color.GREEN,
-        Color.MAGENTA,Color.ORANGE,Color.PINK,Color.YELLOW,
-        Color.WHITE
-    };
-    static private CircleConfig smokeTrail() {
-        //return new CircleConfig(Color.GRAY, 7);
-        //static Vector<Color> colors = new Vector<Color>();
-        //int choice = rnd.nextInt(colors.length);
-        //Color color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
-        return new CircleConfig(Color.GRAY, 7);
-    }
-    public static BlobIF createSmokeTrailBlob(BlobIF c) {
-        BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
-                WeirdAccel.randomWeirdAccel(), c.getRenderer(), smokeTrail());
-        b = new BlobCrazyAccelDecorator(b);
-        b.setWorld(c.getWorld());
-        return b;
-    }
-    
-    static Color[] explosionColors = new Color[] {
-        Color.RED, Color.ORANGE
-    };
-    static private CircleConfig explosionBlob() {
-        Color color = explosionColors[rnd.nextInt(explosionColors.length)];
-        return new CircleConfig(color, rnd.nextFloat() * 7 + 5);
-    }
-    public static BlobIF createExplosionBlob(BlobIF c) {
-         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
-                WeirdAccel.randomWeirdAccel(), c.getRenderer(), explosionBlob());
-        b = new BlobCrazyAccelDecorator(b);
-        b.setWorld(c.getWorld());
-        return b;       
-    }
-    
+ 
     
     public static WorldIF populateWorldWithBlobs(WorldIF inWorld, int howMany, RenderConfig r) {
 
         while (howMany > 0) {
-            createDefaultBlob(inWorld, r);
+            BlobFactory.createDefaultBlob(inWorld, r);
             howMany -= 1;
         }
         
@@ -155,7 +95,7 @@ public class GameFactory {
         AccelIF a = new LinearAccel(0, 0);
 
         //BlobPath p = jigglePath(10);
-        BlobPath p = squarePath(5, 5);
+        BlobPath p = PathFactory.squarePath(5, 5);
         //BlobPath p = trianglePath(4, 4);
         //BlobPath p = backAndForth(10, 1);
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), zeroVelocity(), a, r);
@@ -198,7 +138,8 @@ public class GameFactory {
         //inWorld.addBlobToWorld(b2);
 
         //BlobPath bp = jigglePath(7);
-        BlobPath bp = squarePath(7,7);
+        BlobPath bp = PathFactory.squarePathClockwise(7, 7);
+        //BlobPath bp = trianglePath(7,7);
         //BlobPath bp = squarePath(rnd.nextInt(5) + 5,rnd.nextInt(3) + 2);
         //BlobPath bp = backAndForth(8, 4);
         //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(20, 20), new LinearAccel(0, 0), r);
@@ -212,7 +153,7 @@ public class GameFactory {
                 // wierd: if this is set to 5 (and bp above is 7) then vel/acc don't compose properly??
                 //BlobPath bp = jigglePath(rnd.nextInt(8));
                 //BlobPath bp = new BlobPath(zeroVelocity(), new LinearAccel(0, 0));
-                BlobPath bp = squarePath(rnd.nextInt(8) + 5,rnd.nextInt(5) + 4);
+                BlobPath bp = PathFactory.squarePath(rnd.nextInt(8) + 5,rnd.nextInt(5) + 4);
                 b.setAccel(bp.acc);
                 b.setVelocity(bp.vel);
                 b.setLifeTime(100000);
@@ -226,85 +167,10 @@ public class GameFactory {
         bs.absorbBlob(b2, bt);
         bs.setLifeTime(1000000);
         
+        //BlobIF bstrail = new BlobTrailDecorator(bs);
         inWorld.addBlobToWorld(bs);
 
         return inWorld;
-    }
-
-    public static class BlobPath {
-        public VelocityIF vel;
-        public AccelIF acc;
-        
-        public BlobPath(VelocityIF vel, AccelIF acc) {
-            this.vel = vel;
-            this.acc = acc;
-        }
-    }
-    
-    public static BlobPath jigglePath(int speed) {
-         
-        BlobVelocity vel = new BlobVelocity(0,0);
-
-        WeirdAccel.WeirdAccelConfig wc = new WeirdAccel.WeirdAccelConfig();
-
-        wc.xConfig.dir = WeirdAccel.accelDirection.DOWN;
-        wc.xConfig.maxVel = speed;
-        wc.xConfig.minVel = -speed;
-        wc.xConfig.step = speed/5 + 1;
-        wc.yConfig.dir = WeirdAccel.accelDirection.UP;
-        wc.yConfig.maxVel = speed;
-        wc.yConfig.minVel = -speed;
-        wc.yConfig.step = speed/5 + 1;
-        WeirdAccel accel = new WeirdAccel(wc);
-        
-
-        return new BlobPath(vel, accel);
-    }
-    
-    public static BlobPath squarePath(int speed, int interval) {
-        
-        VelocityIF vel = new BlobVelocity(0,0);
-        
-        int[][] arr = {
-           { speed, 0, interval },
-           { 0, speed, interval },
-           { -speed, 0, interval },
-           { 0, -speed, interval }
-        };
-
-        AccelIF acc = new HardCodeAccel(arr);
-        return new BlobPath(vel, acc);
-    }
-    
-    public static BlobPath trianglePath(int speed, int intervalFactor) {
-         
-        VelocityIF vel = new BlobVelocity(0,0);
-        int interval = 5 * intervalFactor;
-        
-        int[][] arr = {
-                { speed, 0, interval * 2},
-                { -speed, speed, interval },
-                { -speed, -speed, interval }
-        };
-
-        AccelIF acc = new HardCodeAccel(arr);
-        return new BlobPath(vel, acc);       
-    }
-    
-    public static BlobPath backAndForth(int speed, int intervalFactor) {
-          
-        VelocityIF vel = new BlobVelocity(0,0);
-        int interval = 5 * intervalFactor;
-        
-        int[][] arr = {
-                //{ 0, -speed, interval },
-                //{ 0, speed, interval }
-                { -speed, 0, interval },
-                { speed, 0, interval }
-        };
-
-        AccelIF acc = new HardCodeAccel(arr);
-        return new BlobPath(vel, acc);              
     }
     
 }

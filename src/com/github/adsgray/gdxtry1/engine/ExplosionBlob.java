@@ -1,6 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
 import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 public class ExplosionBlob extends BaseBlob {
@@ -15,7 +16,7 @@ public class ExplosionBlob extends BaseBlob {
     
     @Override public void render() {
         for (int i = 0; i < numPerTick; i++) {
-            BlobIF b = GameFactory.createExplosionBlob(this);
+            BlobIF b = BlobFactory.createExplosionBlob(this);
             b.setLifeTime(10);
             world.scheduleEphemeralAddToWorld(b);
         }

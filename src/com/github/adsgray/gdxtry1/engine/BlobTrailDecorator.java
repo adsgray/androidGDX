@@ -3,6 +3,7 @@ package com.github.adsgray.gdxtry1.engine;
 import android.util.Log;
 
 import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.game.BlobFactory;
 
 public class BlobTrailDecorator extends BlobDecorator {
 
@@ -46,7 +47,7 @@ public class BlobTrailDecorator extends BlobDecorator {
                 WeirdAccel.randomWeirdAccel(), component.getRenderer());
                 */
 
-        BlobIF b = GameFactory.createSmokeTrailBlob(component);
+        BlobIF b = BlobFactory.createSmokeTrailBlob(component);
         b.setLifeTime(lifetime);
         
         world.scheduleEphemeralAddToWorld(b);
