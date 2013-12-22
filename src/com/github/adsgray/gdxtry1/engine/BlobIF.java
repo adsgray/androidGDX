@@ -9,6 +9,7 @@ public interface BlobIF {
     public void setSound(SoundIF s);
     public void setExtent(ExtentIF e);
     public void setAccel(AccelIF a);
+    public void setVelocity(VelocityIF v);
     
     public BlobIF absorbBlob(BlobIF b); // return self
     public BlobIF absorbBlob(BlobIF b, BlobTransform transform); // return self
@@ -36,7 +37,7 @@ public interface BlobIF {
         }
     }
     
-    public static class BlobTransform {
-        public BlobIF transform(BlobIF b) { return b; }
+    public abstract static class BlobTransform {
+        public abstract BlobIF transform(BlobIF b);
     }
 }

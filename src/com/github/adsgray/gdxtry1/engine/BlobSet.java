@@ -87,12 +87,14 @@ public class BlobSet extends BaseBlob {
         // remove from world (we'll be handling ticks/renders ?
         
         world.scheduleRemovalFromWorld(b);
+        //if ( true && bt != null) {
         if (bt != null) {
             // transform could be to zero out velocity and accel so that
             // the absorbed blob stops moving.
             b = bt.transform(b);
         }
         b.setAccel(new AccelComposeDecorator(b.getAccel(), acceleration));
+        b.setVelocity(new VelocityComposeDecorator(b.getVelocity(), velocity));
         objs.add(b);
         
         return this;

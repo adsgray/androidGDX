@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
+import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
 
@@ -175,6 +176,46 @@ public class GameFactory {
         return inWorld;
     }
     
+    public static WorldIF populateWorldNonRandomBlobSet(WorldIF inWorld, RenderConfig r) {
+
+        PositionIF p1 = new BlobPosition(100,100);
+        PositionIF p2 = new BlobPosition(150,150);
+        PositionIF p3 = new BlobPosition(150,150);
+
+        // will have to compose velocities too...
+        BlobIF b1 = new RectangleBlob(10, p1, zeroVelocity(), new LinearAccel(0, 0), r);
+        b1.setWorld(inWorld);
+        BlobIF b2 = new CircleBlob(10, p2, zeroVelocity(), new LinearAccel(0, 0), r);
+        b2.setWorld(inWorld);
+        
+        //inWorld.addBlobToWorld(b1);
+        //inWorld.addBlobToWorld(b2);
+
+        BlobSet bs = new BlobSet(10, p3, new BlobVelocity(1, 1), new LinearAccel(0, 0), r);
+        //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(10, 10), WeirdAccel.randomWeirdAccel(), r);
+        bs.setWorld(inWorld);
+        
+        BlobTransform bt = new BlobTransform() {
+            @Override
+            public BlobIF transform(BlobIF b) {
+                BlobPath bp = jigglePath(5);
+                b.setAccel(bp.acc);
+                b.setVelocity(bp.vel);
+                b.setLifeTime(100000);
+                return b;
+            }
+
+        };
+        
+        bs.absorbBlob(b1, bt);
+        bs.absorbBlob(b2, bt);
+        bs.setLifeTime(1000000);
+        
+        inWorld.addBlobToWorld(bs);
+
+        return inWorld;
+    }
+
     public static class BlobPath {
         public VelocityIF vel;
         public AccelIF acc;

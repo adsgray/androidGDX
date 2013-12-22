@@ -46,7 +46,8 @@ public class MainPanel implements ApplicationListener {
 	    renderConfig = new RenderConfig(shapes, batch);
 	    world = GameFactory.defaultWorld();
 	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
-	    GameFactory.populateWorldNonRandom(world, renderConfig);
+	    //GameFactory.populateWorldNonRandom(world, renderConfig);
+	    GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
