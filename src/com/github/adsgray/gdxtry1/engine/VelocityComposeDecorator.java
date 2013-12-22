@@ -20,11 +20,11 @@ public class VelocityComposeDecorator extends VelocityDecorator {
     
     // not sure what to do with these...
     @Override public Integer setXVelocity(Integer xin) { 
-        //return primary.setXVelocity(xin); 
+        Log.d("velocity", "calling SetX in compose");
         return x = xin;
     }
     @Override public Integer setYVelocity(Integer yin) { 
-        //return primary.setYVelocity(yin); 
+        Log.d("velocity", "calling SetY in compose");
         return y = yin;
     }
 
@@ -36,9 +36,12 @@ public class VelocityComposeDecorator extends VelocityDecorator {
     }
 
     @Override
-    public void accelerate(AccelIF a) {
-        component = a.accellerate(component);
-        primary = a.accellerate(primary);
+    public VelocityIF accelerate(AccelIF a) {
+        component = component.accelerate(a);
+        primary = primary.accelerate(a);
+        //component = a.accellerate(component);
+        //primary = a.accellerate(primary);
+        return this;
     }
 
 }

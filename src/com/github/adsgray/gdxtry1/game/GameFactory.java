@@ -154,7 +154,8 @@ public class GameFactory {
     public static WorldIF populateWorldNonRandom(WorldIF inWorld, RenderConfig r) {
         AccelIF a = new LinearAccel(0, 0);
 
-        BlobPath p = jigglePath(10);
+        //BlobPath p = jigglePath(10);
+        BlobPath p = squarePath(5, 5);
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), zeroVelocity(), a, r);
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(100, 100), p.vel, p.acc, r);
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(rnd.nextInt(600), rnd.nextInt(600)), p.vel, p.acc, r);
@@ -178,8 +179,8 @@ public class GameFactory {
     
     public static WorldIF populateWorldNonRandomBlobSet(WorldIF inWorld, RenderConfig r) {
 
-        PositionIF p1 = new BlobPosition(100,100);
-        PositionIF p2 = new BlobPosition(150,150);
+        PositionIF p1 = new BlobPosition(400,400);
+        PositionIF p2 = new BlobPosition(450,450);
         PositionIF p3 = new BlobPosition(250,250);
 
         // will have to compose velocities too...
@@ -191,7 +192,9 @@ public class GameFactory {
         //inWorld.addBlobToWorld(b1);
         //inWorld.addBlobToWorld(b2);
 
-        BlobPath bp = jigglePath(5);
+        //BlobPath bp = jigglePath(7);
+        //BlobPath bp = squarePath(7,7);
+        BlobPath bp = squarePath(rnd.nextInt(5) + 5,rnd.nextInt(3) + 2);
         //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(1, 1), new LinearAccel(0, 0), r);
         BlobSet bs = new BlobSet(10, p3, bp.vel, bp.acc, r);
         //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(10, 10), WeirdAccel.randomWeirdAccel(), r);
@@ -200,10 +203,14 @@ public class GameFactory {
         BlobTransform bt = new BlobTransform() {
             @Override
             public BlobIF transform(BlobIF b) {
-                BlobPath bp = jigglePath(5);
+                // wierd: if this is set to 5 (and bp above is 7) then vel/acc don't compose properly??
+                //BlobPath bp = jigglePath(rnd.nextInt(8));
+                //BlobPath bp = new BlobPath(zeroVelocity(), new LinearAccel(0, 0));
+                BlobPath bp = squarePath(rnd.nextInt(5) + 5,rnd.nextInt(3) + 2);
                 b.setAccel(bp.acc);
                 b.setVelocity(bp.vel);
                 b.setLifeTime(100000);
+                //b = new BlobTrailDecorator(b);
                 return b;
             }
 
@@ -237,15 +244,30 @@ public class GameFactory {
         wc.xConfig.dir = WeirdAccel.accelDirection.DOWN;
         wc.xConfig.maxVel = speed;
         wc.xConfig.minVel = -speed;
-        wc.xConfig.step = 1;
+        wc.xConfig.step = speed/5 + 1;
         wc.yConfig.dir = WeirdAccel.accelDirection.UP;
         wc.yConfig.maxVel = speed;
         wc.yConfig.minVel = -speed;
-        wc.yConfig.step = 1;
+        wc.yConfig.step = speed/5 + 1;
         WeirdAccel accel = new WeirdAccel(wc);
         
 
         return new BlobPath(vel, accel);
+    }
+    
+    public static BlobPath squarePath(int speed, int interval) {
+        
+        VelocityIF vel = new BlobVelocity(0,0);
+        
+        int[][] arr = {
+           { speed, 0, interval },
+           { 0, speed, interval },
+           { -speed, 0, interval },
+           { 0, -speed, interval }
+        };
+
+        AccelIF acc = new HardCodeAccel(arr);
+        return new BlobPath(vel, acc);
     }
     
 }

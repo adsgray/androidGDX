@@ -57,11 +57,11 @@ public class BaseBlob implements BlobIF {
      */
     @Override
     public Boolean tick() {
-        Log.d("tick", "tick");
+        //Log.d("tick", "tick");
         position.updateByVelocity(velocity);
         // update velocity with its accelleration
         //velocity = acceleration.accellerate(velocity);
-        velocity.accelerate(acceleration);
+        velocity = velocity.accelerate(acceleration);
         
         ticks += 1;
         if (ticks >= maxTicks) {

@@ -73,10 +73,11 @@ public class BlobVelocity implements VelocityIF {
     }
 
     @Override
-    public void accelerate(AccelIF a) {
+    public VelocityIF accelerate(AccelIF a) {
         VelocityIF vel = a.accellerate(this);
         x = vel.getXVelocity();
         y = vel.getYVelocity();
+        return vel;
     }
 
 }

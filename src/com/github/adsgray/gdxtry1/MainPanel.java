@@ -38,6 +38,12 @@ public class MainPanel implements ApplicationListener {
 	private SpriteBatch batch;
 	private ShapeRenderer shapes;
 	
+	private void populateWorld() {
+	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
+	    //GameFactory.populateWorldNonRandom(world, renderConfig);
+	    GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
+	}
+
 	@Override
 	public void create() {
 		shapes = new ShapeRenderer();
@@ -45,9 +51,7 @@ public class MainPanel implements ApplicationListener {
 
 	    renderConfig = new RenderConfig(shapes, batch);
 	    world = GameFactory.defaultWorld();
-	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
-	    //GameFactory.populateWorldNonRandom(world, renderConfig);
-	    GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
+	    populateWorld();
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
@@ -59,9 +63,7 @@ public class MainPanel implements ApplicationListener {
 		    public void onUp() {
 		        // TODO Auto-generated method stub
 		        Log.d("input", "screen swiped UP");
-		        //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
-		        //GameFactory.populateWorldNonRandom(world, renderConfig);
-		        GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
+		        populateWorld();
 		    }
 
 		    @Override

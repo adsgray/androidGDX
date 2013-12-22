@@ -10,7 +10,7 @@ public interface VelocityIF {
     public Integer setXVelocity(Integer xin);
     public Integer setYVelocity(Integer yin);
     
-    public void accelerate(AccelIF a);
+    public VelocityIF accelerate(AccelIF a);
     
     public PositionIF updatePosition(PositionIF pos);
 }
