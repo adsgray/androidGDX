@@ -6,7 +6,17 @@ public class BlobVelocity implements VelocityIF {
     
     private Integer x;
     private Integer y;
-
+    
+    public BlobVelocity(VelocityIF fromv) {
+        x = fromv.getXVelocity();
+        y = fromv.getYVelocity();
+    }
+    
+    public BlobVelocity(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    
     @Override
     public Integer getXVelocity() {
         return x;
