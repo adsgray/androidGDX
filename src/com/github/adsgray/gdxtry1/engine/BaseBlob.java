@@ -117,13 +117,27 @@ public class BaseBlob implements BlobIF {
         // also make some sound?
         return vec;
     }
+
     @Override
     public BlobIF absorbBlob(BlobIF b) {
-        // create an empty BlobSet
-        // put "this" into it
-        // put b into it
-        // return that BlobSet
-        return this;
+        return absorbBlob(b, null);
     }
    
+    @Override
+    public BlobIF absorbBlob(BlobIF b, BlobTransform bt) {
+
+        // create an empty BlobSet
+        // make the BlobSet inherit our velocity and have zero acceleration?
+        BlobSet bs = new BlobSet(mass, new BlobPosition(position), 
+                new BlobVelocity(velocity), new LinearAccel(0,0), renderer);
+
+        // put "this" into it. Note that this action will schedule "this" to
+        // be removed from World so we don't have to do that here.
+        bs.absorbBlob(this, bt);
+
+        // put b into it
+        bs.absorbBlob(b, bt);
+
+        return bs;
+    }
 }

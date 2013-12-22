@@ -30,9 +30,7 @@ public class SplittingRectangleBlob extends RectangleBlob {
     private VelocityIF mangleVelocity(VelocityIF vel) {
         //vel.setXVelocity(-1 * vel.getXVelocity());
         //return vel;
-        VelocityIF newvel = new BlobVelocity();
-        newvel.setXVelocity(-vel.getXVelocity());
-        newvel.setYVelocity(vel.getYVelocity());
+        VelocityIF newvel = new BlobVelocity(-vel.getXVelocity(), vel.getYVelocity());
         return newvel;
     }
     

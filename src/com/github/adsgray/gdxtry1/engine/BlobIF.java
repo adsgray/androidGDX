@@ -11,7 +11,8 @@ public interface BlobIF {
     public void setAccel(AccelIF a);
     
     public BlobIF absorbBlob(BlobIF b); // return self
-    
+    public BlobIF absorbBlob(BlobIF b, BlobTransform transform); // return self
+   
     public WorldIF getWorld();
     public VelocityIF getVelocity();
     public RenderConfig getRenderer();
@@ -23,4 +24,18 @@ public interface BlobIF {
 
     public boolean intersects(BlobIF with);
     public BlobIF collision(BlobIF with);
+     
+    public static class BlobPath {
+        public VelocityIF vel;
+        public AccelIF acc;
+        
+        public BlobPath(VelocityIF vel, AccelIF acc) {
+            this.vel = vel;
+            this.acc = acc;
+        }
+    }
+    
+    public static class BlobTransform {
+        public BlobIF transform(BlobIF b) { return b; }
+    }
 }
