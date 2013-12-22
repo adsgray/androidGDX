@@ -45,8 +45,8 @@ public class MainPanel implements ApplicationListener {
 
 	    renderConfig = new RenderConfig(shapes, batch);
 	    world = GameFactory.defaultWorld();
-	    GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
-	    //GameFactory.populateWorldNonRandom(world, renderConfig);
+	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
+	    GameFactory.populateWorldNonRandom(world, renderConfig);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
@@ -58,8 +58,8 @@ public class MainPanel implements ApplicationListener {
 		    public void onUp() {
 		        // TODO Auto-generated method stub
 		        Log.d("input", "screen swiped UP");
-		        GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
-		        //GameFactory.populateWorldNonRandom(world, renderConfig);
+		        //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
+		        GameFactory.populateWorldNonRandom(world, renderConfig);
 		    }
 
 		    @Override

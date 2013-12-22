@@ -1,6 +1,7 @@
 package com.github.adsgray.gdxtry1.game;
 
 import java.util.Random;
+import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
@@ -97,17 +98,42 @@ public class GameFactory {
         return b;
     }
     
+
+    static final int[] a = new int[]{ 100,200 };
+
+    static Color[] colors = new Color[] {
+        Color.RED,Color.BLACK,Color.BLUE,Color.CYAN,Color.GREEN,
+        Color.MAGENTA,Color.ORANGE,Color.PINK,Color.YELLOW,
+        Color.WHITE
+    };
     static private CircleConfig smokeTrail() {
+        //return new CircleConfig(Color.GRAY, 7);
+        //static Vector<Color> colors = new Vector<Color>();
+        //int choice = rnd.nextInt(colors.length);
+        //Color color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
         return new CircleConfig(Color.GRAY, 7);
     }
     public static BlobIF createSmokeTrailBlob(BlobIF c) {
         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
                 WeirdAccel.randomWeirdAccel(), c.getRenderer(), smokeTrail());
-
         b = new BlobCrazyAccelDecorator(b);
         b.setWorld(c.getWorld());
-        
         return b;
+    }
+    
+    static Color[] explosionColors = new Color[] {
+        Color.RED, Color.ORANGE
+    };
+    static private CircleConfig explosionBlob() {
+        Color color = explosionColors[rnd.nextInt(explosionColors.length)];
+        return new CircleConfig(color, rnd.nextFloat() * 7 + 5);
+    }
+    public static BlobIF createExplosionBlob(BlobIF c) {
+         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
+                WeirdAccel.randomWeirdAccel(), c.getRenderer(), explosionBlob());
+        b = new BlobCrazyAccelDecorator(b);
+        b.setWorld(c.getWorld());
+        return b;       
     }
     
     
@@ -130,16 +156,58 @@ public class GameFactory {
     public static WorldIF populateWorldNonRandom(WorldIF inWorld, RenderConfig r) {
         AccelIF a = new LinearAccel(0, 0);
 
-        BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), zeroVelocity(), a, r);
+        BlobPath p = jigglePath(10);
+        //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), zeroVelocity(), a, r);
+        //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(100, 100), p.vel, p.acc, r);
+        //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(rnd.nextInt(600), rnd.nextInt(600)), p.vel, p.acc, r);
+        BlobIF b1 = new ThrobbingCircleBlob(randomMass(), new BlobPosition(rnd.nextInt(1024), rnd.nextInt(1024)), p.vel, p.acc, r);
         //BlobIF b2 = new CircleBlob(randomMass(), new BlobPosition(300,300), zeroVelocity(), new AccelRandomDecorator(a), r, smokeTrail);
         //BlobIF b2 = createSmokeTrailBlob(b1);
+        
+        BlobIF ex = new ExplosionBlob(randomMass(), new BlobPosition(rnd.nextInt(500) + 200, rnd.nextInt(500) + 200), 
+                zeroVelocity(), a, r);
+        ex.setWorld(inWorld);
+        inWorld.addBlobToWorld(ex);
 
         b1.setWorld(inWorld);
         b1.setLifeTime(10000000);
-        inWorld.addBlobToWorld(new BlobTrailDecorator(b1, 5, 25));
+        inWorld.addBlobToWorld(new BlobTrailDecorator(b1, 2, 18));
         //b2.setWorld(inWorld);
         //inWorld.addBlobToWorld(b2);
 
         return inWorld;
     }
+    
+    public static class BlobPath {
+        public VelocityIF vel;
+        public AccelIF acc;
+        
+        public BlobPath(VelocityIF vel, AccelIF acc) {
+            this.vel = vel;
+            this.acc = acc;
+        }
+    }
+    
+    public static BlobPath jigglePath(int speed) {
+         
+        BlobVelocity vel = new BlobVelocity();
+        vel.setXVelocity(0);
+        vel.setYVelocity(0);
+
+        WeirdAccel.WeirdAccelConfig wc = new WeirdAccel.WeirdAccelConfig();
+
+        wc.xConfig.dir = WeirdAccel.accelDirection.DOWN;
+        wc.xConfig.maxVel = speed;
+        wc.xConfig.minVel = -speed;
+        wc.xConfig.step = 1;
+        wc.yConfig.dir = WeirdAccel.accelDirection.UP;
+        wc.yConfig.maxVel = speed;
+        wc.yConfig.minVel = -speed;
+        wc.yConfig.step = 1;
+        WeirdAccel accel = new WeirdAccel(wc);
+        
+
+        return new BlobPath(vel, accel);
+    }
+    
 }

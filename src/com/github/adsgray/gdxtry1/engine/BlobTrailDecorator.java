@@ -46,7 +46,6 @@ public class BlobTrailDecorator extends BlobDecorator {
                 WeirdAccel.randomWeirdAccel(), component.getRenderer());
                 */
 
-        Log.d("smoke", String.format("creating smoke trail blob pos %d %d", component.getPosition().getX(), component.getPosition().getY()));
         BlobIF b = GameFactory.createSmokeTrailBlob(component);
         b.setLifeTime(lifetime);
         
