@@ -4,6 +4,7 @@ import android.util.Log;
 
 public class VelocityComposeDecorator extends VelocityDecorator {
 
+    // primary is a bad name for this, could be "wrapper" ??
     protected VelocityIF primary;
     protected int x;
     protected int y;
@@ -38,7 +39,7 @@ public class VelocityComposeDecorator extends VelocityDecorator {
     @Override
     public VelocityIF accelerate(AccelIF a) {
         component = component.accelerate(a);
-        primary = primary.accelerate(a);
+        //primary = primary.accelerate(a);
         //component = a.accellerate(component);
         //primary = a.accellerate(primary);
         return this;

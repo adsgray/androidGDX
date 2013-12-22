@@ -198,9 +198,10 @@ public class GameFactory {
         //inWorld.addBlobToWorld(b2);
 
         //BlobPath bp = jigglePath(7);
-        //BlobPath bp = squarePath(7,7);
-        BlobPath bp = squarePath(rnd.nextInt(5) + 5,rnd.nextInt(3) + 2);
-        //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(1, 1), new LinearAccel(0, 0), r);
+        BlobPath bp = squarePath(7,7);
+        //BlobPath bp = squarePath(rnd.nextInt(5) + 5,rnd.nextInt(3) + 2);
+        //BlobPath bp = backAndForth(8, 4);
+        //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(20, 20), new LinearAccel(0, 0), r);
         BlobSet bs = new BlobSet(10, p3, bp.vel, bp.acc, r);
         //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(10, 10), WeirdAccel.randomWeirdAccel(), r);
         bs.setWorld(inWorld);
@@ -211,7 +212,7 @@ public class GameFactory {
                 // wierd: if this is set to 5 (and bp above is 7) then vel/acc don't compose properly??
                 //BlobPath bp = jigglePath(rnd.nextInt(8));
                 //BlobPath bp = new BlobPath(zeroVelocity(), new LinearAccel(0, 0));
-                BlobPath bp = squarePath(rnd.nextInt(5) + 5,rnd.nextInt(3) + 2);
+                BlobPath bp = squarePath(rnd.nextInt(8) + 5,rnd.nextInt(5) + 4);
                 b.setAccel(bp.acc);
                 b.setVelocity(bp.vel);
                 b.setLifeTime(100000);

@@ -115,10 +115,14 @@ public class WeirdAccel implements AccelIF {
         // Disturbingly, I don't know why this change fixed things...
         //VelocityIF newvel = new BlobVelocity();
         //VelocityIF newvel = vel;
-        VelocityIF newvel = new BlobVelocity(xconf.vel, yconf.vel);
+        //VelocityIF newvel = new BlobVelocity(xconf.vel, yconf.vel);
         //newvel.setXVelocity(xconf.vel);
         //newvel.setYVelocity(yconf.vel);
-        return newvel;
+        //return newvel;
+
+        vel.setXVelocity(xconf.vel);
+        vel.setYVelocity(yconf.vel);
+        return vel;
     }
 
 }
