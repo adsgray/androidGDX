@@ -23,6 +23,9 @@ public abstract class BlobDecorator implements BlobIF {
     @Override public void setExtent(ExtentIF e) { component.setExtent(e); }
     @Override public void setLifeTime(Integer ticks) { component.setLifeTime(ticks); }
 
+    // this is a big problem because
+    @Override public BlobIF absorbBlob(BlobIF b) { component = component.absorbBlob(b); return this; }
+
     @Override public void setWorld(WorldIF w) { 
         component.setWorld(w); 
         this.world = w; 

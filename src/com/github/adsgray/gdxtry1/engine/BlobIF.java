@@ -10,6 +10,7 @@ public interface BlobIF {
     public void setExtent(ExtentIF e);
     public void setAccel(AccelIF a);
     
+    public BlobIF absorbBlob(BlobIF b); // return self
     
     public WorldIF getWorld();
     public VelocityIF getVelocity();

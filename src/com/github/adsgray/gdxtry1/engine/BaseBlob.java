@@ -117,5 +117,13 @@ public class BaseBlob implements BlobIF {
         // also make some sound?
         return vec;
     }
+    @Override
+    public BlobIF absorbBlob(BlobIF b) {
+        // create an empty BlobSet
+        // put "this" into it
+        // put b into it
+        // return that BlobSet
+        return this;
+    }
    
 }
