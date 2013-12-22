@@ -93,7 +93,7 @@ public class BlobSet extends BaseBlob {
             // the absorbed blob stops moving.
             b = bt.transform(b);
         }
-        b.setAccel(new AccelComposeDecorator(b.getAccel(), acceleration));
+        //b.setAccel(new AccelComposeDecorator(b.getAccel(), acceleration));
         b.setVelocity(new VelocityComposeDecorator(b.getVelocity(), velocity));
         objs.add(b);
         

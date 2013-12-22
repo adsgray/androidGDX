@@ -180,7 +180,7 @@ public class GameFactory {
 
         PositionIF p1 = new BlobPosition(100,100);
         PositionIF p2 = new BlobPosition(150,150);
-        PositionIF p3 = new BlobPosition(150,150);
+        PositionIF p3 = new BlobPosition(250,250);
 
         // will have to compose velocities too...
         BlobIF b1 = new RectangleBlob(10, p1, zeroVelocity(), new LinearAccel(0, 0), r);
@@ -191,7 +191,9 @@ public class GameFactory {
         //inWorld.addBlobToWorld(b1);
         //inWorld.addBlobToWorld(b2);
 
-        BlobSet bs = new BlobSet(10, p3, new BlobVelocity(1, 1), new LinearAccel(0, 0), r);
+        BlobPath bp = jigglePath(5);
+        //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(1, 1), new LinearAccel(0, 0), r);
+        BlobSet bs = new BlobSet(10, p3, bp.vel, bp.acc, r);
         //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(10, 10), WeirdAccel.randomWeirdAccel(), r);
         bs.setWorld(inWorld);
         

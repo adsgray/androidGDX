@@ -65,4 +65,18 @@ public class BlobVelocity implements VelocityIF {
         return y;
     }
 
+    @Override
+    public PositionIF updatePosition(PositionIF pos) {
+        pos.setX(deltaX(pos.getX()));
+        pos.setY(deltaX(pos.getY()));
+        return pos;
+    }
+
+    @Override
+    public void accelerate(AccelIF a) {
+        VelocityIF vel = a.accellerate(this);
+        x = vel.getXVelocity();
+        y = vel.getYVelocity();
+    }
+
 }

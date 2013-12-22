@@ -60,7 +60,8 @@ public class MainPanel implements ApplicationListener {
 		        // TODO Auto-generated method stub
 		        Log.d("input", "screen swiped UP");
 		        //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
-		        GameFactory.populateWorldNonRandom(world, renderConfig);
+		        //GameFactory.populateWorldNonRandom(world, renderConfig);
+		        GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
 		    }
 
 		    @Override
