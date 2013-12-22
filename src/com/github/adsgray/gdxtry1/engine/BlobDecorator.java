@@ -24,6 +24,7 @@ public abstract class BlobDecorator implements BlobIF {
     @Override public void setSound(SoundIF s) { component.setSound(s); }
     @Override public void setExtent(ExtentIF e) { component.setExtent(e); }
     @Override public void setLifeTime(Integer ticks) { component.setLifeTime(ticks); }
+    @Override public void setTickPause(int ticks) { component.setTickPause(ticks); }
 
     @Override public BlobIF absorbBlob(BlobIF b) { component = component.absorbBlob(b); return this; }
     @Override public BlobIF absorbBlob(BlobIF b, BlobTransform bt) { component = component.absorbBlob(b, bt); return this; }

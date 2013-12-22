@@ -22,6 +22,7 @@ public interface BlobIF {
     public void setLifeTime(Integer ticks);
 
     public Boolean tick();
+    public void setTickPause(int ticks);
     public void render();
 
     public boolean intersects(BlobIF with);
