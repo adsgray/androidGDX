@@ -120,8 +120,9 @@ public class GameFactory {
         //BlobIF b2 = new CircleBlob(randomMass(), new BlobPosition(300,300), zeroVelocity(), new AccelRandomDecorator(a), r, smokeTrail);
         //BlobIF b2 = createSmokeTrailBlob(b1);
         
-        BlobIF ex = new ExplosionBlob(randomMass(), new BlobPosition(rnd.nextInt(500) + 200, rnd.nextInt(500) + 200), 
-                zeroVelocity(), a, r);
+        //BlobIF ex = new ExplosionBlob(randomMass(), new BlobPosition(rnd.nextInt(500) + 200, rnd.nextInt(500) + 200), zeroVelocity(), a, r);
+        ExplosionBlob ex = new ExplosionBlob(randomMass(), new BlobPosition(rnd.nextInt(500) + 200, rnd.nextInt(500) + 200), zeroVelocity(), a, r);
+        ex.setBlobSource(BlobFactory.explosionBlobSource);
         ex.setWorld(inWorld);
         inWorld.addBlobToWorld(ex);
 
@@ -180,7 +181,7 @@ public class GameFactory {
         bs.absorbBlob(b2, bt);
         bs.setLifeTime(1000000);
         
-        BlobIF bstrail = new BlobTrailDecorator(bs);
+        BlobIF bstrail = new BlobTrailDecorator(bs, BlobFactory.smokeTrailBlobSource);
         inWorld.addBlobToWorld(bstrail);
         //inWorld.addBlobToWorld(bs);
 
@@ -194,7 +195,7 @@ public class GameFactory {
         
         b.setWorld(inWorld);
         b.setLifeTime(10000);
-        b = new BlobTrailDecorator(b);
+        b = new BlobTrailDecorator(b, BlobFactory.smokeTrailBlobSource);
         inWorld.scheduleAddToWorld(b);
         return inWorld;
     }

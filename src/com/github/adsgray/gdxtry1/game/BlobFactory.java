@@ -2,6 +2,7 @@ package com.github.adsgray.gdxtry1.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
+import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
 
@@ -28,9 +29,18 @@ public class BlobFactory extends GameFactory {
         return b;
     }
     
+    // convenience when creating BlobTrailDecorators
+    static public BlobSource smokeTrailBlobSource = new BlobSource() {
+        @Override
+        public BlobIF generate(BlobIF parent) {
+            return createSmokeTrailBlob(parent);
+        }
+    };
+
     static Color[] explosionColors = new Color[] {
         Color.RED, Color.ORANGE, Color.MAGENTA
     };
+
     static private CircleConfig explosionBlob() {
         Color color = explosionColors[rnd.nextInt(explosionColors.length)];
         return new CircleConfig(color, rnd.nextFloat() * 7 + 5);
@@ -42,6 +52,14 @@ public class BlobFactory extends GameFactory {
         b.setWorld(c.getWorld());
         return b;       
     }
+    
+    // convenience when creating ExplosionBlobs
+    static public BlobSource explosionBlobSource = new BlobSource() {
+        @Override
+        public BlobIF generate(BlobIF parent) {
+            return createExplosionBlob(parent);
+        }
+    };
  
     public static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
         BlobIF b;
@@ -56,7 +74,7 @@ public class BlobFactory extends GameFactory {
         b.setExtent(randomExtent());
 
         if (rnd.nextInt(100) < 10) {
-            b = new BlobTrailDecorator(b);
+            b = new BlobTrailDecorator(b, BlobFactory.smokeTrailBlobSource);
         }
 
         // possibly stack some decorators:

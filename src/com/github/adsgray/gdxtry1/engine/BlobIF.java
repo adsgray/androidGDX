@@ -43,6 +43,6 @@ public interface BlobIF {
     }
     
     public abstract static class BlobSource {
-        public abstract BlobIF generate(WorldIF inWorld, RenderConfig r);
+        public abstract BlobIF generate(BlobIF parent);
     }
 }

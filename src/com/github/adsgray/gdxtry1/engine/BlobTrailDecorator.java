@@ -10,19 +10,21 @@ public class BlobTrailDecorator extends BlobDecorator {
     protected int step = 3;
     protected int count = 0;
     protected int lifetime = 25;
+    protected BlobSource bs;
 
-    public BlobTrailDecorator(BlobIF component) {
+    // Coleen Jones "Christmas Tree" of constructors.
+    public BlobTrailDecorator(BlobIF component, BlobSource bs) {
         super(component);
+        this.bs = bs;
     }
 
-    public BlobTrailDecorator(BlobIF component, int step) {
-        super(component);
+    public BlobTrailDecorator(BlobIF component, BlobSource bs, int step) {
+        this(component, bs);
         this.step = step;
     }
 
-    public BlobTrailDecorator(BlobIF component, int step, int lifetime) {
-        super(component);
-        this.step = step;
+    public BlobTrailDecorator(BlobIF component, BlobSource bs, int step, int lifetime) {
+        this(component, bs, step);
         this.lifetime = lifetime;
     }
    
@@ -47,7 +49,7 @@ public class BlobTrailDecorator extends BlobDecorator {
                 WeirdAccel.randomWeirdAccel(), component.getRenderer());
                 */
 
-        BlobIF b = BlobFactory.createSmokeTrailBlob(component);
+        BlobIF b = bs.generate(component);
         b.setLifeTime(lifetime);
         
         world.scheduleEphemeralAddToWorld(b);
