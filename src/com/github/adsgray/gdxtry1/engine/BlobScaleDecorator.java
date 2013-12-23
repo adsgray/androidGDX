@@ -37,7 +37,7 @@ public class BlobScaleDecorator extends BlobDecorator {
         rc.scale(scalefactor);
         tickInterval = entries[curRow][1];
        
-        return true;
+        return ret;
     }
 
 }
