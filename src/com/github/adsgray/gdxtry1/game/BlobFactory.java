@@ -32,7 +32,7 @@ public class BlobFactory extends GameFactory {
    
     public static BlobIF createSmokeTrailBlob(BlobIF c) {
         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
-                PathFactory.explosionAccel(), c.getRenderer(), smokeTrail());
+                PathFactory.smokeTrailAccel(), c.getRenderer(), smokeTrail());
         b = new BlobCrazyAccelDecorator(b);
         b.setWorld(c.getWorld());
         return b;

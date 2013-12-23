@@ -10,7 +10,7 @@ public class RandomAccel extends LinearAccel {
     protected Random rnd = new Random();
     
     protected int getRandomInBounds() {
-        int num = rnd.nextInt(2 * max) - max;
+        int num = rnd.nextInt(2 * max) - max + 1;
         if (num > 0) num += min; else num -= min;
         return num;
     }
