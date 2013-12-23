@@ -4,13 +4,16 @@ import android.util.Log;
 
 public class LinearAccel implements AccelIF {
 
-    private Integer x;
-    private Integer y;
+    protected Integer x;
+    protected Integer y;
 
     public LinearAccel(Integer xin, Integer yin) {
         x = xin;
         y = yin;
     }
+    
+    // dangerous
+    public LinearAccel() {}
 
     @Override
     public VelocityIF accellerate(VelocityIF vel) {

@@ -32,7 +32,7 @@ public class BlobFactory extends GameFactory {
    
     public static BlobIF createSmokeTrailBlob(BlobIF c) {
         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
-                WeirdAccel.randomWeirdAccel(), c.getRenderer(), smokeTrail());
+                PathFactory.explosionAccel(), c.getRenderer(), smokeTrail());
         b = new BlobCrazyAccelDecorator(b);
         b.setWorld(c.getWorld());
         return b;
@@ -56,8 +56,8 @@ public class BlobFactory extends GameFactory {
     }
     public static BlobIF createExplosionBlob(BlobIF c) {
          BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
-                WeirdAccel.randomWeirdAccel(), c.getRenderer(), explosionBlob());
-        b = new BlobCrazyAccelDecorator(b);
+                PathFactory.explosionAccel(), c.getRenderer(), explosionBlob());
+        //b = new BlobCrazyAccelDecorator(b);
         b.setWorld(c.getWorld());
         return b;       
     }
@@ -169,10 +169,12 @@ public class BlobFactory extends GameFactory {
                 { 1250, 2 },
                 { 1250, 1 },
                 { 1250, 2 },
+                { 1250, 1 },
                 { 800, 1 },
                 { 800, 2 },
                 { 800, 1 },
                 { 800, 2 },
+                { 800, 1 },
         };
         return new BlobScaleDecorator(in, entries);
     }

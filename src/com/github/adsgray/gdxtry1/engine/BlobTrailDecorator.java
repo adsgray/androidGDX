@@ -44,11 +44,6 @@ public class BlobTrailDecorator extends BlobDecorator {
         
         count = 0;
         
-        /*
-        BlobIF b = new ShrinkingCircleBlob(0, component.getPosition(), component.getVelocity(), 
-                WeirdAccel.randomWeirdAccel(), component.getRenderer());
-                */
-
         BlobIF b = bs.generate(component);
         b.setLifeTime(lifetime);
         

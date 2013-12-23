@@ -24,6 +24,10 @@ public class PathFactory extends GameFactory {
         return new BlobPath(vel, accel);
     }
     
+    public static AccelIF explosionAccel() {
+        return new RandomAccel(1, 5, 1);
+    }
+
     public static BlobPath squarePath(int speed, int interval) {
         
         VelocityIF vel = new BlobVelocity(0,-speed);
