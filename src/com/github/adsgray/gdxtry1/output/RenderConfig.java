@@ -32,8 +32,8 @@ public class RenderConfig {
         public float w;
         public float h;
 
-        @Override public void scale(float factor) { w *= factor; h *= factor; } @Override
-        public void setColor(Color c) { color = c; }
+        @Override public void scale(float factor) { w *= factor; h *= factor; } 
+        @Override public void setColor(Color c) { color = c; }
     }
     
     public RectConfig randomRectConfig() {

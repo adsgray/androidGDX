@@ -88,7 +88,7 @@ public class BlobFactory extends GameFactory {
     
     private static Color oozeColor = new Color(0.2f, 0.2f, 0.2f, 0.0f);
     private static CircleConfig oozeCircle() {
-        return new CircleConfig(oozeColor, 9.0f);
+        return new CircleConfig(oozeColor, 18.0f);
     };
 
     private static BlobIF createOozeComponent(RenderConfig r, PositionIF pos) {
@@ -119,5 +119,20 @@ public class BlobFactory extends GameFactory {
         }
 
         return bs;
+    }
+    
+    public static BlobIF throbber(BlobIF in) {
+        // floating point doesn't drift us here thankfully
+        int[][] entries = new int[][] {
+                { 1250, 1 },
+                { 1250, 2 },
+                { 1250, 1 },
+                { 1250, 2 },
+                { 800, 1 },
+                { 800, 2 },
+                { 800, 1 },
+                { 800, 2 },
+        };
+        return new BlobScaleDecorator(in, entries);
     }
 }
