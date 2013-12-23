@@ -20,13 +20,20 @@ public class RenderConfig {
         spriteBatch = sb;
     }
     
+    public static interface RenderConfigIF {
+        public void scale(float factor);
+        public void setColor(Color c);
+    }
 
     // Unashamedly using this like a C struct.
     // 
-    public static class RectConfig {
+    public static class RectConfig implements RenderConfigIF {
         public Color color;
         public float w;
         public float h;
+
+        @Override public void scale(float factor) { w *= factor; h *= factor; } @Override
+        public void setColor(Color c) { color = c; }
     }
     
     public RectConfig randomRectConfig() {
@@ -37,7 +44,7 @@ public class RenderConfig {
         return rc;
     }
     
-    public static class CircleConfig {
+    public static class CircleConfig implements RenderConfigIF {
         public CircleConfig(Color color, float radius) {
             this.color = color;
             this.radius = radius;
@@ -46,6 +53,9 @@ public class RenderConfig {
 
         public Color color;
         public float radius;
+
+        @Override public void scale(float factor) { radius *= factor; }
+        @Override public void setColor(Color c) { color = c; }
     }
 
     public CircleConfig randomCircleConfig() {

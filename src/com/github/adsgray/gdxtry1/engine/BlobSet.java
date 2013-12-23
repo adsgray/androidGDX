@@ -6,7 +6,9 @@ import java.util.Set;
 
 import android.util.Log;
 
+import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 
 // BlobSet is like a mini-world: it has responsibility/control of Blobs.
 public class BlobSet extends BaseBlob {
@@ -14,11 +16,26 @@ public class BlobSet extends BaseBlob {
     protected Set<BlobIF> objs;
     protected Set<BlobIF> toRemove;
     
+    // to scale a BlobSet you scale all of its children
+    protected class BlobsetRenderConfig implements RenderConfigIF {
+        @Override
+        public void scale(float factor) {
+            Iterator<BlobIF> iter = objs.iterator();
+            while (iter.hasNext()) {
+                iter.next().getRenderConfig().scale(factor);
+            }
+        }
+
+        @Override
+        public void setColor(Color c) { /* ignore for now */ }
+    }
+    
     public BlobSet(Integer massin, PositionIF posin, VelocityIF velin,
             AccelIF accel, RenderConfig gdx) {
         super(massin, posin, velin, accel, gdx);
         objs = new HashSet<BlobIF>();
         toRemove = new HashSet<BlobIF>();
+        renderConfig = new BlobsetRenderConfig();
     }
 
     /* called by outside controller to tell this Blob

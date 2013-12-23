@@ -2,6 +2,7 @@ package com.github.adsgray.gdxtry1.engine;
 
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 
 public class CircleBlob extends BaseBlob {
 
@@ -11,12 +12,14 @@ public class CircleBlob extends BaseBlob {
         super(massin, posin, velin, accel, gdx);
 
         circleConfig = renderer.randomCircleConfig();
+        renderConfig = circleConfig;
     }     
 
     public CircleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx, CircleConfig cc) {
         super(massin, posin, velin, accel, gdx);
 
         circleConfig = cc;
+        renderConfig = circleConfig;
     }     
 
     @Override

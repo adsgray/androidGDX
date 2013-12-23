@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.github.adsgray.gdxtry1.output.*;
 import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 
 import android.util.Log;
 
@@ -17,17 +18,18 @@ public class RectangleBlob extends BaseBlob {
     /* every Blob has a renderer and a config object that tells the renderer how to draw this Blob */
     protected RectConfig rectConfig;
     
-    
     public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
         super(massin, posin, velin, accel, gdx);
         // TODO have these render specific options passed in somehow
         rectConfig = renderer.randomRectConfig();
+        renderConfig = rectConfig;
     }
  
     public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx, RectConfig rc) {
         super(massin, posin, velin, accel, gdx);
         // TODO have these render specific options passed in somehow
         rectConfig = rc;
+        renderConfig = rectConfig;
     }
 
     /* split this blob up into numPieces new blobs.
@@ -50,5 +52,4 @@ public class RectangleBlob extends BaseBlob {
     public void render() {
         renderer.renderRect(this, rectConfig);
     }
-
 }

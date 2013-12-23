@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.github.adsgray.gdxtry1.output.NullSound;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 import com.github.adsgray.gdxtry1.output.SoundIF;
 
 public class BaseBlob implements BlobIF {
@@ -46,6 +47,9 @@ public class BaseBlob implements BlobIF {
     protected int minTriggerTick = 25; // don't fire triggers until after this number of ticks
 
     protected RenderConfig renderer;
+    protected RenderConfigIF renderConfig;
+
+    @Override public RenderConfigIF getRenderConfig() { return renderConfig; }
 
     public BaseBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
         mass = massin;

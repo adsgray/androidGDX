@@ -1,6 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
 import com.github.adsgray.gdxtry1.output.*;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 
 public interface BlobIF {
     public PositionIF getPosition();
@@ -21,6 +22,7 @@ public interface BlobIF {
     public VelocityIF getVelocity();
     public AccelIF getAccel();
     public RenderConfig getRenderer();
+    public RenderConfigIF getRenderConfig();
     
     public void setLifeTime(Integer ticks);
 
