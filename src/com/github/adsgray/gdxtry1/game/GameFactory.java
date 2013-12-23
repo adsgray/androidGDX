@@ -195,7 +195,8 @@ public class GameFactory {
         BlobPath launch = PathFactory.launchUp();
         //BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
         //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
-        BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r, BlobFactory.blackOozeBlobSource));
+        //BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r));
+        BlobIF b = BlobFactory.throbber(BlobFactory.createPrizeBlob(inWorld, r));
         b.setPosition(new BlobPosition(rnd.nextInt(400) + 100, 0));
         b.setPath(launch);
         
@@ -243,11 +244,20 @@ public class GameFactory {
         return inWorld;
     }
     
+    private static BlobIF randomSpinnerBlob(WorldIF inWorld, RenderConfig r) {
+        if (rnd.nextInt(100) < 50) {
+            return BlobFactory.createOozeBlob(inWorld, r);
+        } else {
+            return BlobFactory.createPrizeBlob(inWorld, r);
+        }
+    }
+
     public static WorldIF populateWorldOoze(WorldIF inWorld, RenderConfig r) {
-        BlobIF ooze = BlobFactory.createOozeBlob(inWorld, r, BlobFactory.blackOozeBlobSource);
+        BlobIF ooze = randomSpinnerBlob(inWorld, r);
+        //BlobIF ooze = BlobFactory.createPrizeBlob(inWorld, r);
         //BlobPath p = PathFactory.jigglePath(10);
-        //BlobPath p = PathFactory.upperTriangle(5, 3);
-        //ooze.setPath(p);
+        BlobPath p = PathFactory.upperTriangle(5, 3);
+        ooze.setPath(p);
         //inWorld.addBlobToWorld(new BlobIgnoreTickDecorator(BlobFactory.throbber(ooze), rnd.nextInt(2) + 1));
         inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
         return inWorld;

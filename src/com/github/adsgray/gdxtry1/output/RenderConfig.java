@@ -31,6 +31,13 @@ public class RenderConfig {
         public Color color;
         public float w;
         public float h;
+        
+        public RectConfig() {}
+        public RectConfig(Color color, float w, float h) {
+            this.color = color;
+            this.w = w;
+            this.h = h;
+        }
 
         @Override public void scale(float factor) { w *= factor; h *= factor; } 
         @Override public void setColor(Color c) { color = c; }

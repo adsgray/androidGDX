@@ -5,14 +5,23 @@ import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
 
 public class BlobFactory extends GameFactory {
 
     static Color[] colors = new Color[] {
-        Color.RED,Color.BLACK,Color.BLUE,Color.CYAN,Color.GREEN,
+        //Color.RED,Color.BLACK,Color.BLUE,Color.CYAN,Color.GREEN,
+        //Color.MAGENTA,Color.ORANGE,Color.PINK,Color.YELLOW,
+        //Color.WHITE
+        Color.RED,Color.BLUE,Color.CYAN,Color.GREEN,
         Color.MAGENTA,Color.ORANGE,Color.PINK,Color.YELLOW,
-        Color.WHITE
     };
+    
+    private static Color randomColor() {
+        return colors[rnd.nextInt(colors.length)];
+    }
+    
+
     static private CircleConfig smokeTrail() {
         //return new CircleConfig(Color.GRAY, 7);
         //static Vector<Color> colors = new Vector<Color>();
@@ -103,19 +112,34 @@ public class BlobFactory extends GameFactory {
             return createBlackOozeComponent(parent);
         }
     };
+    
+    private static RectConfig prizeRectangle() {
+        return new RectConfig(randomColor(), 25, 25);
+    }
 
-    // TODO: make numComponents an argument
-    public static BlobIF createOozeBlob(WorldIF inWorld, RenderConfig r, BlobSource blobSource) {
+    private static BlobIF createPrizeComponent(BlobIF parent) {
+        BlobPath p = PathFactory.squarePath(10, 3);
+        BlobIF b = new RectangleBlob(0, null, p.vel, p.acc, parent.getRenderer(), prizeRectangle());
+        return b;
+    }
+    
+    static public BlobSource prizeBlobSource = new BlobSource() {
+        @Override
+        public BlobIF generate(BlobIF parent) {
+            return createPrizeComponent(parent);
+        }
+    };
+
+    public static BlobIF createSpinnerBlobset(WorldIF inWorld, RenderConfig r, BlobSource blobSource, int numComponents, int posStep) {
         BlobIF bs = new BlobSet(10, randomPosition(), zeroVelocity(), zeroAccel(), r);
         bs.setWorld(inWorld);
         bs.setLifeTime(100000);
         
-        int numComponents = 3;
         while (numComponents > 0) {
             // put them all in the same place (BlobSet position)
             PositionIF pos = new BlobPosition(bs.getPosition());
-            pos.setX(pos.getX() - numComponents);
-            pos.setY(pos.getY() - numComponents);
+            pos.setX(pos.getX() - numComponents * posStep);
+            pos.setY(pos.getY() - numComponents * posStep);
             BlobIF o = blobSource.generate(bs);
             o.setPosition(pos);
             // each of them will start moving at a different time:
@@ -129,7 +153,15 @@ public class BlobFactory extends GameFactory {
 
         return bs;
     }
+ 
+    public static BlobIF createOozeBlob(WorldIF inWorld, RenderConfig r) {
+        return createSpinnerBlobset(inWorld, r, blackOozeBlobSource, 3, 1);
+    }
     
+    public static BlobIF createPrizeBlob(WorldIF inWorld, RenderConfig r) {
+        return createSpinnerBlobset(inWorld, r, prizeBlobSource, 4, 3);
+    }
+   
     public static BlobIF throbber(BlobIF in) {
         // floating point doesn't drift us here thankfully
         int[][] entries = new int[][] {
