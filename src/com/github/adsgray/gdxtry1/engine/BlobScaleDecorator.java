@@ -17,6 +17,11 @@ public class BlobScaleDecorator extends BlobDecorator {
         tickInterval = entries[0][1];
     }
     
+    protected void doScaling(float factor) {
+        RenderConfigIF rc = component.getRenderConfig();
+        rc.scale(factor);
+    }
+
     @Override public Boolean tick() {
         Boolean ret = component.tick();
  
@@ -28,15 +33,11 @@ public class BlobScaleDecorator extends BlobDecorator {
         
         curTick = 0;
               
-        RenderConfigIF rc = component.getRenderConfig();
-        // do stuff
-
         curRow = (curRow + 1) % numRows;
         // hack to get a float out of an int...
         float scalefactor = (float)entries[curRow][0] / 1000f;
-        rc.scale(scalefactor);
+        doScaling(scalefactor);
         tickInterval = entries[curRow][1];
-       
         return ret;
     }
 

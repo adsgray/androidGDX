@@ -34,6 +34,14 @@ public class BlobSet extends BaseBlob {
                 iter.next().getRenderConfig().setColor(c);
             }
         }
+
+        @Override
+        public void scaleColor(float factor) {
+            Iterator<BlobIF> iter = objs.iterator();
+            while (iter.hasNext()) {
+                iter.next().getRenderConfig().scaleColor(factor);
+            }
+        }
     }
     
     public BlobSet(Integer massin, PositionIF posin, VelocityIF velin,

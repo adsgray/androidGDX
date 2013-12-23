@@ -23,24 +23,37 @@ public class RenderConfig {
     public static interface RenderConfigIF {
         public void scale(float factor);
         public void setColor(Color c);
+        public void scaleColor(float factor);
+    }
+    
+    public static abstract class BaseRenderConfig implements RenderConfigIF {
+        public Color color;
+        
+        public BaseRenderConfig() {}
+        public BaseRenderConfig(Color color) { this.color = color; }
+
+        // scale(float factor) must be implemented by subclasses
+
+        @Override public void setColor(Color c) { color = c; }
+        @Override public void scaleColor(float factor) { 
+            color = new Color(color.r * factor, color.g * factor, color.b * factor, color.a);
+        }
+        
     }
 
     // Unashamedly using this like a C struct.
-    // 
-    public static class RectConfig implements RenderConfigIF {
-        public Color color;
+    public static class RectConfig extends BaseRenderConfig {
         public float w;
         public float h;
         
         public RectConfig() {}
         public RectConfig(Color color, float w, float h) {
-            this.color = color;
+            super(color);
             this.w = w;
             this.h = h;
         }
 
         @Override public void scale(float factor) { w *= factor; h *= factor; } 
-        @Override public void setColor(Color c) { color = c; }
     }
     
     public RectConfig randomRectConfig() {
@@ -51,18 +64,16 @@ public class RenderConfig {
         return rc;
     }
     
-    public static class CircleConfig implements RenderConfigIF {
+    public static class CircleConfig extends BaseRenderConfig {
         public CircleConfig(Color color, float radius) {
-            this.color = color;
+            super(color);
             this.radius = radius;
         }
-        public CircleConfig() {}
 
-        public Color color;
+        public CircleConfig() {}
         public float radius;
 
         @Override public void scale(float factor) { radius *= factor; }
-        @Override public void setColor(Color c) { color = c; }
     }
 
     public CircleConfig randomCircleConfig() {

@@ -260,6 +260,7 @@ public class GameFactory {
         ooze.setPath(p);
         //inWorld.addBlobToWorld(new BlobIgnoreTickDecorator(BlobFactory.throbber(ooze), rnd.nextInt(2) + 1));
         //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
+        ooze = BlobFactory.throbber(ooze);
         inWorld.addBlobToWorld(BlobFactory.rainbowColorCycler(ooze, 1));
         return inWorld;
     }
