@@ -41,4 +41,8 @@ public interface BlobIF {
     public abstract static class BlobTransform {
         public abstract BlobIF transform(BlobIF b);
     }
+    
+    public abstract static class BlobSource {
+        public abstract BlobIF generate(WorldIF inWorld, RenderConfig r);
+    }
 }

@@ -16,7 +16,7 @@ public class BaseBlob implements BlobIF {
     protected static final Integer MAX_TICKS = 250; // die after this number of ticks
 
     protected Integer ticks; // how many ticks this Blob has been alive for 
-    protected Integer tickPause; // freeze for this many ticks
+    protected Integer tickPause = 0; // freeze for this many ticks
     protected Integer maxTicks = MAX_TICKS; // when Blob reaches this number of ticks it'll remove itself from World
 
     protected Integer mass;

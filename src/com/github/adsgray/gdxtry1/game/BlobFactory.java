@@ -19,6 +19,7 @@ public class BlobFactory extends GameFactory {
         //Color color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
         return new CircleConfig(Color.GRAY, 7);
     }
+   
     public static BlobIF createSmokeTrailBlob(BlobIF c) {
         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
                 WeirdAccel.randomWeirdAccel(), c.getRenderer(), smokeTrail());
@@ -28,7 +29,7 @@ public class BlobFactory extends GameFactory {
     }
     
     static Color[] explosionColors = new Color[] {
-        Color.RED, Color.ORANGE
+        Color.RED, Color.ORANGE, Color.MAGENTA
     };
     static private CircleConfig explosionBlob() {
         Color color = explosionColors[rnd.nextInt(explosionColors.length)];
@@ -66,5 +67,12 @@ public class BlobFactory extends GameFactory {
         inWorld.addBlobToWorld(b);
         return b;
     }
-     
+    
+    public static BlobIF createOozeBlob(WorldIF inWorld, RenderConfig r) {
+        BlobIF bs = new BlobSet(10, randomPosition(), zeroVelocity(), zeroAccel(), r);
+        bs.setWorld(inWorld);
+        bs.setLifeTime(100000);
+        return bs;
+    }
+    
 }

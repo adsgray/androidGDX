@@ -11,8 +11,8 @@ public abstract class AccelDecorator implements AccelIF {
 
     @Override
     public VelocityIF accellerate(VelocityIF vel) {
-        // TODO Auto-generated method stub
-        return component.accellerate(vel);
+        vel.accelerate(component);
+        return vel;
     }
 
 }

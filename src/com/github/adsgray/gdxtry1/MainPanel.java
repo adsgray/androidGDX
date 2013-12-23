@@ -41,7 +41,8 @@ public class MainPanel implements ApplicationListener {
 	private void populateWorld() {
 	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
 	    //GameFactory.populateWorldNonRandom(world, renderConfig);
-	    GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
+	    //GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
+	    GameFactory.populateWorldLaunchUp(world, renderConfig);
 	}
 
 	@Override

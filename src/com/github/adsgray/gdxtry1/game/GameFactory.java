@@ -19,7 +19,11 @@ public class GameFactory {
     }
     
     public static Random rnd = new Random();
-    
+   
+    static private Color randomColor() {
+        return new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
+    }
+  
     // this should be a property of world?
     private static final int BOUNDS_X = 480;
     private static final int BOUNDS_Y = 800;
@@ -87,17 +91,26 @@ public class GameFactory {
         return inWorld;
     }
 
-    private static VelocityIF zeroVelocity() {
-        VelocityIF v = new BlobVelocity(0,0);
-        return v;
+    public static VelocityIF zeroVelocity() {
+        return new BlobVelocity(0,0);
     }
+    
+    public static AccelIF zeroAccel() {
+        return new LinearAccel(0, 0);
+    }
+
     public static WorldIF populateWorldNonRandom(WorldIF inWorld, RenderConfig r) {
         AccelIF a = new LinearAccel(0, 0);
 
+        BlobPath p = PathFactory.upperTriangle(5, 2);
+
         //BlobPath p = jigglePath(10);
-        BlobPath p = PathFactory.squarePath(5, 5);
+        //BlobPath p = PathFactory.squarePath(5, 5);
         //BlobPath p = trianglePath(4, 4);
-        //BlobPath p = backAndForth(10, 1);
+
+        //BlobPath p = PathFactory.backAndForth(10, 1);
+        //BlobPath p = PathFactory.upAndDown(10, 1);
+
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), zeroVelocity(), a, r);
         //BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), new BlobVelocity(100,0), a, r);
         BlobIF b1 = new RectangleBlob(randomMass(), new BlobPosition(400, 400), p.vel, p.acc, r);
@@ -126,7 +139,7 @@ public class GameFactory {
 
         PositionIF p1 = new BlobPosition(400,400);
         PositionIF p2 = new BlobPosition(450,450);
-        PositionIF p3 = new BlobPosition(250,250);
+        PositionIF p3 = new BlobPosition(400,400);
 
         // will have to compose velocities too...
         BlobIF b1 = new RectangleBlob(10, p1, zeroVelocity(), new LinearAccel(0, 0), r);
@@ -138,11 +151,11 @@ public class GameFactory {
         //inWorld.addBlobToWorld(b2);
 
         //BlobPath bp = jigglePath(7);
-        BlobPath bp = PathFactory.squarePathClockwise(7, 7);
+        //BlobPath bp = PathFactory.squarePathClockwise(15, 1);
         //BlobPath bp = trianglePath(7,7);
-        //BlobPath bp = squarePath(rnd.nextInt(5) + 5,rnd.nextInt(3) + 2);
-        //BlobPath bp = backAndForth(8, 4);
-        //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(20, 20), new LinearAccel(0, 0), r);
+        BlobPath bp = PathFactory.squarePath(rnd.nextInt(5) + 5,rnd.nextInt(3) + 2);
+        //BlobPath bp = PathFactory.backAndForth(8, 4);
+        //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(1, 1), new LinearAccel(0, 0), r);
         BlobSet bs = new BlobSet(10, p3, bp.vel, bp.acc, r);
         //BlobSet bs = new BlobSet(10, p3, new BlobVelocity(10, 10), WeirdAccel.randomWeirdAccel(), r);
         bs.setWorld(inWorld);
@@ -153,7 +166,7 @@ public class GameFactory {
                 // wierd: if this is set to 5 (and bp above is 7) then vel/acc don't compose properly??
                 //BlobPath bp = jigglePath(rnd.nextInt(8));
                 //BlobPath bp = new BlobPath(zeroVelocity(), new LinearAccel(0, 0));
-                BlobPath bp = PathFactory.squarePath(rnd.nextInt(8) + 5,rnd.nextInt(5) + 4);
+                BlobPath bp = PathFactory.upperTriangle(rnd.nextInt(4) + 2,rnd.nextInt(2) + 1);
                 b.setAccel(bp.acc);
                 b.setVelocity(bp.vel);
                 b.setLifeTime(100000);
@@ -167,9 +180,22 @@ public class GameFactory {
         bs.absorbBlob(b2, bt);
         bs.setLifeTime(1000000);
         
-        //BlobIF bstrail = new BlobTrailDecorator(bs);
-        inWorld.addBlobToWorld(bs);
+        BlobIF bstrail = new BlobTrailDecorator(bs);
+        inWorld.addBlobToWorld(bstrail);
+        //inWorld.addBlobToWorld(bs);
 
+        return inWorld;
+    }
+    
+    
+    public static WorldIF populateWorldLaunchUp(WorldIF inWorld, RenderConfig r) {
+        BlobPath launch = PathFactory.launchUp();
+        BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
+        
+        b.setWorld(inWorld);
+        b.setLifeTime(10000);
+        b = new BlobTrailDecorator(b);
+        inWorld.scheduleAddToWorld(b);
         return inWorld;
     }
     

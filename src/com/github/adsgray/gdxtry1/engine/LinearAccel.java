@@ -19,7 +19,7 @@ public class LinearAccel implements AccelIF {
         //return newvel;
 
         vel.setXVelocity(vel.getXVelocity() + x);
-        vel.setXVelocity(vel.getYVelocity() + y);
+        vel.setYVelocity(vel.getYVelocity() + y);
         return vel;
     }
 

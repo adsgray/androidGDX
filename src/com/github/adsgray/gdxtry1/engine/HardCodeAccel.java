@@ -37,14 +37,19 @@ public class HardCodeAccel implements AccelIF {
         
         curTick = 0;
         //Log.d("Accel", String.format("curRow is %d", curRow));
-        Log.d("Accel", String.format("x=%d y=%d", entries[curRow][0], entries[curRow][1]));
+        //Log.d("Accel", String.format("x=%d y=%d", entries[curRow][0], entries[curRow][1]));
         
         //VelocityIF outvel = new BlobVelocity(entries[curRow][0], entries[curRow][1]);
-        vel.setXVelocity(entries[curRow][0]);
-        vel.setYVelocity(entries[curRow][1]);
+        vel.setXVelocity(vel.getXVelocity() + entries[curRow][0]);
+        vel.setYVelocity(vel.getYVelocity() + entries[curRow][1]);
 
         curRow = (curRow + 1) % numRows;
         tickInterval = entries[curRow][2];
+        
+        // if interval is zero, do the next step as well
+        if (tickInterval == 0) {
+            return accellerate(vel);
+        }
 
         return vel;
     }

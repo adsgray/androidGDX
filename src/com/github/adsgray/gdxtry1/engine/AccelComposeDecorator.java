@@ -11,8 +11,22 @@ public class AccelComposeDecorator extends AccelDecorator {
 
     @Override
     public VelocityIF accellerate(VelocityIF vel) {
-        // TODO Auto-generated method stub
-        return primary.accellerate(component.accellerate(vel));
+
+        // accelerate with the component
+        //VelocityIF temp = new BlobVelocity(super.accellerate(vel));
+        // now accel with primary and them together
+        //vel.accelerate(primary);
+        super.accellerate(vel);
+        primary.accellerate(vel);
+        //vel.accelerate(super.accellerate(vel));
+        
+        //vel.setXVelocity(vel.deltaX(temp.getXVelocity()));
+        //vel.setYVelocity(vel.deltaY(temp.getYVelocity()));
+        
+        //vel.setXVelocity(vel.getXVelocity() + temp.getXVelocity());
+        //vel.setYVelocity(vel.getYVelocity() + temp.getYVelocity());
+
+        return vel;
     }
 
 }
