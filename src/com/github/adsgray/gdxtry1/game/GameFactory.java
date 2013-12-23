@@ -207,7 +207,8 @@ public class GameFactory {
             }
         };
         
-        b.registerAxisTrigger(BlobIF.Axis.Y, 0, bt);
+        // register so that when y==0 in b.position the trigger will fire
+        b.getPosition().registerAxisTrigger(PositionIF.Axis.Y, 0, bt);
         
         return b;
     }

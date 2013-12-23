@@ -42,9 +42,6 @@ public class BaseBlob implements BlobIF {
     @Override public void setLifeTime(Integer ticks) { maxTicks = ticks; }
     @Override public void setPath(BlobPath p) { setVelocity(p.vel); setAccel(p.acc); }
 
-    // map from position value to trigger
-    protected HashMap<Integer, BlobTrigger> xAxisTriggers;
-    protected HashMap<Integer, BlobTrigger> yAxisTriggers;
     private int minTriggerTick = 25; // don't fire triggers until after this number of ticks
 
     protected RenderConfig renderer;
@@ -56,8 +53,6 @@ public class BaseBlob implements BlobIF {
         acceleration = accel;
         renderer = gdx;
         ticks = 0;
-        xAxisTriggers = new HashMap<Integer, BlobTrigger>();
-        yAxisTriggers = new HashMap<Integer, BlobTrigger>();
     }
 
     /* called by outside controller to tell this Blob
@@ -80,7 +75,7 @@ public class BaseBlob implements BlobIF {
         velocity.accelerate(acceleration);
         
         if (ticks > minTriggerTick) {
-            handleTriggers();
+            position.handleTriggers(this);
         }
         
         ticks += 1;
@@ -168,27 +163,5 @@ public class BaseBlob implements BlobIF {
         tickPause = ticks;
     }
     
-    
-    @Override
-    public void registerAxisTrigger(Axis type, int val, BlobTrigger trigger) {
-        switch (type) {
-        case X:
-            xAxisTriggers.put(val, trigger);
-            break;
-        case Y:
-            yAxisTriggers.put(val, trigger);
-            break;
-        }
-    }
-    
-    protected void handleTrigger(HashMap<Integer, BlobTrigger> set, Integer pos) {
-        if (set.containsKey(pos)) {
-            BlobTrigger t = set.get(pos);
-            t.trigger(this);
-        }
-    }
-    protected void handleTriggers() {
-        handleTrigger(xAxisTriggers, position.getX());
-        handleTrigger(yAxisTriggers, position.getY());
-    }
+   
 }

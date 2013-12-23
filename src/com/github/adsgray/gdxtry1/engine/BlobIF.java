@@ -41,10 +41,5 @@ public interface BlobIF {
     public abstract static class BlobTrigger {
         public abstract BlobIF trigger(BlobIF source);
     }
-    
-    public enum Axis {
-        X,Y
-    }
-    
-    public void registerAxisTrigger(Axis type, int val, BlobTrigger trigger);
+
 }
