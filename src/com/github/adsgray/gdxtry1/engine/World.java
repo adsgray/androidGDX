@@ -47,10 +47,10 @@ public class World implements WorldIF {
     @Override
     public Boolean removeBlobFromWorld(BlobIF b) {
         if (objs.contains(b)) {
-            Log.d("trace", "removing blob from world");
+            //Log.d("trace", "removing blob from world");
             return objs.remove(b);
         } else if (ephemerals.contains(b)) {
-            Log.d("trace", "removing ephemeral from world");
+            //Log.d("trace", "removing ephemeral from world");
             return ephemerals.remove(b);
         } 
         return false;
@@ -75,7 +75,7 @@ public class World implements WorldIF {
         Iterator<BlobIF> iter = toRemove.iterator();
         
         while (iter.hasNext()) {
-            Log.d("trace", "trying to remove blob from world");
+            //Log.d("trace", "trying to remove blob from world");
             removeBlobFromWorld(iter.next());
         }
         

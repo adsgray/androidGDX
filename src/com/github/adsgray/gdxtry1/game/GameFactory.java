@@ -6,6 +6,7 @@ import java.util.Vector;
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
+import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
 
@@ -187,16 +188,38 @@ public class GameFactory {
 
         return inWorld;
     }
-    
-    
-    public static WorldIF populateWorldLaunchUp(WorldIF inWorld, RenderConfig r) {
+ 
+    private static BlobIF createLaunchUpBlob(WorldIF inWorld, RenderConfig r) {
         BlobPath launch = PathFactory.launchUp();
         BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
         
         b.setWorld(inWorld);
-        b.setLifeTime(10000);
+        b.setLifeTime(200);
         b = new BlobTrailDecorator(b, BlobFactory.smokeTrailBlobSource);
+        b.setTickPause(rnd.nextInt(15));
         inWorld.scheduleAddToWorld(b);
+        
+        BlobTrigger bt = new BlobTrigger() {
+            @Override
+            public BlobIF trigger(BlobIF source) {
+                source.setPath(PathFactory.launchUp());
+                return source;
+            }
+        };
+        
+        b.registerAxisTrigger(BlobIF.Axis.Y, 0, bt);
+        
+        return b;
+    }
+   
+    
+    public static WorldIF populateWorldLaunchUp(WorldIF inWorld, RenderConfig r) {
+        int num = 10;
+        while (num > 0) {
+            createLaunchUpBlob(inWorld, r);
+            num--;
+        }
+
         return inWorld;
     }
     

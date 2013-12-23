@@ -1,5 +1,6 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -39,6 +40,12 @@ public class BaseBlob implements BlobIF {
     @Override public void setSound(SoundIF s) { sound = s; }
     @Override public void setExtent(ExtentIF e) { extent = e; }
     @Override public void setLifeTime(Integer ticks) { maxTicks = ticks; }
+    @Override public void setPath(BlobPath p) { setVelocity(p.vel); setAccel(p.acc); }
+
+    // map from position value to trigger
+    protected HashMap<Integer, BlobTrigger> xAxisTriggers;
+    protected HashMap<Integer, BlobTrigger> yAxisTriggers;
+    private int minTriggerTick = 25; // don't fire triggers until after this number of ticks
 
     protected RenderConfig renderer;
 
@@ -49,6 +56,8 @@ public class BaseBlob implements BlobIF {
         acceleration = accel;
         renderer = gdx;
         ticks = 0;
+        xAxisTriggers = new HashMap<Integer, BlobTrigger>();
+        yAxisTriggers = new HashMap<Integer, BlobTrigger>();
     }
 
     /* called by outside controller to tell this Blob
@@ -69,6 +78,10 @@ public class BaseBlob implements BlobIF {
         // update velocity with its accelleration
         //velocity = acceleration.accellerate(velocity);
         velocity.accelerate(acceleration);
+        
+        if (ticks > minTriggerTick) {
+            handleTriggers();
+        }
         
         ticks += 1;
         if (ticks >= maxTicks) {
@@ -153,5 +166,29 @@ public class BaseBlob implements BlobIF {
     @Override
     public void setTickPause(int ticks) {
         tickPause = ticks;
+    }
+    
+    
+    @Override
+    public void registerAxisTrigger(Axis type, int val, BlobTrigger trigger) {
+        switch (type) {
+        case X:
+            xAxisTriggers.put(val, trigger);
+            break;
+        case Y:
+            yAxisTriggers.put(val, trigger);
+            break;
+        }
+    }
+    
+    protected void handleTrigger(HashMap<Integer, BlobTrigger> set, Integer pos) {
+        if (set.containsKey(pos)) {
+            BlobTrigger t = set.get(pos);
+            t.trigger(this);
+        }
+    }
+    protected void handleTriggers() {
+        handleTrigger(xAxisTriggers, position.getX());
+        handleTrigger(yAxisTriggers, position.getY());
     }
 }

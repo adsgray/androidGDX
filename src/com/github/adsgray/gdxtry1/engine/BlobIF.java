@@ -11,6 +11,8 @@ public interface BlobIF {
     public void setAccel(AccelIF a);
     public void setVelocity(VelocityIF v);
     
+    public void setPath(BlobPath p);
+    
     public BlobIF absorbBlob(BlobIF b); // return self
     public BlobIF absorbBlob(BlobIF b, BlobTransform transform); // return self
    
@@ -27,16 +29,6 @@ public interface BlobIF {
 
     public boolean intersects(BlobIF with);
     public BlobIF collision(BlobIF with);
-     
-    public static class BlobPath {
-        public VelocityIF vel;
-        public AccelIF acc;
-        
-        public BlobPath(VelocityIF vel, AccelIF acc) {
-            this.vel = vel;
-            this.acc = acc;
-        }
-    }
     
     public abstract static class BlobTransform {
         public abstract BlobIF transform(BlobIF b);
@@ -45,4 +37,14 @@ public interface BlobIF {
     public abstract static class BlobSource {
         public abstract BlobIF generate(BlobIF parent);
     }
+    
+    public abstract static class BlobTrigger {
+        public abstract BlobIF trigger(BlobIF source);
+    }
+    
+    public enum Axis {
+        X,Y
+    }
+    
+    public void registerAxisTrigger(Axis type, int val, BlobTrigger trigger);
 }
