@@ -86,18 +86,26 @@ public class BlobFactory extends GameFactory {
         return b;
     }
     
-    private static Color oozeColor = new Color(0.2f, 0.2f, 0.2f, 0.0f);
-    private static CircleConfig oozeCircle() {
-        return new CircleConfig(oozeColor, 18.0f);
+    private static Color blackOozeColor = new Color(0.2f, 0.2f, 0.2f, 0.0f);
+    private static CircleConfig blackOozeCircle() {
+        return new CircleConfig(blackOozeColor, 18.0f);
     };
 
-    private static BlobIF createOozeComponent(RenderConfig r, PositionIF pos) {
+    private static BlobIF createBlackOozeComponent(BlobIF parent) {
         BlobPath p = PathFactory.squarePath(7, 2);
-        BlobIF o = new CircleBlob(0, pos, p.vel, p.acc, r, oozeCircle());
+        BlobIF o = new CircleBlob(0, null, p.vel, p.acc, parent.getRenderer(), blackOozeCircle());
         return o;
     }
 
-    public static BlobIF createOozeBlob(WorldIF inWorld, RenderConfig r) {
+    static public BlobSource blackOozeBlobSource = new BlobSource() {
+        @Override
+        public BlobIF generate(BlobIF parent) {
+            return createBlackOozeComponent(parent);
+        }
+    };
+
+    // TODO: make numComponents an argument
+    public static BlobIF createOozeBlob(WorldIF inWorld, RenderConfig r, BlobSource blobSource) {
         BlobIF bs = new BlobSet(10, randomPosition(), zeroVelocity(), zeroAccel(), r);
         bs.setWorld(inWorld);
         bs.setLifeTime(100000);
@@ -108,7 +116,8 @@ public class BlobFactory extends GameFactory {
             PositionIF pos = new BlobPosition(bs.getPosition());
             pos.setX(pos.getX() - numComponents);
             pos.setY(pos.getY() - numComponents);
-            BlobIF o = createOozeComponent(r, pos);
+            BlobIF o = blobSource.generate(bs);
+            o.setPosition(pos);
             // each of them will start moving at a different time:
             // this actually interacts badly with Blobsets...
             //o.setTickPause(numComponents);

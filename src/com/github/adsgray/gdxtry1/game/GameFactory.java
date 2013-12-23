@@ -193,12 +193,11 @@ public class GameFactory {
  
     private static BlobIF createLaunchUpBlob(WorldIF inWorld, RenderConfig r) {
         BlobPath launch = PathFactory.launchUp();
-        BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
-        /*
-        BlobIF b = BlobFactory.createOozeBlob(inWorld, r);
+        //BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
+        //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
+        BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r, BlobFactory.blackOozeBlobSource));
         b.setPosition(new BlobPosition(rnd.nextInt(400) + 100, 0));
         b.setPath(launch);
-        */
         
         b.setWorld(inWorld);
         b.setLifeTime(200);
@@ -245,7 +244,7 @@ public class GameFactory {
     }
     
     public static WorldIF populateWorldOoze(WorldIF inWorld, RenderConfig r) {
-        BlobIF ooze = BlobFactory.createOozeBlob(inWorld, r);
+        BlobIF ooze = BlobFactory.createOozeBlob(inWorld, r, BlobFactory.blackOozeBlobSource);
         //BlobPath p = PathFactory.jigglePath(10);
         //BlobPath p = PathFactory.upperTriangle(5, 3);
         //ooze.setPath(p);
