@@ -23,7 +23,7 @@ public class HardCodeAccel implements AccelIF {
         this.entries = entries;
         tickInterval = entries[0][2];
         numRows = entries.length;
-        Log.d("Accel", String.format("numRows is %d", numRows));
+        //Log.d("Accel", String.format("numRows is %d", numRows));
     }
 
     @Override

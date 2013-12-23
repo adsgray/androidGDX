@@ -10,6 +10,7 @@ public interface BlobIF {
     public void setExtent(ExtentIF e);
     public void setAccel(AccelIF a);
     public void setVelocity(VelocityIF v);
+    public void setPosition(PositionIF p);
     
     public void setPath(BlobPath p);
     

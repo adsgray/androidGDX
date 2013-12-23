@@ -86,11 +86,34 @@ public class BlobFactory extends GameFactory {
         return b;
     }
     
+    private static Color oozeColor = new Color(0.2f, 0.2f, 0.2f, 0.0f);
+    private static CircleConfig oozeCircle() {
+        return new CircleConfig(oozeColor, 9.0f);
+    };
+
+    private static BlobIF createOozeComponent(RenderConfig r, PositionIF pos) {
+        BlobPath p = PathFactory.squarePath(7, 2);
+        BlobIF o = new CircleBlob(0, pos, p.vel, p.acc, r, oozeCircle());
+        return o;
+    }
+
     public static BlobIF createOozeBlob(WorldIF inWorld, RenderConfig r) {
         BlobIF bs = new BlobSet(10, randomPosition(), zeroVelocity(), zeroAccel(), r);
         bs.setWorld(inWorld);
         bs.setLifeTime(100000);
+        
+        int numComponents = 3;
+        while (numComponents > 0) {
+            // put them all in the same place (BlobSet position)
+            BlobIF o = createOozeComponent(r, new BlobPosition(bs.getPosition()));
+            // each of them will start moving at a different time:
+            o.setTickPause(numComponents);
+            o.setLifeTime(100000);
+            o.setWorld(inWorld);
+            bs.absorbBlob(o);
+            numComponents -= 1;
+        }
+
         return bs;
     }
-    
 }

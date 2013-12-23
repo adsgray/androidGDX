@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import android.util.Log;
+
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 // BlobSet is like a mini-world: it has responsibility/control of Blobs.
@@ -26,6 +28,14 @@ public class BlobSet extends BaseBlob {
      */
     @Override
     public Boolean tick() {
+        
+        
+        if (tickPause > 0) {
+            tickPause -= 1;
+            return true;
+        }
+
+        
         position.updateByVelocity(velocity);
         // update velocity with its accelleration
         velocity = acceleration.accellerate(velocity);
@@ -41,6 +51,10 @@ public class BlobSet extends BaseBlob {
             }
         }
         
+        if (ticks > minTriggerTick) {
+            position.handleTriggers(this);
+        }
+
         handleScheduledRemovals();
         
         ticks += 1;
@@ -98,6 +112,43 @@ public class BlobSet extends BaseBlob {
         objs.add(b);
         
         return this;
+    }
+    
+    // when velocity is reset must reset all objs velocities too
+    @Override
+    public void setVelocity(VelocityIF v) {
+        Iterator<BlobIF> iter = objs.iterator();
+        
+        velocity = v;
+
+        while (iter.hasNext()) {
+            BlobIF b = iter.next();
+            Log.d("blobset", "setting child velocity");
+            // problem: b.getVelocity() is already a composition... we want the inner velocity
+            // here...
+            VelocityIF bvel = b.getVelocity();
+            if (bvel instanceof VelocityComposeDecorator) {
+                // uuuuuggggglllllyyyyy
+                Log.d("blobset", "now casting");
+                VelocityComposeDecorator dec = (VelocityComposeDecorator)bvel;
+                bvel = dec.getComponent();
+            }
+            b.setVelocity(new VelocityComposeDecorator(bvel, velocity));
+        }
+    }
+    
+    // ditto for position
+    @Override
+    public void setPosition(PositionIF p) {
+        Iterator<BlobIF> iter = objs.iterator();
+        
+        position = p;
+
+        while (iter.hasNext()) {
+            BlobIF b = iter.next();
+            Log.d("blobset", "setting child position");
+            b.setPosition(new BlobPosition(position));
+        }
     }
 
 }

@@ -43,7 +43,7 @@ public class BlobVelocity implements VelocityIF {
 
     @Override
     public Integer deltaX(Integer xin) {
-        Log.d("velocity", String.format("xin is %d x is %d", xin, x));
+        //Log.d("velocity", String.format("xin is %d x is %d", xin, x));
         xin = xin + x;
         return xin;
     }

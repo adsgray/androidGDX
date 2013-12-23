@@ -7,6 +7,8 @@ public abstract class VelocityDecorator implements VelocityIF {
     public VelocityDecorator(VelocityIF component) {
         this.component = component;
     }
+    
+    public VelocityIF getComponent() { return component; }
 
     @Override public Integer getXVelocity() { return component.getXVelocity(); }
     @Override public Integer getYVelocity() { return component.getYVelocity(); }

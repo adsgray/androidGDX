@@ -37,12 +37,13 @@ public class BaseBlob implements BlobIF {
     @Override public void setWorld(WorldIF w) { world = w; }
     @Override public void setAccel(AccelIF a) { acceleration = a; }
     @Override public void setVelocity(VelocityIF vel) { velocity = vel; }
+    @Override public void setPosition(PositionIF pos) { position = pos; }
     @Override public void setSound(SoundIF s) { sound = s; }
     @Override public void setExtent(ExtentIF e) { extent = e; }
     @Override public void setLifeTime(Integer ticks) { maxTicks = ticks; }
     @Override public void setPath(BlobPath p) { setVelocity(p.vel); setAccel(p.acc); }
 
-    private int minTriggerTick = 25; // don't fire triggers until after this number of ticks
+    protected int minTriggerTick = 25; // don't fire triggers until after this number of ticks
 
     protected RenderConfig renderer;
 
