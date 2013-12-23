@@ -3,6 +3,7 @@ package com.github.adsgray.gdxtry1.game;
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
+import com.github.adsgray.gdxtry1.engine.BlobRenderColorDecorator.ColorDecoratorEntry;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
@@ -177,5 +178,19 @@ public class BlobFactory extends GameFactory {
                 { 800, 1 },
         };
         return new BlobScaleDecorator(in, entries);
+    }
+    
+    public static BlobIF rainbowColorCycler(BlobIF in, int interval) {
+        ColorDecoratorEntry[] entries = new ColorDecoratorEntry[]  {
+                new ColorDecoratorEntry(Color.RED, interval),
+                new ColorDecoratorEntry(Color.ORANGE, interval),
+                new ColorDecoratorEntry(Color.YELLOW, interval),
+                new ColorDecoratorEntry(Color.GREEN, interval),
+                new ColorDecoratorEntry(Color.CYAN, interval),
+                new ColorDecoratorEntry(Color.BLUE, interval),
+                new ColorDecoratorEntry(Color.PINK, interval),
+        };
+        
+        return new BlobRenderColorDecorator(in, entries);
     }
 }
