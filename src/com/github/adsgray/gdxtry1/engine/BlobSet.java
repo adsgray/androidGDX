@@ -26,8 +26,14 @@ public class BlobSet extends BaseBlob {
             }
         }
 
+        // just clobber all the children's colors
         @Override
-        public void setColor(Color c) { /* ignore for now */ }
+        public void setColor(Color c) { 
+            Iterator<BlobIF> iter = objs.iterator();
+            while (iter.hasNext()) {
+                iter.next().getRenderConfig().setColor(c);
+            }
+        }
     }
     
     public BlobSet(Integer massin, PositionIF posin, VelocityIF velin,
