@@ -46,11 +46,6 @@ public class HardCodeAccel implements AccelIF {
         curRow = (curRow + 1) % numRows;
         tickInterval = entries[curRow][2];
         
-        // if interval is zero, do the next step as well
-        if (tickInterval == 0) {
-            return accellerate(vel);
-        }
-
         return vel;
     }
 
