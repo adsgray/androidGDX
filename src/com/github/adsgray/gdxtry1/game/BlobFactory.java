@@ -105,9 +105,13 @@ public class BlobFactory extends GameFactory {
         int numComponents = 3;
         while (numComponents > 0) {
             // put them all in the same place (BlobSet position)
-            BlobIF o = createOozeComponent(r, new BlobPosition(bs.getPosition()));
+            PositionIF pos = new BlobPosition(bs.getPosition());
+            pos.setX(pos.getX() - numComponents);
+            pos.setY(pos.getY() - numComponents);
+            BlobIF o = createOozeComponent(r, pos);
             // each of them will start moving at a different time:
-            o.setTickPause(numComponents);
+            // this actually interacts badly with Blobsets...
+            //o.setTickPause(numComponents);
             o.setLifeTime(100000);
             o.setWorld(inWorld);
             bs.absorbBlob(o);

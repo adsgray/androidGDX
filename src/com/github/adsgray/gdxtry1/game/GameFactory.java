@@ -232,7 +232,8 @@ public class GameFactory {
     
     public static WorldIF populateWorldOoze(WorldIF inWorld, RenderConfig r) {
         BlobIF ooze = BlobFactory.createOozeBlob(inWorld, r);
-        BlobPath p = PathFactory.jigglePath(10);
+        //BlobPath p = PathFactory.jigglePath(10);
+        BlobPath p = PathFactory.upperTriangle(5, 3);
         ooze.setPath(p);
         inWorld.addBlobToWorld(ooze);
         return inWorld;

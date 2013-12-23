@@ -28,20 +28,16 @@ public class BlobSet extends BaseBlob {
      */
     @Override
     public Boolean tick() {
-        
-        
+         
         if (tickPause > 0) {
             tickPause -= 1;
             return true;
         }
 
-        
-        position.updateByVelocity(velocity);
         // update velocity with its accelleration
         velocity = acceleration.accellerate(velocity);
+        position.updateByVelocity(velocity);
 
-        // update each BlobIF in set by composing its velocity with the set's
-        
         Iterator<BlobIF> iter = objs.iterator();
         while (iter.hasNext()) {
             BlobIF b = iter.next();
@@ -50,7 +46,7 @@ public class BlobSet extends BaseBlob {
                 scheduleForRemoval(b);
             }
         }
-        
+
         if (ticks > minTriggerTick) {
             position.handleTriggers(this);
         }
@@ -123,13 +119,13 @@ public class BlobSet extends BaseBlob {
 
         while (iter.hasNext()) {
             BlobIF b = iter.next();
-            Log.d("blobset", "setting child velocity");
+            //Log.d("blobset", "setting child velocity");
             // problem: b.getVelocity() is already a composition... we want the inner velocity
             // here...
             VelocityIF bvel = b.getVelocity();
             if (bvel instanceof VelocityComposeDecorator) {
                 // uuuuuggggglllllyyyyy
-                Log.d("blobset", "now casting");
+                //Log.d("blobset", "now casting");
                 VelocityComposeDecorator dec = (VelocityComposeDecorator)bvel;
                 bvel = dec.getComponent();
             }
@@ -146,7 +142,7 @@ public class BlobSet extends BaseBlob {
 
         while (iter.hasNext()) {
             BlobIF b = iter.next();
-            Log.d("blobset", "setting child position");
+            //Log.d("blobset", "setting child position");
             b.setPosition(new BlobPosition(position));
         }
     }
