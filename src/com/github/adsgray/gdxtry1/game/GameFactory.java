@@ -200,18 +200,30 @@ public class GameFactory {
         b.setPath(launch);
         */
         
-        //b.setWorld(inWorld);
+        b.setWorld(inWorld);
         b.setLifeTime(200);
         b = new BlobTrailDecorator(b, BlobFactory.smokeTrailBlobSource);
         b.setTickPause(rnd.nextInt(15));
         inWorld.scheduleAddToWorld(b);
         
-        BlobTrigger bt = new BlobTrigger() {
+        BlobTrigger bt = new BlobTrigger(r) {
+            private int count = 0;
             @Override
             public BlobIF trigger(BlobIF source) {
-                Log.d("blobset", "trigger!");
-                source.setPath(PathFactory.launchUp());
-                return source;
+                if (count == 2) {
+                    source.getWorld().scheduleRemovalFromWorld(source);
+                    PositionIF sourcePos = source.getPosition();
+                    sourcePos.setY(sourcePos.getY() + 75);
+                    ExplosionBlob ex = new ExplosionBlob(randomMass(), sourcePos, zeroVelocity(), zeroAccel(), renderConfig);
+                    ex.setBlobSource(BlobFactory.explosionBlobSource);
+                    ex.setWorld(source.getWorld());
+                    source.getWorld().scheduleEphemeralAddToWorld(ex);
+                    return source;
+                } else {
+                    count += 1;
+                    source.setPath(PathFactory.launchUp());
+                    return source;
+                }
             }
         };
         
@@ -223,7 +235,7 @@ public class GameFactory {
    
     
     public static WorldIF populateWorldLaunchUp(WorldIF inWorld, RenderConfig r) {
-        int num = 1;
+        int num = 8;
         while (num > 0) {
             createLaunchUpBlob(inWorld, r);
             num--;

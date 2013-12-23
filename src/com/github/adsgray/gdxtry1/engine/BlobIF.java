@@ -42,6 +42,9 @@ public interface BlobIF {
     }
     
     public abstract static class BlobTrigger {
+        public BlobTrigger() {}
+        public BlobTrigger(RenderConfig r) { renderConfig = r; }
+        protected RenderConfig renderConfig;
         public abstract BlobIF trigger(BlobIF source);
     }
 
