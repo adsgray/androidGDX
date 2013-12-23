@@ -256,12 +256,17 @@ public class GameFactory {
         BlobIF ooze = randomSpinnerBlob(inWorld, r);
         //BlobIF ooze = BlobFactory.createPrizeBlob(inWorld, r);
         //BlobPath p = PathFactory.jigglePath(10);
-        BlobPath p = PathFactory.upperTriangle(5, 3);
-        ooze.setPath(p);
+
+        //BlobPath p = PathFactory.upperTriangle(5, 3);
+        //ooze.setPath(p);
+
         //inWorld.addBlobToWorld(new BlobIgnoreTickDecorator(BlobFactory.throbber(ooze), rnd.nextInt(2) + 1));
         //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
-        ooze = BlobFactory.throbber(ooze);
-        inWorld.addBlobToWorld(BlobFactory.rainbowColorCycler(ooze, 1));
+        //ooze = BlobFactory.throbber(ooze);
+        //ooze = BlobFactory.rainbowColorCycler(ooze, 1);
+        
+        ooze = BlobFactory.flashColorCycler(ooze, 1);
+        inWorld.addBlobToWorld(ooze);
         return inWorld;
     }
     

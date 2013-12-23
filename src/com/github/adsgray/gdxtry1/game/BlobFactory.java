@@ -193,4 +193,20 @@ public class BlobFactory extends GameFactory {
         
         return new BlobRenderColorDecorator(in, entries);
     }
+    
+    public static BlobIF flashColorCycler(BlobIF in, int interval) {
+     int[][] entries = new int[][] {
+                { 1250, 1 },
+                { 1250, 2 },
+                { 1250, 1 },
+                { 1250, 2 },
+                { 1250, 1 },
+                { 800, 1 },
+                { 800, 2 },
+                { 800, 1 },
+                { 800, 2 },
+                { 800, 1 },
+        };       
+        return new BlobRenderColorScaleDecorator(in, entries);
+    }
 }
