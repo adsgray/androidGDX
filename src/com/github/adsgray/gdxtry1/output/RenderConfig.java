@@ -5,6 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.github.adsgray.gdxtry1.engine.BlobIF;
 
 public class RenderConfig {
@@ -28,9 +29,10 @@ public class RenderConfig {
     
     public static abstract class BaseRenderConfig implements RenderConfigIF {
         public Color color;
+        public ShapeType shapeType;
         
-        public BaseRenderConfig() {}
-        public BaseRenderConfig(Color color) { this.color = color; }
+        public BaseRenderConfig() { shapeType = ShapeType.Filled; }
+        public BaseRenderConfig(Color color) { this(); this.color = color; }
 
         // scale(float factor) must be implemented by subclasses
 
@@ -86,12 +88,16 @@ public class RenderConfig {
     // http://libgdx.badlogicgames.com/nightlies/docs/api/com/badlogic/gdx/graphics/glutils/ShapeRenderer.html
     // TODO: change rectangle rendering so that position is centre of rectangle
     public void renderRect(BlobIF b, RectConfig rc) {
+        shapeRenderer.begin(rc.shapeType);
         shapeRenderer.setColor(rc.color);
         shapeRenderer.rect(b.getPosition().getX(), b.getPosition().getY(), rc.w, rc.h);
+        shapeRenderer.end();
     }
     
     public void renderCircle(BlobIF b, CircleConfig cc) {
+	    shapeRenderer.begin(cc.shapeType);
         shapeRenderer.setColor(cc.color);
         shapeRenderer.circle(b.getPosition().getX(), b.getPosition().getY(), cc.radius);
+        shapeRenderer.end();
     }
 }

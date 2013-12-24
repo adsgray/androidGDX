@@ -119,7 +119,6 @@ public class MainPanel implements ApplicationListener {
 	    //batch.end();
 
 	    world.tick();
-	    shapes.begin(ShapeType.Filled);
 	    shapes.setProjectionMatrix(camera.combined);
 	    //shapeRenderer.setProjectionMatrix(camera.combined);
 
@@ -127,7 +126,7 @@ public class MainPanel implements ApplicationListener {
 	    //shapeRenderer.setColor(0, 1, 0, 1);
 	    //shapeRenderer.rect(x, y, width, height);
 	    //shapeRenderer.circle(x, y, radius);
-	    shapes.end();
+	    //shapes.end();
 	    //world.handleCollisions();
 	    
 	    
