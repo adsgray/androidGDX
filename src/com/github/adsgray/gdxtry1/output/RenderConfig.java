@@ -83,6 +83,7 @@ public class RenderConfig {
         return cc;
     }
 
+    // TODO: change rectangle rendering so that position is centre of rectangle
     public void renderRect(BlobIF b, RectConfig rc) {
         shapeRenderer.setColor(rc.color);
         shapeRenderer.rect(b.getPosition().getX(), b.getPosition().getY(), rc.w, rc.h);

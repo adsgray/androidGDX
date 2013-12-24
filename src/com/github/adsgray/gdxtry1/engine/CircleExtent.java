@@ -15,7 +15,13 @@ public class CircleExtent implements ExtentIF {
     
     @Override
     public boolean intersects(PositionIF me, BlobIF them) {
-        // TODO
+        /*
+         * plan:
+         * get the unit vector between the two positions
+         * multiply by "radius" of me to get the furthest point
+         * along that vector that is inside me.
+         * Now check if "them" contains that point
+         */
         return false;
     }
 

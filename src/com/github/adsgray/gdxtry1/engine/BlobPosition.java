@@ -11,27 +11,31 @@ import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
  */
 
 public class BlobPosition implements PositionIF {
-    private Integer x = 0;
-    private Integer y = 0;
+    private int x = 0;
+    private int y = 0;
     
     // map from position value to trigger
     protected HashMap<Integer, BlobTrigger> xAxisTriggers;
     protected HashMap<Integer, BlobTrigger> yAxisTriggers;
 
-    public BlobPosition(Integer xin, Integer yin) {
+    public BlobPosition(int xin, int yin) {
         x = xin;
         y = yin;
+    }
+    
+    public BlobPosition(double x, double y) {
+        this((int)x, (int)y);
     }
     
     public BlobPosition(PositionIF frompos) {
         this(frompos.getX(), frompos.getY());
     }
     
-    public Integer getX() { return x; }
-    public Integer getY() { return y; }
+    public int getX() { return x; }
+    public int getY() { return y; }
     
-    public Integer setX(Integer xin) { x = xin; return x; }
-    public Integer setY(Integer yin) { y = yin; return y; }
+    public int setX(int xin) { x = xin; return x; }
+    public int setY(int yin) { y = yin; return y; }
 
     public PositionIF updateByVelocity(VelocityIF vel) {
         x = vel.deltaX(x);
@@ -71,5 +75,31 @@ public class BlobPosition implements PositionIF {
     public void handleTriggers(BlobIF source) {
         if (xAxisTriggers != null) handleTrigger(xAxisTriggers, x, source);
         if (yAxisTriggers != null) handleTrigger(yAxisTriggers, y, source);
+    }
+
+    @Override
+    public PositionIF subtract(PositionIF p) {
+        return new BlobPosition(x - p.getX(), y - p.getY());
+    }
+
+    @Override
+    public double length() {
+        return Math.sqrt(x * x + y * y);
+    }
+
+    @Override
+    public PositionIF multiply(double factor) {
+        return new BlobPosition(x * factor, y * factor);
+    }
+
+    @Override
+    public PositionIF divide(double factor) {
+        return multiply(1 / factor);
+    }
+
+    @Override
+    public PositionIF unitVector() {
+        double len = length();
+        return new BlobPosition(x / len, y / len);
     }
 }

@@ -3,13 +3,20 @@ package com.github.adsgray.gdxtry1.engine;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 
 public interface PositionIF {
-    public Integer getX();
-    public Integer getY();
+    public int getX();
+    public int getY();
     
-    public Integer setX(Integer x);
-    public Integer setY(Integer y);
+    public int setX(int x);
+    public int setY(int y);
     
     public PositionIF updateByVelocity(VelocityIF vel);
+    public PositionIF subtract(PositionIF p);
+    public PositionIF multiply(double factor);
+    public PositionIF divide(double factor); // convenience wrapper around multiply
+
+    // OK now conflating positions with vectors...
+    public double length();
+    public PositionIF unitVector();
     
     public enum Axis {
         X,Y
