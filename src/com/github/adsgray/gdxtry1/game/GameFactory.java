@@ -285,6 +285,7 @@ public class GameFactory {
         b1.setWorld(inWorld);
         b1.setLifeTime(100000);
         b1.setTickPause(100);
+        b1 = new ShowExtentDecorator(b1);
 
         PositionIF p2 = new BlobPosition(BOUNDS_X,200 + rnd.nextInt(20));
         BlobVelocity v2 = new BlobVelocity(-10 - rnd.nextInt(5),0);
@@ -295,6 +296,7 @@ public class GameFactory {
         b2.setExtent(e2);
         b2.setLifeTime(100000);
         b2.setTickPause(100);
+        b2 = new ShowExtentDecorator(b2);
         
         inWorld.scheduleAddToWorld(b1);
         inWorld.scheduleAddToWorld(b2);

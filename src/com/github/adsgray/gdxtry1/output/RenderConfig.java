@@ -2,6 +2,8 @@ package com.github.adsgray.gdxtry1.output;
 
 import java.util.Random;
 
+import android.util.Log;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
