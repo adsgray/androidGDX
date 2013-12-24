@@ -6,18 +6,23 @@ import com.github.adsgray.gdxtry1.output.RenderConfig;
 */
 
 public interface WorldIF {
+    // three types of blobs
+    // blobs: just run around not hitting anything
+    // targets: same as blobs but can be hit by missiles
+    // missiles: same as blobs but can hit targets
     public Boolean addBlobToWorld(BlobIF b);
-    public Boolean removeBlobFromWorld(BlobIF b);
+    public Boolean removeBlobFromWorld(BlobIF b); // also removes from targets and missiles if applicable
+
+    public Boolean addTargetToWorld(BlobIF b);
+    public Boolean removeTargetFromWorld(BlobIF b);
+
+    public Boolean addMissileToWorld(BlobIF b);
+    public Boolean removeMissileFromWorld(BlobIF b);
+
     public void killAllBlobs();
-    
-    public Boolean addEphemeralBlobToWorld(BlobIF b);
-    public void scheduleRemovalFromWorld(BlobIF b);
-    public void scheduleAddToWorld(BlobIF b);
-    public void scheduleEphemeralAddToWorld(BlobIF b);
     
     public void tick();
     public void render();
-    public void handleCollisions();
     
     /*
     public void setRenderer(RenderConfig r);

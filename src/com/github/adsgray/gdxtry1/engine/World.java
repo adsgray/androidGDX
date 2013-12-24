@@ -12,22 +12,17 @@ import android.util.Log;
 
 public class World implements WorldIF {
 
-    private Vector<BlobIF> objs;
-    private Vector<BlobIF> toRemove;
-    private Vector<BlobIF> toAdd;
-    private Vector<BlobIF> toAddEphemeral;
-    private Vector<BlobIF> ephemerals; // these are ignored wrt collisions
-    //private RenderConfig renderer;
+    private BlobManager blobs;
+    private BlobManager missiles;
+    private BlobManager targets;
 
     protected CollisionMap collisions;
 
     public World() {
         Log.d("trace", "World created");
-        objs = new Vector<BlobIF>();
-        toRemove = new Vector<BlobIF>();
-        toAdd = new Vector<BlobIF>();
-        toAddEphemeral = new Vector<BlobIF>();
-        ephemerals = new Vector<BlobIF>();
+        blobs = new BlobManager();
+        missiles = new BlobManager();
+        targets = new BlobManager();
     }
 
     /*
@@ -38,70 +33,41 @@ public class World implements WorldIF {
     
     @Override
     public Boolean addBlobToWorld(BlobIF b) {
-        return objs.add(b);
-    }
-  
-    @Override
-    public Boolean addEphemeralBlobToWorld(BlobIF b) {
-        return ephemerals.add(b);
+        return blobs.scheduleAdd(b);
     }
   
     @Override
     public Boolean removeBlobFromWorld(BlobIF b) {
-        if (objs.contains(b)) {
-            //Log.d("trace", "removing blob from world");
-            return objs.remove(b);
-        } else if (ephemerals.contains(b)) {
-            //Log.d("trace", "removing ephemeral from world");
-            return ephemerals.remove(b);
-        } 
-        return false;
+        missiles.scheduleRemoval(b);
+        targets.scheduleRemoval(b);
+        return blobs.scheduleRemoval(b);
+    }
+ 
+    @Override
+    public Boolean addTargetToWorld(BlobIF b) {
+        return targets.scheduleAdd(b);
+    }
+  
+    @Override
+    public Boolean removeTargetFromWorld(BlobIF b) {
+        return targets.scheduleRemoval(b);
+    }
+ 
+    @Override
+    public Boolean addMissileToWorld(BlobIF b) {
+        return missiles.scheduleAdd(b);
+    }
+  
+    @Override
+    public Boolean removeMissileFromWorld(BlobIF b) {
+        return missiles.scheduleRemoval(b);
     }
 
     @Override
-    public void scheduleRemovalFromWorld(BlobIF b) {
-        toRemove.add(b);
-    }
-    
-    @Override
-    public void scheduleAddToWorld(BlobIF b) {
-        toAdd.add(b);
-    }
-     
-    @Override
-    public void scheduleEphemeralAddToWorld(BlobIF b) {
-        toAddEphemeral.add(b);
-    }
-   
-    private void handleScheduledRemovalsAndAdds() {
-        Iterator<BlobIF> iter = toRemove.iterator();
-        
-        while (iter.hasNext()) {
-            //Log.d("trace", "trying to remove blob from world");
-            removeBlobFromWorld(iter.next());
-        }
-        
-        iter = toAdd.iterator();
-        while (iter.hasNext()) {
-            addBlobToWorld(iter.next());
-        }
-        
-        iter = toAddEphemeral.iterator();
-        while (iter.hasNext()) {
-            addEphemeralBlobToWorld(iter.next());
-        }
-        
-        toAdd.clear();
-        toAddEphemeral.clear();
-        toRemove.clear();
-    }
-    
-    @Override
     public void killAllBlobs() {
-        Iterator<BlobIF> iter = objs.iterator(); 
-        while (iter.hasNext()) { scheduleRemovalFromWorld(iter.next()); }
-        iter = ephemerals.iterator();
-        while (iter.hasNext()) { scheduleRemovalFromWorld(iter.next()); }
+        blobs.killAllBlobs();
+        targets.killAllBlobs();
+        missiles.killAllBlobs();
     }
     
     // this is the accepted lame way of doing type aliases in Java?
@@ -124,20 +90,22 @@ public class World implements WorldIF {
         // this is N^2 and gross:
         // Note: objs is not modified by any of the following code:
 
-        Iterator<BlobIF> iter = objs.iterator();
+        Iterator<BlobIF> missiter = missiles.objs.iterator();
 
-        while (iter.hasNext()) {
-            BlobIF primary = iter.next();
+        while (missiter.hasNext()) {
+            BlobIF missile = missiter.next();
             // huh? gross.
-            Iterator<BlobIF> iter2 = objs.iterator();
-            while (iter2.hasNext()) {
-                BlobIF secondary = iter2.next();
+            Iterator<BlobIF> targiter = targets.objs.iterator();
+            while (targiter.hasNext()) {
+                BlobIF target = targiter.next();
                 // skip ourselves, and skip if secondary is already involved in another collision ??
                 // may have to remove already-involved check.
                 //if (primary != secondary && !col.containsValue(secondary) && primary.intersects(secondary)) {
-                if (primary != secondary && primary.intersects(secondary)) {
-                    col.put(primary, secondary);
-                    // one collision per tick()/check
+                if (missile.intersects(target)) {
+                    col.put(missile, target);
+                    // one collision per tick()/check. That way, if the collision
+                    // kills the missile (decided by triggered callback) then you
+                    // can only kill one target with a missile.
                     break;
                 }
             }
@@ -165,44 +133,83 @@ public class World implements WorldIF {
     
     @Override
     public void tick() {
-        Iterator<BlobIF> iter = objs.iterator();
-        
-        while (iter.hasNext()) {
-            BlobIF b = iter.next();
-            // Note that this may add or remove Blobs from objs.
-            // They will be tick()ed on the next World tick()
-            // BUT they will be rendered to the screen during this World tick()
-            if (!b.tick()) {
-                scheduleRemovalFromWorld(b);
-            }
-        }
-        
-        iter = ephemerals.iterator();
-        while (iter.hasNext()) {
-            BlobIF b = iter.next();
-            if (!b.tick()) {
-                scheduleRemovalFromWorld(b);
-            }
-        }
-
-        handleScheduledRemovalsAndAdds();
+        blobs.tick();
+        missiles.tick();
+        targets.tick();
         
         // save collisions for the next iteration and use it to optimize collision detection?
         collisions = findCollisions();
         handleCollisions();
     }
 
-    private void renderBlobVector(Vector<BlobIF> these) {
-        Iterator<BlobIF> iter = these.iterator();
-        while(iter.hasNext()) {
-            iter.next().render();
-        }
-    }
-    
     @Override
     public void render() {
-        renderBlobVector(ephemerals);
-        renderBlobVector(objs);
+        blobs.render();
+        missiles.render();
+        targets.render();
+    }
+
+    // another C struct
+    private class BlobManager {
+        public Vector<BlobIF> objs;
+        public Vector<BlobIF> toAdd;
+        public Vector<BlobIF> toRemove;
+        
+        public BlobManager() {
+            objs = new Vector<BlobIF>();
+            toAdd = new Vector<BlobIF>();
+            toRemove = new Vector<BlobIF>();
+        }
+        
+        public Boolean scheduleAdd(BlobIF b) { return toAdd.add(b); }
+
+        public Boolean scheduleRemoval(BlobIF b) { return toRemove.add(b); }
+
+        public void handleScheduledAddsAndRemovals() {
+            Iterator<BlobIF> iter = toRemove.iterator();
+        
+            while (iter.hasNext()) {
+                //Log.d("trace", "trying to remove blob from world");
+                BlobIF b = iter.next();
+                objs.remove(b);
+            }
+        
+            iter = toAdd.iterator();
+            while (iter.hasNext()) {
+                BlobIF b = iter.next();
+                objs.add(b);
+            }
+        
+            toAdd.clear();
+            toRemove.clear();           
+        }
+        
+        public void render() {
+            Iterator<BlobIF> iter = objs.iterator();
+            while(iter.hasNext()) {
+                iter.next().render();
+            }
+        }
+        
+        public void killAllBlobs() {
+            toAdd.clear();
+            toRemove.clear();
+            objs.clear();
+        }
+        
+        public void tick() {
+            Iterator<BlobIF> iter = objs.iterator();
+            while (iter.hasNext()) {
+                BlobIF b = iter.next();
+                // Note that this may add or remove Blobs from objs.
+                // They will be tick()ed on the next World tick()
+                // BUT they will be rendered to the screen during this World tick()
+                if (!b.tick()) {
+                    scheduleRemoval(b);
+                }
+            }
+            handleScheduledAddsAndRemovals();
+        }
     }
 
 }

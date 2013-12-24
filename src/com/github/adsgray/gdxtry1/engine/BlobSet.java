@@ -127,7 +127,7 @@ public class BlobSet extends BaseBlob {
         // add to objs
         // remove from world (we'll be handling ticks/renders ?
         
-        world.scheduleRemovalFromWorld(b);
+        world.removeBlobFromWorld(b);
         //if ( true && bt != null) {
         if (bt != null) {
             // transform could be to zero out velocity and accel so that

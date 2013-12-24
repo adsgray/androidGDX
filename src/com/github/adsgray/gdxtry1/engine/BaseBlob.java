@@ -140,10 +140,10 @@ public class BaseBlob implements BlobIF {
         
         it = b.iterator();
         while (it.hasNext()) {
-            world.scheduleAddToWorld(it.next());
+            world.addBlobToWorld(it.next());
         }
 
-        world.scheduleRemovalFromWorld(this);
+        world.removeBlobFromWorld(this);
     }
 
     protected Vector<BlobIF> explode(Integer numPieces) {

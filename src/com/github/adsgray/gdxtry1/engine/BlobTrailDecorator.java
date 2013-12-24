@@ -47,7 +47,7 @@ public class BlobTrailDecorator extends BlobDecorator {
         BlobIF b = bs.generate(component);
         b.setLifeTime(lifetime);
         
-        world.scheduleEphemeralAddToWorld(b);
+        world.addBlobToWorld(b);
         return ret;
     }
 
