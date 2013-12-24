@@ -22,13 +22,20 @@ public class CircleExtent implements ExtentIF {
          * along that vector that is inside me.
          * Now check if "them" contains that point
          */
-        return false;
+        PositionIF themPos = them.getPosition();
+        PositionIF vector = themPos.subtract(me);
+        PositionIF furthestPoint = vector.unitVector().multiply(radius);
+        
+        return them.getExtent().contains(them.getPosition(), furthestPoint);
     }
 
     @Override
     public boolean contains(PositionIF me, PositionIF point) {
-        // TODO Auto-generated method stub
-        return false;
+        /*
+         * if length of vector is less than or equal to radius then return true
+         */
+        PositionIF vector = point.subtract(me);
+        return vector.length() <= radius;
     }
 
     @Override public void scale(float factor) { radius *= factor; }
