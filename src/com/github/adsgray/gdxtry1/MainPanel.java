@@ -28,8 +28,8 @@ import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 public class MainPanel implements ApplicationListener {
 
-    private static final int CAMERA_WIDTH = 480;
-	private static final int CAMERA_HEIGHT = 800;
+    private static final int CAMERA_WIDTH = 800;
+	private static final int CAMERA_HEIGHT = 1422;
 	private static final int numBlobs = 10;
 
 	private WorldIF world;
@@ -42,8 +42,9 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
 	    //GameFactory.populateWorldNonRandom(world, renderConfig);
 	    //GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
-	    GameFactory.populateWorldLaunchUp(world, renderConfig);
+	    //GameFactory.populateWorldLaunchUp(world, renderConfig);
 	    //GameFactory.populateWorldOoze(world, renderConfig);
+	    GameFactory.populateWorldCollisionTest(world, renderConfig);
 	}
 
 	@Override
@@ -119,11 +120,15 @@ public class MainPanel implements ApplicationListener {
 
 	    world.tick();
 	    shapes.begin(ShapeType.Filled);
+	    shapes.setProjectionMatrix(camera.combined);
+	    //shapeRenderer.setProjectionMatrix(camera.combined);
+
 	    world.render();
 	    //shapeRenderer.setColor(0, 1, 0, 1);
 	    //shapeRenderer.rect(x, y, width, height);
 	    //shapeRenderer.circle(x, y, radius);
 	    shapes.end();
+	    //world.handleCollisions();
 	    
 	    
 	    /** Simple technique to detect user input on the touch screen **/
