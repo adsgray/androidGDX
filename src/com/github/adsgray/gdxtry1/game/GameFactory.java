@@ -294,8 +294,8 @@ public class GameFactory {
         b2.setTickPause(100);
         b2 = new ShowExtentDecorator(b2);
         
-        inWorld.addBlobToWorld(b1);
-        inWorld.addBlobToWorld(b2);
+        inWorld.addMissileToWorld(b1);
+        inWorld.addTargetToWorld(b2);
 
         return inWorld;
     }

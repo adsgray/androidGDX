@@ -106,7 +106,7 @@ public class World implements WorldIF {
                     // one collision per tick()/check. That way, if the collision
                     // kills the missile (decided by triggered callback) then you
                     // can only kill one target with a missile.
-                    break;
+                    //break;
                 }
             }
         }
@@ -127,7 +127,7 @@ public class World implements WorldIF {
             
             // they collide with each other
             primary.collision(secondary);
-            //secondary.collision(primary);
+            secondary.collision(primary);
         }
     }
     
