@@ -8,11 +8,17 @@ public class CircleBlob extends BaseBlob {
 
     protected CircleConfig circleConfig;
 
+    private void createExtent() {
+        ExtentIF ce = new CircleExtent((int)circleConfig.radius);
+        setExtent(ce);
+    }
+
     public CircleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
         super(massin, posin, velin, accel, gdx);
 
         circleConfig = renderer.randomCircleConfig();
         renderConfig = circleConfig;
+        createExtent();
     }     
 
     public CircleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx, CircleConfig cc) {
@@ -20,6 +26,7 @@ public class CircleBlob extends BaseBlob {
 
         circleConfig = cc;
         renderConfig = circleConfig;
+        createExtent();
     }     
 
     @Override

@@ -280,8 +280,6 @@ public class GameFactory {
         BlobVelocity v1 = new BlobVelocity(10 + rnd.nextInt(5),0);
         CircleConfig c1 = new CircleConfig(randomColor(), 30);
         BlobIF b1 = new CircleBlob(0, p1, v1, zeroAccel(), r, c1);
-        ExtentIF e1 = new CircleExtent(30);
-        b1.setExtent(e1);
         b1.setWorld(inWorld);
         b1.setLifeTime(100000);
         b1.setTickPause(100);
@@ -292,8 +290,6 @@ public class GameFactory {
         CircleConfig c2 = new CircleConfig(randomColor(), 30);
         BlobIF b2 = new CircleBlob(0, p2, v2, zeroAccel(), r, c2);
         //b2 = BlobFactory.flashColorCycler(b2, 10);
-        ExtentIF e2 = new CircleExtent(30);
-        b2.setExtent(e2);
         b2.setLifeTime(100000);
         b2.setTickPause(100);
         b2 = new ShowExtentDecorator(b2);

@@ -18,11 +18,18 @@ public class RectangleBlob extends BaseBlob {
     /* every Blob has a renderer and a config object that tells the renderer how to draw this Blob */
     protected RectConfig rectConfig;
     
+    private void createExtent() {
+        // TODO: make FRE constructor that takes floats...
+        FakeRectangleExtent re = new FakeRectangleExtent((int)rectConfig.w, (int)rectConfig.h);
+        setExtent(re);
+    }
+
     public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
         super(massin, posin, velin, accel, gdx);
         // TODO have these render specific options passed in somehow
         rectConfig = renderer.randomRectConfig();
         renderConfig = rectConfig;
+        createExtent();
     }
  
     public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx, RectConfig rc) {
@@ -30,6 +37,7 @@ public class RectangleBlob extends BaseBlob {
         // TODO have these render specific options passed in somehow
         rectConfig = rc;
         renderConfig = rectConfig;
+        createExtent();
     }
 
     /* split this blob up into numPieces new blobs.
