@@ -46,7 +46,7 @@ public interface BlobIF {
         public BlobTrigger() {}
         public BlobTrigger(RenderConfig r) { renderConfig = r; }
         protected RenderConfig renderConfig;
-        public abstract BlobIF trigger(BlobIF source);
+        public abstract BlobIF trigger(BlobIF source, BlobIF secondary/*optional, used only for collisions*/);
     }
 
 }

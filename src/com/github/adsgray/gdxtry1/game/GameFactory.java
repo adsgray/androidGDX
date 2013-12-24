@@ -210,7 +210,7 @@ public class GameFactory {
         BlobTrigger bt = new BlobTrigger(r) {
             private int count = 0;
             @Override
-            public BlobIF trigger(BlobIF source) {
+            public BlobIF trigger(BlobIF source, BlobIF unused) {
                 if (count == 2) {
                     source.getWorld().scheduleRemovalFromWorld(source);
                     PositionIF sourcePos = source.getPosition();

@@ -67,7 +67,7 @@ public class BlobPosition implements PositionIF {
     protected void handleTrigger(HashMap<Integer, BlobTrigger> set, Integer pos, BlobIF source) {
         if (set.containsKey(pos)) {
             BlobTrigger t = set.get(pos);
-            t.trigger(source);
+            t.trigger(source, null);
         }
     }
 
