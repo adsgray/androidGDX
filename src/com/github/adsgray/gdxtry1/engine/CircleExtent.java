@@ -2,7 +2,7 @@ package com.github.adsgray.gdxtry1.engine;
 
 public class CircleExtent implements ExtentIF {
 
-    private int radius;
+    protected int radius;
     public int getRadius() { return radius; }
 
     public CircleExtent(int radius) { 
