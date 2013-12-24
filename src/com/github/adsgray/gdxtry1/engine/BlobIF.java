@@ -21,6 +21,7 @@ public interface BlobIF {
     public WorldIF getWorld();
     public VelocityIF getVelocity();
     public AccelIF getAccel();
+    public ExtentIF getExtent();
     public RenderConfig getRenderer();
     public RenderConfigIF getRenderConfig();
     

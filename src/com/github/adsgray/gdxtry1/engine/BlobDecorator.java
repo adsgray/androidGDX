@@ -17,6 +17,7 @@ public abstract class BlobDecorator implements BlobIF {
     @Override public WorldIF getWorld() { return component.getWorld(); }
     @Override public PositionIF getPosition() { return component.getPosition(); }
     @Override public VelocityIF getVelocity() { return component.getVelocity(); }
+    @Override public ExtentIF getExtent() { return component.getExtent(); }
     @Override public AccelIF getAccel() { return component.getAccel(); }
     @Override public RenderConfig getRenderer() { return component.getRenderer(); }
     @Override public RenderConfigIF getRenderConfig() { return component.getRenderConfig(); }

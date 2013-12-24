@@ -195,8 +195,9 @@ public class GameFactory {
         BlobPath launch = PathFactory.launchUp();
         //BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
         //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
-        //BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r));
-        BlobIF b = BlobFactory.throbber(BlobFactory.createPrizeBlob(inWorld, r));
+        BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r));
+        //BlobIF b = BlobFactory.throbber(BlobFactory.createPrizeBlob(inWorld, r));
+        b = BlobFactory.rainbowColorCycler(b, 2);
         b.setPosition(new BlobPosition(rnd.nextInt(400) + 100, 0));
         b.setPath(launch);
         
@@ -258,7 +259,8 @@ public class GameFactory {
         //BlobPath p = PathFactory.jigglePath(10);
 
         //BlobPath p = PathFactory.upperTriangle(5, 3);
-        //ooze.setPath(p);
+        BlobPath p = PathFactory.backAndForth(10, 5);
+        ooze.setPath(p);
 
         //inWorld.addBlobToWorld(new BlobIgnoreTickDecorator(BlobFactory.throbber(ooze), rnd.nextInt(2) + 1));
         //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
@@ -266,6 +268,8 @@ public class GameFactory {
         //ooze = BlobFactory.rainbowColorCycler(ooze, 1);
         
         ooze = BlobFactory.flashColorCycler(ooze, 1);
+        ooze = BlobFactory.rainbowColorCycler(ooze, 1);
+        ooze = BlobFactory.throbber(ooze);
         inWorld.addBlobToWorld(ooze);
         return inWorld;
     }
