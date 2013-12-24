@@ -131,11 +131,18 @@ public class World implements WorldIF {
         }
     }
     
+    static int ct = 0;
     @Override
     public void tick() {
         blobs.tick();
         missiles.tick();
         targets.tick();
+        
+        ct += 1;
+        if (ct == 100) {
+            ct = 0;
+            Log.d("trace", String.format("counts: b=%d m=%d t=%d", blobs.objs.size(), missiles.objs.size(), targets.objs.size()));
+        }
         
         // save collisions for the next iteration and use it to optimize collision detection?
         collisions = findCollisions();

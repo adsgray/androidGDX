@@ -307,7 +307,13 @@ public class GameFactory {
                 // World.becomeNormalBlob(source);
                 source.getWorld().removeMissileFromWorld(source);
                 source.getWorld().removeTargetFromWorld(source);
-                //source.getWorld().addBlobToWorld(source);
+                //source.getWorld().removeBlobFromWorld(source);
+                source.getWorld().addBlobToWorld(source);
+
+                // haha important:
+                // without this the source blob was scheduled for removal
+                // every tick... and repeatedly added to world...
+                source.deregisterCollisionTrigger(this);
 
                 return source;
             }

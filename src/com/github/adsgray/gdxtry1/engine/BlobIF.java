@@ -50,4 +50,5 @@ public interface BlobIF {
     }
 
     public void registerCollisionTrigger(BlobTrigger trigger);
+    public void deregisterCollisionTrigger(BlobTrigger trigger);
 }

@@ -42,9 +42,6 @@ public class CircleExtent implements ExtentIF {
         
         Boolean ret =  (deltaXSquared + deltaYSquared) <= sumRadiiSquared;
         double dist = Math.sqrt(deltaXSquared + deltaYSquared);
-        if (ret) {
-            Log.d("collision", String.format("col dist is %.4f sr is %.4f", dist, sumrad));
-        }
         return ret;
     }
 

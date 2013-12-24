@@ -193,6 +193,13 @@ public class BaseBlob implements BlobIF {
         }
         collisionTriggers.add(trigger);
     }
+
+    @Override
+    public void deregisterCollisionTrigger(BlobTrigger trigger) {
+        if (collisionTriggers != null) {
+            collisionTriggers.remove(trigger);
+        }
+    }
     
    
 }
