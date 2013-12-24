@@ -19,6 +19,8 @@ public class World implements WorldIF {
     private Vector<BlobIF> ephemerals; // these are ignored wrt collisions
     //private RenderConfig renderer;
 
+    protected CollisionMap collisions;
+
     public World() {
         Log.d("trace", "World created");
         objs = new Vector<BlobIF>();
@@ -132,7 +134,8 @@ public class World implements WorldIF {
                 BlobIF secondary = iter2.next();
                 // skip ourselves, and skip if secondary is already involved in another collision ??
                 // may have to remove already-involved check.
-                if (primary != secondary && !col.containsValue(secondary) && primary.intersects(secondary)) {
+                //if (primary != secondary && !col.containsValue(secondary) && primary.intersects(secondary)) {
+                if (primary != secondary && primary.intersects(secondary)) {
                     col.put(primary, secondary);
                     // one collision per tick()/check
                     break;
@@ -143,7 +146,10 @@ public class World implements WorldIF {
         return col;
     }
     
-    private static void handleCollisions(CollisionMap collisions) {
+    public void handleCollisions() {
+
+        if (collisions == null) return;
+
         Iterator<BlobIF> iter = collisions.keySet().iterator();
 
         // for Blobs that have collided, call b.collision(with)
@@ -153,7 +159,7 @@ public class World implements WorldIF {
             
             // they collide with each other
             primary.collision(secondary);
-            secondary.collision(primary);
+            //secondary.collision(primary);
         }
     }
     
@@ -178,12 +184,12 @@ public class World implements WorldIF {
                 scheduleRemovalFromWorld(b);
             }
         }
-        
+
         handleScheduledRemovalsAndAdds();
         
         // save collisions for the next iteration and use it to optimize collision detection?
-        //CollisionMap collisions = findCollisions();
-        //handleCollisions(collisions);
+        collisions = findCollisions();
+        handleCollisions();
     }
 
     private void renderBlobVector(Vector<BlobIF> these) {

@@ -107,4 +107,9 @@ public class BlobPosition implements PositionIF {
         double len = length();
         return new BlobPosition(x / len, y / len);
     }
+    
+    @Override public PositionIF ofLength(double factor) {
+        double len = length();
+        return new BlobPosition((x * factor) / len, (y * factor) / len);
+    }
 }

@@ -18,6 +18,7 @@ public interface PositionIF {
     // OK now conflating positions with vectors...
     public double length();
     public PositionIF unitVector();
+    public PositionIF ofLength(double factor); // vector in same direction of length "factor"
     
     public enum Axis {
         X,Y

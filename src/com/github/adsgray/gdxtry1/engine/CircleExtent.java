@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import android.util.Log;
+
 public class CircleExtent implements ExtentIF {
 
     protected int radius;
@@ -23,13 +25,29 @@ public class CircleExtent implements ExtentIF {
          * Now check if "them" contains that point
          */
         PositionIF themPos = them.getPosition();
-        PositionIF vector = themPos.subtract(me);
-        PositionIF furthestPoint = vector.unitVector().multiply(radius).add(me);
         
         // haha:
         //return them.getExtent().contains(them.getPosition(), them.getPosition().subtract(me).unitVector().multiply(radius).add(me));
-        return them.getExtent().contains(them.getPosition(), furthestPoint);
+        
+        // http://www.gamasutra.com/view/feature/131424/pool_hall_lessons_fast_accurate_.php
+        double deltaXSquared = me.getX() - themPos.getX();
+        deltaXSquared *= deltaXSquared;
+        double deltaYSquared = me.getY() - themPos.getY();
+        deltaYSquared *= deltaYSquared;
+
+        CircleExtent themCe = (CircleExtent)them.getExtent();
+        double sumRadiiSquared = radius + themCe.getRadius();
+        double sumrad = sumRadiiSquared;
+        sumRadiiSquared *= sumRadiiSquared;
+        
+        Boolean ret =  (deltaXSquared + deltaYSquared) <= sumRadiiSquared;
+        double dist = Math.sqrt(deltaXSquared + deltaYSquared);
+        if (ret) {
+            Log.d("collision", String.format("col dist is %.4f sr is %.4f", dist, sumrad));
+        }
+        return ret;
     }
+
 
     @Override
     public boolean contains(PositionIF me, PositionIF point) {

@@ -83,6 +83,7 @@ public class RenderConfig {
         return cc;
     }
 
+    // http://libgdx.badlogicgames.com/nightlies/docs/api/com/badlogic/gdx/graphics/glutils/ShapeRenderer.html
     // TODO: change rectangle rendering so that position is centre of rectangle
     public void renderRect(BlobIF b, RectConfig rc) {
         shapeRenderer.setColor(rc.color);

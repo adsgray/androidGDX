@@ -28,8 +28,8 @@ public class GameFactory {
     }
   
     // this should be a property of world?
-    private static final int BOUNDS_X = 480;
-    private static final int BOUNDS_Y = 800;
+    private static final int BOUNDS_X = 800;
+    private static final int BOUNDS_Y = 1422;
 
     public static PositionIF randomPosition() {
         return new BlobPosition(rnd.nextInt(BOUNDS_X), rnd.nextInt(BOUNDS_Y));
@@ -271,6 +271,34 @@ public class GameFactory {
         ooze = BlobFactory.rainbowColorCycler(ooze, 1);
         ooze = BlobFactory.throbber(ooze);
         inWorld.addBlobToWorld(ooze);
+        return inWorld;
+    }
+    
+    public static WorldIF populateWorldCollisionTest(WorldIF inWorld, RenderConfig r) {
+
+        PositionIF p1 = new BlobPosition(0,200 - rnd.nextInt(20));
+        BlobVelocity v1 = new BlobVelocity(10 + rnd.nextInt(5),0);
+        CircleConfig c1 = new CircleConfig(randomColor(), 30);
+        BlobIF b1 = new CircleBlob(0, p1, v1, zeroAccel(), r, c1);
+        ExtentIF e1 = new CircleExtent(30);
+        b1.setExtent(e1);
+        b1.setWorld(inWorld);
+        b1.setLifeTime(100000);
+        b1.setTickPause(100);
+
+        PositionIF p2 = new BlobPosition(BOUNDS_X,200 + rnd.nextInt(20));
+        BlobVelocity v2 = new BlobVelocity(-10 - rnd.nextInt(5),0);
+        CircleConfig c2 = new CircleConfig(randomColor(), 30);
+        BlobIF b2 = new CircleBlob(0, p2, v2, zeroAccel(), r, c2);
+        //b2 = BlobFactory.flashColorCycler(b2, 10);
+        ExtentIF e2 = new CircleExtent(30);
+        b2.setExtent(e2);
+        b2.setLifeTime(100000);
+        b2.setTickPause(100);
+        
+        inWorld.scheduleAddToWorld(b1);
+        inWorld.scheduleAddToWorld(b2);
+
         return inWorld;
     }
     

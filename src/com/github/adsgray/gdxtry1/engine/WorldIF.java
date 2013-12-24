@@ -17,6 +17,7 @@ public interface WorldIF {
     
     public void tick();
     public void render();
+    public void handleCollisions();
     
     /*
     public void setRenderer(RenderConfig r);
