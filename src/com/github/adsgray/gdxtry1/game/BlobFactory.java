@@ -74,14 +74,15 @@ public class BlobFactory extends GameFactory {
     public static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
         BlobIF b;
         if (rnd.nextInt(100) < 50) {
-            //b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
-            b = new SplittingRectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+            b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+            //b = new SplittingRectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         } else {
-            b = new ShrinkingCircleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
+            b = new CircleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
         }
         
+            b = throbber(b);
         b.setWorld(inWorld);
-        b.setExtent(randomExtent());
+        //b.setExtent(randomExtent());
 
         if (rnd.nextInt(100) < 10) {
             b = new BlobTrailDecorator(b, BlobFactory.smokeTrailBlobSource);
@@ -91,6 +92,8 @@ public class BlobFactory extends GameFactory {
         if (rnd.nextInt(100) < 50) {
             b = new BlobCrazyAccelDecorator(b);
         }
+        
+        //b = new ShowExtentDecorator(b);
 
         inWorld.addBlobToWorld(b);
         return b;
@@ -169,10 +172,6 @@ public class BlobFactory extends GameFactory {
                 { 1250, 1 },
                 { 1250, 2 },
                 { 1250, 1 },
-                { 1250, 2 },
-                { 1250, 1 },
-                { 800, 1 },
-                { 800, 2 },
                 { 800, 1 },
                 { 800, 2 },
                 { 800, 1 },

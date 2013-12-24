@@ -39,12 +39,12 @@ public class MainPanel implements ApplicationListener {
 	private ShapeRenderer shapes;
 	
 	private void populateWorld() {
-	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
+	    GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
 	    //GameFactory.populateWorldNonRandom(world, renderConfig);
 	    //GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
 	    //GameFactory.populateWorldLaunchUp(world, renderConfig);
 	    //GameFactory.populateWorldOoze(world, renderConfig);
-	    GameFactory.populateWorldCollisionTest(world, renderConfig);
+	    //GameFactory.populateWorldCollisionTest(world, renderConfig);
 	}
 
 	@Override

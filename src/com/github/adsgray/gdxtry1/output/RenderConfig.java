@@ -64,7 +64,7 @@ public class RenderConfig {
         RectConfig rc = new RectConfig();
         rc.color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
         rc.w = rnd.nextInt(100);
-        rc.h = rnd.nextInt(100);
+        rc.h = rc.w + rnd.nextInt(20) - rnd.nextInt(20);
         return rc;
     }
     
@@ -92,7 +92,9 @@ public class RenderConfig {
     public void renderRect(BlobIF b, RectConfig rc) {
         shapeRenderer.begin(rc.shapeType);
         shapeRenderer.setColor(rc.color);
-        shapeRenderer.rect(b.getPosition().getX(), b.getPosition().getY(), rc.w, rc.h);
+        
+        
+        shapeRenderer.rect(b.getPosition().getX() - rc.w / 2, b.getPosition().getY() - rc.h / 2, rc.w, rc.h);
         shapeRenderer.end();
     }
     

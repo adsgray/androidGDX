@@ -47,7 +47,6 @@ public class SplittingRectangleBlob extends RectangleBlob {
                     mangleVelocity(velocity),
                     mangleAccel(acceleration), renderer);
             b.setWorld(world);
-            b.setExtent(GameFactory.randomExtent());
             b.setLifeTime(50);
             vec.add(b);
             numPieces -= 1;
