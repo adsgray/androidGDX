@@ -83,6 +83,11 @@ public class BlobPosition implements PositionIF {
     }
 
     @Override
+    public PositionIF add(PositionIF p) {
+        return new BlobPosition(x + p.getX(), y + p.getY());
+    }
+
+    @Override
     public double length() {
         return Math.sqrt(x * x + y * y);
     }

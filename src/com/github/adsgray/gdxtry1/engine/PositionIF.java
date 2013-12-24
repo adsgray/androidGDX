@@ -11,6 +11,7 @@ public interface PositionIF {
     
     public PositionIF updateByVelocity(VelocityIF vel);
     public PositionIF subtract(PositionIF p);
+    public PositionIF add(PositionIF p);
     public PositionIF multiply(double factor);
     public PositionIF divide(double factor); // convenience wrapper around multiply
 

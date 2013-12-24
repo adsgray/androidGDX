@@ -24,8 +24,10 @@ public class CircleExtent implements ExtentIF {
          */
         PositionIF themPos = them.getPosition();
         PositionIF vector = themPos.subtract(me);
-        PositionIF furthestPoint = vector.unitVector().multiply(radius);
+        PositionIF furthestPoint = vector.unitVector().multiply(radius).add(me);
         
+        // haha:
+        //return them.getExtent().contains(them.getPosition(), them.getPosition().subtract(me).unitVector().multiply(radius).add(me));
         return them.getExtent().contains(them.getPosition(), furthestPoint);
     }
 
