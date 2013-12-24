@@ -49,4 +49,5 @@ public interface BlobIF {
         public abstract BlobIF trigger(BlobIF source, BlobIF secondary/*optional, used only for collisions*/);
     }
 
+    public void registerCollisionTrigger(BlobTrigger trigger);
 }

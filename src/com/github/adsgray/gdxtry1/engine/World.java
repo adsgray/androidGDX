@@ -177,6 +177,7 @@ public class World implements WorldIF {
             iter = toAdd.iterator();
             while (iter.hasNext()) {
                 BlobIF b = iter.next();
+                b.setWorld(World.this);
                 objs.add(b);
             }
         

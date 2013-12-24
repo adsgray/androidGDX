@@ -280,7 +280,7 @@ public class GameFactory {
         BlobVelocity v1 = new BlobVelocity(10 + rnd.nextInt(5),0);
         CircleConfig c1 = new CircleConfig(randomColor(), 30);
         BlobIF b1 = new CircleBlob(0, p1, v1, zeroAccel(), r, c1);
-        b1.setWorld(inWorld);
+        //b1.setWorld(inWorld);
         b1.setLifeTime(100000);
         b1.setTickPause(100);
         b1 = new ShowExtentDecorator(b1);
@@ -291,12 +291,38 @@ public class GameFactory {
         BlobIF b2 = new CircleBlob(0, p2, v2, zeroAccel(), r, c2);
         //b2 = BlobFactory.flashColorCycler(b2, 10);
         b2.setLifeTime(100000);
+        //b2.setWorld(inWorld);
         b2.setTickPause(100);
         b2 = new ShowExtentDecorator(b2);
         
+        // if we wanted to have the trigger generate more blobs we'd
+        // have to call its constructor with (r)
+        // then have access to renderConfig inside the trigger.
+        BlobTrigger colTrigger = new BlobTrigger() {
+            @Override
+            public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                source.setVelocity(GameFactory.zeroVelocity());
+
+                // could probably make this a method on World
+                // World.becomeNormalBlob(source);
+                source.getWorld().removeMissileFromWorld(source);
+                source.getWorld().removeTargetFromWorld(source);
+                //source.getWorld().addBlobToWorld(source);
+
+                return source;
+            }
+        };
+
+        b1.registerCollisionTrigger(colTrigger);
+        b2.registerCollisionTrigger(colTrigger);
+
         inWorld.addMissileToWorld(b1);
         inWorld.addTargetToWorld(b2);
 
+        return inWorld;
+    }
+    
+    public static WorldIF populateWorldGameTestOne(WorldIF inWorld, RenderConfig r) {
         return inWorld;
     }
     

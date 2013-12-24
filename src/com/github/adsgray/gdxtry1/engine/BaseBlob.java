@@ -51,6 +51,8 @@ public class BaseBlob implements BlobIF {
     protected RenderConfig renderer;
     protected RenderConfigIF renderConfig;
 
+    protected Vector<BlobTrigger> collisionTriggers;
+
     @Override public RenderConfigIF getRenderConfig() { return renderConfig; }
 
     public BaseBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
@@ -113,20 +115,24 @@ public class BaseBlob implements BlobIF {
          * Blob "with" that we are colliding with. Note that that other
          * Blob will have to call .collision(us) to change its properties.
          */
-        //if (this.intersects(with)) {
-            sound.crash(BUMP_INTENSITY);
+        //sound.crash(BUMP_INTENSITY);
 
-            // TODO: a callback mechanism so collisions can be handled
-            // in many ways.
-            // TODO: take this Blob out of things considered for collisions?
-            // or set it inelligible for collision detection for a time period
-            // so that it is not repeatedly collided on every tick while it's
-            // touching something else?
-            this.setVelocity(GameFactory.zeroVelocity());
+        // TODO: take this Blob out of things considered for collisions?
+        // or set it inelligible for collision detection for a time period
+        // so that it is not repeatedly collided on every tick while it's
+        // touching something else?
+            
+        if (collisionTriggers == null) {
+            return this;
+        }
 
-            // this.explode(5);
-            // with.explode(5);
-        //}
+        Iterator<BlobTrigger> iter = collisionTriggers.iterator();
+        while (iter.hasNext()) {
+            iter.next().trigger(this, with);
+        }
+
+        // this.explode(5);
+        // with.explode(5);
         return this;
     }
 
@@ -178,6 +184,14 @@ public class BaseBlob implements BlobIF {
     @Override
     public void setTickPause(int ticks) {
         tickPause = ticks;
+    }
+
+    @Override
+    public void registerCollisionTrigger(BlobTrigger trigger) {
+        if (collisionTriggers == null) {
+            collisionTriggers = new Vector<BlobTrigger>();
+        }
+        collisionTriggers.add(trigger);
     }
     
    
