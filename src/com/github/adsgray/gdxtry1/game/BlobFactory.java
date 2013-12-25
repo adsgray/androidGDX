@@ -31,7 +31,7 @@ public class BlobFactory extends GameFactory {
         return new CircleConfig(Color.GRAY, 7);
     }
    
-    public static BlobIF createSmokeTrailBlob(BlobIF c) {
+    private static BlobIF createSmokeTrailBlob(BlobIF c) {
         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
                 PathFactory.smokeTrailAccel(), c.getRenderer(), smokeTrail());
         b = new BlobCrazyAccelDecorator(b);
@@ -49,6 +49,36 @@ public class BlobFactory extends GameFactory {
             return st;
         }
     };
+    
+    private static CircleConfig altSmokeTrail() {
+        return new CircleConfig(Color.RED, 8);
+    }
+    private static BlobIF createAltSmokeTrailBlob(BlobIF c) {
+        BlobIF b = new CircleBlob(0, new BlobPosition(c.getPosition()), randomVelocity(),
+                PathFactory.smokeTrailAccel(), c.getRenderer(), altSmokeTrail());
+        b = rainbowColorCycler(b, 3);
+        b = shrinker(b, 1);
+        b.setTickPause(2);
+        return b;
+    }
+    static public BlobSource altSmokeTrailBlobSource = new BlobSource() {
+        @Override
+        public BlobIF generate(BlobIF parent) {
+            WorldIF w = parent.getWorld();
+            BlobIF st = createAltSmokeTrailBlob(parent);
+            st.setWorld(w);
+            w.addBlobToWorld(st);
+            return st;
+        }
+    };
+    
+    static public BlobIF addSmokeTrail(BlobIF b) {
+        return new BlobTrailDecorator(b, BlobFactory.smokeTrailBlobSource);
+    }
+
+    static public BlobIF addAltSmokeTrail(BlobIF b) {
+        return new BlobTrailDecorator(b, altSmokeTrailBlobSource, 1, 15);
+    }
 
     static Color[] explosionColors = new Color[] {
         Color.RED, Color.ORANGE, Color.MAGENTA
@@ -184,6 +214,14 @@ public class BlobFactory extends GameFactory {
                 { 800, 1 },
         };
         return new BlobScaleDecorator(in, entries);
+    }
+    
+    // I'm melting... melting
+    public static BlobIF shrinker(BlobIF in, int interval) {
+        int[][] entries = new int[][] {
+                { 950, interval },
+        };
+        return new BlobScaleDecorator(in, entries);       
     }
     
     public static BlobIF rainbowColorCycler(BlobIF in, int interval) {

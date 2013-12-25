@@ -383,6 +383,7 @@ public class GameFactory {
         b = BlobFactory.throbber(b);
         b.setWorld(w);
         b.setLifeTime(10000000);
+        b.setTickPause(rnd.nextInt(10));
         w.addTargetToWorld(b);
         return b;
     }
@@ -398,8 +399,8 @@ public class GameFactory {
         b1.setWorld(w);
         b1 = BlobFactory.rainbowColorCycler(b1, 3);
         // need cooler trail blob sources
-        b1 = new BlobTrailDecorator(b1, BlobFactory.smokeTrailBlobSource);
-        //b1 = BlobFactory.createSmokeTrailBlob(b1);
+        //b1 = new BlobTrailDecorator(b1, BlobFactory.smokeTrailBlobSource);
+        b1 = BlobFactory.addAltSmokeTrail(b1);
         w.addMissileToWorld(b1);
         return b1;
     }
@@ -433,14 +434,28 @@ public class GameFactory {
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
                 WorldIF w = source.getWorld();
                 w.removeBlobFromWorld(source);
+                source = BlobFactory.shrinker(source, 5);
                 w.addBlobToWorld(source);
+                // make it go up a bit then fall. reverse any lateral velocity (bounce back)
+                source.setVelocity(new BlobVelocity(-source.getVelocity().getXVelocity(), 4));
+                source.setAccel(new LinearAccel(0, -2));
                 return source;
             }
         };
+        
+        BlobTrigger targetHit = new BlobTrigger() {
+            @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                secondary = TriggerFactory.replaceWithExplosion(secondary);
+                secondary.setPath(PathFactory.squarePath(3, 3));
+                return source;
+            }
+        };
+        
        
-        BlobTransform secondaryTransform = TriggerFactory.transformReplaceWithExplosion();
-        missile.registerCollisionTrigger(TriggerFactory.secondaryTransformTrigger(secondaryTransform));
+        //BlobTransform secondaryTransform = TriggerFactory.transformReplaceWithExplosion();
+        //missile.registerCollisionTrigger(TriggerFactory.secondaryTransformTrigger(secondaryTransform));
         missile.registerCollisionTrigger(deactivateMissile);
+        missile.registerCollisionTrigger(targetHit);
  
         return w;
     }
