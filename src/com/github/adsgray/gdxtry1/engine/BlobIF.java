@@ -43,6 +43,10 @@ public interface BlobIF {
     }
     
     public abstract static class BlobSource {
+        // NOTE: generate is responsible for adding
+        // the generated Blob to parent.World.
+        // This is so that it can decide whether the 
+        // generated Blob is a missile/target/neither
         public abstract BlobIF generate(BlobIF parent);
     }
     

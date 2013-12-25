@@ -43,7 +43,10 @@ public class BlobFactory extends GameFactory {
     static public BlobSource smokeTrailBlobSource = new BlobSource() {
         @Override
         public BlobIF generate(BlobIF parent) {
-            return createSmokeTrailBlob(parent);
+            WorldIF w = parent.getWorld();
+            BlobIF st = createSmokeTrailBlob(parent);
+            w.addBlobToWorld(st);
+            return st;
         }
     };
 
@@ -67,7 +70,11 @@ public class BlobFactory extends GameFactory {
     static public BlobSource explosionBlobSource = new BlobSource() {
         @Override
         public BlobIF generate(BlobIF parent) {
-            return createExplosionBlob(parent);
+            WorldIF w = parent.getWorld();
+            BlobIF eb = createExplosionBlob(parent);
+            // neither target nor missile ("ephemeral")
+            w.addBlobToWorld(eb);
+            return eb;
         }
     };
  
