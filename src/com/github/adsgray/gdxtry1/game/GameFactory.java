@@ -298,32 +298,36 @@ public class GameFactory {
         // if we wanted to have the trigger generate more blobs we'd
         // have to call its constructor with (r)
         // then have access to renderConfig inside the trigger.
-        BlobTrigger colTrigger = new BlobTrigger() {
+        BlobTrigger missileTrigger = new BlobTrigger() {
             @Override
             public BlobIF trigger(BlobIF source, BlobIF secondary) {
+
+                WorldIF w = source.getWorld();
+                RenderConfig r = source.getRenderer();
                 source.setVelocity(GameFactory.zeroVelocity());
 
-                // could probably make this a method on World
-                // World.becomeNormalBlob(source);
-                // hmmmm can't do this because "source" is not the actual
-                // blob that has been added to World... that blob may be
-                // a decorator or the top of a long chain of decorators...
-                source.getWorld().removeMissileFromWorld(source);
-                source.getWorld().removeTargetFromWorld(source);
-                //source.getWorld().removeBlobFromWorld(source);
-                source.getWorld().addBlobToWorld(source);
+                // removing and adding turns source from a missile into a normal/ephemeral blob
+                w.removeBlobFromWorld(source);
+                w.addBlobToWorld(BlobFactory.flashColorCycler(source, 10));
+                
+                // replace target (secondary) with an explosion
+                // TODO: factory method replaceWithExplosion(BlobIF) that does this:
+                w.removeBlobFromWorld(secondary);
+                ExplosionBlob ex = new ExplosionBlob(0, secondary.getPosition(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
+                ex.setBlobSource(BlobFactory.explosionBlobSource);
+                w.addBlobToWorld(ex);
 
                 // haha important:
                 // without this the source blob was scheduled for removal
                 // every tick... and repeatedly added to world...
                 //source.deregisterCollisionTrigger(this);
-
                 return source;
             }
         };
 
-        b1.registerCollisionTrigger(colTrigger);
-        b2.registerCollisionTrigger(colTrigger);
+        // b1 is a missile and its trigger will handle destroying the target/secondary.
+        // so no need to register a collision trigger on the target (b2)
+        b1.registerCollisionTrigger(missileTrigger);
 
         inWorld.addMissileToWorld(b1);
         inWorld.addTargetToWorld(b2);
