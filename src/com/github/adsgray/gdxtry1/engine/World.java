@@ -163,11 +163,31 @@ public class World implements WorldIF {
         public Vector<BlobIF> objs;
         public Vector<BlobIF> toAdd;
         public Vector<BlobIF> toRemove;
+        // maps from a BlobIF that is in the World to its baseBlob. Necessary
+        // because collision triggers will be operating on the baseBlob and will
+        // maybe try to remove themselves from the world.
+        // Key is baseBlob, Value is BlobIF in World
+        private HashMap<BlobIF, BlobIF> baseBlobMap; 
         
         public BlobManager() {
             objs = new Vector<BlobIF>();
             toAdd = new Vector<BlobIF>();
             toRemove = new Vector<BlobIF>();
+            baseBlobMap = new HashMap<BlobIF, BlobIF>();
+        }
+        
+        // Key is baseBlob, Value is BlobIF in World
+        protected void addToBaseBlobMap(BlobIF b) {
+            BlobIF baseBlob = b.baseBlob();
+            if (baseBlob != b) {
+                baseBlobMap.put(baseBlob, b);
+            }
+            
+        }
+        
+        // Key is baseBlob, Value is BlobIF in World
+        protected void removeFromBaseBlobMap(BlobIF b) {
+            baseBlobMap.remove(b);
         }
         
         public Boolean scheduleAdd(BlobIF b) { return toAdd.add(b); }
@@ -179,8 +199,12 @@ public class World implements WorldIF {
         
             while (iter.hasNext()) {
                 //Log.d("trace", "trying to remove blob from world");
-                BlobIF b = iter.next();
-                objs.remove(b);
+                BlobIF possibleBaseBlob = iter.next();
+                BlobIF worldBlob = baseBlobMap.get(possibleBaseBlob);
+
+                objs.remove(possibleBaseBlob);
+                objs.remove(worldBlob);
+                removeFromBaseBlobMap(possibleBaseBlob);
             }
         
             iter = toAdd.iterator();
@@ -188,6 +212,7 @@ public class World implements WorldIF {
                 BlobIF b = iter.next();
                 b.setWorld(World.this);
                 objs.add(b);
+                addToBaseBlobMap(b);
             }
         
             toAdd.clear();

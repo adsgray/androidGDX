@@ -316,7 +316,7 @@ public class GameFactory {
                 // haha important:
                 // without this the source blob was scheduled for removal
                 // every tick... and repeatedly added to world...
-                source.deregisterCollisionTrigger(this);
+                //source.deregisterCollisionTrigger(this);
 
                 return source;
             }
