@@ -132,8 +132,12 @@ public class BaseBlob implements BlobIF {
         }
 
         Iterator<BlobTrigger> iter = collisionTriggers.iterator();
+        BlobIF b = this;
         while (iter.hasNext()) {
-            iter.next().trigger(this, with);
+            // hmmm would be nice to be able to chain transformations of
+            // 'with' as well. It'll all have to be done in one trigger call.
+            // can chain transformations/decorators anyway.
+            b = iter.next().trigger(b, with);
         }
 
         // this.explode(5);

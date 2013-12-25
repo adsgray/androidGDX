@@ -274,6 +274,7 @@ public class GameFactory {
         return inWorld;
     }
     
+    
     public static WorldIF populateWorldCollisionTest(WorldIF inWorld, RenderConfig r) {
 
         PositionIF p1 = new BlobPosition(0,500 - rnd.nextInt(20));
@@ -311,19 +312,18 @@ public class GameFactory {
                 w.removeBlobFromWorld(source);
                 source.setLifeTime(100);
                 source.setAccel(new LinearAccel(0, -1));
-                w.addBlobToWorld(BlobFactory.flashColorCycler(source, 10));
+                source = BlobFactory.flashColorCycler(source, 10);
+                w.addBlobToWorld(source);
                 
-                // replace target (secondary) with an explosion
-                // TODO: factory method replaceWithExplosion(BlobIF) that does this:
-                w.removeBlobFromWorld(secondary);
-                ExplosionBlob ex = new ExplosionBlob(0, secondary.getPosition(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
-                ex.setBlobSource(BlobFactory.explosionBlobSource);
-                w.addBlobToWorld(ex);
+                TriggerFactory.replaceWithExplosion(secondary);
 
                 // haha important:
                 // without this the source blob was scheduled for removal
                 // every tick... and repeatedly added to world...
                 //source.deregisterCollisionTrigger(this);
+                
+                // always return the transformed version of source so that
+                // triggers/transformations can be properly chained!
                 return source;
             }
         };
