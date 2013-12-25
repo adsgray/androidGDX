@@ -44,6 +44,7 @@ public class TriggerFactory {
         w.removeBlobFromWorld(b);
         ExplosionBlob ex = new ExplosionBlob(0, b.getPosition(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
         ex.setBlobSource(BlobFactory.explosionBlobSource);
+        ex.setWorld(w);
         w.addBlobToWorld(ex);
         return ex;
     }

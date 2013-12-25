@@ -85,6 +85,12 @@ public class BlobSet extends BaseBlob {
         handleScheduledRemovals();
         
         ticks += 1;
+        
+        if (ticks >= maxTicks) {
+            // note: this may set maxTicks to something higher
+            doTriggers(tickDeathTriggers, null);
+        }
+
         if (ticks >= maxTicks) {
             return false;
         }

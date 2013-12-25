@@ -49,8 +49,10 @@ public abstract class BlobDecorator implements BlobIF {
     @Override public void render() { component.render(); }
     @Override public void registerCollisionTrigger(BlobTrigger trigger) { component.registerCollisionTrigger(trigger);}
     @Override public void deregisterCollisionTrigger(BlobTrigger trigger) { component.deregisterCollisionTrigger(trigger);}
+    @Override public void clearCollisionTriggers() { component.clearCollisionTriggers(); }
     @Override public void registerTickDeathTrigger(BlobTrigger trigger) { component.registerTickDeathTrigger(trigger);}
     @Override public void deregisterTickDeathTrigger(BlobTrigger trigger) { component.deregisterTickDeathTrigger(trigger);}
+    @Override public void clearTickDeathTriggers() { component.clearTickDeathTriggers(); }
 
     @Override public BlobIF baseBlob() { return component.baseBlob(); }
 }

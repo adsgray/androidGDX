@@ -45,7 +45,7 @@ public class BaseBlob implements BlobIF {
     @Override public void setPosition(PositionIF pos) { position = pos; }
     @Override public void setSound(SoundIF s) { sound = s; }
     @Override public void setExtent(ExtentIF e) { extent = e; }
-    @Override public void setLifeTime(Integer ticks) { ticks = 0; maxTicks = ticks; }
+    @Override public void setLifeTime(Integer ticks) { this.ticks = 0; maxTicks = ticks; }
     @Override public void setPath(BlobPath p) { setVelocity(p.vel); setAccel(p.acc); }
     
     @Override public void setClientType(int clientType) { this.clientType = clientType; }
@@ -221,8 +221,10 @@ public class BaseBlob implements BlobIF {
 
     @Override public void registerCollisionTrigger(BlobTrigger trigger) { collisionTriggers = addTrigger(collisionTriggers, trigger); }
     @Override public void deregisterCollisionTrigger(BlobTrigger trigger) { removeTrigger(collisionTriggers, trigger); }
+    @Override public void clearCollisionTriggers() { collisionTriggers.clear(); }
     @Override public void registerTickDeathTrigger(BlobTrigger trigger) { tickDeathTriggers = addTrigger(tickDeathTriggers, trigger); }
     @Override public void deregisterTickDeathTrigger(BlobTrigger trigger) { removeTrigger(tickDeathTriggers, trigger); }
+    @Override public void clearTickDeathTriggers() { tickDeathTriggers.clear(); }
     
     @Override
     public BlobIF baseBlob() { return this; }

@@ -44,7 +44,8 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
 	    //GameFactory.populateWorldLaunchUp(world, renderConfig);
 	    //GameFactory.populateWorldOoze(world, renderConfig);
-	    GameFactory.populateWorldCollisionTest(world, renderConfig);
+	    //GameFactory.populateWorldCollisionTest(world, renderConfig);
+	    GameFactory.populateWorldTestTriggers(world, renderConfig);
 	}
 
 	@Override

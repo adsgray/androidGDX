@@ -138,6 +138,7 @@ public class World implements WorldIF {
         missiles.tick();
         targets.tick();
         
+        /*
         ct += 1;
         if (ct == 100) {
             ct = 0;
@@ -145,6 +146,7 @@ public class World implements WorldIF {
             Log.d("trace", String.format("to rem counts: b=%d m=%d t=%d", blobs.toRemove.size(), missiles.toRemove.size(), targets.toRemove.size()));
             Log.d("trace", String.format("to add counts: b=%d m=%d t=%d", blobs.toAdd.size(), missiles.toAdd.size(), targets.toAdd.size()));
         }
+        */
         
         // save collisions for the next iteration and use it to optimize collision detection?
         collisions = findCollisions();

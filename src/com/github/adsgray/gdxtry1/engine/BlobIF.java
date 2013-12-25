@@ -50,16 +50,21 @@ public interface BlobIF {
         public BlobTrigger() {}
         public BlobTrigger(RenderConfig r) { renderConfig = r; }
         public BlobTrigger(BlobTransform bt) { blobTransform = bt; }
-        protected RenderConfig renderConfig;
-        protected BlobTransform blobTransform;
+        public BlobTrigger(BlobTrigger ct) { chainTrigger = ct; }
+        public void setChainTrigger(BlobTrigger ct) { chainTrigger = ct; }
+        public RenderConfig renderConfig;
+        public BlobTransform blobTransform;
+        public BlobTrigger chainTrigger;
         public abstract BlobIF trigger(BlobIF source, BlobIF secondary/*optional, used only for collisions*/);
     }
 
     public void registerCollisionTrigger(BlobTrigger trigger);
     public void deregisterCollisionTrigger(BlobTrigger trigger);
+    public void clearCollisionTriggers();
     
     public void registerTickDeathTrigger(BlobTrigger trigger);
     public void deregisterTickDeathTrigger(BlobTrigger trigger);
+    public void clearTickDeathTriggers();
     
     // if this BlobIF is the top of a chain of decorators this
     // will return the concrete BlobIF that is at the bottom.

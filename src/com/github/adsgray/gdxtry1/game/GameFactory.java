@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
+import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
@@ -330,6 +331,48 @@ public class GameFactory {
         inWorld.addTargetToWorld(b2);
 
         return inWorld;
+    }
+    
+
+    public static WorldIF populateWorldTestTriggers(WorldIF w, RenderConfig r) {
+        // turn the blob into an explosion
+        BlobTrigger explosion = new BlobTrigger() {
+            @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                Log.d("trace", "in death trigger");
+                BlobIF b = TriggerFactory.replaceWithExplosion(source);
+                b.registerTickDeathTrigger(chainTrigger);
+                return b;
+            }
+        };
+       
+        // regenerate a blob at the same position...
+        BlobTrigger rebirth = new BlobTrigger() {
+            @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                Log.d("trace", "in rebirth trigger");
+                WorldIF w = source.getWorld();
+                RenderConfig r = source.getRenderer();
+                BlobIF b1 = BlobFactory.createOozeBlob(w, r);
+                b1.setPosition(source.getPosition());
+                b1.registerTickDeathTrigger(chainTrigger);
+                b1.setWorld(w);
+                b1.setLifeTime(200);
+                w.addBlobToWorld(b1);
+                return b1;
+            }
+        };
+        
+        rebirth.setChainTrigger(explosion);
+        explosion.setChainTrigger(rebirth);
+
+
+        BlobIF b1 = BlobFactory.createOozeBlob(w, r);
+        b1.setPosition(new BlobPosition(400,400));
+        b1.setLifeTime(200);
+        b1.registerTickDeathTrigger(explosion);
+        b1.setWorld(w);
+        w.addBlobToWorld(b1);
+
+        return w;
     }
     
     public static WorldIF populateWorldGameTestOne(WorldIF inWorld, RenderConfig r) {
