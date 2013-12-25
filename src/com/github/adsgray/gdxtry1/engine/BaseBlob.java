@@ -45,7 +45,7 @@ public class BaseBlob implements BlobIF {
     @Override public void setPosition(PositionIF pos) { position = pos; }
     @Override public void setSound(SoundIF s) { sound = s; }
     @Override public void setExtent(ExtentIF e) { extent = e; }
-    @Override public void setLifeTime(Integer ticks) { maxTicks = ticks; }
+    @Override public void setLifeTime(Integer ticks) { ticks = 0; maxTicks = ticks; }
     @Override public void setPath(BlobPath p) { setVelocity(p.vel); setAccel(p.acc); }
     
     @Override public void setClientType(int clientType) { this.clientType = clientType; }
@@ -57,6 +57,7 @@ public class BaseBlob implements BlobIF {
     protected RenderConfigIF renderConfig;
 
     protected Vector<BlobTrigger> collisionTriggers;
+    protected Vector<BlobTrigger> tickDeathTriggers;
 
     @Override public RenderConfigIF getRenderConfig() { return renderConfig; }
 
@@ -95,6 +96,11 @@ public class BaseBlob implements BlobIF {
         
         ticks += 1;
         if (ticks >= maxTicks) {
+            // note: this may set maxTicks to something higher
+            doTriggers(tickDeathTriggers, null);
+        }
+
+        if (ticks >= maxTicks) {
             return false;
         }
         
@@ -114,6 +120,22 @@ public class BaseBlob implements BlobIF {
         return extent.intersects(position, with);
     }
    
+    protected BlobIF doTriggers(Vector<BlobTrigger> set, BlobIF secondary) {
+
+        if (set == null) return this;
+
+        Iterator<BlobTrigger> iter = set.iterator();
+        BlobIF b = this;
+        while (iter.hasNext()) {
+            // hmmm would be nice to be able to chain transformations of
+            // 'with' as well. It'll all have to be done in one trigger call.
+            // can chain transformations/decorators anyway.
+            b = iter.next().trigger(b, secondary);
+        }
+        
+        return b;
+    }
+
     @Override
     public BlobIF collision(BlobIF with) {
         /* do physics to change properties of "this" based on the
@@ -127,22 +149,10 @@ public class BaseBlob implements BlobIF {
         // so that it is not repeatedly collided on every tick while it's
         // touching something else?
             
-        if (collisionTriggers == null) {
-            return this;
-        }
-
-        Iterator<BlobTrigger> iter = collisionTriggers.iterator();
-        BlobIF b = this;
-        while (iter.hasNext()) {
-            // hmmm would be nice to be able to chain transformations of
-            // 'with' as well. It'll all have to be done in one trigger call.
-            // can chain transformations/decorators anyway.
-            b = iter.next().trigger(b, with);
-        }
+        return doTriggers(collisionTriggers, with);
 
         // this.explode(5);
         // with.explode(5);
-        return this;
     }
 
     protected void updateWorldAfterExplode(Vector<BlobIF> b) {
@@ -195,22 +205,25 @@ public class BaseBlob implements BlobIF {
         tickPause = ticks;
     }
 
-    @Override
-    public void registerCollisionTrigger(BlobTrigger trigger) {
-        if (collisionTriggers == null) {
-            collisionTriggers = new Vector<BlobTrigger>();
+    private Vector<BlobTrigger> addTrigger(Vector<BlobTrigger> set, BlobTrigger trigger) {
+        if (set == null) {
+            set = new Vector<BlobTrigger>();
         }
-        collisionTriggers.add(trigger);
+        set.add(trigger);       
+        return set;
+    }
+    
+    private void removeTrigger(Vector<BlobTrigger> set, BlobTrigger trigger) {
+        if (set != null) {
+            set.remove(trigger);
+        }
     }
 
-    @Override
-    public void deregisterCollisionTrigger(BlobTrigger trigger) {
-        if (collisionTriggers != null) {
-            collisionTriggers.remove(trigger);
-        }
-    }
-
+    @Override public void registerCollisionTrigger(BlobTrigger trigger) { collisionTriggers = addTrigger(collisionTriggers, trigger); }
+    @Override public void deregisterCollisionTrigger(BlobTrigger trigger) { removeTrigger(collisionTriggers, trigger); }
+    @Override public void registerTickDeathTrigger(BlobTrigger trigger) { tickDeathTriggers = addTrigger(tickDeathTriggers, trigger); }
+    @Override public void deregisterTickDeathTrigger(BlobTrigger trigger) { removeTrigger(tickDeathTriggers, trigger); }
+    
     @Override
     public BlobIF baseBlob() { return this; }
-    
 }
