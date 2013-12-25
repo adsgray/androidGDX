@@ -18,6 +18,10 @@ public interface WorldIF {
 
     public Boolean addMissileToWorld(BlobIF b);
     public Boolean removeMissileFromWorld(BlobIF b);
+    
+    public int getNumTargets();
+    public int getNumMissiles();
+    public int getNumBlobs();
 
     public void killAllBlobs();
     

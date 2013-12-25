@@ -251,4 +251,7 @@ public class World implements WorldIF {
         }
     }
 
+    @Override public int getNumTargets() { return targets.objs.size(); }
+    @Override public int getNumMissiles() { return missiles.objs.size(); }
+    @Override public int getNumBlobs() { return blobs.objs.size(); }
 }

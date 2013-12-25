@@ -375,8 +375,74 @@ public class GameFactory {
         return w;
     }
     
-    public static WorldIF populateWorldGameTestOne(WorldIF inWorld, RenderConfig r) {
-        return inWorld;
+    private static BlobIF createTargetBlob(WorldIF w, RenderConfig r) {
+        //BlobIF b = BlobFactory.createDefaultBlob(w, r);
+        PositionIF p = new BlobPosition(50 + rnd.nextInt(GameFactory.BOUNDS_X - 100), GameFactory.BOUNDS_Y - 20 - rnd.nextInt(300));
+        BlobIF b = new RectangleBlob(0, p, null, null, r);
+        b.setPath(PathFactory.backAndForth(5, 4));
+        b = BlobFactory.throbber(b);
+        b.setWorld(w);
+        b.setLifeTime(10000000);
+        w.addTargetToWorld(b);
+        return b;
+    }
+    
+    private static BlobIF createMissileBlob(WorldIF w, RenderConfig r) {
+        // can't use BlobSets in collisions yet because they don't have extents...
+        //BlobIF b1 = BlobFactory.createOozeBlob(w, r);
+        PositionIF p = new BlobPosition(10 + rnd.nextInt(GameFactory.BOUNDS_X) - 5, 10);
+        CircleConfig cc = new CircleConfig(Color.RED, 30);
+        BlobIF b1 = new CircleBlob(0, p, GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, cc);
+        b1.setPath(PathFactory.launchUp(75, -2));
+        b1.setLifeTime(1000);
+        b1.setWorld(w);
+        b1 = BlobFactory.rainbowColorCycler(b1, 3);
+        // need cooler trail blob sources
+        b1 = new BlobTrailDecorator(b1, BlobFactory.smokeTrailBlobSource);
+        //b1 = BlobFactory.createSmokeTrailBlob(b1);
+        w.addMissileToWorld(b1);
+        return b1;
+    }
+
+    public static WorldIF populateWorldGameTestOne(WorldIF w, RenderConfig r) {
+        int numTargets = 15;
+        while (w.getNumTargets() < 15 && numTargets > 0) {
+            createTargetBlob(w, r);
+            numTargets -= 1;
+        }
+    
+        // regenerate a blob at the same position...
+        BlobTrigger newmissile = new BlobTrigger() {
+            @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                Log.d("trace", "in rebirth trigger");
+                WorldIF w = source.getWorld();
+                RenderConfig r = source.getRenderer();
+
+                BlobIF b1 = BlobFactory.createOozeBlob(w, r);
+                b1.registerTickDeathTrigger(chainTrigger);
+                b1.setWorld(w);
+                b1.setLifeTime(200);
+                w.addBlobToWorld(b1);
+                return b1;
+            }
+        };
+           
+        BlobIF missile = createMissileBlob(w, r);
+
+        BlobTrigger deactivateMissile = new BlobTrigger() {
+            @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                WorldIF w = source.getWorld();
+                w.removeBlobFromWorld(source);
+                w.addBlobToWorld(source);
+                return source;
+            }
+        };
+       
+        BlobTransform secondaryTransform = TriggerFactory.transformReplaceWithExplosion();
+        missile.registerCollisionTrigger(TriggerFactory.secondaryTransformTrigger(secondaryTransform));
+        missile.registerCollisionTrigger(deactivateMissile);
+ 
+        return w;
     }
     
 }
