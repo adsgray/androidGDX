@@ -49,7 +49,9 @@ public interface BlobIF {
     public abstract static class BlobTrigger {
         public BlobTrigger() {}
         public BlobTrigger(RenderConfig r) { renderConfig = r; }
+        public BlobTrigger(BlobTransform bt) { blobTransform = bt; }
         protected RenderConfig renderConfig;
+        protected BlobTransform blobTransform;
         public abstract BlobIF trigger(BlobIF source, BlobIF secondary/*optional, used only for collisions*/);
     }
 

@@ -299,38 +299,32 @@ public class GameFactory {
         // if we wanted to have the trigger generate more blobs we'd
         // have to call its constructor with (r)
         // then have access to renderConfig inside the trigger.
-        BlobTrigger missileTrigger = new BlobTrigger() {
-            @Override
-            public BlobIF trigger(BlobIF source, BlobIF secondary) {
-
-                WorldIF w = source.getWorld();
-                RenderConfig r = source.getRenderer();
-                //source.setVelocity(GameFactory.zeroVelocity());
-                source.setVelocity(new BlobVelocity(-1, 5));
-
-                // removing and adding turns source from a missile into a normal/ephemeral blob
-                w.removeBlobFromWorld(source);
-                source.setLifeTime(100);
-                source.setAccel(new LinearAccel(0, -1));
-                source = BlobFactory.flashColorCycler(source, 10);
-                w.addBlobToWorld(source);
-                
-                TriggerFactory.replaceWithExplosion(secondary);
-
-                // haha important:
-                // without this the source blob was scheduled for removal
-                // every tick... and repeatedly added to world...
-                //source.deregisterCollisionTrigger(this);
-                
-                // always return the transformed version of source so that
-                // triggers/transformations can be properly chained!
-                return source;
+        
+        // special transformation to
+        // 1. stop blob
+        // 2. replace it with a "flashin" version of itself
+        // 3. make it fall downward
+        BlobTransform primaryTransform = new BlobTransform() {
+            @Override public BlobIF transform(BlobIF b) {
+                WorldIF w = b.getWorld();
+                b.setVelocity(new BlobVelocity(-1, 5));
+                w.removeBlobFromWorld(b);
+                b.setLifeTime(100);
+                b.setAccel(new LinearAccel(0, -1));
+                b = BlobFactory.flashColorCycler(b, 10);
+                w.addBlobToWorld(b);
+                return b;
             }
         };
+        
+        BlobTransform secondaryTransform = TriggerFactory.transformReplaceWithExplosion();
 
         // b1 is a missile and its trigger will handle destroying the target/secondary.
         // so no need to register a collision trigger on the target (b2)
-        b1.registerCollisionTrigger(missileTrigger);
+        // Use TriggerFactory to define what happens to primary and secondary separately.
+        // Not sure if this is worth it.
+        b1.registerCollisionTrigger(TriggerFactory.primaryTransformTrigger(primaryTransform));
+        b1.registerCollisionTrigger(TriggerFactory.secondaryTransformTrigger(secondaryTransform));
 
         inWorld.addMissileToWorld(b1);
         inWorld.addTargetToWorld(b2);
