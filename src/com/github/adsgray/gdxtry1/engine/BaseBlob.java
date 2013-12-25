@@ -200,6 +200,7 @@ public class BaseBlob implements BlobIF {
             collisionTriggers.remove(trigger);
         }
     }
-    
-   
+
+    @Override
+    public BlobIF baseBlob() { return this; }
 }

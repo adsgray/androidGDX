@@ -51,4 +51,8 @@ public interface BlobIF {
 
     public void registerCollisionTrigger(BlobTrigger trigger);
     public void deregisterCollisionTrigger(BlobTrigger trigger);
+    
+    // if this BlobIF is the top of a chain of decorators this
+    // will return the concrete BlobIF that is at the bottom.
+    public BlobIF baseBlob();
 }

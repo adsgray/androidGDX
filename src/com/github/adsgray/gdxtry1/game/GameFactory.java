@@ -305,6 +305,9 @@ public class GameFactory {
 
                 // could probably make this a method on World
                 // World.becomeNormalBlob(source);
+                // hmmmm can't do this because "source" is not the actual
+                // blob that has been added to World... that blob may be
+                // a decorator or the top of a long chain of decorators...
                 source.getWorld().removeMissileFromWorld(source);
                 source.getWorld().removeTargetFromWorld(source);
                 //source.getWorld().removeBlobFromWorld(source);

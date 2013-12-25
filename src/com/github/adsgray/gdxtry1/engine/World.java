@@ -142,6 +142,8 @@ public class World implements WorldIF {
         if (ct == 100) {
             ct = 0;
             Log.d("trace", String.format("counts: b=%d m=%d t=%d", blobs.objs.size(), missiles.objs.size(), targets.objs.size()));
+            Log.d("trace", String.format("to rem counts: b=%d m=%d t=%d", blobs.toRemove.size(), missiles.toRemove.size(), targets.toRemove.size()));
+            Log.d("trace", String.format("to add counts: b=%d m=%d t=%d", blobs.toAdd.size(), missiles.toAdd.size(), targets.toAdd.size()));
         }
         
         // save collisions for the next iteration and use it to optimize collision detection?
@@ -206,6 +208,7 @@ public class World implements WorldIF {
         }
         
         public void tick() {
+
             Iterator<BlobIF> iter = objs.iterator();
             while (iter.hasNext()) {
                 BlobIF b = iter.next();
@@ -216,6 +219,7 @@ public class World implements WorldIF {
                     scheduleRemoval(b);
                 }
             }
+
             handleScheduledAddsAndRemovals();
         }
     }
