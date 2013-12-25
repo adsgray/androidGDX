@@ -14,6 +14,7 @@ import com.github.adsgray.gdxtry1.output.SoundIF;
 
 public class BaseBlob implements BlobIF {
  
+    // TODO change all of these to ints
     protected static final Integer EXPLODE_INTENSITY = 5;
     protected static final Integer BUMP_INTENSITY = 2;
     protected static final Integer MAX_TICKS = 250; // die after this number of ticks
@@ -21,6 +22,7 @@ public class BaseBlob implements BlobIF {
     protected Integer ticks; // how many ticks this Blob has been alive for 
     protected Integer tickPause = 0; // freeze for this many ticks
     protected Integer maxTicks = MAX_TICKS; // when Blob reaches this number of ticks it'll remove itself from World
+    protected int clientType;
 
     protected Integer mass;
     protected PositionIF position;
@@ -45,6 +47,9 @@ public class BaseBlob implements BlobIF {
     @Override public void setExtent(ExtentIF e) { extent = e; }
     @Override public void setLifeTime(Integer ticks) { maxTicks = ticks; }
     @Override public void setPath(BlobPath p) { setVelocity(p.vel); setAccel(p.acc); }
+    
+    @Override public void setClientType(int clientType) { this.clientType = clientType; }
+    @Override public int getClientType() { return clientType; }
 
     protected int minTriggerTick = 25; // don't fire triggers until after this number of ticks
 
@@ -203,4 +208,5 @@ public class BaseBlob implements BlobIF {
 
     @Override
     public BlobIF baseBlob() { return this; }
+    
 }

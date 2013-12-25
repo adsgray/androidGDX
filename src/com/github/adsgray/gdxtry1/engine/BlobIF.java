@@ -27,6 +27,10 @@ public interface BlobIF {
     
     public void setLifeTime(Integer ticks);
 
+    // like "clientData", just for application specific use
+    public void setClientType(int clientType);
+    public int getClientType();
+
     public Boolean tick();
     public void setTickPause(int ticks);
     public void render();

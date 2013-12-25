@@ -30,6 +30,8 @@ public abstract class BlobDecorator implements BlobIF {
     @Override public void setLifeTime(Integer ticks) { component.setLifeTime(ticks); }
     @Override public void setTickPause(int ticks) { component.setTickPause(ticks); }
     @Override public void setPath(BlobPath p) { component.setPath(p); }
+    @Override public int getClientType() { return component.getClientType(); }
+    @Override public void setClientType(int clientType) { component.setClientType(clientType); }
 
     @Override public BlobIF absorbBlob(BlobIF b) { component = component.absorbBlob(b); return this; }
     @Override public BlobIF absorbBlob(BlobIF b, BlobTransform bt) { component = component.absorbBlob(b, bt); return this; }

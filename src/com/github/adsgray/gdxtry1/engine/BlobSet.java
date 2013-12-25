@@ -171,6 +171,8 @@ public class BlobSet extends BaseBlob {
         
         position = p;
 
+        // TODO: maintain whatever offset child position
+        // had from this position...
         while (iter.hasNext()) {
             BlobIF b = iter.next();
             //Log.d("blobset", "setting child position");
