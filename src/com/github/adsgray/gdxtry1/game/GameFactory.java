@@ -276,7 +276,7 @@ public class GameFactory {
     
     public static WorldIF populateWorldCollisionTest(WorldIF inWorld, RenderConfig r) {
 
-        PositionIF p1 = new BlobPosition(0,200 - rnd.nextInt(20));
+        PositionIF p1 = new BlobPosition(0,500 - rnd.nextInt(20));
         BlobVelocity v1 = new BlobVelocity(10 + rnd.nextInt(5),0);
         CircleConfig c1 = new CircleConfig(randomColor(), 30);
         BlobIF b1 = new CircleBlob(0, p1, v1, zeroAccel(), r, c1);
@@ -285,7 +285,7 @@ public class GameFactory {
         b1.setTickPause(100);
         b1 = new ShowExtentDecorator(b1);
 
-        PositionIF p2 = new BlobPosition(BOUNDS_X,200 + rnd.nextInt(20));
+        PositionIF p2 = new BlobPosition(BOUNDS_X,500 + rnd.nextInt(20));
         BlobVelocity v2 = new BlobVelocity(-10 - rnd.nextInt(5),0);
         CircleConfig c2 = new CircleConfig(randomColor(), 30);
         BlobIF b2 = new CircleBlob(0, p2, v2, zeroAccel(), r, c2);
@@ -304,10 +304,13 @@ public class GameFactory {
 
                 WorldIF w = source.getWorld();
                 RenderConfig r = source.getRenderer();
-                source.setVelocity(GameFactory.zeroVelocity());
+                //source.setVelocity(GameFactory.zeroVelocity());
+                source.setVelocity(new BlobVelocity(-1, 5));
 
                 // removing and adding turns source from a missile into a normal/ephemeral blob
                 w.removeBlobFromWorld(source);
+                source.setLifeTime(100);
+                source.setAccel(new LinearAccel(0, -1));
                 w.addBlobToWorld(BlobFactory.flashColorCycler(source, 10));
                 
                 // replace target (secondary) with an explosion
