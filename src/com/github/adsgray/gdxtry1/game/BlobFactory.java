@@ -301,6 +301,24 @@ public class BlobFactory extends GameFactory {
         };
 
         return createCluster(pos, path, source, w, r, entries);
+
+    }
+    
+    private static double sqrtOf2 = Math.sqrt(2);
+    public static BlobIF createThreeCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, RenderConfig r) {
+        
+        int adjustedDistance = (int)((double)distance/sqrtOf2);
+
+        int[][] entries = new int[][] {
+                // above
+                { 0,  distance },
+                // beside left
+                { -adjustedDistance, -adjustedDistance },
+                // beside right
+                { adjustedDistance, -adjustedDistance },
+        };
+
+        return createCluster(pos, path, source, w, r, entries);
     }
       
          

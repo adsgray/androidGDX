@@ -523,8 +523,10 @@ public class GameFactory {
         BlobPath path = PathFactory.squarePath(rnd.nextInt(5) + 10, rnd.nextInt(3) + 7);
         
         int dist = rnd.nextInt(50) + 25;
+        if (rnd.nextInt(100) < 50) dist = -dist;
         //BlobIF cluster = BlobFactory.createFourCluster(pos, path, bs, dist, w, r);
-        BlobIF cluster = BlobFactory.createNineCluster(pos, path, bs, dist, w, r);
+        //BlobIF cluster = BlobFactory.createNineCluster(pos, path, bs, dist, w, r);
+        BlobIF cluster = BlobFactory.createThreeCluster(pos, path, bs, dist, w, r);
         cluster.setLifeTime(100000);
  
         return w;
