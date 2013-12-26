@@ -110,6 +110,16 @@ public class BlobFactory extends GameFactory {
         }
     };
  
+    public static BlobIF invisibleBlob(WorldIF w, RenderConfig r) {
+        BlobIF b = new NullBlob(GameFactory.origin(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
+        return b;
+    }
+ 
+    public static BlobIF offsetBlob(BlobIF b, BlobIF source, int x, int y) {
+        b.setPosition(new OffsetPosition(source.getPosition(), x, y));
+        return b;
+    }
+
     public static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
         BlobIF b;
         if (rnd.nextInt(100) < 50) {

@@ -96,6 +96,10 @@ public class GameFactory {
         return inWorld;
     }
 
+    public static PositionIF origin() {
+        return new BlobPosition(0,0);
+    }
+
     public static VelocityIF zeroVelocity() {
         return new BlobVelocity(0,0);
     }
@@ -494,20 +498,48 @@ public class GameFactory {
         return w;
     }
     
-    
+   
+    public static BlobIF createRandomOffsetBlob(BlobIF source, int x, int y) {
+        WorldIF w = source.getWorld();
+        RenderConfig r = source.getRenderer();
+        RectConfig rc = new RectConfig(Color.RED, 30,30);
+        BlobIF b2 = new RectangleBlob(0, null, GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, rc);
+        b2.setWorld(w);
+        b2.setLifeTime(100000);
+        w.addBlobToWorld(b2);
+        return BlobFactory.offsetBlob(b2, source, x, y);
+    }
+
     public static WorldIF populateWorldTestOffsetPosition(WorldIF w, RenderConfig r) {
-        BlobIF b1 = BlobFactory.createOozeBlob(w, r);
+        // add invisible blob for the others to track/mirror
+        BlobIF b1 = BlobFactory.invisibleBlob(w, r);
         b1.setPosition(new BlobPosition(400,400));
-        b1.setPath(PathFactory.jigglePath(5));
+        b1.setPath(PathFactory.squarePath(10, 10));
         b1.setWorld(w);
         b1.setLifeTime(100000);
         w.addBlobToWorld(b1);
         
-        RectConfig rc = new RectConfig(Color.RED, 30,30);
-        BlobIF b2 = new RectangleBlob(0, new OffsetPosition(b1.getPosition(), 100,100), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, rc);
-        b2.setWorld(w);
-        b2.setLifeTime(100000);
-        w.addBlobToWorld(b2);
+        int[][] offsets = new int[][] {
+                // above
+                { 50,  50 },
+                { 0,   50 },
+                { -50, 50 },
+                
+                // inline (0 "y" offset)
+                { 50,  0 },
+                { 0,   0 },
+                { -50, 0 },
+
+                // below
+                { 50,  -50 },
+                { 0,   -50 },
+                { -50, -50 },
+        };
+        
+        for (int i = 0; i < offsets.length; i++) {
+            createRandomOffsetBlob(b1, offsets[i][0], offsets[i][1]);
+        }
+        
         return w;
     }
     
