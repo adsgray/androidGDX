@@ -17,6 +17,9 @@ public interface BlobIF {
     
     public BlobIF absorbBlob(BlobIF b); // return self
     public BlobIF absorbBlob(BlobIF b, BlobTransform transform); // return self
+    
+    public ClusterIF setCluster(ClusterIF c);
+    public ClusterIF getCluster();
    
     public WorldIF getWorld();
     public VelocityIF getVelocity();

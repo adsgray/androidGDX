@@ -53,6 +53,9 @@ public abstract class BlobDecorator implements BlobIF {
     @Override public void registerTickDeathTrigger(BlobTrigger trigger) { component.registerTickDeathTrigger(trigger);}
     @Override public void deregisterTickDeathTrigger(BlobTrigger trigger) { component.deregisterTickDeathTrigger(trigger);}
     @Override public void clearTickDeathTriggers() { component.clearTickDeathTriggers(); }
+    
+    @Override public ClusterIF setCluster(ClusterIF c) { return component.setCluster(c); }
+    @Override public ClusterIF getCluster() { return component.getCluster(); }
 
     @Override public BlobIF baseBlob() { return component.baseBlob(); }
 }

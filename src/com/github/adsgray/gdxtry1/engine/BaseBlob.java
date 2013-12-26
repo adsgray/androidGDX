@@ -25,6 +25,7 @@ public class BaseBlob implements BlobIF {
     protected Integer tickPause = 0; // freeze for this many ticks
     protected Integer maxTicks = MAX_TICKS; // when Blob reaches this number of ticks it'll remove itself from World
     protected int clientType;
+    protected ClusterIF cluster;
 
     protected Integer mass;
     protected PositionIF position;
@@ -92,6 +93,16 @@ public class BaseBlob implements BlobIF {
         }
 
         if (ticks >= maxTicks) {
+            // once we return false here we'll be removed
+            // from the world, so leave whatever cluster
+            // we belong to (if applicable).
+            // Note: could add a removingFromWorld() hook in BlobIF that the
+            // world can call before removing us and put this cluster leave there.
+            // Note 2: this cluster leaving must be done by any subclasses of
+            // BaseBlob that override tick() (eg. BlobSet)
+            if (cluster != null) {
+                cluster.leaveCluster(this);
+            }
             return false;
         }
 
@@ -230,6 +241,9 @@ public class BaseBlob implements BlobIF {
     @Override public void registerTickDeathTrigger(BlobTrigger trigger) { tickDeathTriggers = addTrigger(tickDeathTriggers, trigger); }
     @Override public void deregisterTickDeathTrigger(BlobTrigger trigger) { removeTrigger(tickDeathTriggers, trigger); }
     @Override public void clearTickDeathTriggers() { tickDeathTriggers.clear(); }
+    
+    @Override public ClusterIF setCluster(ClusterIF c) { cluster = c; return c; }
+    @Override public ClusterIF getCluster() { return cluster; }
     
     @Override
     public BlobIF baseBlob() { return this; }

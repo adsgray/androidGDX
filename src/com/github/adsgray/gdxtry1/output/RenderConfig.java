@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.output;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import android.util.Log;
@@ -43,6 +45,40 @@ public class RenderConfig {
             color = new Color(color.r * factor, color.g * factor, color.b * factor, color.a);
         }
         
+    }
+    
+     
+    public static class BlobSetRenderConfig implements RenderConfigIF {
+        protected List<BlobIF> objs;
+        
+        public BlobSetRenderConfig(List<BlobIF> objs) { this.objs = objs; }
+        public List<BlobIF> setObjs(List<BlobIF> objs) { this.objs = objs; return objs; }
+        public List<BlobIF> getObjs() { return objs; }
+
+        @Override
+        public void scale(float factor) {
+            Iterator<BlobIF> iter = objs.iterator();
+            while (iter.hasNext()) {
+                iter.next().getRenderConfig().scale(factor);
+            }
+        }
+
+        // just clobber all the children's colors
+        @Override
+        public void setColor(Color c) { 
+            Iterator<BlobIF> iter = objs.iterator();
+            while (iter.hasNext()) {
+                iter.next().getRenderConfig().setColor(c);
+            }
+        }
+
+        @Override
+        public void scaleColor(float factor) {
+            Iterator<BlobIF> iter = objs.iterator();
+            while (iter.hasNext()) {
+                iter.next().getRenderConfig().scaleColor(factor);
+            }
+        }
     }
 
     // Unashamedly using this like a C struct.

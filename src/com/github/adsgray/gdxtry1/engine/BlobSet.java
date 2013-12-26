@@ -1,7 +1,9 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import android.util.Log;
@@ -13,43 +15,16 @@ import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 // BlobSet is like a mini-world: it has responsibility/control of Blobs.
 public class BlobSet extends BaseBlob {
 
-    protected Set<BlobIF> objs;
-    protected Set<BlobIF> toRemove;
-    
-    // to scale a BlobSet you scale all of its children
-    protected class BlobsetRenderConfig implements RenderConfigIF {
-        @Override
-        public void scale(float factor) {
-            Iterator<BlobIF> iter = objs.iterator();
-            while (iter.hasNext()) {
-                iter.next().getRenderConfig().scale(factor);
-            }
-        }
-
-        // just clobber all the children's colors
-        @Override
-        public void setColor(Color c) { 
-            Iterator<BlobIF> iter = objs.iterator();
-            while (iter.hasNext()) {
-                iter.next().getRenderConfig().setColor(c);
-            }
-        }
-
-        @Override
-        public void scaleColor(float factor) {
-            Iterator<BlobIF> iter = objs.iterator();
-            while (iter.hasNext()) {
-                iter.next().getRenderConfig().scaleColor(factor);
-            }
-        }
-    }
+    protected List<BlobIF> objs;
+    protected List<BlobIF> toRemove;
     
     public BlobSet(Integer massin, PositionIF posin, VelocityIF velin,
             AccelIF accel, RenderConfig gdx) {
         super(massin, posin, velin, accel, gdx);
-        objs = new HashSet<BlobIF>();
-        toRemove = new HashSet<BlobIF>();
-        renderConfig = new BlobsetRenderConfig();
+        objs = new ArrayList<BlobIF>();
+        toRemove = new ArrayList<BlobIF>();
+        // this renderconfig will perform render operations on all members of "objs"
+        renderConfig = new RenderConfig.BlobSetRenderConfig(objs);
     }
 
     /* called by outside controller to tell this Blob
@@ -92,6 +67,9 @@ public class BlobSet extends BaseBlob {
         }
 
         if (ticks >= maxTicks) {
+            if (cluster != null) {
+                cluster.leaveCluster(this);
+            }
             return false;
         }
         
