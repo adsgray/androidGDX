@@ -326,16 +326,14 @@ public class BlobFactory extends GameFactory {
     // triggers etc to the Blobs that will be in the cluster then it has to be done
     // in the BlobSource. Lack of closures makes that a pain in the ass.
     public static BlobIF createCluster(PositionIF pos, BlobPath path, BlobSource source, WorldIF w, RenderConfig r, int[][] offsets) {
-        BlobIF key = BlobFactory.invisibleBlob(w, r);
-        key.setPosition(pos);
-        key.setPath(path);
+        ClusterIF key = new BlobCluster(pos, path, r);
+
         key.setWorld(w);
-        key.setLifeTime(100000);
-        w.addBlobToWorld(key);
         
         for (int i = 0; i < offsets.length; i++) {
             BlobIF b = source.generate(key);
             b = offsetBlob(b, key, offsets[i][0], offsets[i][1]);
+            key.absorbBlob(b);
         }
         
         return key;  

@@ -525,10 +525,12 @@ public class GameFactory {
         int dist = rnd.nextInt(50) + 25;
         if (rnd.nextInt(100) < 50) dist = -dist;
         //BlobIF cluster = BlobFactory.createFourCluster(pos, path, bs, dist, w, r);
-        //BlobIF cluster = BlobFactory.createNineCluster(pos, path, bs, dist, w, r);
-        // scaling a cluster means scaling the offsets? requires cluster extends BlobIF that
-        // tracks its constituents
-        BlobIF cluster = BlobFactory.createThreeCluster(pos, path, bs, dist, w, r);
+        BlobIF cluster = BlobFactory.createNineCluster(pos, path, bs, dist, w, r);
+        //BlobIF cluster = BlobFactory.createThreeCluster(pos, path, bs, dist, w, r);
+        cluster.setLifeTime(1000000);
+        cluster = BlobFactory.throbber(cluster);
+        cluster = BlobFactory.rainbowColorCycler(cluster, 10);
+        w.addBlobToWorld(cluster);
         cluster.setLifeTime(100000);
  
         return w;
