@@ -9,7 +9,6 @@ public class BlobTrailDecorator extends BlobDecorator {
 
     protected int step = 3;
     protected int count = 0;
-    protected int lifetime = 25;
     protected BlobSource bs;
 
     // Coleen Jones "Christmas Tree" of constructors.
@@ -23,11 +22,6 @@ public class BlobTrailDecorator extends BlobDecorator {
         this.step = step;
     }
 
-    public BlobTrailDecorator(BlobIF component, BlobSource bs, int step, int lifetime) {
-        this(component, bs, step);
-        this.lifetime = lifetime;
-    }
-   
     
     @Override public Boolean tick() {
         // now add a short-lived ephemeral blob to the world at
@@ -44,10 +38,8 @@ public class BlobTrailDecorator extends BlobDecorator {
         
         count = 0;
         
-        BlobIF b = bs.generate(component);
-        b.setLifeTime(lifetime);
+        bs.generate(component);
         
-        //world.addBlobToWorld(b);
         return ret;
     }
 

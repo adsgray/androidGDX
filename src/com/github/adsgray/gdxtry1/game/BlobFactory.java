@@ -36,6 +36,7 @@ public class BlobFactory extends GameFactory {
                 PathFactory.smokeTrailAccel(), c.getRenderer(), smokeTrail());
         b = new BlobCrazyAccelDecorator(b);
         b.setWorld(c.getWorld());
+        b.setLifeTime(25);
         return b;
     }
     
@@ -58,6 +59,7 @@ public class BlobFactory extends GameFactory {
                 PathFactory.smokeTrailAccel(), c.getRenderer(), altSmokeTrail());
         b = rainbowColorCycler(b, 3);
         b = shrinker(b, 1);
+        b.setLifeTime(15);
         b.setTickPause(2);
         return b;
     }
@@ -77,7 +79,7 @@ public class BlobFactory extends GameFactory {
     }
 
     static public BlobIF addAltSmokeTrail(BlobIF b) {
-        return new BlobTrailDecorator(b, altSmokeTrailBlobSource, 1, 15);
+        return new BlobTrailDecorator(b, altSmokeTrailBlobSource, 1);
     }
 
     static Color[] explosionColors = new Color[] {
