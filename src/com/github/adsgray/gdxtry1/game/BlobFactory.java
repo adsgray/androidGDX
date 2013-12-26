@@ -265,4 +265,63 @@ public class BlobFactory extends GameFactory {
         };       
         return new BlobRenderColorScaleDecorator(in, entries);
     }
+       
+    public static BlobIF createNineCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, RenderConfig r) {
+        
+        int[][] entries = new int[][] {
+                // above
+                { distance,  distance },
+                { 0,   distance },
+                { -distance, distance },
+                
+                // inline (0 "y" offset)
+                { distance,  0 },
+                { 0,   0 },
+                { -distance, 0 },
+
+                // below
+                { distance,  -distance },
+                { 0,   -distance },
+                { -distance, -distance },
+        };
+
+        return createCluster(pos, path, source, w, r, entries);
+    }
+        
+    public static BlobIF createFourCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, RenderConfig r) {
+        
+        int[][] entries = new int[][] {
+                // above
+                { distance,  distance },
+                { -distance, distance },
+
+                // below
+                { distance,  -distance },
+                { -distance, -distance },
+        };
+
+        return createCluster(pos, path, source, w, r, entries);
+    }
+      
+         
+    // returns the invisible Blob that is at the middle of the cluster. If you want to add
+    // triggers etc to the Blobs that will be in the cluster then it has to be done
+    // in the BlobSource. Lack of closures makes that a pain in the ass.
+    public static BlobIF createCluster(PositionIF pos, BlobPath path, BlobSource source, WorldIF w, RenderConfig r, int[][] offsets) {
+        BlobIF key = BlobFactory.invisibleBlob(w, r);
+        key.setPosition(pos);
+        key.setPath(path);
+        key.setWorld(w);
+        key.setLifeTime(100000);
+        w.addBlobToWorld(key);
+        
+        for (int i = 0; i < offsets.length; i++) {
+            BlobIF b = source.generate(key);
+            b = offsetBlob(b, key, offsets[i][0], offsets[i][1]);
+        }
+        
+        return key;  
+    }
+    
+    
 }

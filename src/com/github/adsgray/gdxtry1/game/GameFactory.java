@@ -499,47 +499,33 @@ public class GameFactory {
     }
     
    
-    public static BlobIF createRandomOffsetBlob(BlobIF source, int x, int y) {
-        WorldIF w = source.getWorld();
-        RenderConfig r = source.getRenderer();
-        RectConfig rc = new RectConfig(Color.RED, 30,30);
-        BlobIF b2 = new RectangleBlob(0, null, GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, rc);
-        b2.setWorld(w);
-        b2.setLifeTime(100000);
-        w.addBlobToWorld(b2);
-        return BlobFactory.offsetBlob(b2, source, x, y);
-    }
-
     public static WorldIF populateWorldTestOffsetPosition(WorldIF w, RenderConfig r) {
-        // add invisible blob for the others to track/mirror
-        BlobIF b1 = BlobFactory.invisibleBlob(w, r);
-        b1.setPosition(new BlobPosition(400,400));
-        b1.setPath(PathFactory.squarePath(10, 10));
-        b1.setWorld(w);
-        b1.setLifeTime(100000);
-        w.addBlobToWorld(b1);
         
-        int[][] offsets = new int[][] {
-                // above
-                { 50,  50 },
-                { 0,   50 },
-                { -50, 50 },
-                
-                // inline (0 "y" offset)
-                { 50,  0 },
-                { 0,   0 },
-                { -50, 0 },
-
-                // below
-                { 50,  -50 },
-                { 0,   -50 },
-                { -50, -50 },
+        BlobSource bs = new BlobSource() {
+            @Override public BlobIF generate(BlobIF parent) {
+                WorldIF w = parent.getWorld();
+                RenderConfig r = parent.getRenderer();
+                RectConfig rc = new RectConfig(GameFactory.randomColor(), 30,30);
+                BlobIF b2 = new RectangleBlob(0, null, GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, rc);
+                b2.setWorld(w);
+                b2.setLifeTime(100000);
+                if (rnd.nextInt(100) < 50) {
+                    b2 = BlobFactory.throbber(b2);
+                }
+                w.addBlobToWorld(b2); 
+                return b2;
+            }
         };
+
+        //PositionIF pos = new BlobPosition(400,400);
+        PositionIF pos = GameFactory.randomPosition();
+        BlobPath path = PathFactory.squarePath(rnd.nextInt(5) + 10, rnd.nextInt(3) + 7);
         
-        for (int i = 0; i < offsets.length; i++) {
-            createRandomOffsetBlob(b1, offsets[i][0], offsets[i][1]);
-        }
-        
+        int dist = rnd.nextInt(50) + 25;
+        //BlobIF cluster = BlobFactory.createFourCluster(pos, path, bs, dist, w, r);
+        BlobIF cluster = BlobFactory.createNineCluster(pos, path, bs, dist, w, r);
+        cluster.setLifeTime(100000);
+ 
         return w;
     }
     
