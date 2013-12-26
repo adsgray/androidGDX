@@ -12,6 +12,7 @@ import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
 
 public class GameFactory {
     public static WorldIF defaultWorld() {
@@ -427,6 +428,7 @@ public class GameFactory {
         CircleConfig cc = new CircleConfig(Color.RED, 30);
         BlobIF b1 = new CircleBlob(0, p, GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, cc);
         b1.setPath(PathFactory.launchUp(75, -2));
+        // TODO: set position trigger for Y=0 which will kill this blob...
         b1.setLifeTime(1000);
         b1.setWorld(w);
         b1 = BlobFactory.rainbowColorCycler(b1, 3);
@@ -489,6 +491,23 @@ public class GameFactory {
         missile.registerCollisionTrigger(deactivateMissile);
         missile.registerCollisionTrigger(targetHit);
  
+        return w;
+    }
+    
+    
+    public static WorldIF populateWorldTestOffsetPosition(WorldIF w, RenderConfig r) {
+        BlobIF b1 = BlobFactory.createOozeBlob(w, r);
+        b1.setPosition(new BlobPosition(400,400));
+        b1.setPath(PathFactory.jigglePath(5));
+        b1.setWorld(w);
+        b1.setLifeTime(100000);
+        w.addBlobToWorld(b1);
+        
+        RectConfig rc = new RectConfig(Color.RED, 30,30);
+        BlobIF b2 = new RectangleBlob(0, new OffsetPosition(b1.getPosition(), 100,100), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, rc);
+        b2.setWorld(w);
+        b2.setLifeTime(100000);
+        w.addBlobToWorld(b2);
         return w;
     }
     
