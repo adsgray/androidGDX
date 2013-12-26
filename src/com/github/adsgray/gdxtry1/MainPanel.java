@@ -46,7 +46,8 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldOoze(world, renderConfig);
 	    //GameFactory.populateWorldCollisionTest(world, renderConfig);
 	    //GameFactory.populateWorldTestTriggers(world, renderConfig);
-	    GameFactory.populateWorldGameTestOne(world, renderConfig);
+	    //GameFactory.populateWorldGameTestOne(world, renderConfig);
+	    GameFactory.populateWorldTestTriggersAgain(world, renderConfig);
 	}
 
 	@Override

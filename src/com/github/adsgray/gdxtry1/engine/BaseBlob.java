@@ -84,6 +84,15 @@ public class BaseBlob implements BlobIF {
             return true;
         }
 
+        if (ticks >= maxTicks) {
+            // note: this may set maxTicks to something higher
+            doTriggers(tickDeathTriggers, null);
+        }
+
+        if (ticks >= maxTicks) {
+            return false;
+        }
+
         //Log.d("tick", "tick");
         position.updateByVelocity(velocity);
         // update velocity with its accelleration
@@ -95,14 +104,6 @@ public class BaseBlob implements BlobIF {
         }
         
         ticks += 1;
-        if (ticks >= maxTicks) {
-            // note: this may set maxTicks to something higher
-            doTriggers(tickDeathTriggers, null);
-        }
-
-        if (ticks >= maxTicks) {
-            return false;
-        }
         
         return true;
     }
@@ -206,6 +207,8 @@ public class BaseBlob implements BlobIF {
     }
 
     private Vector<BlobTrigger> addTrigger(Vector<BlobTrigger> set, BlobTrigger trigger) {
+        if (trigger == null) return set;
+
         if (set == null) {
             set = new Vector<BlobTrigger>();
         }

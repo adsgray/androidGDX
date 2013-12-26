@@ -1,5 +1,9 @@
 package com.github.adsgray.gdxtry1.game;
 
+import java.util.Iterator;
+import java.util.Vector;
+
+import com.badlogic.gdx.utils.Array;
 import com.github.adsgray.gdxtry1.engine.BlobIF;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
@@ -21,6 +25,24 @@ public class TriggerFactory {
         return trig;
     }
     
+    // same as above but always registers the chainTrigger after
+    // performing the transformation
+    static BlobTrigger primaryTransformChainingTrigger(BlobTransform bt) {
+          BlobTrigger trig = new BlobTrigger(bt) {
+            @Override
+            public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                BlobIF transformed = blobTransform.transform(source);
+                //transformed.clearTickDeathTriggers();
+                // make sure that the chainTrigger only appears once in the list of triggers
+                // inside the Blob
+                transformed.deregisterTickDeathTrigger(chainTrigger);
+                transformed.registerTickDeathTrigger(chainTrigger);
+                return transformed;
+            }
+        };
+        return trig;  
+    }
+
     // performs bt on the secondary of a (collision) trigger
     static BlobTrigger secondaryTransformTrigger(BlobTransform bt) {
         BlobTrigger trig = new BlobTrigger(bt) {
@@ -56,5 +78,33 @@ public class TriggerFactory {
         return bt;
     }
     
+    
 
+    // note: uses tickDeathTriggers and assumes that b has no such triggers already
+    static public BlobIF createTransformSequence(BlobIF b, Vector<BlobTransform> transforms, Boolean loop) {
+        Vector<BlobTrigger> triggers = new Vector<BlobTrigger>();
+        
+        // create triggers out of the transforms
+        Iterator<BlobTransform> iter = transforms.iterator();
+        while (iter.hasNext()) {
+            triggers.add(primaryTransformChainingTrigger(iter.next()));
+        }
+        
+        // now chain them together
+        // 0 chains to 1, 1 chains to 2, ... N chains to 0
+        int i = 0;
+        for (i = 0; i < triggers.size() - 1; i++) {
+            triggers.get(i).setChainTrigger(triggers.get(i + 1));
+        }
+
+        // last trigger chains to trigger 0 if looping
+        if (loop) {
+            BlobTrigger lastTrigger = triggers.get(triggers.size() - 1);
+            lastTrigger.setChainTrigger(triggers.get(0));
+        }
+
+        // kick things off by registering the first trigger
+        b.registerTickDeathTrigger(triggers.get(0));
+        return b;
+    }
 }

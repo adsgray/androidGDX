@@ -374,6 +374,38 @@ public class GameFactory {
 
         return w;
     }
+
+    public static WorldIF populateWorldTestTriggersAgain(WorldIF w, RenderConfig r) {
+
+        // replace the incoming blob with an OozeBlob
+        BlobTransform rebirth = new BlobTransform() {
+            @Override
+            public BlobIF transform(BlobIF b) {
+                Log.d("trace", "in rebirth transform");
+                WorldIF w = b.getWorld();
+                RenderConfig r = b.getRenderer();
+                BlobIF b1 = BlobFactory.createOozeBlob(w, r);
+                b1.setPosition(b.getPosition());
+                b1.setWorld(w);
+                b1.setLifeTime(200);
+                w.addBlobToWorld(b1);
+                return b1;
+            }
+        };
+       
+
+        BlobIF seed = new NullBlob(r);
+        seed.setPosition(new BlobPosition(400,400));
+        seed.setWorld(w);
+        w.addBlobToWorld(seed);
+
+        Vector<BlobTransform> sequence = new Vector<BlobTransform>();
+        sequence.add(rebirth);
+        sequence.add(TriggerFactory.transformReplaceWithExplosion());
+        seed = TriggerFactory.createTransformSequence(seed, sequence, true);
+
+        return w;   
+    }
     
     private static BlobIF createTargetBlob(WorldIF w, RenderConfig r) {
         //BlobIF b = BlobFactory.createDefaultBlob(w, r);
