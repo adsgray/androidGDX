@@ -1,7 +1,8 @@
 package com.github.adsgray.gdxtry1.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 import android.util.Log;
 
@@ -404,7 +405,7 @@ public class GameFactory {
         seed.setWorld(w);
         w.addBlobToWorld(seed);
 
-        Vector<BlobTransform> sequence = new Vector<BlobTransform>();
+        List<BlobTransform> sequence = new ArrayList<BlobTransform>();
         sequence.add(rebirth);
         sequence.add(TriggerFactory.transformReplaceWithExplosion());
         seed = TriggerFactory.createTransformSequence(seed, sequence, true);

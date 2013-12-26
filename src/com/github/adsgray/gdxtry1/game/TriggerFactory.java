@@ -1,7 +1,8 @@
 package com.github.adsgray.gdxtry1.game;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import com.badlogic.gdx.utils.Array;
 import com.github.adsgray.gdxtry1.engine.BlobIF;
@@ -81,8 +82,8 @@ public class TriggerFactory {
     
 
     // note: uses tickDeathTriggers and assumes that b has no such triggers already
-    static public BlobIF createTransformSequence(BlobIF b, Vector<BlobTransform> transforms, Boolean loop) {
-        Vector<BlobTrigger> triggers = new Vector<BlobTrigger>();
+    static public BlobIF createTransformSequence(BlobIF b, List<BlobTransform> transforms, Boolean loop) {
+        List<BlobTrigger> triggers = new ArrayList<BlobTrigger>();
         
         // create triggers out of the transforms
         Iterator<BlobTransform> iter = transforms.iterator();

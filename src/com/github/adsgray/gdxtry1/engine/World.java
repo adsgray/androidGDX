@@ -1,9 +1,9 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
-import java.util.Vector;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
@@ -162,9 +162,9 @@ public class World implements WorldIF {
 
     // another C struct
     private class BlobManager {
-        public Vector<BlobIF> objs;
-        public Vector<BlobIF> toAdd;
-        public Vector<BlobIF> toRemove;
+        public List<BlobIF> objs;
+        public List<BlobIF> toAdd;
+        public List<BlobIF> toRemove;
         // maps from a BlobIF that is in the World to its baseBlob. Necessary
         // because collision triggers will be operating on the baseBlob and will
         // maybe try to remove themselves from the world.
@@ -172,9 +172,9 @@ public class World implements WorldIF {
         private HashMap<BlobIF, BlobIF> baseBlobMap; 
         
         public BlobManager() {
-            objs = new Vector<BlobIF>();
-            toAdd = new Vector<BlobIF>();
-            toRemove = new Vector<BlobIF>();
+            objs = new ArrayList<BlobIF>();
+            toAdd = new ArrayList<BlobIF>();
+            toRemove = new ArrayList<BlobIF>();
             baseBlobMap = new HashMap<BlobIF, BlobIF>();
         }
         

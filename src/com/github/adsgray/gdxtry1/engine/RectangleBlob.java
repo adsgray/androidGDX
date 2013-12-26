@@ -1,6 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.adsgray.gdxtry1.output.*;
 import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
@@ -48,8 +49,8 @@ public class RectangleBlob extends BaseBlob {
      * 
      */
     @Override
-    public Vector<BlobIF> explode(Integer numPieces) {
-        Vector<BlobIF> vec = new Vector<BlobIF>();
+    public List<BlobIF> explode(Integer numPieces) {
+        List<BlobIF> vec = new ArrayList<BlobIF>();
         updateWorldAfterExplode(vec);
         sound.crash(EXPLODE_INTENSITY);
         return vec;

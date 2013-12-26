@@ -1,6 +1,8 @@
 package com.github.adsgray.gdxtry1.engine;
 
-import java.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.game.GameFactory;
@@ -39,8 +41,8 @@ public class SplittingRectangleBlob extends RectangleBlob {
     }
 
     @Override
-    public Vector<BlobIF> explode(Integer numPieces) {
-        Vector<BlobIF> vec = new Vector<BlobIF>();
+    public List<BlobIF> explode(Integer numPieces) {
+        List<BlobIF> vec = new ArrayList<BlobIF>();
         
         while (numPieces > 0) {
             BlobIF b = new SplittingRectangleBlob(mass, position, 

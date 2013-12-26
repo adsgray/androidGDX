@@ -1,7 +1,9 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import android.util.Log;
@@ -56,8 +58,8 @@ public class BaseBlob implements BlobIF {
     protected RenderConfig renderer;
     protected RenderConfigIF renderConfig;
 
-    protected Vector<BlobTrigger> collisionTriggers;
-    protected Vector<BlobTrigger> tickDeathTriggers;
+    protected List<BlobTrigger> collisionTriggers;
+    protected List<BlobTrigger> tickDeathTriggers;
 
     @Override public RenderConfigIF getRenderConfig() { return renderConfig; }
 
@@ -121,7 +123,7 @@ public class BaseBlob implements BlobIF {
         return extent.intersects(position, with);
     }
    
-    protected BlobIF doTriggers(Vector<BlobTrigger> set, BlobIF secondary) {
+    protected BlobIF doTriggers(List<BlobTrigger> set, BlobIF secondary) {
 
         if (set == null) return this;
 
@@ -156,7 +158,7 @@ public class BaseBlob implements BlobIF {
         // with.explode(5);
     }
 
-    protected void updateWorldAfterExplode(Vector<BlobIF> b) {
+    protected void updateWorldAfterExplode(List<BlobIF> b) {
         Iterator<BlobIF> it;
         
         if (world == null) {
@@ -172,8 +174,8 @@ public class BaseBlob implements BlobIF {
         world.removeBlobFromWorld(this);
     }
 
-    protected Vector<BlobIF> explode(Integer numPieces) {
-        Vector<BlobIF> vec = new Vector<BlobIF>();
+    protected List<BlobIF> explode(Integer numPieces) {
+        List<BlobIF> vec = new ArrayList<BlobIF>();
         // create some more Blobs and return them
         // also make some sound?
         return vec;
@@ -206,17 +208,17 @@ public class BaseBlob implements BlobIF {
         tickPause = ticks;
     }
 
-    private Vector<BlobTrigger> addTrigger(Vector<BlobTrigger> set, BlobTrigger trigger) {
+    private List<BlobTrigger> addTrigger(List<BlobTrigger> set, BlobTrigger trigger) {
         if (trigger == null) return set;
 
         if (set == null) {
-            set = new Vector<BlobTrigger>();
+            set = new ArrayList<BlobTrigger>();
         }
         set.add(trigger);       
         return set;
     }
     
-    private void removeTrigger(Vector<BlobTrigger> set, BlobTrigger trigger) {
+    private void removeTrigger(List<BlobTrigger> set, BlobTrigger trigger) {
         if (set != null) {
             set.remove(trigger);
         }
