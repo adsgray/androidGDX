@@ -268,8 +268,9 @@ public class GameFactory {
         //BlobIF ooze = BlobFactory.createPrizeBlob(inWorld, r);
         //BlobPath p = PathFactory.jigglePath(10);
 
-        //BlobPath p = PathFactory.upperTriangle(5, 3);
-        BlobPath p = PathFactory.backAndForth(10, 5);
+        //BlobPath p = PathFactory.upperTriangle(4, 2);
+        BlobPath p = PathFactory.stationary();
+        //BlobPath p = PathFactory.backAndForth(10, 5);
         ooze.setPath(p);
 
         //inWorld.addBlobToWorld(new BlobIgnoreTickDecorator(BlobFactory.throbber(ooze), rnd.nextInt(2) + 1));
@@ -522,8 +523,8 @@ public class GameFactory {
                 RenderConfig r = parent.getRenderer();
                 RectConfig rc = new RectConfig(GameFactory.randomColor(), 30,30);
 
-                //BlobPath p = new BlobPath(GameFactory.zeroVelocity(), GameFactory.zeroAccel());
-                BlobPath p = new BlobPath(parent.getVelocity(), parent.getAccel());
+                BlobPath p = PathFactory.stationary();
+                //BlobPath p = new BlobPath(parent.getVelocity(), parent.getAccel());
                 BlobIF b2 = new RectangleBlob(0, null, null, null, r, rc);
                 b2.setPath(p);
                 b2.setWorld(w);
@@ -547,7 +548,9 @@ public class GameFactory {
                 
                 BlobIF ooze = BlobFactory.createOozeBlob(w, r);
                 ooze.setPosition(parent.getPosition());
-                ooze.setPath(new BlobPath(parent.getVelocity(), parent.getAccel()));
+                BlobPath p = PathFactory.stationary();
+                //ooze.setPath(new BlobPath(parent.getVelocity(), parent.getAccel()));
+                ooze.setPath(p);
 
                 // test if these are necessary
                 // not in this case as createOozeBlob inits them as this:
@@ -573,8 +576,8 @@ public class GameFactory {
         // must find a clean way to have setupPath done only once when blob created
         // likely have to create a blobsource...
         List<BlobTransform> trlist = new ArrayList<BlobTransform>();
-        trlist.add(setupPath);
-        //trlist.add(oozeTransform);
+        //trlist.add(setupPath);
+        trlist.add(oozeTransform);
         trlist.add(rectangleTransform);
         BlobTrigger transformCycle = TriggerFactory.createTransformSequence(trlist, true);
         
@@ -611,7 +614,7 @@ public class GameFactory {
             // this will be used as an Axis trigger so secondary is empty
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
                 Log.d("trace", "in bottom trigger");
-                AccelFactory.bump(source, AccelFactory.up(8), 8);
+                AccelFactory.bump(source, AccelFactory.up(source), 8);
                 source.setLifeTime(100000);
                 return source;
             }
@@ -627,6 +630,10 @@ public class GameFactory {
         b.setWorld(w);
         w.addBlobToWorld(b);
 
+        return w;
+    }
+
+    public static WorldIF populateWorldTestNewBlobSet(WorldIF w, RenderConfig r) {
         return w;
     }
 }

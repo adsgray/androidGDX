@@ -9,5 +9,4 @@ public class BaseAccel implements AccelIF {
     @Override public VelocityIF accellerate(VelocityIF vel) {
         return vel;
     }
-
 }

@@ -38,4 +38,6 @@ public class PositionDecorator implements PositionIF {
         component.handleTriggers(source);
     }
 
+    public PositionIF getComponent() { return component; }
+
 }

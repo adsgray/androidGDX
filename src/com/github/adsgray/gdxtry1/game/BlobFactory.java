@@ -157,7 +157,8 @@ public class BlobFactory extends GameFactory {
     };
 
     private static BlobIF createBlackOozeComponent(BlobIF parent) {
-        BlobPath p = PathFactory.squarePath(7, 2);
+        //BlobPath p = PathFactory.stationary();
+        BlobPath p = PathFactory.squarePath(5, 2);
         BlobIF o = new CircleBlob(0, null, p.vel, p.acc, parent.getRenderer(), blackOozeCircle());
         return o;
     }
@@ -174,7 +175,8 @@ public class BlobFactory extends GameFactory {
     }
 
     private static BlobIF createPrizeComponent(BlobIF parent) {
-        BlobPath p = PathFactory.squarePath(10, 3);
+        //BlobPath p = PathFactory.stationary();
+        BlobPath p = PathFactory.squarePath(5, 2);
         BlobIF b = new RectangleBlob(0, null, p.vel, p.acc, parent.getRenderer(), prizeRectangle());
         return b;
     }
@@ -187,7 +189,8 @@ public class BlobFactory extends GameFactory {
     };
 
     public static BlobIF createSpinnerBlobset(WorldIF inWorld, RenderConfig r, BlobSource blobSource, int numComponents, int posStep) {
-        BlobIF bs = new BlobSet(10, randomPosition(), zeroVelocity(), zeroAccel(), r);
+        //BlobIF bs = new BlobSet(10, randomPosition(), zeroVelocity(), zeroAccel(), r);
+        BlobIF bs = new BlobSet2(10, randomPosition(100,600,100,1000), zeroVelocity(), zeroAccel(), r);
         bs.setWorld(inWorld);
         bs.setLifeTime(100000);
         
@@ -195,10 +198,18 @@ public class BlobFactory extends GameFactory {
         // with offset position instead of composing accel ?!
         while (numComponents > 0) {
             // put them all in the same place (BlobSet position)
+            /*
             PositionIF pos = new BlobPosition(bs.getPosition());
             pos.setX(pos.getX() - numComponents * posStep);
             pos.setY(pos.getY() - numComponents * posStep);
+            */
+
+            ///// for BlobSet2 only:
+            PositionIF pos = new BlobPosition(-numComponents * posStep, -numComponents * posStep);
+            /////
+
             BlobIF o = blobSource.generate(bs);
+
             o.setPosition(pos);
             // each of them will start moving at a different time:
             // this actually interacts badly with Blobsets...
