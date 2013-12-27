@@ -43,6 +43,13 @@ public interface BlobIF {
     
     public abstract static class BlobTransform {
         public abstract BlobIF transform(BlobIF b);
+        
+        // after transforming you often swap the new blob into the original
+        // blob's cluster:
+        protected void clusterSwap(BlobIF in, BlobIF out) {
+            ClusterIF cluster = out.getCluster();
+            if (cluster != null) cluster.swap(in, out);
+        }
     }
     
     public abstract static class BlobSource {
@@ -50,6 +57,12 @@ public interface BlobIF {
         // the generated Blob to parent.World.
         // This is so that it can decide whether the 
         // generated Blob is a missile/target/neither
+
+        // allow each blob generated to have a tickDeathTrigger attached it to at
+        // creation time.
+        public BlobTrigger tickDeathTrigger;
+        public BlobSource(BlobTrigger t) { tickDeathTrigger = t; }
+        public BlobSource() {}
         public abstract BlobIF generate(BlobIF parent);
     }
     

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import android.util.Log;
+
 import com.badlogic.gdx.utils.Array;
 import com.github.adsgray.gdxtry1.engine.BlobIF;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
@@ -82,7 +84,7 @@ public class TriggerFactory {
     
 
     // note: uses tickDeathTriggers and assumes that b has no such triggers already
-    static public BlobIF createTransformSequence(BlobIF b, List<BlobTransform> transforms, Boolean loop) {
+    static public BlobTrigger createTransformSequence(List<BlobTransform> transforms, Boolean loop) {
         List<BlobTrigger> triggers = new ArrayList<BlobTrigger>();
         
         // create triggers out of the transforms
@@ -105,7 +107,6 @@ public class TriggerFactory {
         }
 
         // kick things off by registering the first trigger
-        b.registerTickDeathTrigger(triggers.get(0));
-        return b;
+        return triggers.get(0);
     }
 }

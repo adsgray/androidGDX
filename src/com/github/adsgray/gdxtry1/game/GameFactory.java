@@ -344,7 +344,6 @@ public class GameFactory {
         // turn the blob into an explosion
         BlobTrigger explosion = new BlobTrigger() {
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
-                Log.d("trace", "in death trigger");
                 BlobIF b = TriggerFactory.replaceWithExplosion(source);
                 b.registerTickDeathTrigger(chainTrigger);
                 return b;
@@ -354,7 +353,6 @@ public class GameFactory {
         // regenerate a blob at the same position...
         BlobTrigger rebirth = new BlobTrigger() {
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
-                Log.d("trace", "in rebirth trigger");
                 WorldIF w = source.getWorld();
                 RenderConfig r = source.getRenderer();
                 BlobIF b1 = BlobFactory.createOozeBlob(w, r);
@@ -387,7 +385,6 @@ public class GameFactory {
         BlobTransform rebirth = new BlobTransform() {
             @Override
             public BlobIF transform(BlobIF b) {
-                Log.d("trace", "in rebirth transform");
                 WorldIF w = b.getWorld();
                 RenderConfig r = b.getRenderer();
                 BlobIF b1 = BlobFactory.createOozeBlob(w, r);
@@ -408,7 +405,8 @@ public class GameFactory {
         List<BlobTransform> sequence = new ArrayList<BlobTransform>();
         sequence.add(rebirth);
         sequence.add(TriggerFactory.transformReplaceWithExplosion());
-        seed = TriggerFactory.createTransformSequence(seed, sequence, true);
+        BlobTrigger trSequence = TriggerFactory.createTransformSequence(sequence, true);
+        seed.registerTickDeathTrigger(trSequence);
 
         return w;   
     }
@@ -454,7 +452,6 @@ public class GameFactory {
         // regenerate a blob at the same position...
         BlobTrigger newmissile = new BlobTrigger() {
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
-                Log.d("trace", "in rebirth trigger");
                 WorldIF w = source.getWorld();
                 RenderConfig r = source.getRenderer();
 
@@ -502,31 +499,72 @@ public class GameFactory {
    
     public static WorldIF populateWorldTestOffsetPosition(WorldIF w, RenderConfig r) {
         
-        BlobSource bs = new BlobSource() {
-            @Override public BlobIF generate(BlobIF parent) {
+        BlobTransform rectangleTransform = new BlobTransform() {
+            @Override public BlobIF transform(BlobIF parent) {
                 WorldIF w = parent.getWorld();
                 RenderConfig r = parent.getRenderer();
                 RectConfig rc = new RectConfig(GameFactory.randomColor(), 30,30);
+
                 BlobIF b2 = new RectangleBlob(0, null, GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, rc);
                 b2.setWorld(w);
-                b2.setLifeTime(100000);
+                b2.setLifeTime(rnd.nextInt(100) + 200);
+                b2.setPosition(parent.getPosition());
                 if (rnd.nextInt(100) < 50) {
-                    b2 = BlobFactory.throbber(b2);
+                    //b2 = BlobFactory.throbber(b2);
+                    b2 = BlobFactory.addAltSmokeTrail(b2);
                 }
+
                 w.addBlobToWorld(b2); 
+                clusterSwap(b2, parent);
                 return b2;
             }
         };
+        
+        BlobTransform oozeTransform = new BlobTransform() {
+             @Override public BlobIF transform(BlobIF parent) {
+                WorldIF w = parent.getWorld();
+                RenderConfig r = parent.getRenderer();
+                
+                BlobIF ooze = BlobFactory.createOozeBlob(w, r);
+                ooze.setPosition(parent.getPosition());
+
+                // test if these are necessary
+                // not in this case as createOozeBlob inits them as this:
+                //ooze.setVelocity(GameFactory.zeroVelocity());
+                //ooze.setAccel(GameFactory.zeroAccel());
+
+                ooze.setWorld(w);
+                ooze.setLifeTime(rnd.nextInt(100) + 200);
+                w.addBlobToWorld(ooze); 
+                
+                clusterSwap(ooze, parent);
+                return ooze;
+            }           
+        };
+        
+        // The idea here is to create a cluster of blobs that cycle between
+        // the "states" defined by the BlobTransforms defined above.
+        // 1. define transforms that maintain the source position (and set a relatively short lifetime)
+        // 2. create a trigger loop using TriggerFactory.createTransformSequence
+        // 3. create a nullBlobSource that assigns that trigger loop to each created blob's
+        //    tickDeathTrigger
+
+        List<BlobTransform> trlist = new ArrayList<BlobTransform>();
+        trlist.add(rectangleTransform);
+        trlist.add(oozeTransform);
+        BlobTrigger transformCycle = TriggerFactory.createTransformSequence(trlist, true);
+        
 
         //PositionIF pos = new BlobPosition(400,400);
         PositionIF pos = GameFactory.randomPosition();
         BlobPath path = PathFactory.squarePath(rnd.nextInt(5) + 10, rnd.nextInt(3) + 7);
+        BlobSource bs = BlobFactory.nullBlobSource(transformCycle);
         
         int dist = rnd.nextInt(50) + 25;
         if (rnd.nextInt(100) < 50) dist = -dist;
         //BlobIF cluster = BlobFactory.createFourCluster(pos, path, bs, dist, w, r);
-        BlobIF cluster = BlobFactory.createNineCluster(pos, path, bs, dist, w, r);
-        //BlobIF cluster = BlobFactory.createThreeCluster(pos, path, bs, dist, w, r);
+        //BlobIF cluster = BlobFactory.createNineCluster(pos, path, bs, dist, w, r);
+        BlobIF cluster = BlobFactory.createThreeCluster(pos, path, bs, dist, w, r);
         cluster.setLifeTime(1000000);
         cluster = BlobFactory.throbber(cluster);
         cluster = BlobFactory.rainbowColorCycler(cluster, 10);

@@ -9,8 +9,10 @@ public class NullBlob extends BaseBlob {
         // This Blob will die immediately.
         // Mainly used to seed transformation chains/loops
         maxTicks = 0;
-        
+        // a renderConfig that does nothing
+        renderConfig = RenderConfig.nullRenderConfig;
     }
+
     public NullBlob(RenderConfig r) {
         // dangerous?
         this(null, null, null, r);

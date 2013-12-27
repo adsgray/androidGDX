@@ -31,6 +31,12 @@ public class RenderConfig {
         public void scaleColor(float factor);
     }
     
+    public static RenderConfigIF nullRenderConfig = new RenderConfigIF() {
+        @Override public void scale(float factor) { }
+        @Override public void setColor(Color c) { }
+        @Override public void scaleColor(float factor) { }
+    };
+    
     public static abstract class BaseRenderConfig implements RenderConfigIF {
         public Color color;
         public ShapeType shapeType;

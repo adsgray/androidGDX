@@ -1,8 +1,11 @@
 package com.github.adsgray.gdxtry1.game;
 
+import android.util.Log;
+
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
+import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.BlobRenderColorDecorator.ColorDecoratorEntry;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
@@ -338,6 +341,20 @@ public class BlobFactory extends GameFactory {
         
         return key;  
     }
-    
-    
+  
+    static public BlobSource nullBlobSource(BlobTrigger t) {
+        BlobSource n = new BlobSource(t) {
+            @Override
+            public BlobIF generate(BlobIF parent) {
+                WorldIF w = parent.getWorld();
+                RenderConfig r = parent.getRenderer();
+                BlobIF n = new NullBlob(r);
+                n.setWorld(w);
+                w.addBlobToWorld(n);
+                n.registerTickDeathTrigger(tickDeathTrigger);
+                return n;
+            }
+        };
+        return n;
+    }
 }

@@ -137,6 +137,8 @@ public class BaseBlob implements BlobIF {
     protected BlobIF doTriggers(List<BlobTrigger> set, BlobIF secondary) {
 
         if (set == null) return this;
+        
+        Log.d("trace", "running trigger");
 
         Iterator<BlobTrigger> iter = set.iterator();
         BlobIF b = this;
