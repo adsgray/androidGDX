@@ -4,7 +4,7 @@ import java.util.Random;
 
 import android.util.Log;
 
-public class WeirdAccel implements AccelIF {
+public class WeirdAccel extends BaseAccel {
 
     public enum accelDirection {
         UP, DOWN 

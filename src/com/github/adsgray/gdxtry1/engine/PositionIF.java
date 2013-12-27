@@ -2,7 +2,7 @@ package com.github.adsgray.gdxtry1.engine;
 
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 
-public interface PositionIF {
+public interface PositionIF extends DecoratorIF {
     public int getX();
     public int getY();
     
@@ -10,6 +10,9 @@ public interface PositionIF {
     public int setY(int y);
     
     public PositionIF updateByVelocity(VelocityIF vel);
+    public PositionIF compressDecorators(); // 'recursively' remove decorators that have expired
+    
+    
     public PositionIF subtract(PositionIF p);
     public PositionIF add(PositionIF p);
     public PositionIF multiply(double factor);
@@ -19,6 +22,7 @@ public interface PositionIF {
     public double length();
     public PositionIF unitVector();
     public PositionIF ofLength(double factor); // vector in same direction of length "factor"
+    
     
     public enum Axis {
         X,Y

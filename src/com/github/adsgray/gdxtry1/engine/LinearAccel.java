@@ -2,7 +2,7 @@ package com.github.adsgray.gdxtry1.engine;
 
 import android.util.Log;
 
-public class LinearAccel implements AccelIF {
+public class LinearAccel extends BaseAccel {
 
     protected Integer x;
     protected Integer y;

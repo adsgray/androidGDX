@@ -15,7 +15,6 @@ public class AccelRandomDecorator extends AccelDecorator {
         super(component);
     }
     
-
     @Override
     public VelocityIF accellerate(VelocityIF vel) {
         // should abstract this, I keep messing it up when I copy/re-create it.

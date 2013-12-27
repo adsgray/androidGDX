@@ -1,7 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
 // eg. use to dampen/intensify acceleration. or compose multiple accelerations.
-public abstract class AccelDecorator implements AccelIF {
+public class AccelDecorator extends BaseAccel {
     
     protected AccelIF component;
     
@@ -9,10 +9,10 @@ public abstract class AccelDecorator implements AccelIF {
         this.component = component;
     }
 
+
     @Override
     public VelocityIF accellerate(VelocityIF vel) {
         vel.accelerate(component);
         return vel;
     }
-
 }

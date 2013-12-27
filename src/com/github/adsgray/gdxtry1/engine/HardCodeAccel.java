@@ -49,4 +49,9 @@ public class HardCodeAccel implements AccelIF {
         return vel;
     }
 
+    @Override
+    public DecoratorIF compressDecorators() {
+        return this;
+    }
+
 }

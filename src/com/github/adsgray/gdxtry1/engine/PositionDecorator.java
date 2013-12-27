@@ -15,6 +15,11 @@ public class PositionDecorator implements PositionIF {
     @Override public int setX(int x) { return component.setX(x); }
     @Override public int setY(int y) { return component.setY(y); }
     @Override public PositionIF updateByVelocity(VelocityIF vel) { return component.updateByVelocity(vel); }
+
+    // subclassed decorators can override this to 'expire' themselves after a certain number of ticks.
+    // when they expire they will return component.compressDecorators();
+    @Override public PositionIF compressDecorators() { return this; }
+
     @Override public PositionIF subtract(PositionIF p) { return component.subtract(p); }
     @Override public PositionIF add(PositionIF p) { return component.add(p); }
     @Override public PositionIF multiply(double factor) { return component.multiply(factor); }

@@ -43,6 +43,10 @@ public class BlobPosition implements PositionIF {
         return this;
     }
  
+    public PositionIF compressDecorators() { 
+        return this;
+    }
+
     // kind of an ugly optimization to delay creating the HashMaps
     // until a trigger is registered but seems a big waste to do
     // it in the constructor when very few will use it.
