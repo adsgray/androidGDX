@@ -73,6 +73,10 @@ public class BaseBlob implements BlobIF {
         //extent = new CircleExtent(30);
         ticks = 0;
     }
+    
+    public BaseBlob(BlobIF in) {
+        this(in.getMass(), in.getPosition(), in.getVelocity(), in.getAccel(), in.getRenderer());
+    }
 
     /* called by outside controller to tell this Blob
      * to advance one time unit.

@@ -4,12 +4,13 @@ import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 import com.github.adsgray.gdxtry1.output.SoundIF;
 
-public abstract class BlobDecorator implements BlobIF {
+public abstract class BlobDecorator extends BaseBlob {
 
     protected BlobIF component;
     protected WorldIF world;
 
     public BlobDecorator(BlobIF component) {
+        super(component);
         this.component = component;
         world = component.getWorld();
     }
