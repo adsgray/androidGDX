@@ -576,7 +576,6 @@ public class GameFactory {
         // must find a clean way to have setupPath done only once when blob created
         // likely have to create a blobsource...
         List<BlobTransform> trlist = new ArrayList<BlobTransform>();
-        //trlist.add(setupPath);
         trlist.add(oozeTransform);
         trlist.add(rectangleTransform);
         BlobTrigger transformCycle = TriggerFactory.createTransformSequence(trlist, true);
@@ -585,7 +584,7 @@ public class GameFactory {
         //PositionIF pos = new BlobPosition(400,400);
         PositionIF pos = GameFactory.randomPosition();
         BlobPath path = PathFactory.squarePath(rnd.nextInt(5) + 10, rnd.nextInt(3) + 7);
-        BlobSource bs = BlobFactory.nullBlobSource(transformCycle);
+        BlobSource bs = BlobFactory.nullBlobSource(transformCycle, setupPath);
         
         int dist = rnd.nextInt(50) + 25;
         if (rnd.nextInt(100) < 50) dist = -dist;

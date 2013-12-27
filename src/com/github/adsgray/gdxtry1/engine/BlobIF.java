@@ -65,9 +65,30 @@ public interface BlobIF {
         // allow each blob generated to have a tickDeathTrigger attached it to at
         // creation time.
         public BlobTrigger tickDeathTrigger;
+        public BlobTransform transform; // a transform to be applied by generate before returning blob
         public BlobSource(BlobTrigger t) { tickDeathTrigger = t; }
+        public BlobSource(BlobTrigger trig, BlobTransform tran) { tickDeathTrigger = trig; transform = tran; }
         public BlobSource() {}
-        public abstract BlobIF generate(BlobIF parent);
+        protected BlobIF maybeTransform(BlobIF b) {
+            if (transform != null) {
+                b = transform.transform(b);
+            }
+            
+            if (tickDeathTrigger != null) {
+                b.registerTickDeathTrigger(tickDeathTrigger);
+            }
+            return b;
+        }
+
+        // subclass defines this:
+        protected abstract BlobIF generate(BlobIF parent);
+
+        // users call this:
+        public BlobIF get(BlobIF parent) {
+            BlobIF b = generate(parent);
+            b.setWorld(parent.getWorld());
+            return maybeTransform(b);
+        }
     }
     
     public abstract static class BlobTrigger {

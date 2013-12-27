@@ -5,6 +5,7 @@ import android.util.Log;
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
+import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.BlobRenderColorDecorator.ColorDecoratorEntry;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
@@ -38,7 +39,6 @@ public class BlobFactory extends GameFactory {
         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
                 PathFactory.smokeTrailAccel(), c.getRenderer(), smokeTrail());
         b = new BlobCrazyAccelDecorator(b);
-        b.setWorld(c.getWorld());
         b.setLifeTime(25);
         return b;
     }
@@ -46,7 +46,7 @@ public class BlobFactory extends GameFactory {
     // convenience when creating BlobTrailDecorators
     static public BlobSource smokeTrailBlobSource = new BlobSource() {
         @Override
-        public BlobIF generate(BlobIF parent) {
+        protected BlobIF generate(BlobIF parent) {
             WorldIF w = parent.getWorld();
             BlobIF st = createSmokeTrailBlob(parent);
             w.addBlobToWorld(st);
@@ -68,10 +68,9 @@ public class BlobFactory extends GameFactory {
     }
     static public BlobSource altSmokeTrailBlobSource = new BlobSource() {
         @Override
-        public BlobIF generate(BlobIF parent) {
+        protected BlobIF generate(BlobIF parent) {
             WorldIF w = parent.getWorld();
             BlobIF st = createAltSmokeTrailBlob(parent);
-            st.setWorld(w);
             w.addBlobToWorld(st);
             return st;
         }
@@ -104,7 +103,7 @@ public class BlobFactory extends GameFactory {
     // convenience when creating ExplosionBlobs
     static public BlobSource explosionBlobSource = new BlobSource() {
         @Override
-        public BlobIF generate(BlobIF parent) {
+        protected BlobIF generate(BlobIF parent) {
             WorldIF w = parent.getWorld();
             BlobIF eb = createExplosionBlob(parent);
             // neither target nor missile ("ephemeral")
@@ -165,7 +164,7 @@ public class BlobFactory extends GameFactory {
 
     static public BlobSource blackOozeBlobSource = new BlobSource() {
         @Override
-        public BlobIF generate(BlobIF parent) {
+        protected BlobIF generate(BlobIF parent) {
             return createBlackOozeComponent(parent);
         }
     };
@@ -208,7 +207,7 @@ public class BlobFactory extends GameFactory {
             PositionIF pos = new BlobPosition(-numComponents * posStep, -numComponents * posStep);
             /////
 
-            BlobIF o = blobSource.generate(bs);
+            BlobIF o = blobSource.get(bs);
 
             o.setPosition(pos);
             // each of them will start moving at a different time:
@@ -347,7 +346,7 @@ public class BlobFactory extends GameFactory {
         key.setWorld(w);
         
         for (int i = 0; i < offsets.length; i++) {
-            BlobIF b = source.generate(key);
+            BlobIF b = source.get(key);
             b.setPosition(new BlobPosition(offsets[i][0], offsets[i][1]));
             PathFactory.composePositions(b, key);
             b.setCluster(key);
@@ -357,16 +356,12 @@ public class BlobFactory extends GameFactory {
         return key;  
     }
   
-    static public BlobSource nullBlobSource(BlobTrigger t) {
-        BlobSource n = new BlobSource(t) {
+    static public BlobSource nullBlobSource(BlobTrigger t, BlobTransform tr) {
+        BlobSource n = new BlobSource(t, tr) {
             @Override
             public BlobIF generate(BlobIF parent) {
-                WorldIF w = parent.getWorld();
                 RenderConfig r = parent.getRenderer();
                 BlobIF n = new NullBlob(r);
-                n.setWorld(w);
-                w.addBlobToWorld(n);
-                n.registerTickDeathTrigger(tickDeathTrigger);
                 return n;
             }
         };

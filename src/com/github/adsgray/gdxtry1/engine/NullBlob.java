@@ -13,6 +13,8 @@ public class NullBlob extends BaseBlob {
         renderConfig = RenderConfig.nullRenderConfig;
     }
 
+    // NullBlob needs a renderconfig so that it can
+    // be given to child blobs...
     public NullBlob(RenderConfig r) {
         // dangerous?
         this(null, null, null, r);
