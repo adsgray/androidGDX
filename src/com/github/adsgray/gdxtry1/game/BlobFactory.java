@@ -119,7 +119,7 @@ public class BlobFactory extends GameFactory {
     }
  
     public static BlobIF offsetBlob(BlobIF b, BlobIF source, int x, int y) {
-        b.setPosition(new OffsetPosition(source.getPosition(), x, y));
+        b.setPosition(new PositionComposeDecorator(source.getPosition(), new BlobPosition(x,y)));
         return b;
     }
 

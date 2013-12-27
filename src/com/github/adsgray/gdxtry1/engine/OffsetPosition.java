@@ -1,26 +1,40 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
+
 public class OffsetPosition extends PositionDecorator {
 
-    int x;
-    int y;
+    int offsetX;
+    int offsetY;
+    
+    PositionIF primary;
 
     public OffsetPosition(PositionIF component, int x, int y) {
         super(component);
-        this.x = x;
-        this.y = y;
+        this.offsetX = x;
+        this.offsetY = y;
+        
+        primary = new BlobPosition(0,0);
     }
 
-    @Override public int getX() { return component.getX() + x; }
-    @Override public int getY() { return component.getY() + y; }
-    // don't set anything in component
-    @Override public int setX(int x) { return x + this.x; }
-    @Override public int setY(int y) { return y + this.y; }
+    @Override public int getX() { return component.getX() + offsetX + primary.getX(); }
+    @Override public int getY() { return component.getY() + offsetY + primary.getY(); }
+
+    // don't set anything in component ???
+    // in fact abuse PositionIF to set the offset
+    @Override public int setX(int x) { offsetX = x; return offsetX; }
+    @Override public int setY(int y) { offsetY = y; return offsetY; }
 
     @Override public PositionIF updateByVelocity(VelocityIF vel) {
-        // nobody uses the return value of this function...
-        // don't do any updating as we're parasites of the component
-        // position
+        primary.updateByVelocity(vel);
         return this;
     }
+
+    @Override public void registerAxisTrigger(Axis type, int val, BlobTrigger trigger) {
+        
+    }
+    @Override public void handleTriggers(BlobIF source) {
+        
+    }
+
 }
