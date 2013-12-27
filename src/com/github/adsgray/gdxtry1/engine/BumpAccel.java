@@ -9,24 +9,22 @@ public class BumpAccel extends AccelComposeDecorator {
         super(component, primary);
         this.tickExpire = tickExpire;
         ticks = 0;
-        // TODO Auto-generated constructor stub
     }
     
     public VelocityIF accellerate(VelocityIF vel) {
         
-        VelocityIF ret;
-
         ticks += 1;
 
         if (ticks < tickExpire) {
             // compose velocities
-            ret = super.accellerate(vel);
+           super.accellerate(vel);
         } else {
             // we've expired so just do the component
-            ret = component.accellerate(vel);
+           component.accellerate(vel);
+           //vel.accelerate(component);
         }
         
-        return ret;
+        return vel;
     }
     
     // if we're not expired return ourselves

@@ -28,6 +28,13 @@ public interface WorldIF {
     public void tick();
     public void render();
     
+    // inside a WorldIF so it has access to objs
+    // Not used right now.
+    public interface CollisionDetectionStrategy {
+        public void findCollisions();
+        public void handleCollisions();
+    }
+    
     /*
     public void setRenderer(RenderConfig r);
     public RenderConfig getRenderer();

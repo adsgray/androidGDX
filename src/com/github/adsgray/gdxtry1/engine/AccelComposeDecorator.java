@@ -17,7 +17,7 @@ public class AccelComposeDecorator extends AccelDecorator {
         // now accel with primary and them together
         //vel.accelerate(primary);
         super.accellerate(vel);
-        primary.accellerate(vel);
+        vel.accelerate(primary);
         //vel.accelerate(super.accellerate(vel));
         
         //vel.setXVelocity(vel.deltaX(temp.getXVelocity()));

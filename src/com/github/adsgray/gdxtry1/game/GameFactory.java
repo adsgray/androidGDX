@@ -35,9 +35,11 @@ public class GameFactory {
     private static final int BOUNDS_X = 800;
     private static final int BOUNDS_Y = 1422;
 
+    public static PositionIF randomPosition(int minX, int maxX, int minY, int maxY) {
+        return new BlobPosition(rnd.nextInt(maxX - minX) + minX, rnd.nextInt(maxY - minY) + minY);
+    }
     public static PositionIF randomPosition() {
-        return new BlobPosition(rnd.nextInt(BOUNDS_X), rnd.nextInt(BOUNDS_Y));
-        //return new BlobPosition(0,0);
+        return randomPosition(0, BOUNDS_X, 0, BOUNDS_Y);
     }
     
     private static final int MIN_MASS = 15;
@@ -596,4 +598,35 @@ public class GameFactory {
         return w;
     }
     
+    private static BlobIF createFallingBall(RenderConfig r) {
+        PositionIF p = randomPosition(10,400,500,800);
+        CircleConfig cc = new CircleConfig(randomColor(), 25);
+        BlobIF b = new CircleBlob(0, randomPosition(10,400,500,800), new BlobVelocity(5,0), new LinearAccel(0,-1), r, cc);
+        b = BlobFactory.addAltSmokeTrail(b);
+        return b;
+    }
+    
+    public static WorldIF populateWorldTestBumpAccel(WorldIF w, RenderConfig r) {
+        BlobTrigger bottom = new BlobTrigger() {
+            // this will be used as an Axis trigger so secondary is empty
+            @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                Log.d("trace", "in bottom trigger");
+                AccelFactory.bump(source, AccelFactory.up(8), 8);
+                source.setLifeTime(100000);
+                return source;
+            }
+        };
+        
+        BlobIF b = createFallingBall(r);
+        // Axis Trigger doesn't work because the Blob's Y position is never exacly
+        // 0, it just flys from +N to -M in one velocity step...
+        // how to fix position triggers?
+        //b.getPosition().registerAxisTrigger(PositionIF.Axis.Y, 0, bottom);
+        b.registerTickDeathTrigger(bottom);
+        b.setLifeTime(15);
+        b.setWorld(w);
+        w.addBlobToWorld(b);
+
+        return w;
+    }
 }

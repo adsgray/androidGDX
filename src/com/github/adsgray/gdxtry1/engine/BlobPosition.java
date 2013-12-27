@@ -2,6 +2,8 @@ package com.github.adsgray.gdxtry1.engine;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 
 /** x,y position
@@ -68,7 +70,8 @@ public class BlobPosition implements PositionIF {
         }
     }
     
-    protected void handleTrigger(HashMap<Integer, BlobTrigger> set, Integer pos, BlobIF source) {
+    protected void handleTrigger(HashMap<Integer, BlobTrigger> set, int pos, BlobIF source) {
+        //Log.d("trace", String.format("in handleTrigger %d", set.size()));
         if (set.containsKey(pos)) {
             BlobTrigger t = set.get(pos);
             t.trigger(source, null);
