@@ -17,4 +17,9 @@ public class NullBlob extends BaseBlob {
         // dangerous?
         this(null, null, null, r);
     }
+    
+    public NullBlob(BlobIF source) {
+        this(source.getPosition(), source.getVelocity(), source.getAccel(), source.getRenderer());
+        this.setWorld(source.getWorld());
+    }
 }

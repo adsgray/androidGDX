@@ -337,7 +337,8 @@ public class BlobFactory extends GameFactory {
         
         for (int i = 0; i < offsets.length; i++) {
             BlobIF b = source.generate(key);
-            b = offsetBlob(b, key, offsets[i][0], offsets[i][1]);
+            b.setPosition(new BlobPosition(offsets[i][0], offsets[i][1]));
+            PathFactory.composePositions(b, key);
             b.setCluster(key);
             key.absorbBlob(b);
         }

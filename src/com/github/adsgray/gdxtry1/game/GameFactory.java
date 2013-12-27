@@ -6,6 +6,7 @@ import java.util.Random;
 
 import android.util.Log;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
@@ -499,13 +500,30 @@ public class GameFactory {
    
     public static WorldIF populateWorldTestOffsetPosition(WorldIF w, RenderConfig r) {
         
+        BlobTransform setupPath = new BlobTransform() {
+            @Override
+            public BlobIF transform(BlobIF b) {
+                WorldIF w = b.getWorld();
+                // transformations in these trigger chains must ALWAYS return a new blob
+                BlobIF withPath = new NullBlob(b);
+                withPath.setPath(PathFactory.backAndForth(10, 2));
+                withPath.setLifeTime(0);
+                w.addBlobToWorld(withPath);
+                clusterSwap(withPath, b);
+                return withPath;
+            }
+        };
+
         BlobTransform rectangleTransform = new BlobTransform() {
             @Override public BlobIF transform(BlobIF parent) {
                 WorldIF w = parent.getWorld();
                 RenderConfig r = parent.getRenderer();
                 RectConfig rc = new RectConfig(GameFactory.randomColor(), 30,30);
 
-                BlobIF b2 = new RectangleBlob(0, null, GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, rc);
+                //BlobPath p = new BlobPath(GameFactory.zeroVelocity(), GameFactory.zeroAccel());
+                BlobPath p = new BlobPath(parent.getVelocity(), parent.getAccel());
+                BlobIF b2 = new RectangleBlob(0, null, null, null, r, rc);
+                b2.setPath(p);
                 b2.setWorld(w);
                 b2.setLifeTime(rnd.nextInt(100) + 200);
                 b2.setPosition(parent.getPosition());
@@ -527,6 +545,7 @@ public class GameFactory {
                 
                 BlobIF ooze = BlobFactory.createOozeBlob(w, r);
                 ooze.setPosition(parent.getPosition());
+                ooze.setPath(new BlobPath(parent.getVelocity(), parent.getAccel()));
 
                 // test if these are necessary
                 // not in this case as createOozeBlob inits them as this:
@@ -549,8 +568,11 @@ public class GameFactory {
         // 3. create a nullBlobSource that assigns that trigger loop to each created blob's
         //    tickDeathTrigger
 
+        // must find a clean way to have setupPath done only once when blob created
+        // likely have to create a blobsource...
         List<BlobTransform> trlist = new ArrayList<BlobTransform>();
-        trlist.add(oozeTransform);
+        trlist.add(setupPath);
+        //trlist.add(oozeTransform);
         trlist.add(rectangleTransform);
         BlobTrigger transformCycle = TriggerFactory.createTransformSequence(trlist, true);
         

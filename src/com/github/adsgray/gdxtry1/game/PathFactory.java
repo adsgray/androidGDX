@@ -156,4 +156,9 @@ public class PathFactory extends GameFactory {
     public static BlobPath launchUp() {
         return launchUp(60, -2);
     }
+    
+    public static BlobIF composePositions(BlobIF primary, BlobIF component) {
+        primary.setPosition(new PositionComposeDecorator(component.getPosition(), primary.getPosition()));
+        return primary;
+    }
 }

@@ -38,8 +38,11 @@ public class TriggerFactory {
                 //transformed.clearTickDeathTriggers();
                 // make sure that the chainTrigger only appears once in the list of triggers
                 // inside the Blob
-                transformed.deregisterTickDeathTrigger(chainTrigger);
-                transformed.registerTickDeathTrigger(chainTrigger);
+                //if (transformed != source) {
+                    // ugh "scheduleRegisterTick..." necessary
+                    transformed.deregisterTickDeathTrigger(chainTrigger);
+                    transformed.registerTickDeathTrigger(chainTrigger);
+                //}
                 return transformed;
             }
         };
