@@ -48,7 +48,11 @@ public interface BlobIF {
         // blob's cluster:
         protected void clusterSwap(BlobIF in, BlobIF out) {
             ClusterIF cluster = out.getCluster();
-            if (cluster != null) cluster.swap(in, out);
+            // add "in" to the same cluster that "out" was a member of
+            if (cluster != null) {
+                in.setCluster(cluster);
+                cluster.swap(in, out);
+            }
         }
     }
     
