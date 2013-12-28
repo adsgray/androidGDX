@@ -40,7 +40,7 @@ public class BlobCluster extends BaseBlob implements ClusterIF {
         // updated version that has the correct set of Blobs haha.
         // The way to avoid this is to add something ugly like Obj clientData
         // to RenderConfigIF...
-        renderConfig = new Renderer.BlobSetRenderConfig(objs);
+        renderConfig = renderer.new BlobSetRenderConfig(objs);
     }
 
     @Override public BlobIF absorbBlob(BlobIF b) {

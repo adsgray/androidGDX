@@ -7,35 +7,30 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class TriangleBlob extends BaseBlob {
 
-    protected CircleConfig circleConfig;
+    protected TriangleConfig triangleConfig;
 
     private void createExtent() {
-        ExtentIF ce = new CircleExtent((int)circleConfig.radius);
+        ExtentIF ce = new CircleExtent((int)triangleConfig.radius);
         setExtent(ce);
     }
 
     public TriangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx) {
         super(massin, posin, velin, accel, gdx);
 
-        circleConfig = renderer.randomCircleConfig();
-        renderConfig = circleConfig;
+        triangleConfig = renderer.randomTriangleConfig();
+        renderConfig = triangleConfig;
         createExtent();
     }     
 
-    public TriangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx, CircleConfig cc) {
+    public TriangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx, TriangleConfig tc) {
         super(massin, posin, velin, accel, gdx);
 
-        circleConfig = cc;
-        renderConfig = circleConfig;
+        triangleConfig = tc;
+        renderConfig = triangleConfig;
         createExtent();
     }     
-
-    @Override
-    public void render() {
-        renderer.renderTriangle(this, circleConfig);
-    }
-
 }

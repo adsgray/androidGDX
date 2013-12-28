@@ -59,10 +59,4 @@ public class RectangleBlob extends BaseBlob {
         sound.crash(EXPLODE_INTENSITY);
         return vec;
     }
-     
-    // Blobs have full knowledge of what they are and how they should be rendered.
-    @Override
-    public void render() {
-        renderer.renderRect(this, rectConfig);
-    }
 }

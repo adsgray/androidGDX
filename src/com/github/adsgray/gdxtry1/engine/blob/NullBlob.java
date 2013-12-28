@@ -13,7 +13,7 @@ public class NullBlob extends BaseBlob {
         // Mainly used to seed transformation chains/loops
         maxTicks = 0;
         // a renderConfig that does nothing
-        renderConfig = Renderer.nullRenderConfig;
+        renderConfig = r.nullRenderConfig;
     }
 
     // NullBlob needs a renderconfig so that it can

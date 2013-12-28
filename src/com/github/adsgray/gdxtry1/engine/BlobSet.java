@@ -26,12 +26,12 @@ public class BlobSet extends BaseBlob {
     protected List<BlobIF> toRemove;
     
     public BlobSet(Integer massin, PositionIF posin, VelocityIF velin,
-            AccelIF accel, Renderer gdx) {
-        super(massin, posin, velin, accel, gdx);
+            AccelIF accel, Renderer r) {
+        super(massin, posin, velin, accel, r);
         objs = new ArrayList<BlobIF>();
         toRemove = new ArrayList<BlobIF>();
         // this renderconfig will perform render operations on all members of "objs"
-        renderConfig = new Renderer.BlobSetRenderConfig(objs);
+        renderConfig = r.new BlobSetRenderConfig(objs);
     }
 
     /* called by outside controller to tell this Blob
@@ -95,17 +95,7 @@ public class BlobSet extends BaseBlob {
         
         toRemove.clear();
     }
-   
-    @Override
-    public void render() {
-        // render each BlobIF in the set
-        Iterator<BlobIF> iter = objs.iterator();
-        
-        while (iter.hasNext()) {
-            iter.next().render();
-        }
-    }
-
+  
     @Override
     public BlobIF absorbBlob(BlobIF b) {
         // add to objs

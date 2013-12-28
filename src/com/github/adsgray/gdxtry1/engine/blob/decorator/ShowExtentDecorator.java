@@ -21,7 +21,7 @@ public class ShowExtentDecorator extends BlobDecorator {
         super(component);
         CircleExtent ce = (CircleExtent)component.getExtent();
         Log.d("trace", String.format("ShowExtentDecorator r=%d", ce.getRadius()));
-        cc = new CircleConfig(color, ce.getRadius());
+        cc = component.getRenderer().new CircleConfig(color, ce.getRadius());
         cc.shapeType = ShapeType.Line;
         // I think all properties can be null because we only require the
         // position for rendering and that's set in render() below.

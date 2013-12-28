@@ -23,8 +23,12 @@ public class TestFactory {
         return new LinearAccel(1,1);
     }
     
-    public static Renderer renderConfig() {
-        return (Renderer) Renderer.nullRenderConfig;
+    public static Renderer renderer() {
+        return new Renderer();
+    }
+    
+    public static RenderConfigIF renderConfig() {
+        return renderer().nullRenderConfig;
     }
 
 }

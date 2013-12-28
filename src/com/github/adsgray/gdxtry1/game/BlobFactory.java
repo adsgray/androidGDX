@@ -27,6 +27,7 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class BlobFactory extends GameFactory {
 
@@ -48,7 +49,7 @@ public class BlobFactory extends GameFactory {
         //static Vector<Color> colors = new Vector<Color>();
         //int choice = rnd.nextInt(colors.length);
         //Color color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
-        return new CircleConfig(Color.GRAY, 7);
+        return Renderer.getRealInstance().new CircleConfig(Color.GRAY, 7);
     }
    
     private static BlobIF createSmokeTrailBlob(BlobIF c) {
@@ -71,7 +72,7 @@ public class BlobFactory extends GameFactory {
     };
     
     private static CircleConfig altSmokeTrail() {
-        return new CircleConfig(Color.RED, 8);
+        return Renderer.getRealInstance().new CircleConfig(Color.RED, 8);
     }
     private static BlobIF createAltSmokeTrailBlob(BlobIF c) {
         BlobIF b = new CircleBlob(0, new BlobPosition(c.getPosition()), randomVelocity(),
@@ -101,9 +102,9 @@ public class BlobFactory extends GameFactory {
     }
     
     static public BlobIF createTriangleSmokeTrailBlob(BlobIF parent) {
-        CircleConfig cc = new CircleConfig(Color.BLUE, rnd.nextFloat() * 10 + 4);
+        TriangleConfig tc = Renderer.getRealInstance().new TriangleConfig(Color.BLUE, rnd.nextFloat() * 10 + 4);
         BlobIF b = new TriangleBlob(0, new BlobPosition(parent), randomVelocity(), 
-                AccelFactory.smokeTrailAccel(), parent.getRenderer(), cc);
+                AccelFactory.smokeTrailAccel(), parent.getRenderer(), tc);
         b = shrinker(b, 1);
         b.setLifeTime(15);
         b.setTickPause(2);
@@ -128,7 +129,7 @@ public class BlobFactory extends GameFactory {
 
     static private CircleConfig explosionBlob() {
         Color color = explosionColors[rnd.nextInt(explosionColors.length)];
-        return new CircleConfig(color, rnd.nextFloat() * 7 + 5);
+        return Renderer.getRealInstance().new CircleConfig(color, rnd.nextFloat() * 7 + 5);
     }
     public static BlobIF createExplosionBlob(BlobIF c) {
          BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
@@ -171,7 +172,7 @@ public class BlobFactory extends GameFactory {
     }
 
     public static BlobIF createTestBlob(WorldIF w, Renderer r, BlobTransform bt) {
-        CircleConfig cc = new CircleConfig(randomColor(), 60);
+        CircleConfig cc = r.new CircleConfig(randomColor(), 60);
         BlobIF b = new CircleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
         b.setLifeTime(1000000);
         b.setWorld(w);
@@ -231,7 +232,7 @@ public class BlobFactory extends GameFactory {
     
     private static Color blackOozeColor = new Color(0.2f, 0.2f, 0.2f, 0.0f);
     private static CircleConfig blackOozeCircle() {
-        return new CircleConfig(blackOozeColor, 18.0f);
+        return Renderer.getRealInstance().new CircleConfig(blackOozeColor, 18.0f);
     };
 
     private static BlobIF createBlackOozeComponent(BlobIF parent) {
@@ -249,7 +250,7 @@ public class BlobFactory extends GameFactory {
     };
     
     private static RectConfig prizeRectangle() {
-        return new RectConfig(randomColor(), 25, 25);
+        return Renderer.getRealInstance().new RectConfig(randomColor(), 25, 25);
     }
 
     private static BlobIF createPrizeComponent(BlobIF parent) {

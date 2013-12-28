@@ -33,6 +33,7 @@ import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class GameFactory {
     public static WorldIF defaultWorld() {
@@ -301,7 +302,7 @@ public class GameFactory {
 
         PositionIF p1 = new BlobPosition(0,500 - rnd.nextInt(20));
         BlobVelocity v1 = new BlobVelocity(10 + rnd.nextInt(5),0);
-        CircleConfig c1 = new CircleConfig(randomColor(), 30);
+        CircleConfig c1 = r.new CircleConfig(randomColor(), 30);
         BlobIF b1 = new CircleBlob(0, p1, v1, AccelFactory.zeroAccel(), r, c1);
         //b1.setWorld(inWorld);
         b1.setLifeTime(100000);
@@ -310,7 +311,7 @@ public class GameFactory {
 
         PositionIF p2 = new BlobPosition(BOUNDS_X,500 + rnd.nextInt(20));
         BlobVelocity v2 = new BlobVelocity(-10 - rnd.nextInt(5),0);
-        CircleConfig c2 = new CircleConfig(randomColor(), 30);
+        CircleConfig c2 = r.new CircleConfig(randomColor(), 30);
         BlobIF b2 = new CircleBlob(0, p2, v2, AccelFactory.zeroAccel(), r, c2);
         //b2 = BlobFactory.flashColorCycler(b2, 10);
         b2.setLifeTime(100000);
@@ -443,7 +444,7 @@ public class GameFactory {
         // can't use BlobSets in collisions yet because they don't have extents...
         //BlobIF b1 = BlobFactory.createOozeBlob(w, r);
         PositionIF p = new BlobPosition(10 + rnd.nextInt(GameFactory.BOUNDS_X) - 5, 10);
-        CircleConfig cc = new CircleConfig(Color.RED, 30);
+        CircleConfig cc = r.new CircleConfig(Color.RED, 30);
         BlobIF b1 = new CircleBlob(0, p, GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
         b1.setPath(PathFactory.launchUp(75, -2));
         // TODO: set position trigger for Y=0 which will kill this blob...
@@ -532,7 +533,7 @@ public class GameFactory {
             @Override public BlobIF transform(BlobIF parent) {
                 WorldIF w = parent.getWorld();
                 Renderer r = parent.getRenderer();
-                RectConfig rc = new RectConfig(GameFactory.randomColor(), 30,30);
+                RectConfig rc = r.new RectConfig(GameFactory.randomColor(), 30,30);
 
                 BlobPath p = PathFactory.stationary();
                 //BlobPath p = new BlobPath(parent.getVelocity(), parent.getAccel());
@@ -613,7 +614,7 @@ public class GameFactory {
     
     private static BlobIF createFallingBall(Renderer r) {
         PositionIF p = randomPosition(10,400,500,800);
-        CircleConfig cc = new CircleConfig(randomColor(), 25);
+        CircleConfig cc = r.new CircleConfig(randomColor(), 25);
         BlobIF b = new CircleBlob(0, randomPosition(10,400,500,800), new BlobVelocity(5,0), new LinearAccel(0,-1), r, cc);
         //b = BlobFactory.addAltSmokeTrail(b);
         b = BlobFactory.addTriangleSmokeTrail(b);
@@ -644,8 +645,8 @@ public class GameFactory {
     }
 
     public static WorldIF populateWorldTestTriangle(WorldIF w, Renderer r) {
-        CircleConfig cc = new CircleConfig(randomColor(), 100);
-        BlobIF b = new TriangleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
+        TriangleConfig tc = r.new TriangleConfig(randomColor(), 100);
+        BlobIF b = new TriangleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), AccelFactory.zeroAccel(), r, tc);
         b = new ShowExtentDecorator(b);
         b.setLifeTime(1000000);
         b.setWorld(w);

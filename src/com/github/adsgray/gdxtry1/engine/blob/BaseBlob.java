@@ -141,7 +141,7 @@ public class BaseBlob implements BlobIF {
    
     @Override
     public void render() {
-        // TODO Auto-generated method stub
+        renderConfig.render(this);
     }
 
     /* return true if we overlap with "with" 

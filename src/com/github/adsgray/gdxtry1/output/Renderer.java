@@ -20,25 +20,39 @@ public class Renderer {
     private SpriteBatch spriteBatch;
     
     public Renderer() { }
-
     public Renderer(ShapeRenderer sr, SpriteBatch sb) {
         shapeRenderer = sr;
         spriteBatch = sb;
     }
     
-    public static interface RenderConfigIF {
+    /// singleton crap ///
+    private static Renderer realInstance;
+    public static Renderer createRealInstance(ShapeRenderer sr, SpriteBatch sb) {
+        if (realInstance == null) {
+            realInstance = new Renderer(sr, sb);
+        }
+        return realInstance;
+    }
+    public static Renderer getRealInstance() {
+        return realInstance;
+    }
+    /// ///
+    
+    public interface RenderConfigIF {
         public void scale(float factor);
         public void setColor(Color c);
         public void scaleColor(float factor);
+        public void render(BlobIF b);
     }
     
-    public static RenderConfigIF nullRenderConfig = new RenderConfigIF() {
+    public RenderConfigIF nullRenderConfig = new RenderConfigIF() {
         @Override public void scale(float factor) { }
         @Override public void setColor(Color c) { }
         @Override public void scaleColor(float factor) { }
+        @Override public void render(BlobIF b) { }
     };
     
-    public static abstract class BaseRenderConfig implements RenderConfigIF {
+    public abstract class BaseRenderConfig implements RenderConfigIF {
         public Color color;
         public ShapeType shapeType;
         
@@ -51,11 +65,10 @@ public class Renderer {
         @Override public void scaleColor(float factor) { 
             color = new Color(color.r * factor, color.g * factor, color.b * factor, color.a);
         }
-        
     }
     
      
-    public static class BlobSetRenderConfig implements RenderConfigIF {
+    public class BlobSetRenderConfig implements RenderConfigIF {
         protected List<BlobIF> objs;
         
         public BlobSetRenderConfig(List<BlobIF> objs) { this.objs = objs; }
@@ -86,10 +99,17 @@ public class Renderer {
                 iter.next().getRenderConfig().scaleColor(factor);
             }
         }
+        @Override public void render(BlobIF b) {
+            Iterator<BlobIF> iter = objs.iterator();
+            while (iter.hasNext()) {
+                BlobIF child = iter.next();
+                child.getRenderConfig().render(child);
+            }
+        }
     }
 
     // Unashamedly using this like a C struct.
-    public static class RectConfig extends BaseRenderConfig {
+    public class RectConfig extends BaseRenderConfig {
         public float w;
         public float h;
         
@@ -100,7 +120,14 @@ public class Renderer {
             this.h = h;
         }
 
-        @Override public void scale(float factor) { w *= factor; h *= factor; } 
+        @Override public void scale(float factor) { w *= factor; h *= factor; }
+        @Override
+        public void render(BlobIF b) {
+            shapeRenderer.begin(shapeType);
+            shapeRenderer.setColor(color);
+            shapeRenderer.rect(b.getPosition().getX() - w / 2, b.getPosition().getY() - h / 2, w, h);
+            shapeRenderer.end();
+        } 
     }
     
     public RectConfig randomRectConfig() {
@@ -111,7 +138,7 @@ public class Renderer {
         return rc;
     }
     
-    public static class CircleConfig extends BaseRenderConfig {
+    public class CircleConfig extends BaseRenderConfig {
         public CircleConfig(Color color, float radius) {
             super(color);
             this.radius = radius;
@@ -121,6 +148,36 @@ public class Renderer {
         public float radius;
 
         @Override public void scale(float factor) { radius *= factor; }
+
+        @Override
+        public void render(BlobIF b) {
+            shapeRenderer.begin(shapeType);
+            shapeRenderer.setColor(color);
+            shapeRenderer.circle(b.getPosition().getX(), b.getPosition().getY(), radius);
+            shapeRenderer.end();
+        }
+    }
+    
+    private static double sqrtOf2 = Math.sqrt(2);
+    public class TriangleConfig extends CircleConfig {
+        public TriangleConfig(Color c, float radius) {
+            super(c,radius);
+        }
+        
+        public TriangleConfig() {}
+
+        @Override
+        public void render(BlobIF b) {
+            shapeRenderer.begin(shapeType);
+            shapeRenderer.setColor(color);
+            int bx = b.getPosition().getX();
+            int by = b.getPosition().getY();
+            shapeRenderer.triangle((float)bx, (float)(by + radius), 
+                               (float)(bx - radius / sqrtOf2), (float)(by - radius / sqrtOf2),
+                               (float)(bx + radius / sqrtOf2), (float)(by - radius / sqrtOf2));
+            //Color.RED, Color.GREEN, Color.BLUE);
+            shapeRenderer.end(); 
+        }
     }
     
     /*
@@ -147,41 +204,13 @@ public class Renderer {
         cc.radius = rnd.nextInt(100);
         return cc;
     }
+    
+    public TriangleConfig randomTriangleConfig() {
+        TriangleConfig tc = new TriangleConfig();
+        tc.color = new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
+        tc.radius = rnd.nextInt(100);
+        return tc;
+    }
 
     // http://libgdx.badlogicgames.com/nightlies/docs/api/com/badlogic/gdx/graphics/glutils/ShapeRenderer.html
-    // TODO: change rectangle rendering so that position is centre of rectangle
-    public void renderRect(BlobIF b, RectConfig rc) {
-        shapeRenderer.begin(rc.shapeType);
-        shapeRenderer.setColor(rc.color);
-        
-        
-        shapeRenderer.rect(b.getPosition().getX() - rc.w / 2, b.getPosition().getY() - rc.h / 2, rc.w, rc.h);
-        shapeRenderer.end();
-    }
-    
-    public void renderCircle(BlobIF b, CircleConfig cc) {
-	    shapeRenderer.begin(cc.shapeType);
-        shapeRenderer.setColor(cc.color);
-        shapeRenderer.circle(b.getPosition().getX(), b.getPosition().getY(), cc.radius);
-        shapeRenderer.end();
-    }
-        /*
-        triangle(float x1, float y1, float x2, float y2, float x3, float y3)
-        Draws a triangle in x/y plane.
-        void    triangle(float x1, float y1, float x2, float y2, float x3, float y3, Color col1, Color col2, Color col3)
-        Draws a triangle in x/y plane with coloured corners.
-        public TriangleConfig
-        */
-    private static double sqrtOf2 = Math.sqrt(2);
-    public void renderTriangle(BlobIF b, CircleConfig cc) {
-        shapeRenderer.begin(cc.shapeType);
-        shapeRenderer.setColor(cc.color);
-        int bx = b.getPosition().getX();
-        int by = b.getPosition().getY();
-        shapeRenderer.triangle((float)bx, (float)(by + cc.radius), 
-                               (float)(bx - cc.radius / sqrtOf2), (float)(by - cc.radius / sqrtOf2),
-                               (float)(bx + cc.radius / sqrtOf2), (float)(by - cc.radius / sqrtOf2));
-        //Color.RED, Color.GREEN, Color.BLUE);
-        shapeRenderer.end();
-    }
 }

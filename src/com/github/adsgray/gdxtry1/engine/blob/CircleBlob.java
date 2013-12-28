@@ -33,9 +33,4 @@ public class CircleBlob extends BaseBlob {
         renderConfig = circleConfig;
         createExtent();
     }     
-
-    @Override
-    public void render() {
-        renderer.renderCircle(this, circleConfig);
-    }
 }
