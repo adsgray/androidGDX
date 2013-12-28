@@ -53,43 +53,55 @@ public class TestMultiplyPosition {
     }
  
     // TODO
-    @Test @Ignore
-    public void testWithNestedCompose() {
+    @Test 
+    public void testWithNestedComposeAndSomeVelocities() {
         PositionIF comp = new BlobPosition(1,1);
-        PositionIF prim = new BlobPosition(-1,-1);
         PositionIF cluster = new BlobPosition(10,10);
 
         // aha, must compose on the original position... not the composed one...
         // that is the bug!
         // That is, must compose on the position before it is inserted into
         // the cluster! Otherwise it is off the charts?
+        PositionIF mirror_comp = PositionFactory.mirrorX(comp);
         PositionIF comp_in_cluster = new PositionComposeDecorator(cluster, comp);
-        PositionIF p = new MultiplyPosition(comp_in_cluster,prim);
+        PositionIF mirror_comp_in_cluster = new PositionComposeDecorator(cluster, mirror_comp);
         
-        // now where is p?
-        // comp_in_cluster should be at (11,11)
-        // and p should be at (9,9)
-
         assertEquals("comp_in_cluster X", 11, comp_in_cluster.getX());
         assertEquals("comp_in_cluster Y", 11, comp_in_cluster.getY());
 
-        assertEquals("p X", 9, p.getX());
-        assertEquals("p Y", 9, p.getY());
+        assertEquals("mirror_comp X", -1, mirror_comp.getX());
+        assertEquals("mirror_comp Y", 1, mirror_comp.getY());
+        
+        assertEquals("mirror_comp_in_cluster X", 9, mirror_comp_in_cluster.getX());
+        assertEquals("mirror_comp_in_cluster Y", 11, mirror_comp_in_cluster.getY());
+
         
         VelocityIF v = TestFactory.velocity1dash1();
         comp_in_cluster.updateByVelocity(v);
 
         // cluster did not move
-        assertEquals("cluster X afer vel", 10, cluster.getX());
-        assertEquals("cluster Y afer vel", 10, cluster.getY());
+        assertEquals("cluster X afer comp_in_cluster vel", 10, cluster.getX());
+        assertEquals("cluster Y afer comp_in_cluster vel", 10, cluster.getY());
         
         // comp_in_cluster moved 
-        assertEquals("comp_in_cluster X after cluster vel", 12, comp_in_cluster.getX());
-        assertEquals("comp_in_cluster Y after cluster vel", 12, comp_in_cluster.getY());
+        assertEquals("comp_in_cluster X after vel", 12, comp_in_cluster.getX());
+        assertEquals("comp_in_cluster Y after vel", 12, comp_in_cluster.getY());
         
-        // so did p
-        assertEquals("p X after cluster vel", 10, p.getX());
-        assertEquals("p Y after cluster vel", 10, p.getY());
+        // so did mirror 
+        assertEquals("mirror_comp_in_cluster X after comp_in_cluster vel", 8, mirror_comp_in_cluster.getX());
+        assertEquals("mirror_comp_in_cluster Y after comp_in_cluster vel", 12, mirror_comp_in_cluster.getY());
+        
+        // OK now move the cluster
+        cluster.updateByVelocity(v);
+
+        assertEquals("cluster X afer comp_in_cluster vel", 11, cluster.getX());
+        assertEquals("cluster Y afer comp_in_cluster vel", 11, cluster.getY());
+
+        assertEquals("comp_in_cluster X after vel", 13, comp_in_cluster.getX());
+        assertEquals("comp_in_cluster Y after vel", 13, comp_in_cluster.getY());
+
+        assertEquals("mirror_comp_in_cluster X after comp_in_cluster vel", 9, mirror_comp_in_cluster.getX());
+        assertEquals("mirror_comp_in_cluster Y after comp_in_cluster vel", 13, mirror_comp_in_cluster.getY());
     }
 
     // tests game.PositionFactory method
