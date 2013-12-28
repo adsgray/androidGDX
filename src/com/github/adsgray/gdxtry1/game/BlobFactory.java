@@ -111,7 +111,17 @@ public class BlobFactory extends GameFactory {
             return eb;
         }
     };
- 
+  
+    // returns a stationary ExplosionBlob at the same position as b
+    static public BlobSource explosionSource = new BlobSource() {
+        @Override protected BlobIF generate(BlobIF b) {
+            RenderConfig r = b.getRenderer();
+            ExplosionBlob ex = new ExplosionBlob(0, b.getPosition(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
+            ex.setBlobSource(BlobFactory.explosionBlobSource);
+            return ex;
+        }
+    };
+  
     public static BlobIF invisibleBlob(WorldIF w, RenderConfig r) {
         BlobIF b = new NullBlob(GameFactory.origin(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
         return b;

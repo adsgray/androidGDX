@@ -42,7 +42,10 @@ public interface BlobIF {
     public BlobIF collision(BlobIF with);
     
     public abstract static class BlobTransform {
+        public BlobSource blobSource;
         public abstract BlobIF transform(BlobIF b);
+        public BlobTransform() {}
+        public BlobTransform(BlobSource bs) { blobSource = bs; }
         
         // after transforming you often swap the new blob into the original
         // blob's cluster:

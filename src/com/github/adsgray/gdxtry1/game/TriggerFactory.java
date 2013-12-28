@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.utils.Array;
 import com.github.adsgray.gdxtry1.engine.BlobIF;
+import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.ExplosionBlob;
@@ -64,15 +65,12 @@ public class TriggerFactory {
         };
         return trig;
     }
-
+ 
     // like a decorator
     static public BlobIF replaceWithExplosion(BlobIF b) {
         WorldIF w = b.getWorld();
-        RenderConfig r = b.getRenderer();
+        BlobIF ex = BlobFactory.explosionSource.get(b);
         w.removeBlobFromWorld(b);
-        ExplosionBlob ex = new ExplosionBlob(0, b.getPosition(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
-        ex.setBlobSource(BlobFactory.explosionBlobSource);
-        ex.setWorld(w);
         w.addBlobToWorld(ex);
         return ex;
     }
@@ -84,7 +82,16 @@ public class TriggerFactory {
         return bt;
     }
     
-    
+    // wrap/convert a BlobSource into a BlobTransform
+    // for "replacing" a blob with a known type
+    static public BlobTransform blobTransformFromBlobSource(BlobSource blobSource) {
+        BlobTransform bt = new BlobTransform(blobSource) {
+            @Override public BlobIF transform(BlobIF b) {
+                return blobSource.get(b);
+            }
+        };
+        return bt;
+    }
 
     // note: uses tickDeathTriggers and assumes that b has no such triggers already
     static public BlobTrigger createTransformSequence(List<BlobTransform> transforms, Boolean loop) {
