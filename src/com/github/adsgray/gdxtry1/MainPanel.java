@@ -48,9 +48,10 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldTestTriggers(world, renderConfig);
 	    //GameFactory.populateWorldTestTriggersAgain(world, renderConfig);
 	    //GameFactory.populateWorldGameTestOne(world, renderConfig);
-	    GameFactory.populateWorldTestOffsetPosition(world, renderConfig);
+	    //GameFactory.populateWorldTestOffsetPosition(world, renderConfig);
 	    //GameFactory.populateWorldTestBumpAccel(world, renderConfig);
 	    //GameFactory.populateWorldTestNewBlobSet(world, renderConfig);
+	    GameFactory.populateWorldTestTriangle(world,  renderConfig);
 	}
 
 	@Override

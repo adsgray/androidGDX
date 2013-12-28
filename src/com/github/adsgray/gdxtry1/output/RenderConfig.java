@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.game.GameFactory;
 
 public class RenderConfig {
  
@@ -121,6 +122,24 @@ public class RenderConfig {
 
         @Override public void scale(float factor) { radius *= factor; }
     }
+    
+    /*
+    public static class TriangleConfig extends BaseRenderConfig {
+        float height;
+        float width;
+        public TriangleConfig(Color color, float height, float width) {
+            super(color);
+            this.height = height;
+            this.width = width;
+        }
+        
+    }
+    
+    public TriangleConfig randomTriangleConfig() {
+        TriangleConfig tc = new TriangleConfig(GameFactory.randomColor(), rnd.nextFloat() * 50, rnd.nextFloat() * 50);
+        return tc;
+    }
+    */
 
     public CircleConfig randomCircleConfig() {
         CircleConfig cc = new CircleConfig();
@@ -144,6 +163,25 @@ public class RenderConfig {
 	    shapeRenderer.begin(cc.shapeType);
         shapeRenderer.setColor(cc.color);
         shapeRenderer.circle(b.getPosition().getX(), b.getPosition().getY(), cc.radius);
+        shapeRenderer.end();
+    }
+        /*
+        triangle(float x1, float y1, float x2, float y2, float x3, float y3)
+        Draws a triangle in x/y plane.
+        void    triangle(float x1, float y1, float x2, float y2, float x3, float y3, Color col1, Color col2, Color col3)
+        Draws a triangle in x/y plane with coloured corners.
+        public TriangleConfig
+        */
+    private static double sqrtOf2 = Math.sqrt(2);
+    public void renderTriangle(BlobIF b, CircleConfig cc) {
+        shapeRenderer.begin(cc.shapeType);
+        shapeRenderer.setColor(cc.color);
+        int bx = b.getPosition().getX();
+        int by = b.getPosition().getY();
+        shapeRenderer.triangle((float)bx, (float)(by + cc.radius), 
+                               (float)(bx - cc.radius / sqrtOf2), (float)(by - cc.radius / sqrtOf2),
+                               (float)(bx + cc.radius / sqrtOf2), (float)(by - cc.radius / sqrtOf2));
+        //Color.RED, Color.GREEN, Color.BLUE);
         shapeRenderer.end();
     }
 }

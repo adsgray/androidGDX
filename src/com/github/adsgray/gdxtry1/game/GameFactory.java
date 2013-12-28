@@ -21,6 +21,7 @@ import com.github.adsgray.gdxtry1.engine.blob.RectangleBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
+import com.github.adsgray.gdxtry1.engine.blob.TriangleBlob;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobTrailDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
@@ -44,7 +45,7 @@ public class GameFactory {
     
     public static Random rnd = new Random();
    
-    static private Color randomColor() {
+    static public Color randomColor() {
         return new Color(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat());
     }
   
@@ -649,7 +650,13 @@ public class GameFactory {
         return w;
     }
 
-    public static WorldIF populateWorldTestNewBlobSet(WorldIF w, RenderConfig r) {
+    public static WorldIF populateWorldTestTriangle(WorldIF w, RenderConfig r) {
+        CircleConfig cc = new CircleConfig(randomColor(), 100);
+        BlobIF b = new TriangleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), zeroAccel(), r, cc);
+        b = new ShowExtentDecorator(b);
+        b.setLifeTime(1000000);
+        b.setWorld(w);
+        w.addBlobToWorld(b);
         return w;
     }
 }

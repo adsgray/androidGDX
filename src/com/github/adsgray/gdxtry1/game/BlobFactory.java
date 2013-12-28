@@ -37,7 +37,7 @@ public class BlobFactory extends GameFactory {
         Color.MAGENTA,Color.ORANGE,Color.PINK,Color.YELLOW,
     };
     
-    private static Color randomColor() {
+    private static Color randomRainbowColor() {
         return colors[rnd.nextInt(colors.length)];
     }
     
