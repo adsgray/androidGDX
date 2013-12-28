@@ -6,6 +6,8 @@ import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
+import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 
 public class TestFactory {
  
@@ -19,6 +21,10 @@ public class TestFactory {
     
     public static AccelIF linearAccel1dash1() {
         return new LinearAccel(1,1);
+    }
+    
+    public static RenderConfig renderConfig() {
+        return (RenderConfig) RenderConfig.nullRenderConfig;
     }
 
 }
