@@ -5,7 +5,7 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
 
 public class ExplosionBlob extends BaseBlob {
 
@@ -13,7 +13,7 @@ public class ExplosionBlob extends BaseBlob {
     private BlobSource bs;
 
     public ExplosionBlob(Integer massin, PositionIF posin, VelocityIF velin,
-            AccelIF accel, RenderConfig gdx) {
+            AccelIF accel, Renderer gdx) {
         super(massin, posin, velin, accel, gdx);
         maxTicks = 25;
     }

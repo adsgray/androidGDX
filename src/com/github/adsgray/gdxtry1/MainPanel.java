@@ -24,7 +24,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
 
 public class MainPanel implements ApplicationListener {
 
@@ -33,7 +33,7 @@ public class MainPanel implements ApplicationListener {
 	private static final int numBlobs = 10;
 
 	private WorldIF world;
-	private RenderConfig renderConfig;
+	private Renderer renderConfig;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private ShapeRenderer shapes;
@@ -47,9 +47,9 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldCollisionTest(world, renderConfig);
 	    //GameFactory.populateWorldTestTriggers(world, renderConfig);
 	    //GameFactory.populateWorldTestTriggersAgain(world, renderConfig);
-	    //GameFactory.populateWorldGameTestOne(world, renderConfig);
+	    GameFactory.populateWorldGameTestOne(world, renderConfig);
 	    //GameFactory.populateWorldTestOffsetPosition(world, renderConfig);
-	    GameFactory.populateWorldTestBumpAccel(world, renderConfig);
+	    //GameFactory.populateWorldTestBumpAccel(world, renderConfig);
 	    //GameFactory.populateWorldTestNewBlobSet(world, renderConfig);
 	    //GameFactory.populateWorldTestTriangle(world,  renderConfig);
 	}
@@ -59,7 +59,7 @@ public class MainPanel implements ApplicationListener {
 		shapes = new ShapeRenderer();
 		batch = new SpriteBatch();
 
-	    renderConfig = new RenderConfig(shapes, batch);
+	    renderConfig = new Renderer(shapes, batch);
 	    world = GameFactory.defaultWorld();
 	    populateWorld();
 

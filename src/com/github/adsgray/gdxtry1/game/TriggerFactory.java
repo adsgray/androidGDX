@@ -13,7 +13,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
 
 // Transforms and Triggers
 public class TriggerFactory {

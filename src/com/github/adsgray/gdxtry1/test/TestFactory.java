@@ -6,8 +6,8 @@ import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
+import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 public class TestFactory {
  
@@ -23,8 +23,8 @@ public class TestFactory {
         return new LinearAccel(1,1);
     }
     
-    public static RenderConfig renderConfig() {
-        return (RenderConfig) RenderConfig.nullRenderConfig;
+    public static Renderer renderConfig() {
+        return (Renderer) Renderer.nullRenderConfig;
     }
 
 }

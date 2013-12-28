@@ -7,7 +7,7 @@ import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.*;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
+import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 public interface BlobIF {
     public PositionIF getPosition();
@@ -31,7 +31,7 @@ public interface BlobIF {
     public VelocityIF getVelocity();
     public AccelIF getAccel();
     public ExtentIF getExtent();
-    public RenderConfig getRenderer();
+    public Renderer getRenderer();
     public RenderConfigIF getRenderConfig();
     
     public void setLifeTime(Integer ticks);
@@ -102,11 +102,11 @@ public interface BlobIF {
     
     public abstract static class BlobTrigger {
         public BlobTrigger() {}
-        public BlobTrigger(RenderConfig r) { renderConfig = r; }
+        public BlobTrigger(Renderer r) { renderConfig = r; }
         public BlobTrigger(BlobTransform bt) { blobTransform = bt; }
         public BlobTrigger(BlobTrigger ct) { chainTrigger = ct; }
         public void setChainTrigger(BlobTrigger ct) { chainTrigger = ct; }
-        public RenderConfig renderConfig;
+        public Renderer renderConfig;
         public BlobTransform blobTransform;
         public BlobTrigger chainTrigger;
         public abstract BlobIF trigger(BlobIF source, BlobIF secondary/*optional, used only for collisions*/);

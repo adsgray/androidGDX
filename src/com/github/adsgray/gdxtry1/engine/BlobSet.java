@@ -16,8 +16,8 @@ import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
+import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 // BlobSet is like a mini-world: it has responsibility/control of Blobs.
 public class BlobSet extends BaseBlob {
@@ -26,12 +26,12 @@ public class BlobSet extends BaseBlob {
     protected List<BlobIF> toRemove;
     
     public BlobSet(Integer massin, PositionIF posin, VelocityIF velin,
-            AccelIF accel, RenderConfig gdx) {
+            AccelIF accel, Renderer gdx) {
         super(massin, posin, velin, accel, gdx);
         objs = new ArrayList<BlobIF>();
         toRemove = new ArrayList<BlobIF>();
         // this renderconfig will perform render operations on all members of "objs"
-        renderConfig = new RenderConfig.BlobSetRenderConfig(objs);
+        renderConfig = new Renderer.BlobSetRenderConfig(objs);
     }
 
     /* called by outside controller to tell this Blob

@@ -20,8 +20,8 @@ import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.output.NullSound;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
+import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.output.SoundIF;
 
 public class BaseBlob implements BlobIF {
@@ -50,7 +50,7 @@ public class BaseBlob implements BlobIF {
     @Override public ExtentIF getExtent() { return extent; }
     @Override public AccelIF getAccel() { return acceleration; }
     @Override public PositionIF getPosition() { return position; }
-    @Override public RenderConfig getRenderer() { return renderer; }
+    @Override public Renderer getRenderer() { return renderer; }
     @Override public Integer getMass() { return mass; }
     @Override public void setWorld(WorldIF w) { world = w; }
     @Override public void setAccel(AccelIF a) { acceleration = a; }
@@ -66,7 +66,7 @@ public class BaseBlob implements BlobIF {
 
     protected int minTriggerTick = 25; // don't fire triggers until after this number of ticks
 
-    protected RenderConfig renderer;
+    protected Renderer renderer;
     protected RenderConfigIF renderConfig;
 
     protected List<BlobTrigger> collisionTriggers;
@@ -74,7 +74,7 @@ public class BaseBlob implements BlobIF {
 
     @Override public RenderConfigIF getRenderConfig() { return renderConfig; }
 
-    public BaseBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
+    public BaseBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx) {
         mass = massin;
         position = posin;
         velocity = velin;

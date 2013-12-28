@@ -7,12 +7,12 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
 
 public class BlobSet2 extends BlobSet {
 
     public BlobSet2(Integer massin, PositionIF posin, VelocityIF velin,
-            AccelIF accel, RenderConfig gdx) {
+            AccelIF accel, Renderer gdx) {
         super(massin, posin, velin, accel, gdx);
     }
 

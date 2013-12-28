@@ -5,9 +5,9 @@ import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
+import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 public class CircleBlob extends BaseBlob {
 
@@ -18,7 +18,7 @@ public class CircleBlob extends BaseBlob {
         setExtent(ce);
     }
 
-    public CircleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
+    public CircleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx) {
         super(massin, posin, velin, accel, gdx);
 
         circleConfig = renderer.randomCircleConfig();
@@ -26,7 +26,7 @@ public class CircleBlob extends BaseBlob {
         createExtent();
     }     
 
-    public CircleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx, CircleConfig cc) {
+    public CircleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx, CircleConfig cc) {
         super(massin, posin, velin, accel, gdx);
 
         circleConfig = cc;

@@ -8,8 +8,8 @@ import com.github.adsgray.gdxtry1.engine.extent.FakeRectangleExtent;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.*;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
+import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 import android.util.Log;
 
@@ -29,7 +29,7 @@ public class RectangleBlob extends BaseBlob {
         setExtent(re);
     }
 
-    public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx) {
+    public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx) {
         super(massin, posin, velin, accel, gdx);
         // TODO have these render specific options passed in somehow
         rectConfig = renderer.randomRectConfig();
@@ -37,7 +37,7 @@ public class RectangleBlob extends BaseBlob {
         createExtent();
     }
  
-    public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, RenderConfig gdx, RectConfig rc) {
+    public RectangleBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx, RectConfig rc) {
         super(massin, posin, velin, accel, gdx);
         // TODO have these render specific options passed in somehow
         rectConfig = rc;

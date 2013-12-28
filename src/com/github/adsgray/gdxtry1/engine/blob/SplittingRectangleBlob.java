@@ -10,14 +10,14 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.GameFactory;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
 
 public class SplittingRectangleBlob extends RectangleBlob {
 
     private int explodeTime = 100;
 
     public SplittingRectangleBlob(Integer massin, PositionIF posin,
-            VelocityIF velin, AccelIF accel, RenderConfig gdx) {
+            VelocityIF velin, AccelIF accel, Renderer gdx) {
         super(massin, posin, velin, accel, gdx);
         // TODO Auto-generated constructor stub
     }

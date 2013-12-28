@@ -13,15 +13,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 
-public class RenderConfig {
+public class Renderer {
  
     private static Random rnd = new Random();
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
     
-    public RenderConfig() { }
+    public Renderer() { }
 
-    public RenderConfig(ShapeRenderer sr, SpriteBatch sb) {
+    public Renderer(ShapeRenderer sr, SpriteBatch sb) {
         shapeRenderer = sr;
         spriteBatch = sb;
     }

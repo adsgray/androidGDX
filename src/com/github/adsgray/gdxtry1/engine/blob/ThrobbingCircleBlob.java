@@ -5,8 +5,8 @@ import android.util.Log;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 
 public class ThrobbingCircleBlob extends CircleBlob {
 
@@ -20,14 +20,14 @@ public class ThrobbingCircleBlob extends CircleBlob {
     protected float growthRate = 1.06f; // 1.0f / shrinkRate;
 
     public ThrobbingCircleBlob(Integer massin, PositionIF posin,
-            VelocityIF velin, AccelIF accel, RenderConfig gdx) {
+            VelocityIF velin, AccelIF accel, Renderer gdx) {
         super(massin, posin, velin, accel, gdx);
 
         origRadius = circleConfig.radius;
     }
  
     public ThrobbingCircleBlob(Integer massin, PositionIF posin,
-            VelocityIF velin, AccelIF accel, RenderConfig gdx, CircleConfig cc) {
+            VelocityIF velin, AccelIF accel, Renderer gdx, CircleConfig cc) {
         super(massin, posin, velin, accel, gdx, cc);
 
         origRadius = circleConfig.radius;

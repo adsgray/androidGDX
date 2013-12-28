@@ -30,17 +30,17 @@ import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
 
 public class GameFactory {
     public static WorldIF defaultWorld() {
         return new World();
     }
     
-    public static RenderConfig defaultGDXRender() {
-        return new RenderConfig();
+    public static Renderer defaultGDXRender() {
+        return new Renderer();
     }
     
     public static Random rnd = new Random();
@@ -108,7 +108,7 @@ public class GameFactory {
     static final int[] a = new int[]{ 100,200 };
  
     
-    public static WorldIF populateWorldWithBlobs(WorldIF inWorld, int howMany, RenderConfig r) {
+    public static WorldIF populateWorldWithBlobs(WorldIF inWorld, int howMany, Renderer r) {
 
         while (howMany > 0) {
             BlobFactory.createDefaultBlob(inWorld, r);
@@ -122,7 +122,7 @@ public class GameFactory {
         return new BlobVelocity(0,0);
     }
 
-    public static WorldIF populateWorldNonRandom(WorldIF inWorld, RenderConfig r) {
+    public static WorldIF populateWorldNonRandom(WorldIF inWorld, Renderer r) {
         AccelIF a = new LinearAccel(0, 0);
 
         BlobPath p = PathFactory.upperTriangle(5, 2);
@@ -159,7 +159,7 @@ public class GameFactory {
         return inWorld;
     }
     
-    public static WorldIF populateWorldNonRandomBlobSet(WorldIF inWorld, RenderConfig r) {
+    public static WorldIF populateWorldNonRandomBlobSet(WorldIF inWorld, Renderer r) {
 
         PositionIF p1 = new BlobPosition(400,400);
         PositionIF p2 = new BlobPosition(450,450);
@@ -211,7 +211,7 @@ public class GameFactory {
         return inWorld;
     }
  
-    private static BlobIF createLaunchUpBlob(WorldIF inWorld, RenderConfig r) {
+    private static BlobIF createLaunchUpBlob(WorldIF inWorld, Renderer r) {
         BlobPath launch = PathFactory.launchUp();
         BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
         //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
@@ -255,7 +255,7 @@ public class GameFactory {
     }
    
     
-    public static WorldIF populateWorldLaunchUp(WorldIF inWorld, RenderConfig r) {
+    public static WorldIF populateWorldLaunchUp(WorldIF inWorld, Renderer r) {
         int num = 8;
         while (num > 0) {
             createLaunchUpBlob(inWorld, r);
@@ -265,7 +265,7 @@ public class GameFactory {
         return inWorld;
     }
     
-    private static BlobIF randomSpinnerBlob(WorldIF inWorld, RenderConfig r) {
+    private static BlobIF randomSpinnerBlob(WorldIF inWorld, Renderer r) {
         if (rnd.nextInt(100) < 50) {
             return BlobFactory.createOozeBlob(inWorld, r);
         } else {
@@ -273,7 +273,7 @@ public class GameFactory {
         }
     }
 
-    public static WorldIF populateWorldOoze(WorldIF inWorld, RenderConfig r) {
+    public static WorldIF populateWorldOoze(WorldIF inWorld, Renderer r) {
         BlobIF ooze = randomSpinnerBlob(inWorld, r);
         //BlobIF ooze = BlobFactory.createPrizeBlob(inWorld, r);
         //BlobPath p = PathFactory.jigglePath(10);
@@ -297,7 +297,7 @@ public class GameFactory {
     }
     
     
-    public static WorldIF populateWorldCollisionTest(WorldIF inWorld, RenderConfig r) {
+    public static WorldIF populateWorldCollisionTest(WorldIF inWorld, Renderer r) {
 
         PositionIF p1 = new BlobPosition(0,500 - rnd.nextInt(20));
         BlobVelocity v1 = new BlobVelocity(10 + rnd.nextInt(5),0);
@@ -355,7 +355,7 @@ public class GameFactory {
     }
     
 
-    public static WorldIF populateWorldTestTriggers(WorldIF w, RenderConfig r) {
+    public static WorldIF populateWorldTestTriggers(WorldIF w, Renderer r) {
         // turn the blob into an explosion
         BlobTrigger explosion = new BlobTrigger() {
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
@@ -369,7 +369,7 @@ public class GameFactory {
         BlobTrigger rebirth = new BlobTrigger() {
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
                 WorldIF w = source.getWorld();
-                RenderConfig r = source.getRenderer();
+                Renderer r = source.getRenderer();
                 BlobIF b1 = BlobFactory.createOozeBlob(w, r);
                 b1.setPosition(source.getPosition());
                 b1.registerTickDeathTrigger(chainTrigger);
@@ -394,14 +394,14 @@ public class GameFactory {
         return w;
     }
 
-    public static WorldIF populateWorldTestTriggersAgain(WorldIF w, RenderConfig r) {
+    public static WorldIF populateWorldTestTriggersAgain(WorldIF w, Renderer r) {
 
         // replace the incoming blob with an OozeBlob
         BlobTransform rebirth = new BlobTransform() {
             @Override
             public BlobIF transform(BlobIF b) {
                 WorldIF w = b.getWorld();
-                RenderConfig r = b.getRenderer();
+                Renderer r = b.getRenderer();
                 BlobIF b1 = BlobFactory.createOozeBlob(w, r);
                 b1.setPosition(b.getPosition());
                 b1.setWorld(w);
@@ -426,7 +426,7 @@ public class GameFactory {
         return w;   
     }
     
-    private static BlobIF createTargetBlob(WorldIF w, RenderConfig r) {
+    private static BlobIF createTargetBlob(WorldIF w, Renderer r) {
         //BlobIF b = BlobFactory.createDefaultBlob(w, r);
         PositionIF p = new BlobPosition(50 + rnd.nextInt(GameFactory.BOUNDS_X - 100), GameFactory.BOUNDS_Y - 20 - rnd.nextInt(300));
         BlobIF b = new RectangleBlob(0, p, null, null, r);
@@ -439,7 +439,7 @@ public class GameFactory {
         return b;
     }
     
-    private static BlobIF createMissileBlob(WorldIF w, RenderConfig r) {
+    private static BlobIF createMissileBlob(WorldIF w, Renderer r) {
         // can't use BlobSets in collisions yet because they don't have extents...
         //BlobIF b1 = BlobFactory.createOozeBlob(w, r);
         PositionIF p = new BlobPosition(10 + rnd.nextInt(GameFactory.BOUNDS_X) - 5, 10);
@@ -457,7 +457,7 @@ public class GameFactory {
         return b1;
     }
 
-    public static WorldIF populateWorldGameTestOne(WorldIF w, RenderConfig r) {
+    public static WorldIF populateWorldGameTestOne(WorldIF w, Renderer r) {
         int numTargets = 15;
         while (w.getNumTargets() < 15 && numTargets > 0) {
             createTargetBlob(w, r);
@@ -468,7 +468,7 @@ public class GameFactory {
         BlobTrigger newmissile = new BlobTrigger() {
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
                 WorldIF w = source.getWorld();
-                RenderConfig r = source.getRenderer();
+                Renderer r = source.getRenderer();
 
                 BlobIF b1 = BlobFactory.createOozeBlob(w, r);
                 b1.registerTickDeathTrigger(chainTrigger);
@@ -512,7 +512,7 @@ public class GameFactory {
     }
     
    
-    public static WorldIF populateWorldTestOffsetPosition(WorldIF w, RenderConfig r) {
+    public static WorldIF populateWorldTestOffsetPosition(WorldIF w, Renderer r) {
         
         BlobTransform setupPath = new BlobTransform() {
             @Override
@@ -531,7 +531,7 @@ public class GameFactory {
         BlobTransform rectangleTransform = new BlobTransform() {
             @Override public BlobIF transform(BlobIF parent) {
                 WorldIF w = parent.getWorld();
-                RenderConfig r = parent.getRenderer();
+                Renderer r = parent.getRenderer();
                 RectConfig rc = new RectConfig(GameFactory.randomColor(), 30,30);
 
                 BlobPath p = PathFactory.stationary();
@@ -555,7 +555,7 @@ public class GameFactory {
         BlobTransform oozeTransform = new BlobTransform() {
              @Override public BlobIF transform(BlobIF parent) {
                 WorldIF w = parent.getWorld();
-                RenderConfig r = parent.getRenderer();
+                Renderer r = parent.getRenderer();
                 
                 BlobIF ooze = BlobFactory.createOozeBlob(w, r);
                 ooze.setPosition(parent.getPosition());
@@ -611,7 +611,7 @@ public class GameFactory {
         return w;
     }
     
-    private static BlobIF createFallingBall(RenderConfig r) {
+    private static BlobIF createFallingBall(Renderer r) {
         PositionIF p = randomPosition(10,400,500,800);
         CircleConfig cc = new CircleConfig(randomColor(), 25);
         BlobIF b = new CircleBlob(0, randomPosition(10,400,500,800), new BlobVelocity(5,0), new LinearAccel(0,-1), r, cc);
@@ -620,7 +620,7 @@ public class GameFactory {
         return b;
     }
     
-    public static WorldIF populateWorldTestBumpAccel(WorldIF w, RenderConfig r) {
+    public static WorldIF populateWorldTestBumpAccel(WorldIF w, Renderer r) {
         BlobTrigger bottom = new BlobTrigger() {
             // this will be used as an Axis trigger so secondary is empty
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
@@ -643,7 +643,7 @@ public class GameFactory {
         return w;
     }
 
-    public static WorldIF populateWorldTestTriangle(WorldIF w, RenderConfig r) {
+    public static WorldIF populateWorldTestTriangle(WorldIF w, Renderer r) {
         CircleConfig cc = new CircleConfig(randomColor(), 100);
         BlobIF b = new TriangleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
         b = new ShowExtentDecorator(b);
@@ -653,7 +653,7 @@ public class GameFactory {
         return w;
     }
 
-    public static WorldIF populateWorldTestMultiplyPosition(WorldIF w, RenderConfig r) {
+    public static WorldIF populateWorldTestMultiplyPosition(WorldIF w, Renderer r) {
         BlobIF set = BlobFactory.createTestBlobSet2(w,r);
 
         BlobIF b1 = BlobFactory.createTestBlob(w, r, null);

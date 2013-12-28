@@ -10,7 +10,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
 
 // Like the "opposite" of a BlobSet.
 // In a BlobSet the Blobs are absorbed and removed from the world.
@@ -20,7 +20,7 @@ public class BlobCluster extends BaseBlob implements ClusterIF {
 
     protected List<BlobIF> objs;
     
-    public BlobCluster(PositionIF pos, BlobPath path, RenderConfig r) {
+    public BlobCluster(PositionIF pos, BlobPath path, Renderer r) {
         super(0, pos, null, null, r);
         setPath(path);
         objs = new ArrayList<BlobIF>();
@@ -40,7 +40,7 @@ public class BlobCluster extends BaseBlob implements ClusterIF {
         // updated version that has the correct set of Blobs haha.
         // The way to avoid this is to add something ugly like Obj clientData
         // to RenderConfigIF...
-        renderConfig = new RenderConfig.BlobSetRenderConfig(objs);
+        renderConfig = new Renderer.BlobSetRenderConfig(objs);
     }
 
     @Override public BlobIF absorbBlob(BlobIF b) {

@@ -9,8 +9,8 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
+import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.output.SoundIF;
 
 public abstract class BlobDecorator extends BaseBlob {
@@ -29,7 +29,7 @@ public abstract class BlobDecorator extends BaseBlob {
     @Override public VelocityIF getVelocity() { return component.getVelocity(); }
     @Override public ExtentIF getExtent() { return component.getExtent(); }
     @Override public AccelIF getAccel() { return component.getAccel(); }
-    @Override public RenderConfig getRenderer() { return component.getRenderer(); }
+    @Override public Renderer getRenderer() { return component.getRenderer(); }
     @Override public RenderConfigIF getRenderConfig() { return component.getRenderConfig(); }
     @Override public Integer getMass() { return component.getMass(); }
     @Override public void setAccel(AccelIF a) { component.setAccel(a); }

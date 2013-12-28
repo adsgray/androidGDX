@@ -24,9 +24,9 @@ import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobRenderColorDecorator
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
-import com.github.adsgray.gdxtry1.output.RenderConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.CircleConfig;
-import com.github.adsgray.gdxtry1.output.RenderConfig.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
 
 public class BlobFactory extends GameFactory {
 
@@ -153,14 +153,14 @@ public class BlobFactory extends GameFactory {
     // returns a stationary ExplosionBlob at the same position as b
     static public BlobSource explosionSource = new BlobSource() {
         @Override protected BlobIF generate(BlobIF b) {
-            RenderConfig r = b.getRenderer();
+            Renderer r = b.getRenderer();
             ExplosionBlob ex = new ExplosionBlob(0, b.getPosition(), GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r);
             ex.setBlobSource(BlobFactory.explosionBlobSource);
             return ex;
         }
     };
   
-    public static BlobIF invisibleBlob(WorldIF w, RenderConfig r) {
+    public static BlobIF invisibleBlob(WorldIF w, Renderer r) {
         BlobIF b = new NullBlob(PositionFactory.origin(), GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r);
         return b;
     }
@@ -170,7 +170,7 @@ public class BlobFactory extends GameFactory {
         return b;
     }
 
-    public static BlobIF createTestBlob(WorldIF w, RenderConfig r, BlobTransform bt) {
+    public static BlobIF createTestBlob(WorldIF w, Renderer r, BlobTransform bt) {
         CircleConfig cc = new CircleConfig(randomColor(), 60);
         BlobIF b = new CircleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
         b.setLifeTime(1000000);
@@ -184,7 +184,7 @@ public class BlobFactory extends GameFactory {
         return b;       
     }
     
-    public static BlobIF createTestCluster(WorldIF w, RenderConfig r) {
+    public static BlobIF createTestCluster(WorldIF w, Renderer r) {
         BlobIF c = new BlobCluster(randomPosition(100,600,100,1000), PathFactory.stationary(), r);
         c.setLifeTime(1000000);
         c.setWorld(w);
@@ -192,7 +192,7 @@ public class BlobFactory extends GameFactory {
         return c;
     }
 
-    public static BlobIF createTestBlobSet2(WorldIF w, RenderConfig r) {
+    public static BlobIF createTestBlobSet2(WorldIF w, Renderer r) {
         BlobPath p = PathFactory.stationary();
         BlobIF bs = new BlobSet2(0, randomPosition(100,600,100,1000), p.vel, p.acc, r);
         bs.setLifeTime(1000000);
@@ -201,7 +201,7 @@ public class BlobFactory extends GameFactory {
         return bs;
     }
 
-    public static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
+    public static BlobIF createDefaultBlob(WorldIF inWorld, Renderer r) {
         BlobIF b;
         if (rnd.nextInt(100) < 50) {
             b = new RectangleBlob(randomMass(), randomPosition(), randomVelocity(), randomAccel(), r);
@@ -266,7 +266,7 @@ public class BlobFactory extends GameFactory {
         }
     };
 
-    public static BlobIF createSpinnerBlobset(WorldIF inWorld, RenderConfig r, BlobSource blobSource, int numComponents, int posStep) {
+    public static BlobIF createSpinnerBlobset(WorldIF inWorld, Renderer r, BlobSource blobSource, int numComponents, int posStep) {
         //BlobIF bs = new BlobSet(10, randomPosition(), zeroVelocity(), zeroAccel(), r);
         BlobIF bs = new BlobSet2(10, randomPosition(100,600,100,1000), zeroVelocity(), AccelFactory.zeroAccel(), r);
         bs.setWorld(inWorld);
@@ -301,11 +301,11 @@ public class BlobFactory extends GameFactory {
         return bs;
     }
  
-    public static BlobIF createOozeBlob(WorldIF inWorld, RenderConfig r) {
+    public static BlobIF createOozeBlob(WorldIF inWorld, Renderer r) {
         return createSpinnerBlobset(inWorld, r, blackOozeBlobSource, 3, 1);
     }
     
-    public static BlobIF createPrizeBlob(WorldIF inWorld, RenderConfig r) {
+    public static BlobIF createPrizeBlob(WorldIF inWorld, Renderer r) {
         return createSpinnerBlobset(inWorld, r, prizeBlobSource, 4, 3);
     }
    
@@ -360,7 +360,7 @@ public class BlobFactory extends GameFactory {
         return new BlobRenderColorScaleDecorator(in, entries);
     }
        
-    public static BlobIF createNineCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, RenderConfig r) {
+    public static BlobIF createNineCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, Renderer r) {
         
         int[][] entries = new int[][] {
                 // above
@@ -382,7 +382,7 @@ public class BlobFactory extends GameFactory {
         return createCluster(pos, path, source, w, r, entries);
     }
         
-    public static BlobIF createFourCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, RenderConfig r) {
+    public static BlobIF createFourCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, Renderer r) {
         
         int[][] entries = new int[][] {
                 // above
@@ -399,7 +399,7 @@ public class BlobFactory extends GameFactory {
     }
     
     private static double sqrtOf2 = Math.sqrt(2);
-    public static BlobIF createThreeCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, RenderConfig r) {
+    public static BlobIF createThreeCluster(PositionIF pos, BlobPath path, BlobSource source, int distance, WorldIF w, Renderer r) {
         
         int adjustedDistance = (int)((double)distance/sqrtOf2);
 
@@ -419,7 +419,7 @@ public class BlobFactory extends GameFactory {
     // returns the invisible Blob that is at the middle of the cluster. If you want to add
     // triggers etc to the Blobs that will be in the cluster then it has to be done
     // in the BlobSource. Lack of closures makes that a pain in the ass.
-    public static BlobIF createCluster(PositionIF pos, BlobPath path, BlobSource source, WorldIF w, RenderConfig r, int[][] offsets) {
+    public static BlobIF createCluster(PositionIF pos, BlobPath path, BlobSource source, WorldIF w, Renderer r, int[][] offsets) {
         ClusterIF key = new BlobCluster(pos, path, r);
 
         key.setWorld(w);
@@ -439,7 +439,7 @@ public class BlobFactory extends GameFactory {
         BlobSource n = new BlobSource(t, tr) {
             @Override
             public BlobIF generate(BlobIF parent) {
-                RenderConfig r = parent.getRenderer();
+                Renderer r = parent.getRenderer();
                 BlobIF n = new NullBlob(r);
                 return n;
             }
