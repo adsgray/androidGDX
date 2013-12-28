@@ -14,6 +14,7 @@ import com.github.adsgray.gdxtry1.engine.blob.ShrinkingCircleBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
+import com.github.adsgray.gdxtry1.engine.blob.TriangleBlob;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobCrazyAccelDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobRenderColorDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobRenderColorScaleDecorator;
@@ -97,6 +98,28 @@ public class BlobFactory extends GameFactory {
 
     static public BlobIF addAltSmokeTrail(BlobIF b) {
         return new BlobTrailDecorator(b, altSmokeTrailBlobSource, 1);
+    }
+    
+    static public BlobIF createTriangleSmokeTrailBlob(BlobIF parent) {
+        CircleConfig cc = new CircleConfig(Color.BLUE, rnd.nextFloat() * 10 + 4);
+        BlobIF b = new TriangleBlob(0, new BlobPosition(parent), randomVelocity(), 
+                PathFactory.smokeTrailAccel(), parent.getRenderer(), cc);
+        b = shrinker(b, 1);
+        b.setLifeTime(15);
+        b.setTickPause(2);
+        return b;
+    }
+
+    static public BlobSource triangleSmokeTrailBlobSource = new BlobSource() {
+        @Override protected BlobIF generate(BlobIF parent) {
+            WorldIF w = parent.getWorld();
+            BlobIF st = createTriangleSmokeTrailBlob(parent);
+            w.addBlobToWorld(st);
+            return st;
+        }
+    };
+    static public BlobIF addTriangleSmokeTrail(BlobIF b) {
+        return new BlobTrailDecorator(b, triangleSmokeTrailBlobSource, 1);
     }
 
     static Color[] explosionColors = new Color[] {

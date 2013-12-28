@@ -622,7 +622,8 @@ public class GameFactory {
         PositionIF p = randomPosition(10,400,500,800);
         CircleConfig cc = new CircleConfig(randomColor(), 25);
         BlobIF b = new CircleBlob(0, randomPosition(10,400,500,800), new BlobVelocity(5,0), new LinearAccel(0,-1), r, cc);
-        b = BlobFactory.addAltSmokeTrail(b);
+        //b = BlobFactory.addAltSmokeTrail(b);
+        b = BlobFactory.addTriangleSmokeTrail(b);
         return b;
     }
     
@@ -630,7 +631,6 @@ public class GameFactory {
         BlobTrigger bottom = new BlobTrigger() {
             // this will be used as an Axis trigger so secondary is empty
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
-                Log.d("trace", "in bottom trigger");
                 AccelFactory.bump(source, AccelFactory.up(source), 8);
                 source.setLifeTime(100000);
                 return source;

@@ -35,6 +35,10 @@ public class BlobPosition implements PositionIF {
         this(frompos.getX(), frompos.getY());
     }
     
+    public BlobPosition(BlobIF fromblob) {
+        this(fromblob.getPosition());
+    }
+    
     public int getX() { return x; }
     public int getY() { return y; }
     
