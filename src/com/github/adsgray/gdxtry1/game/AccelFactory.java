@@ -1,9 +1,9 @@
 package com.github.adsgray.gdxtry1.game;
 
-import com.github.adsgray.gdxtry1.engine.AccelIF;
-import com.github.adsgray.gdxtry1.engine.BlobIF;
-import com.github.adsgray.gdxtry1.engine.BumpAccel;
-import com.github.adsgray.gdxtry1.engine.LinearAccel;
+import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
+import com.github.adsgray.gdxtry1.engine.accel.BumpAccel;
+import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 
 public class AccelFactory {
 

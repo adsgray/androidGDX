@@ -1,6 +1,17 @@
 package com.github.adsgray.gdxtry1.game;
 
 import com.github.adsgray.gdxtry1.engine.*;
+import com.github.adsgray.gdxtry1.engine.accel.AccelComposeDecorator;
+import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
+import com.github.adsgray.gdxtry1.engine.accel.HardCodeAccel;
+import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
+import com.github.adsgray.gdxtry1.engine.accel.RandomAccel;
+import com.github.adsgray.gdxtry1.engine.accel.WeirdAccel;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
+import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
+import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 
 public class PathFactory extends GameFactory {
 

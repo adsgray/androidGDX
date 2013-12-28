@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 import android.util.Log;

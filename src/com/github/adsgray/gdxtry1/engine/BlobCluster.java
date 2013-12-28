@@ -6,6 +6,10 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
+import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 // Like the "opposite" of a BlobSet.

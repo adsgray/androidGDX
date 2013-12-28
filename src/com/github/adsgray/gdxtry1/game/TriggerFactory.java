@@ -7,11 +7,11 @@ import java.util.List;
 import android.util.Log;
 
 import com.badlogic.gdx.utils.Array;
-import com.github.adsgray.gdxtry1.engine.BlobIF;
-import com.github.adsgray.gdxtry1.engine.BlobIF.BlobSource;
-import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTransform;
-import com.github.adsgray.gdxtry1.engine.BlobIF.BlobTrigger;
-import com.github.adsgray.gdxtry1.engine.ExplosionBlob;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.blob.ExplosionBlob;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 

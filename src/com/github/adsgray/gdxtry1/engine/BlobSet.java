@@ -9,6 +9,13 @@ import java.util.Set;
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
+import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
+import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
+import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityComposeDecorator;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 import com.github.adsgray.gdxtry1.output.RenderConfig.RenderConfigIF;
 

@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+
 /*
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.github.adsgray.gdxtry1.output.RenderConfig;

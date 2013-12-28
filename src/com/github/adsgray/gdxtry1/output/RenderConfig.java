@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.github.adsgray.gdxtry1.engine.BlobIF;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 
 public class RenderConfig {
  

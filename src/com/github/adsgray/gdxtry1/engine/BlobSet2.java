@@ -2,6 +2,11 @@ package com.github.adsgray.gdxtry1.engine;
 
 import java.util.Iterator;
 
+import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
+import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.RenderConfig;
 
 public class BlobSet2 extends BlobSet {
