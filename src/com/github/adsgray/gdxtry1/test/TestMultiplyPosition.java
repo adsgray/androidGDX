@@ -97,15 +97,13 @@ public class TestMultiplyPosition {
     @Test
     public void testMirrorXAlsoWithVel() {
         PositionIF comp = new BlobPosition(1,1);
-        // ugh. don't call tick() or render() on this thing:
-        BlobIF b = new RectangleBlob(0, null, null, null, null, null);
-        PositionFactory.mirrorX(b, comp);
+        PositionIF p = PositionFactory.mirrorX(comp);
 
         assertEquals("comp X", 1, comp.getX());
         assertEquals("comp Y", 1, comp.getY()); 
 
-        assertEquals("mirror X", -1, b.getPosition().getX());
-        assertEquals("mirror Y", 1, b.getPosition().getY());
+        assertEquals("mirror X", -1, p.getX());
+        assertEquals("mirror Y", 1, p.getY());
         
         VelocityIF v = TestFactory.velocity1dash1();
         comp.updateByVelocity(v);
@@ -113,7 +111,7 @@ public class TestMultiplyPosition {
         assertEquals("comp X after vel", 2, comp.getX());
         assertEquals("comp Y after vel", 2, comp.getY()); 
 
-        assertEquals("mirror X after comp vel", -2, b.getPosition().getX());
-        assertEquals("mirror Y after comp vel", 2, b.getPosition().getY());
+        assertEquals("mirror X after comp vel", -2, p.getX());
+        assertEquals("mirror Y after comp vel", 2, p.getY());
     }
 }
