@@ -3,9 +3,14 @@ package com.github.adsgray.gdxtry1.game;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.accel.BumpAccel;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
+import com.github.adsgray.gdxtry1.engine.accel.RandomAccel;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 
 public class AccelFactory {
+
+    public static AccelIF zeroAccel() {
+        return new LinearAccel(0, 0);
+    }
 
     public static AccelIF up(int amt) {
         return new LinearAccel(0, amt);
@@ -48,4 +53,13 @@ public class AccelFactory {
         b.setAccel(new BumpAccel(b.getAccel(), bump, duration));
         return b;
     }
+ 
+    public static AccelIF explosionAccel() {
+        return new RandomAccel(1, 5, 1);
+    }
+
+    public static AccelIF smokeTrailAccel() {
+        return new RandomAccel(1, 3, 1);
+    }
+
 } 

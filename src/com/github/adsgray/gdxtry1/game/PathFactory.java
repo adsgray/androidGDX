@@ -34,15 +34,7 @@ public class PathFactory extends GameFactory {
 
         return new BlobPath(vel, accel);
     }
-    
-    public static AccelIF explosionAccel() {
-        return new RandomAccel(1, 5, 1);
-    }
-
-    public static AccelIF smokeTrailAccel() {
-        return new RandomAccel(1, 3, 1);
-    }
-
+   
     public static BlobPath squarePath(int speed, int interval) {
         
         VelocityIF vel = new BlobVelocity(0,-speed);
@@ -149,15 +141,15 @@ public class PathFactory extends GameFactory {
     // need a way to delay the initiation of an acceleration
 
     public static BlobPath straightUpDown(int speed) {
-        return new BlobPath(new BlobVelocity(0, speed), zeroAccel());
+        return new BlobPath(new BlobVelocity(0, speed), AccelFactory.zeroAccel());
     }
 
     public static BlobPath straightLeftRight(int speed) {
-        return new BlobPath(new BlobVelocity(speed, 0), zeroAccel());
+        return new BlobPath(new BlobVelocity(speed, 0), AccelFactory.zeroAccel());
     }
     
     public static BlobPath stationary() {
-        return new BlobPath(zeroVelocity(), zeroAccel());
+        return new BlobPath(zeroVelocity(), AccelFactory.zeroAccel());
     }
     
     public static BlobPath launchUp(int initialSpeed, int decel) {

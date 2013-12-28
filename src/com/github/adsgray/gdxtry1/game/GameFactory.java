@@ -118,16 +118,8 @@ public class GameFactory {
         return inWorld;
     }
 
-    public static PositionIF origin() {
-        return new BlobPosition(0,0);
-    }
-
     public static VelocityIF zeroVelocity() {
         return new BlobVelocity(0,0);
-    }
-    
-    public static AccelIF zeroAccel() {
-        return new LinearAccel(0, 0);
     }
 
     public static WorldIF populateWorldNonRandom(WorldIF inWorld, RenderConfig r) {
@@ -221,9 +213,9 @@ public class GameFactory {
  
     private static BlobIF createLaunchUpBlob(WorldIF inWorld, RenderConfig r) {
         BlobPath launch = PathFactory.launchUp();
-        //BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
+        BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
         //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
-        BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r));
+        //BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r));
         //BlobIF b = BlobFactory.throbber(BlobFactory.createPrizeBlob(inWorld, r));
         b = BlobFactory.rainbowColorCycler(b, 2);
         b.setPosition(new BlobPosition(rnd.nextInt(400) + 100, 0));
@@ -243,7 +235,7 @@ public class GameFactory {
                     source.getWorld().removeBlobFromWorld(source);
                     PositionIF sourcePos = source.getPosition();
                     sourcePos.setY(sourcePos.getY() + 75);
-                    ExplosionBlob ex = new ExplosionBlob(randomMass(), sourcePos, zeroVelocity(), zeroAccel(), renderConfig);
+                    ExplosionBlob ex = new ExplosionBlob(randomMass(), sourcePos, zeroVelocity(), AccelFactory.zeroAccel(), renderConfig);
                     ex.setBlobSource(BlobFactory.explosionBlobSource);
                     ex.setWorld(source.getWorld());
                     source.getWorld().addBlobToWorld(ex);
@@ -287,8 +279,9 @@ public class GameFactory {
         //BlobPath p = PathFactory.jigglePath(10);
 
         //BlobPath p = PathFactory.upperTriangle(4, 2);
-        BlobPath p = PathFactory.stationary();
-        //BlobPath p = PathFactory.backAndForth(10, 5);
+        //BlobPath p = PathFactory.stationary();
+        //BlobPath p = PathFactory.backAndForth(5, 2);
+        BlobPath p = PathFactory.upAndDown(5, 1);
         ooze.setPath(p);
 
         //inWorld.addBlobToWorld(new BlobIgnoreTickDecorator(BlobFactory.throbber(ooze), rnd.nextInt(2) + 1));
@@ -309,7 +302,7 @@ public class GameFactory {
         PositionIF p1 = new BlobPosition(0,500 - rnd.nextInt(20));
         BlobVelocity v1 = new BlobVelocity(10 + rnd.nextInt(5),0);
         CircleConfig c1 = new CircleConfig(randomColor(), 30);
-        BlobIF b1 = new CircleBlob(0, p1, v1, zeroAccel(), r, c1);
+        BlobIF b1 = new CircleBlob(0, p1, v1, AccelFactory.zeroAccel(), r, c1);
         //b1.setWorld(inWorld);
         b1.setLifeTime(100000);
         b1.setTickPause(100);
@@ -318,7 +311,7 @@ public class GameFactory {
         PositionIF p2 = new BlobPosition(BOUNDS_X,500 + rnd.nextInt(20));
         BlobVelocity v2 = new BlobVelocity(-10 - rnd.nextInt(5),0);
         CircleConfig c2 = new CircleConfig(randomColor(), 30);
-        BlobIF b2 = new CircleBlob(0, p2, v2, zeroAccel(), r, c2);
+        BlobIF b2 = new CircleBlob(0, p2, v2, AccelFactory.zeroAccel(), r, c2);
         //b2 = BlobFactory.flashColorCycler(b2, 10);
         b2.setLifeTime(100000);
         //b2.setWorld(inWorld);
@@ -451,7 +444,7 @@ public class GameFactory {
         //BlobIF b1 = BlobFactory.createOozeBlob(w, r);
         PositionIF p = new BlobPosition(10 + rnd.nextInt(GameFactory.BOUNDS_X) - 5, 10);
         CircleConfig cc = new CircleConfig(Color.RED, 30);
-        BlobIF b1 = new CircleBlob(0, p, GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r, cc);
+        BlobIF b1 = new CircleBlob(0, p, GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
         b1.setPath(PathFactory.launchUp(75, -2));
         // TODO: set position trigger for Y=0 which will kill this blob...
         b1.setLifeTime(1000);
@@ -652,11 +645,43 @@ public class GameFactory {
 
     public static WorldIF populateWorldTestTriangle(WorldIF w, RenderConfig r) {
         CircleConfig cc = new CircleConfig(randomColor(), 100);
-        BlobIF b = new TriangleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), zeroAccel(), r, cc);
+        BlobIF b = new TriangleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
         b = new ShowExtentDecorator(b);
         b.setLifeTime(1000000);
         b.setWorld(w);
         w.addBlobToWorld(b);
         return w;
     }
+
+    public static WorldIF populateWorldTestMultiplyPosition(WorldIF w, RenderConfig r) {
+        BlobIF set = BlobFactory.createTestBlobSet2(w,r);
+
+        BlobIF b1 = BlobFactory.createTestBlob(w, r, null);
+        b1.setPosition(PositionFactory.origin());
+        b1.setPath(PathFactory.backAndForth(5, 5));
+        /*
+        b1.setPath(PathFactory.stationary());
+        b1.getPosition().setX(100);
+        b1.getPosition().setY(100);
+        b1.setVelocity(new BlobVelocity(1,1));
+        */
+        
+        BlobIF b2 = BlobFactory.createTestBlob(w,r,null);
+        b2.setPosition(new BlobPosition(-10,-10)); // doesn't matter what this is as it will be clobbered
+        b2.setPath(PathFactory.stationary());
+        //b2.setPath(PathFactory.backAndForth(5, 5));
+
+        b2.setPosition(PositionFactory.mirrorX(b1.getPosition()));
+        set.absorbBlob(b1);
+        set.absorbBlob(b2);
+
+        //PositionFactory.multiplyPosition(b2, b1.getPosition(), new BlobPosition(2,1));
+
+
+        //set.setPath(PathFactory.backAndForth(1, 5));
+        
+
+        return w;
+    }
+    
 }

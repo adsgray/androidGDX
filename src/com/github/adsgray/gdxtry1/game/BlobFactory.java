@@ -53,7 +53,7 @@ public class BlobFactory extends GameFactory {
    
     private static BlobIF createSmokeTrailBlob(BlobIF c) {
         BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
-                PathFactory.smokeTrailAccel(), c.getRenderer(), smokeTrail());
+                AccelFactory.smokeTrailAccel(), c.getRenderer(), smokeTrail());
         b = new BlobCrazyAccelDecorator(b);
         b.setLifeTime(25);
         return b;
@@ -75,7 +75,7 @@ public class BlobFactory extends GameFactory {
     }
     private static BlobIF createAltSmokeTrailBlob(BlobIF c) {
         BlobIF b = new CircleBlob(0, new BlobPosition(c.getPosition()), randomVelocity(),
-                PathFactory.smokeTrailAccel(), c.getRenderer(), altSmokeTrail());
+                AccelFactory.smokeTrailAccel(), c.getRenderer(), altSmokeTrail());
         b = rainbowColorCycler(b, 3);
         b = shrinker(b, 1);
         b.setLifeTime(15);
@@ -103,7 +103,7 @@ public class BlobFactory extends GameFactory {
     static public BlobIF createTriangleSmokeTrailBlob(BlobIF parent) {
         CircleConfig cc = new CircleConfig(Color.BLUE, rnd.nextFloat() * 10 + 4);
         BlobIF b = new TriangleBlob(0, new BlobPosition(parent), randomVelocity(), 
-                PathFactory.smokeTrailAccel(), parent.getRenderer(), cc);
+                AccelFactory.smokeTrailAccel(), parent.getRenderer(), cc);
         b = shrinker(b, 1);
         b.setLifeTime(15);
         b.setTickPause(2);
@@ -132,7 +132,7 @@ public class BlobFactory extends GameFactory {
     }
     public static BlobIF createExplosionBlob(BlobIF c) {
          BlobIF b = new ShrinkingCircleBlob(randomMass(), new BlobPosition(c.getPosition()), randomVelocity(),
-                PathFactory.explosionAccel(), c.getRenderer(), explosionBlob());
+                AccelFactory.explosionAccel(), c.getRenderer(), explosionBlob());
         //b = new BlobCrazyAccelDecorator(b);
         b.setWorld(c.getWorld());
         return b;       
@@ -149,25 +149,56 @@ public class BlobFactory extends GameFactory {
             return eb;
         }
     };
-  
+    
     // returns a stationary ExplosionBlob at the same position as b
     static public BlobSource explosionSource = new BlobSource() {
         @Override protected BlobIF generate(BlobIF b) {
             RenderConfig r = b.getRenderer();
-            ExplosionBlob ex = new ExplosionBlob(0, b.getPosition(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
+            ExplosionBlob ex = new ExplosionBlob(0, b.getPosition(), GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r);
             ex.setBlobSource(BlobFactory.explosionBlobSource);
             return ex;
         }
     };
   
     public static BlobIF invisibleBlob(WorldIF w, RenderConfig r) {
-        BlobIF b = new NullBlob(GameFactory.origin(), GameFactory.zeroVelocity(), GameFactory.zeroAccel(), r);
+        BlobIF b = new NullBlob(PositionFactory.origin(), GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r);
         return b;
     }
  
     public static BlobIF offsetBlob(BlobIF b, BlobIF source, int x, int y) {
         b.setPosition(new PositionComposeDecorator(source.getPosition(), new BlobPosition(x,y)));
         return b;
+    }
+
+    public static BlobIF createTestBlob(WorldIF w, RenderConfig r, BlobTransform bt) {
+        CircleConfig cc = new CircleConfig(randomColor(), 60);
+        BlobIF b = new CircleBlob(0, randomPosition(100,600,100,800), zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
+        b.setLifeTime(1000000);
+        b.setWorld(w);
+        
+        if (bt != null) {
+            b = bt.transform(b);
+        }
+
+        w.addBlobToWorld(b);
+        return b;       
+    }
+    
+    public static BlobIF createTestCluster(WorldIF w, RenderConfig r) {
+        BlobIF c = new BlobCluster(randomPosition(100,600,100,1000), PathFactory.stationary(), r);
+        c.setLifeTime(1000000);
+        c.setWorld(w);
+        w.addBlobToWorld(c);
+        return c;
+    }
+
+    public static BlobIF createTestBlobSet2(WorldIF w, RenderConfig r) {
+        BlobPath p = PathFactory.stationary();
+        BlobIF bs = new BlobSet2(0, randomPosition(100,600,100,1000), p.vel, p.acc, r);
+        bs.setLifeTime(1000000);
+        bs.setWorld(w);
+        w.addBlobToWorld(bs);
+        return bs;
     }
 
     public static BlobIF createDefaultBlob(WorldIF inWorld, RenderConfig r) {
@@ -237,7 +268,7 @@ public class BlobFactory extends GameFactory {
 
     public static BlobIF createSpinnerBlobset(WorldIF inWorld, RenderConfig r, BlobSource blobSource, int numComponents, int posStep) {
         //BlobIF bs = new BlobSet(10, randomPosition(), zeroVelocity(), zeroAccel(), r);
-        BlobIF bs = new BlobSet2(10, randomPosition(100,600,100,1000), zeroVelocity(), zeroAccel(), r);
+        BlobIF bs = new BlobSet2(10, randomPosition(100,600,100,1000), zeroVelocity(), AccelFactory.zeroAccel(), r);
         bs.setWorld(inWorld);
         bs.setLifeTime(100000);
         
