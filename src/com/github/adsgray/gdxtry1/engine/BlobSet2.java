@@ -30,7 +30,8 @@ public class BlobSet2 extends BlobSet {
         }
         //b.setAccel(new AccelComposeDecorator(b.getAccel(), acceleration));
         //b.setVelocity(new VelocityComposeDecorator(b.getVelocity(), velocity));
-        b.setPosition(new PositionComposeDecorator(b.getPosition(), position));
+        //b.setPosition(new PositionComposeDecorator(b.getPosition(), position));
+        b.setPosition(new PositionComposeDecorator(position, b.getPosition()));
         objs.add(b);
         
         return this;
@@ -52,5 +53,6 @@ public class BlobSet2 extends BlobSet {
             b.setPosition(new PositionComposeDecorator(bpos, position));
         }
     }
-  
+
+    @Override public void setVelocity(VelocityIF vel) { velocity = vel; }
 }

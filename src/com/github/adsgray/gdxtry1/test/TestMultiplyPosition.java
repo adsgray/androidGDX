@@ -7,14 +7,18 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.RectangleBlob;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.MultiplyPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
+import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.PositionFactory;
+import com.github.adsgray.gdxtry1.output.Renderer;
 
 public class TestMultiplyPosition {
 
@@ -125,5 +129,88 @@ public class TestMultiplyPosition {
 
         assertEquals("mirror X after comp vel", -2, p.getX());
         assertEquals("mirror Y after comp vel", 2, p.getY());
+    }
+    
+    @Test
+    public void testMirrorXWithBlobTick() {
+        Renderer r = TestFactory.renderer();
+        BlobPath path = PathFactory.stationary();
+
+        BlobIF b1 = BlobFactory.createBaseBlob(PositionFactory.origin(), path, r);
+        BlobIF b2 = BlobFactory.createBaseBlob(PositionFactory.origin(), path, r);
+        
+        b1.setVelocity(new BlobVelocity(1,0));
+        b2.setPosition(PositionFactory.mirrorX(b1.getPosition()));
+        
+        b1.tick();
+        assertEquals("b1 pos X after tick", 1, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -1, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+        
+        b2.tick();
+        assertEquals("b2 pos X after tick", -1, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+
+        b1.tick();
+        assertEquals("b1 pos X after tick", 2, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -2, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+    }
+    
+    @Test
+    public void testMirrorWithBackAndForthPath() {
+        Renderer r = TestFactory.renderer();
+        BlobPath path = PathFactory.stationary();
+
+        BlobIF b1 = BlobFactory.createBaseBlob(PositionFactory.origin(), PathFactory.backAndForth(1, 1), r);
+        BlobIF b2 = BlobFactory.createBaseBlob(PositionFactory.origin(), path, r);
+        
+        b2.setPosition(PositionFactory.mirrorX(b1.getPosition()));
+        
+        b1.tick();
+        assertEquals("b1 pos X after tick", 1, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -1, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+
+        b1.tick();
+        assertEquals("b1 pos X after tick", 2, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -2, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+
+        b1.tick();
+        assertEquals("b1 pos X after tick", 3, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -3, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+
+        b1.tick();
+        assertEquals("b1 pos X after tick", 4, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -4, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+
+        b1.tick();
+        b1.tick();
+        assertEquals("b1 pos X after tick", 4, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -4, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+
+        b1.tick();
+        assertEquals("b1 pos X after tick", 3, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -3, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+
+        b1.tick();
+        assertEquals("b1 pos X after tick", 2, b1.getPosition().getX());
+        assertEquals("b1 pos Y after tick", 0, b1.getPosition().getY());
+        assertEquals("b2 pos X after tick", -2, b2.getPosition().getX());
+        assertEquals("b2 pos Y after tick", 0, b2.getPosition().getY());
+       
     }
 }

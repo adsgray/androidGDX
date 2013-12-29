@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.test;
 
+import com.github.adsgray.gdxtry1.engine.World;
+import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
@@ -28,11 +30,15 @@ public class TestFactory {
     }
     
     public static Renderer renderer() {
-        return new Renderer();
+        return Renderer.getTestInstance();
+    }
+
+    public static RenderConfigIF renderConfig() {
+        return Renderer.getTestInstance().nullRenderConfig;
     }
     
-    public static RenderConfigIF renderConfig() {
-        return renderer().nullRenderConfig;
+    public static WorldIF world() {
+        return new World();
     }
     
     // to use in testing to check how many times the methods are called

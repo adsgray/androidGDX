@@ -27,14 +27,19 @@ public class Renderer {
     
     /// singleton crap ///
     private static Renderer realInstance;
+    private static Renderer testInstance;
     public static Renderer createRealInstance(ShapeRenderer sr, SpriteBatch sb) {
         if (realInstance == null) {
             realInstance = new Renderer(sr, sb);
         }
         return realInstance;
     }
-    public static Renderer getRealInstance() {
-        return realInstance;
+    public static Renderer getRealInstance() { return realInstance; }
+    public static Renderer getTestInstance() {
+        if (testInstance == null) {
+            testInstance = new Renderer();
+        }
+        return testInstance;
     }
     /// ///
     

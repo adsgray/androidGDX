@@ -660,8 +660,13 @@ public class GameFactory {
         BlobIF set = BlobFactory.createTestBlobSet2(w,r);
 
         BlobIF b1 = BlobFactory.createTestBlob(w, r, null);
-        b1.setPosition(PositionFactory.origin());
-        b1.setPath(PathFactory.backAndForth(5, 5));
+        //b1.setPosition(PositionFactory.origin());
+        b1.setPosition(new BlobPosition(-100,0));
+        //b1.setPath(PathFactory.stationary());
+        b1 = BlobFactory.rainbowColorCycler(b1, 5);
+        //b1.setPath(PathFactory.squarePath(10, 1));
+        b1.setPath(PathFactory.backAndForth(5, 20));
+        //b1.setVelocity(new BlobVelocity(5,0));
         /*
         b1.setPath(PathFactory.stationary());
         b1.getPosition().setX(100);
@@ -670,7 +675,7 @@ public class GameFactory {
         */
         
         BlobIF b2 = BlobFactory.createTestBlob(w,r,null);
-        b2.setPosition(new BlobPosition(-10,-10)); // doesn't matter what this is as it will be clobbered
+        b2.setPosition(new BlobPosition(300,300)); // doesn't matter what this is as it will be clobbered
         b2.setPath(PathFactory.stationary());
         //b2.setPath(PathFactory.backAndForth(5, 5));
 

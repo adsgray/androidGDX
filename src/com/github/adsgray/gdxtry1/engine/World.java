@@ -20,7 +20,7 @@ public class World implements WorldIF {
     protected CollisionMap collisions;
 
     public World() {
-        Log.d("trace", "World created");
+        //Log.d("trace", "World created");
         blobs = new BlobManager();
         missiles = new BlobManager();
         targets = new BlobManager();
