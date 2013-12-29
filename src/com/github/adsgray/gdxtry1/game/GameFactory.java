@@ -430,8 +430,9 @@ public class GameFactory {
     private static BlobIF createTargetBlob(WorldIF w, Renderer r) {
         //BlobIF b = BlobFactory.createDefaultBlob(w, r);
         PositionIF p = new BlobPosition(50 + rnd.nextInt(GameFactory.BOUNDS_X - 100), GameFactory.BOUNDS_Y - 20 - rnd.nextInt(300));
-        BlobIF b = new RectangleBlob(0, p, null, null, r);
-        b.setPath(PathFactory.backAndForth(5, 4));
+        //BlobIF b = new RectangleBlob(0, p, null, null, r);
+        BlobIF b = BlobFactory.rectangleBlob(p, PathFactory.backAndForth(5,4), r.randomRectConfig(), r);
+        //b.setPath(PathFactory.backAndForth(5, 4));
         b = BlobFactory.throbber(b);
         b.setWorld(w);
         b.setLifeTime(10000000);
@@ -445,7 +446,8 @@ public class GameFactory {
         //BlobIF b1 = BlobFactory.createOozeBlob(w, r);
         PositionIF p = new BlobPosition(10 + rnd.nextInt(GameFactory.BOUNDS_X) - 5, 10);
         CircleConfig cc = r.new CircleConfig(Color.RED, 30);
-        BlobIF b1 = new CircleBlob(0, p, GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
+        //BlobIF b1 = new CircleBlob(0, p, GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
+        BlobIF b1 = BlobFactory.circleBlob(p, PathFactory.stationary(), cc, r);
         b1.setPath(PathFactory.launchUp(75, -2));
         // TODO: set position trigger for Y=0 which will kill this blob...
         b1.setLifeTime(1000);

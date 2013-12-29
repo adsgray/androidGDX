@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
+import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
+import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.CircleBlob;
@@ -21,9 +23,12 @@ import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobRenderColorScaleDeco
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobScaleDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobTrailDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobRenderColorDecorator.ColorDecoratorEntry;
+import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
+import com.github.adsgray.gdxtry1.engine.extent.FakeRectangleExtent;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
@@ -42,6 +47,37 @@ public class BlobFactory extends GameFactory {
     private static Color randomRainbowColor() {
         return colors[rnd.nextInt(colors.length)];
     }
+    
+    ///////////////////////
+    public static BlobIF createBaseBlob(PositionIF p, VelocityIF v, AccelIF a, Renderer r) {
+        BlobIF b = new BaseBlob(0, p, v, a, r);
+        return b;
+    }
+    public static BlobIF createBaseBlob(PositionIF p, BlobPath path, Renderer r) {
+        return createBaseBlob(p, path.vel, path.acc, r);
+    }
+
+    public static BlobIF rectangleBlob(PositionIF p, BlobPath path, RectConfig renderconfig, Renderer r) {
+        BlobIF b = createBaseBlob(p, path, r);
+        b.setRenderConfig(renderconfig);
+        b.setExtent(new FakeRectangleExtent((int)renderconfig.w, (int)renderconfig.h));
+        return b;
+    }
+    
+    public static BlobIF circleBlob(PositionIF p, BlobPath path, CircleConfig rc, Renderer r) {
+        BlobIF b = createBaseBlob(p, path, r);
+        b.setRenderConfig(rc);
+        b.setExtent(new CircleExtent((int)rc.radius));
+        return b;
+    }
+    
+    public static BlobIF triangleBlob(PositionIF p, BlobPath path, TriangleConfig rc, Renderer r) {
+        BlobIF b = createBaseBlob(p, path, r);
+        b.setRenderConfig(rc);
+        b.setExtent(new CircleExtent((int)(rc.radius * 0.80f)));
+        return b;
+    }
+    ///////////////////////
     
 
     static private CircleConfig smokeTrail() {

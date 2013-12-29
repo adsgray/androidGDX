@@ -31,6 +31,7 @@ public abstract class BlobDecorator extends BaseBlob {
     @Override public AccelIF getAccel() { return component.getAccel(); }
     @Override public Renderer getRenderer() { return component.getRenderer(); }
     @Override public RenderConfigIF getRenderConfig() { return component.getRenderConfig(); }
+    @Override public void setRenderConfig(RenderConfigIF r) { component.setRenderConfig(r); }
     @Override public Integer getMass() { return component.getMass(); }
     @Override public void setAccel(AccelIF a) { component.setAccel(a); }
     @Override public void setVelocity(VelocityIF v) { component.setVelocity(v); }
