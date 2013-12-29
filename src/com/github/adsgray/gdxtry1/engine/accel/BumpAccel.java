@@ -16,8 +16,6 @@ public class BumpAccel extends AccelComposeDecorator {
     
     public VelocityIF accellerate(VelocityIF vel) {
         
-        ticks += 1;
-
         if (ticks < tickExpire) {
             // compose velocities
            super.accellerate(vel);
@@ -27,6 +25,7 @@ public class BumpAccel extends AccelComposeDecorator {
            //vel.accelerate(component);
         }
         
+        ticks += 1;
         return vel;
     }
     

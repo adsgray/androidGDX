@@ -5,6 +5,7 @@ import com.github.adsgray.gdxtry1.engine.accel.BumpAccel;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
 import com.github.adsgray.gdxtry1.engine.accel.RandomAccel;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 
 public class AccelFactory {
 
@@ -19,8 +20,8 @@ public class AccelFactory {
     // calculate an upward acceleration based
     // on downward velocity. Assumes blob is moving
     // down...
-    public static AccelIF up(BlobIF b) {
-        int y = b.getVelocity().getYVelocity();
+    public static AccelIF up(VelocityIF v) {
+        int y = v.getYVelocity();
         return up(-y/2);
     }
 
@@ -28,30 +29,29 @@ public class AccelFactory {
         return new LinearAccel(0, -amt);
     }
     
-    public static AccelIF down(BlobIF b) {
-        return down(-b.getVelocity().getYVelocity());
+    public static AccelIF down(VelocityIF v) {
+        return down(-v.getYVelocity());
     }
 
     public static AccelIF right(int amt) {
         return new LinearAccel(amt, 0);
     }
 
-    public static AccelIF right(BlobIF b) {
-        return right(-b.getVelocity().getXVelocity());
+    public static AccelIF right(VelocityIF v) {
+        return right(-v.getXVelocity());
     }
 
     public static AccelIF left(int amt) {
         return new LinearAccel(-amt, 0);
     }
 
-    public static AccelIF left(BlobIF b) {
-        return left(-b.getVelocity().getXVelocity());
+    public static AccelIF left(VelocityIF v) {
+        return left(-v.getXVelocity());
     }
 
     
-    public static BlobIF bump(BlobIF b, AccelIF bump, int duration) {
-        b.setAccel(new BumpAccel(b.getAccel(), bump, duration));
-        return b;
+    public static AccelIF bump(AccelIF source, AccelIF bump, int duration) {
+        return new BumpAccel(source, bump, duration);
     }
  
     public static AccelIF explosionAccel() {

@@ -29,17 +29,5 @@ public class TestPosition {
         assertEquals("X position after vel", 43, p.getX());
         assertEquals("Y position after vel", 43, p.getY());
     }
-    
-    @Test
-    public void testLinearAccel() {
-        PositionIF p = TestFactory.position42();
-        VelocityIF v = TestFactory.velocity1dash1();
-        AccelIF a = TestFactory.linearAccel1dash1();
-        
-        v.accelerate(a);
-        // TODO: change getXVel, getYVel to return ints
-        assertEquals("X vel after acc", 2, (int)v.getXVelocity());
-        assertEquals("Y vel after acc", 2, (int)v.getYVelocity());
-    }
-
+   
 }

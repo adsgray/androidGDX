@@ -627,7 +627,9 @@ public class GameFactory {
         BlobTrigger bottom = new BlobTrigger() {
             // this will be used as an Axis trigger so secondary is empty
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
-                AccelFactory.bump(source, AccelFactory.up(source), 8);
+                // kind of complicated: create an expiring accel based on the source velocity
+                AccelIF bumpAccel = AccelFactory.bump(source.getAccel(), AccelFactory.up(source.getVelocity()), 8);
+                source.setAccel(bumpAccel);
                 source.setLifeTime(100000);
                 return source;
             }
