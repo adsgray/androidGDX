@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector;
+import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener;
 import com.github.adsgray.gdxtry1.output.Renderer;
 
 public class MainPanel implements ApplicationListener {
@@ -42,13 +43,13 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
 	    //GameFactory.populateWorldNonRandom(world, renderConfig);
 	    //GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
-	    GameFactory.populateWorldLaunchUp(world, renderConfig);
+	    //GameFactory.populateWorldLaunchUp(world, renderConfig);
 	    //GameFactory.populateWorldOoze(world, renderConfig);
 	    //GameFactory.populateWorldCollisionTest(world, renderConfig);
 	    //GameFactory.populateWorldTestTriggers(world, renderConfig);
 	    //GameFactory.populateWorldTestTriggersAgain(world, renderConfig);
 	    //GameFactory.populateWorldGameTestOne(world, renderConfig);
-	    //GameFactory.populateWorldTestOffsetPosition(world, renderConfig);
+	    GameFactory.populateWorldTestOffsetPosition(world, renderConfig);
 	    //GameFactory.populateWorldTestBumpAccel(world, renderConfig);
 	    //GameFactory.populateWorldTestNewBlobSet(world, renderConfig);
 	    //GameFactory.populateWorldTestTriangle(world,  renderConfig);
@@ -70,31 +71,69 @@ public class MainPanel implements ApplicationListener {
 		
 		// Setup swipe/touch handling:
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
-	        
+	
+		    private Vector3 convertCoords(float x, float y) {
+                Vector3 pos = new Vector3();
+                pos.set(x, y, 0);
+                camera.unproject(pos);
+                return pos;
+		    }
+		    
+		    private FlingInfo convertFlingInfoCoords(FlingInfo f) {
+		        Vector3 startpos = convertCoords(f.startX, f.startY);
+		        f.startX = startpos.x;
+		        f.startY = startpos.y;
+		        return f;
+		    }
+	    
 		    @Override
-		    public void onUp() {
+		    public void onUp(DirectionListener.FlingInfo f) {
 		        // TODO Auto-generated method stub
-		        Log.d("input", "screen swiped UP");
+		        convertFlingInfoCoords(f);
+		        Log.d("input", String.format("screen swiped UP start(%f,%f) vel(%f,%f)", f.startX, f.startY, f.velocityX, f.velocityY));
 		        populateWorld();
 		    }
 
 		    @Override
-		    public void onRight() {
+		    public void onRight(DirectionListener.FlingInfo f) {
+		        convertFlingInfoCoords(f);
 		        // TODO Auto-generated method stub
 
 		    }
 
 		    @Override
-		    public void onLeft() {
+		    public void onLeft(DirectionListener.FlingInfo f) {
+		        convertFlingInfoCoords(f);
 		        // TODO Auto-generated method stub
 
 		    }
 
 		    @Override
-		    public void onDown() {
-		        // TODO Auto-generated method stub
-		        world.killAllBlobs();
+		    public void onDown(DirectionListener.FlingInfo f) {
+		        convertFlingInfoCoords(f);
+		        if (f.startY > 1000) {
+		            world.killAllBlobs();
+		        }
 		    }
+
+            @Override
+            public void completePan(float sx, float sy, float ex, float ey) {
+                Vector3 sPos = convertCoords(sx, sy);
+                Vector3 ePos = convertCoords(ex, ey);
+                Log.d("input", String.format("completePan from (%f,%f) to (%f,%f)", sPos.x, sPos.y, ePos.x, ePos.y));
+            }
+
+            @Override
+            public void panStarted(float sx, float sy) {
+                Vector3 panStart = convertCoords(sx, sy);
+                Log.d("input", String.format("pan started at (%f, %f)", panStart.x, panStart.y));
+            }
+
+            @Override
+            public void panInProgress(float curx, float cury) {
+                Vector3 panPos = convertCoords(curx, cury);
+                Log.d("input", String.format("pan continues at (%f, %f)", panPos.x, panPos.y));
+            }
 		}));
 		
 		

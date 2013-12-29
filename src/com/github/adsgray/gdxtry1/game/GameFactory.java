@@ -214,9 +214,9 @@ public class GameFactory {
  
     private static BlobIF createLaunchUpBlob(WorldIF inWorld, Renderer r) {
         BlobPath launch = PathFactory.launchUp();
-        BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
+        //BlobIF b = new CircleBlob(0, new BlobPosition(rnd.nextInt(400) + 100, 0), launch.vel, launch.acc, r);
         //inWorld.addBlobToWorld(BlobFactory.throbber(ooze));
-        //BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r));
+        BlobIF b = BlobFactory.throbber(BlobFactory.createOozeBlob(inWorld, r));
         //BlobIF b = BlobFactory.throbber(BlobFactory.createPrizeBlob(inWorld, r));
         b = BlobFactory.rainbowColorCycler(b, 2);
         b.setPosition(new BlobPosition(rnd.nextInt(400) + 100, 0));
@@ -523,7 +523,8 @@ public class GameFactory {
                 WorldIF w = b.getWorld();
                 // transformations in these trigger chains must ALWAYS return a new blob
                 BlobIF withPath = new NullBlob(b);
-                withPath.setPath(PathFactory.backAndForth(10, 2));
+                //withPath.setPath(PathFactory.backAndForth(15, 3));
+                withPath.setPath(PathFactory.upperTriangle(10, 8));
                 withPath.setLifeTime(0);
                 w.addBlobToWorld(withPath);
                 clusterSwap(withPath, b);
@@ -627,7 +628,6 @@ public class GameFactory {
         BlobTrigger bottom = new BlobTrigger() {
             // this will be used as an Axis trigger so secondary is empty
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
-                // kind of complicated: create an expiring accel based on the source velocity
                 AccelIF bumpAccel = AccelFactory.bump(source.getAccel(), AccelFactory.up(source.getVelocity()), 8);
                 source.setAccel(bumpAccel);
                 source.setLifeTime(100000);
