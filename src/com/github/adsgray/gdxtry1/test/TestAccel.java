@@ -6,9 +6,13 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.github.adsgray.gdxtry1.engine.accel.AccelComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
+import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.AccelFactory;
 
@@ -54,8 +58,23 @@ public class TestAccel {
     }
     
     @Test
-    @Ignore
     public void testAccelCompressDecorators() {
+        //PositionIF p = TestFactory.position42();
+        VelocityIF v = TestFactory.velocity1dash1();
+        AccelIF a = TestFactory.linearAccel1dash1();
+        AccelIF bump = TestFactory.linearAccel1dash1();
+        AccelIF expiringBump = AccelFactory.bump(a, bump, 1);
+        
+        // combined accel should be (2,2)
+        expiringBump.accellerate(v);
+        assertTrue(expiringBump instanceof AccelComposeDecorator);
+        expiringBump.accellerate(v);
+        assertTrue(expiringBump instanceof AccelComposeDecorator);
+        
+        // expired now so should revert to a straight up accel
+        expiringBump = (AccelIF)expiringBump.compressDecorators();
+        assertFalse(expiringBump instanceof AccelComposeDecorator);
+        assertTrue(expiringBump instanceof LinearAccel);
     }
 
 }
