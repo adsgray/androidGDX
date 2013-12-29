@@ -34,6 +34,7 @@ public class TestAccel {
         assertEquals("Y vel after acc", 2, (int)v.getYVelocity());
     }
  
+    // this also indirectly tests composed accels
     @Test
     public void testBumpAccel() {
         //PositionIF p = TestFactory.position42();
