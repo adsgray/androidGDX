@@ -67,5 +67,22 @@ public class TestBlob {
         assertEquals("X pos after tick", 2, (int)blobVel.getXVelocity());
         assertEquals("Y pos after tick", 2, (int)blobVel.getYVelocity());
     }
+    
+    @Test
+    public void testTickDeathTrigger() {
+        Renderer r = TestFactory.renderer();
+
+        PositionIF posin = TestFactory.position42();
+        VelocityIF velin = TestFactory.velocity1dash1();
+        AccelIF accel = new LinearAccel(1,1);
+
+        BlobIF b = new BaseBlob(0, posin, velin, accel, r);
+        b.setLifeTime(0);
+        TestFactory.TestBlobTrigger trigger = new TestFactory.TestBlobTrigger();
+        b.registerTickDeathTrigger(trigger);
+        b.tick();
+        
+        assertEquals("num in trigger", 1, trigger.num);
+    }
 
 }
