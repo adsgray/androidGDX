@@ -7,8 +7,10 @@ import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
+import com.github.adsgray.gdxtry1.test.TestFactory.TestBlobTrigger;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 public class TestPosition {
@@ -30,4 +32,26 @@ public class TestPosition {
         assertEquals("Y position after vel", 43, p.getY());
     }
    
+    @Test
+    public void testPositionTrigger() {
+        PositionIF p = new BlobPosition(1,1);
+        TestFactory.TestBlobTrigger xTrigger = new TestFactory.TestBlobTrigger();
+        TestFactory.TestBlobTrigger yTrigger = new TestFactory.TestBlobTrigger();
+        
+        VelocityIF v = new BlobVelocity(-1,-1);
+        
+        p.registerAxisTrigger(PositionIF.Axis.X, 0, xTrigger);
+        p.registerAxisTrigger(PositionIF.Axis.Y, 0, yTrigger);
+        
+        assertEquals("X trigger num before vel", 0, xTrigger.num);
+        assertEquals("Y trigger num before vel", 0, yTrigger.num);
+        
+        p.updateByVelocity(v);
+        p.handleTriggers(null);
+
+        assertEquals("X trigger num after vel", 1, xTrigger.num);
+        assertEquals("Y trigger num after vel", 1, yTrigger.num);
+    }
+    
+    // TODO: tests for triggers on composed positions
 }
