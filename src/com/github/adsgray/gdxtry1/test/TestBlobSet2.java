@@ -196,6 +196,55 @@ public class TestBlobSet2 {
         // b2 should be changed as well
         assertEquals("b2 X after bs2 vel", 8, b2.getPosition().getX());
         assertEquals("b2 Y after bs2 vel", 12, b2.getPosition().getY());
+    }
+    
+    @Test
+    public void testSetPosition() {
+        BlobIF b = testBlobSet2();
+        b.setPosition(TestFactory.position42());
+
+        assertEquals("b X after setpos", 42, b.getPosition().getX());
+        assertEquals("b Y after setpos", 42, b.getPosition().getY());
+    }
+
+    @Test
+    public void testSetPositionAbsorb() {
+        Renderer r = TestFactory.renderer();
+        BlobPath path = PathFactory.stationary();
+        BlobIF bs2 = testBlobSet2();
         
+        BlobIF b1 = BlobFactory.createBaseBlob(new BlobPosition(1,0), path, r);
+        BlobIF b2 = BlobFactory.createBaseBlob(PositionFactory.origin(), path, r);
+
+        bs2.absorbBlob(b1);
+        bs2.absorbBlob(b2);
+        
+        PositionIF bpos = b1.getPosition();
+        assertTrue(bpos instanceof PositionComposeDecorator);
+        bpos = b2.getPosition();
+        assertTrue(bpos instanceof PositionComposeDecorator);
+
+        assertEquals("b1 X after absorb", 11, b1.getPosition().getX());
+        assertEquals("b1 Y after absorb", 11, b1.getPosition().getY());
+        assertEquals("b2 X after absorb", 10, b2.getPosition().getX());
+        assertEquals("b2 Y after absorb", 11, b2.getPosition().getY());
+        
+        bs2.setPosition(TestFactory.position42());
+
+        assertEquals("bs2 X after setpos", 42, bs2.getPosition().getX());
+        assertEquals("bs2 Y after setpos", 42, bs2.getPosition().getY());
+        
+        bpos = ((PositionComposeDecorator)b1.getPosition()).getPrimary();
+        assertEquals("b1 primary X after bs2 setpos", 1, bpos.getX());
+        assertEquals("b1 primary Y after bs2 setpos", 0, bpos.getY());
+
+        bpos = ((PositionComposeDecorator)b2.getPosition()).getPrimary();
+        assertEquals("b2 primary X after bs2 setpos", 0, bpos.getX());
+        assertEquals("b2 primary Y after bs2 setpos", 0, bpos.getY());
+
+        assertEquals("b1 X after bs2 setpos", 43, b1.getPosition().getX());
+        assertEquals("b1 Y after bs2 setpos", 42, b1.getPosition().getY());
+        assertEquals("b2 X after bs2 setpos", 42, b2.getPosition().getX());
+        assertEquals("b2 Y after bs2 setpos", 42, b2.getPosition().getY());
     }
 }

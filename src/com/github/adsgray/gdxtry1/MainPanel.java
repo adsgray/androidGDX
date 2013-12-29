@@ -42,7 +42,7 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
 	    //GameFactory.populateWorldNonRandom(world, renderConfig);
 	    //GameFactory.populateWorldNonRandomBlobSet(world, renderConfig);
-	    //GameFactory.populateWorldLaunchUp(world, renderConfig);
+	    GameFactory.populateWorldLaunchUp(world, renderConfig);
 	    //GameFactory.populateWorldOoze(world, renderConfig);
 	    //GameFactory.populateWorldCollisionTest(world, renderConfig);
 	    //GameFactory.populateWorldTestTriggers(world, renderConfig);
@@ -52,7 +52,7 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldTestBumpAccel(world, renderConfig);
 	    //GameFactory.populateWorldTestNewBlobSet(world, renderConfig);
 	    //GameFactory.populateWorldTestTriangle(world,  renderConfig);
-	    GameFactory.populateWorldTestMultiplyPosition(world,  renderConfig);
+	    //GameFactory.populateWorldTestMultiplyPosition(world,  renderConfig);
 	}
 
 	@Override

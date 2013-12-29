@@ -279,10 +279,10 @@ public class GameFactory {
         //BlobIF ooze = BlobFactory.createPrizeBlob(inWorld, r);
         //BlobPath p = PathFactory.jigglePath(10);
 
-        //BlobPath p = PathFactory.upperTriangle(4, 2);
+        BlobPath p = PathFactory.upperTriangle(4, 2);
         //BlobPath p = PathFactory.stationary();
         //BlobPath p = PathFactory.backAndForth(5, 2);
-        BlobPath p = PathFactory.upAndDown(5, 1);
+        //BlobPath p = PathFactory.upAndDown(5, 1);
         ooze.setPath(p);
 
         //inWorld.addBlobToWorld(new BlobIgnoreTickDecorator(BlobFactory.throbber(ooze), rnd.nextInt(2) + 1));
@@ -443,11 +443,11 @@ public class GameFactory {
     
     private static BlobIF createMissileBlob(WorldIF w, Renderer r) {
         // can't use BlobSets in collisions yet because they don't have extents...
-        //BlobIF b1 = BlobFactory.createOozeBlob(w, r);
+        BlobIF b1 = BlobFactory.createOozeBlob(w, r);
         PositionIF p = new BlobPosition(10 + rnd.nextInt(GameFactory.BOUNDS_X) - 5, 10);
-        CircleConfig cc = r.new CircleConfig(Color.RED, 30);
+        //CircleConfig cc = r.new CircleConfig(Color.RED, 30);
         //BlobIF b1 = new CircleBlob(0, p, GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r, cc);
-        BlobIF b1 = BlobFactory.circleBlob(p, PathFactory.stationary(), cc, r);
+        //BlobIF b1 = BlobFactory.circleBlob(p, PathFactory.stationary(), cc, r);
         b1.setPath(PathFactory.launchUp(75, -2));
         // TODO: set position trigger for Y=0 which will kill this blob...
         b1.setLifeTime(1000);

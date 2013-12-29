@@ -48,9 +48,9 @@ public class BlobSet2 extends BlobSet {
             if (bpos instanceof PositionComposeDecorator) {
                 // uuuuuggggglllllyyyyy
                 PositionComposeDecorator dec = (PositionComposeDecorator)bpos;
-                bpos = dec.getComponent();
+                bpos = dec.getPrimary();
             }
-            b.setPosition(new PositionComposeDecorator(bpos, position));
+            b.setPosition(new PositionComposeDecorator(position, bpos));
         }
     }
 

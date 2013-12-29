@@ -16,6 +16,8 @@ public class PositionComposeDecorator extends PositionDecorator {
         super(component);
         this.primary = primary;
     }
+    
+    public PositionIF getPrimary() { return primary; }
 
     @Override public int getX() { return primary.getX() + component.getX(); }
     @Override public int getY() { return primary.getY() + component.getY(); }
