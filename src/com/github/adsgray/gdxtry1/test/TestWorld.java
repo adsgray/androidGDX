@@ -9,7 +9,10 @@ import org.junit.Test;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
+import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
+import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.game.AccelFactory;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameFactory;
@@ -71,6 +74,73 @@ public class TestWorld {
         assertEquals("num blobs", 0, w.getNumBlobs());
         assertEquals("num missiles", 0, w.getNumMissiles());
         assertEquals("num targets", 0, w.getNumTargets());
+    }
+    
+    @Test
+    public void testSimpleTargetMissileCollision() {
+        WorldIF w = TestFactory.world();
+        Renderer r = TestFactory.renderer();
+
+        // not testing collisions here so they can all be in the same place
+        BlobIF target = new BaseBlob(0, PositionFactory.origin(), GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r);
+        target.setExtent(new CircleExtent(10));
+        target.setClientType(42);
+        BlobIF missile = new BaseBlob(0, new BlobPosition(0,21), new BlobVelocity(0,-1), AccelFactory.zeroAccel(), r);
+        missile.setExtent(new CircleExtent(10));
+        
+        TestFactory.TestBlobTrigger trigger = new TestFactory.TestBlobTrigger() {
+            @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                // this tests that the blob passed to us (secondary) is the
+                // one we expected to collide with.
+                assertEquals("secondary clientType", 42, secondary.getClientType());
+                num += 1;
+                return source;
+            }
+        };
+        missile.registerCollisionTrigger(trigger);
+        
+        w.addTargetToWorld(target);
+        w.addMissileToWorld(missile);
+        
+        // should not collide after 1 tick. They're juuuuust barely touching
+        w.tick();
+        assertEquals("missile trigger count", 0, trigger.num);
+
+        // should collide now
+        w.tick();
+        assertEquals("missile trigger count", 1, trigger.num);
+    }
+    
+    // check that missiles will not hit a regular blob that isn't a target
+    @Test
+    public void testBlobDoesntCollide() {
+         WorldIF w = TestFactory.world();
+        Renderer r = TestFactory.renderer();
+
+        // not testing collisions here so they can all be in the same place
+        BlobIF nontarget = new BaseBlob(0, PositionFactory.origin(), GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r);
+        nontarget.setExtent(new CircleExtent(10));
+        BlobIF missile = new BaseBlob(0, new BlobPosition(0,21), new BlobVelocity(0,-1), AccelFactory.zeroAccel(), r);
+        missile.setExtent(new CircleExtent(10));
+        
+        TestFactory.TestBlobTrigger trigger = new TestFactory.TestBlobTrigger();
+        missile.registerCollisionTrigger(trigger);
+        
+        w.addBlobToWorld(nontarget);
+        w.addMissileToWorld(missile);
+        
+        // should not collide after 1 tick. They're juuuuust barely touching
+        w.tick();
+        assertEquals("missile trigger count", 0, trigger.num);
+
+        // still should not collide
+        w.tick();
+        assertEquals("missile trigger count", 0, trigger.num);       
+
+        // tick one more time just to be sure
+        w.tick();
+        assertEquals("missile trigger count", 0, trigger.num);       
+
     }
 
 }
