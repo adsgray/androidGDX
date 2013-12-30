@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game;
+package com.github.adsgray.gdxtry1.game.testgame1;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
@@ -6,6 +6,10 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.game.BlobFactory;
+import com.github.adsgray.gdxtry1.game.Game;
+import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.input.DragAndFlingDirectionListener;
 import com.github.adsgray.gdxtry1.input.Draggable;
 import com.github.adsgray.gdxtry1.input.Flingable;
@@ -28,7 +32,7 @@ public class FiringGameTest implements Game {
     }
     
     private BlobIF createDefender() {
-        PositionIF p = new BlobPosition(100,60);
+        PositionIF p = new BlobPosition(100,100);
         TriangleConfig rc = renderer.new TriangleConfig(Color.RED, 80);
         BlobIF b = BlobFactory.triangleBlob(p, PathFactory.stationary(), rc, renderer);
         b = new ShowExtentDecorator(b);

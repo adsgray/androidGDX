@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game;
+package com.github.adsgray.gdxtry1.game.testgame1;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
@@ -8,6 +8,8 @@ import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.game.BlobFactory;
+import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.input.Draggable;
 import com.github.adsgray.gdxtry1.input.Flingable;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener.FlingInfo;
@@ -23,21 +25,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
 
     public FiringBlobDecorator(BlobIF component) {
         super(component);
-        missileSource = new BlobSource() {
-            @Override protected BlobIF generate(BlobIF parent) {
-                WorldIF w = parent.getWorld();
-                Renderer r = parent.getRenderer();
-                BlobPosition p = new BlobPosition(parent);
-                CircleConfig rc = r.new CircleConfig(Color.RED, 25f);
-
-                // create a missile blob whose initial position
-                // is based on parent
-                BlobIF m = BlobFactory.circleBlob(p, PathFactory.launchUp(), rc, r);
-                w.addMissileToWorld(m);
-                return m;
-            }
-        };
-        
+        missileSource = new MissileBlobSource();
         CircleExtent ce = (CircleExtent)component.getExtent();
         flingExtent = new CircleExtent(ce.getRadius() * 3);
         dragExtent = new CircleExtent(ce.getRadius() * 2);
