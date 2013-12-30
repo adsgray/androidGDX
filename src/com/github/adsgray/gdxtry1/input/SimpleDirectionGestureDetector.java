@@ -2,7 +2,10 @@ package com.github.adsgray.gdxtry1.input;
 
 import android.util.Log;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector3;
+import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener.FlingInfo;
 
 
 // from: 
@@ -39,7 +42,6 @@ import com.badlogic.gdx.input.GestureDetector;
  */
 public class SimpleDirectionGestureDetector extends GestureDetector {
     
-
     
     public interface DirectionListener {
         void onLeft(FlingInfo f);
@@ -68,12 +70,14 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
                 velocityY = vy;
             }
         }
+
     }
 
-    public SimpleDirectionGestureDetector(DirectionListener directionListener) {
-        super(new DirectionGestureListener(directionListener));
+
+    public SimpleDirectionGestureDetector(OrthographicCamera camera, DirectionListener directionListener) {
+        super(new DirectionGestureListener(camera, directionListener));
     }
-    
+     
     private static class DirectionGestureListener extends GestureAdapter{
         DirectionListener directionListener;
         public class PanState {
@@ -86,23 +90,43 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
             public float sx;
             public float sy;
         }
-        
+
+        private OrthographicCamera camera;
         private PanState panState;
         
-        public DirectionGestureListener(DirectionListener directionListener){
+        public DirectionGestureListener(OrthographicCamera camera, DirectionListener directionListener){
+            this.camera = camera;
             this.directionListener = directionListener;
             panState = new PanState();
         }
-        
+      	
+        private Vector3 convertCoords(float x, float y) {
+            Vector3 pos = new Vector3();
+            pos.set(x, y, 0);
+            camera.unproject(pos);
+            return pos;
+        }
+		    
+        private FlingInfo convertFlingInfoCoords(FlingInfo f) {
+            Vector3 startpos = convertCoords(f.startX, f.startY);
+            f.startX = startpos.x;
+            f.startY = startpos.y;
+            return f;
+        }
+	    
         //Called when the user drags a finger over the screen.
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
             //Log.d("input", String.format("pan: x:%f y:%f dX:%f dY:%f", x, y, deltaX, deltaY));
+
+            Vector3 posConverted = convertCoords(x,y);
+            x = posConverted.x;
+            y = posConverted.y;
+
             if (!panState.panBegun) {
                 panState.panBegun = true;
                 panState.sx = x;
                 panState.sy = y;
-                
                 directionListener.panStarted(x, y);
             } else {
                 directionListener.panInProgress(x, y);
@@ -114,13 +138,15 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
         @Override
         public boolean panStop(float x, float y, int pointer, int button) {
             //Log.d("input", String.format("panStop: x:%f y:%f p:%d b:%d", x,y,pointer,button));
+            Vector3 posConverted = convertCoords(x,y);
             panState.panBegun = false;
-            directionListener.completePan(panState.sx, panState.sy, x, y);
+            directionListener.completePan(panState.sx, panState.sy, posConverted.x, posConverted.y);
             return super.panStop(x,y,pointer,button);
         }
 
         @Override
         public boolean fling(float velocityX, float velocityY, int button) {
+            // panState coords were converted at panBegun time.
             DirectionListener.FlingInfo f = new DirectionListener.FlingInfo(panState.sx, panState.sy, velocityX, velocityY);
 
             if(Math.abs(velocityX)>Math.abs(velocityY)){
