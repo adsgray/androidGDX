@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
@@ -15,6 +16,12 @@ import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 import com.badlogic.gdx.graphics.Color;
 public class AngryTargetMissileSource extends BlobSource {
 
+    private BlobTransform transform;
+
+    public AngryTargetMissileSource(BlobTransform transform) {
+        this.transform = transform;
+    }
+    
     // TODO: make these have hitpoints to inflict damage on defender
     @Override
     protected BlobIF generate(BlobIF parent) {
@@ -26,6 +33,7 @@ public class AngryTargetMissileSource extends BlobSource {
         b = BlobFactory.rainbowColorCycler(b, 1);
         b.setLifeTime(100);
         b = BlobFactory.addTriangleSmokeTrail(b);
+        b = transform.transform(b);
         w.addTargetToWorld(b);
         return b;
     }

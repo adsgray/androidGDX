@@ -25,6 +25,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
     protected ExtentIF flingExtent;
     protected ExtentIF dragExtent;
     protected int hitPoints;
+    protected int maxMissiles; // max missiles in the air at one time
 
     public FiringBlobDecorator(BlobIF component, GameCommand postKillCommand) {
         super(component);
@@ -36,13 +37,16 @@ public class FiringBlobDecorator extends BlobDecorator implements
         // at the top of the screen.
         // When you go <= 0 you explode and can start again.
         hitPoints = 100;
+        maxMissiles = 3; // the defender/triangle counts as a missile, so this means
+                         // you can launch up to 2 simultaneous missiles
     }
 
     @Override
     public void onFlingUp(FlingInfo f) {
-        // TODO: limit number of missiles that can be
-        // in the air at one time
-        BlobIF missile = missileSource.get(this);
+        if (world.getNumMissiles() < maxMissiles) {
+            BlobIF missile = missileSource.get(this);
+        }
+        // else make the defender flash/shake?
         // OK now set the missile's velocity based on FlingInfo
     }
 
