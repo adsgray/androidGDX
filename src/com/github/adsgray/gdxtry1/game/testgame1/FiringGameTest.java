@@ -10,6 +10,8 @@ import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.Game;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyDecorator;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.FiringBlobDecorator;
 import com.github.adsgray.gdxtry1.input.DragAndFlingDirectionListener;
 import com.github.adsgray.gdxtry1.input.Draggable;
 import com.github.adsgray.gdxtry1.input.Flingable;
@@ -24,6 +26,13 @@ public class FiringGameTest implements Game {
     Renderer renderer;
     static final int numEnemies = 10;
 
+    public class EnemyCreator implements GameCommand {
+        @Override 
+        public void execute() {
+            FiringGameTest.this.createEnemies();
+        }
+    }
+
     public FiringGameTest(DragAndFlingDirectionListener dl, WorldIF w, Renderer r) {
         input = dl;
         world = w;
@@ -36,7 +45,7 @@ public class FiringGameTest implements Game {
         TriangleConfig rc = renderer.new TriangleConfig(Color.RED, 80);
         BlobIF b = BlobFactory.triangleBlob(p, PathFactory.stationary(), rc, renderer);
         b = new ShowExtentDecorator(b);
-        b = new FiringBlobDecorator(b);
+        b = new FiringBlobDecorator(b, new EnemyCreator());
         world.addMissileToWorld(b);
         b.registerCollisionTrigger(new DefenderCollisionTrigger());
         b.setLifeTime(1000000);
@@ -45,11 +54,11 @@ public class FiringGameTest implements Game {
     
     private BlobIF createOneEnemy() {
         PositionIF p = GameFactory.randomPosition(10,800,700,1000);
-        RectConfig rc = renderer.new RectConfig(Color.BLUE, 60, 60);
+        RectConfig rc = renderer.new RectConfig(GameFactory.randomColor(), 60, 60);
         BlobIF b = BlobFactory.rectangleBlob(p, PathFactory.squarePath(10, 5), rc, renderer);
-        b = BlobFactory.throbber(b);
         b.setLifeTime(100);
         b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop());
+        b = BlobFactory.throbber(b);
         return b;
     }
 
@@ -63,6 +72,8 @@ public class FiringGameTest implements Game {
             numToAdd -= 1;
         }
     }
+    
+
 
     private void setupGame() {
         BlobIF defender = createDefender();

@@ -22,6 +22,7 @@ public class TargetMissileSource extends BlobSource {
         CircleConfig rc = r.new CircleConfig(Color.CYAN, 20);
         BlobIF b = BlobFactory.circleBlob(new BlobPosition(parent.getPosition()), path, rc, r);
         b.setLifeTime(200);
+        b = BlobFactory.addTriangleSmokeTrail(b);
         w.addTargetToWorld(b);
         return b;
     }

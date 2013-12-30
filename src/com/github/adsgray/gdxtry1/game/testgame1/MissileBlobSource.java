@@ -11,6 +11,12 @@ import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 
 public class MissileBlobSource extends BlobSource {
+    GameCommand postKillCommand;
+    
+    public MissileBlobSource(GameCommand gc) {
+        postKillCommand = gc;
+    }
+
     @Override protected BlobIF generate(BlobIF parent) {
         WorldIF w = parent.getWorld();
         Renderer r = parent.getRenderer();
@@ -20,7 +26,7 @@ public class MissileBlobSource extends BlobSource {
         // create a missile blob whose initial position
         // is based on parent
         BlobIF m = BlobFactory.circleBlob(p, PathFactory.launchUp(), rc, r);
-        m.registerCollisionTrigger(new MissileCollisionTrigger());
+        m.registerCollisionTrigger(new MissileCollisionTrigger(postKillCommand));
         w.addMissileToWorld(m);
         return m;
     }
