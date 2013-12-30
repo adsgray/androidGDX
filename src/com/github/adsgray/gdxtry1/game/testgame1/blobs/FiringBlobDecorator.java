@@ -36,7 +36,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
         // TODO: text display 'widget' in engine, display these hitpoints
         // at the top of the screen.
         // When you go <= 0 you explode and can start again.
-        hitPoints = 100;
+        hitPoints = 75;
         maxMissiles = 3; // the defender/triangle counts as a missile, so this means
                          // you can launch up to 2 simultaneous missiles
     }
@@ -77,7 +77,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
 
     // Damagable:
     @Override public int setHitPoints(int hp) { hitPoints = hp; return hitPoints; }
-    @Override public int incHitPints(int hp) { hitPoints += hp; return hitPoints; }
-    @Override public int decHitPints(int hp) { hitPoints -= hp; return hitPoints; }
+    @Override public int incHitPoints(int hp) { hitPoints += hp; return hitPoints; }
+    @Override public int decHitPoints(int hp) { hitPoints -= hp; return hitPoints; }
     @Override public int getHitPoints() { return hitPoints; }
 }

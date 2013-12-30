@@ -8,7 +8,7 @@ import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 
-public class EnemyDecorator extends BlobDecorator implements Damagable, Enemy {
+public class EnemyDecorator extends BlobDecorator implements Damager, Damagable, Enemy {
 
     protected int hitPoints;
     protected Enemy.Type type;
@@ -16,13 +16,14 @@ public class EnemyDecorator extends BlobDecorator implements Damagable, Enemy {
     // set up stuff in this decorator constructor?
     public EnemyDecorator(BlobIF component) {
         super(component);
+        hitPoints = 10;
         type = Enemy.Type.Initial;
     }
 
     // Damagable:
     @Override public int setHitPoints(int hp) { hitPoints = hp; return hitPoints; }
-    @Override public int incHitPints(int hp) { hitPoints += hp; return hitPoints; }
-    @Override public int decHitPints(int hp) { hitPoints -= hp; return hitPoints; }
+    @Override public int incHitPoints(int hp) { hitPoints += hp; return hitPoints; }
+    @Override public int decHitPoints(int hp) { hitPoints -= hp; return hitPoints; }
     @Override public int getHitPoints() { return hitPoints; }
 
     private void setAngryPath() {
@@ -57,6 +58,9 @@ public class EnemyDecorator extends BlobDecorator implements Damagable, Enemy {
             angryExplosion();
             leaveCluster(); // if part of a cluster, leave it as our path is about to become independent
             setAngryPath();
+            
+            // we're now worth more to kill
+            hitPoints = 15;
 
             // also change missile source so that they are faster
             // by replacing tickDeathTrigger. And have this enemy

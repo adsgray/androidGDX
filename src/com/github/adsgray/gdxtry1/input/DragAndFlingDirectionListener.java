@@ -58,7 +58,7 @@ public class DragAndFlingDirectionListener implements DirectionListener {
     public Boolean registerFlingable(Flingable b) {
         return flingable.toAdd.add(b);
     }
-    public Boolean deregisterDraggable(Flingable b) {
+    public Boolean deregisterFlingable(Flingable b) {
         return flingable.toRemove.add(b);
     }
 
