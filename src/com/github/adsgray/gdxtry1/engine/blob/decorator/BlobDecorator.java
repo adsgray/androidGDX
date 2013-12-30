@@ -69,4 +69,6 @@ public abstract class BlobDecorator extends BaseBlob {
     @Override public ClusterIF getCluster() { return component.getCluster(); }
 
     @Override public BlobIF baseBlob() { return component.baseBlob(); }
+    
+    public BlobIF getComponent() { return component; }
 }
