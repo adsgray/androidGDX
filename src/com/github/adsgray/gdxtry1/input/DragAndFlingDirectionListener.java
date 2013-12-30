@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import android.util.Log;
+
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener;
@@ -72,7 +74,8 @@ public class DragAndFlingDirectionListener implements DirectionListener {
         Iterator<BlobIF> iter = flingable.objs.iterator();
         while (iter.hasNext())  {
             Flingable fling = (Flingable)iter.next();
-            fling.onFlingLeft(f);
+            if (fling.getFlingExtent().contains(fling.getPosition(), new BlobPosition(f.startX, f.startY)))
+                fling.onFlingLeft(f);
         }
         handleAllAdditionsAndRemovals();
     }
@@ -83,7 +86,8 @@ public class DragAndFlingDirectionListener implements DirectionListener {
         Iterator<BlobIF> iter = flingable.objs.iterator();
         while (iter.hasNext())  {
             Flingable fling = (Flingable)iter.next();
-            fling.onFlingRight(f);
+            if (fling.getFlingExtent().contains(fling.getPosition(), new BlobPosition(f.startX, f.startY)))
+                fling.onFlingRight(f);
         }
         handleAllAdditionsAndRemovals();
     }
@@ -94,7 +98,8 @@ public class DragAndFlingDirectionListener implements DirectionListener {
         Iterator<BlobIF> iter = flingable.objs.iterator();
         while (iter.hasNext())  {
             Flingable fling = (Flingable)iter.next();
-            fling.onFlingUp(f);
+            if (fling.getFlingExtent().contains(fling.getPosition(), new BlobPosition(f.startX, f.startY)))
+                fling.onFlingUp(f);
         }
         handleAllAdditionsAndRemovals();
     }
@@ -105,7 +110,8 @@ public class DragAndFlingDirectionListener implements DirectionListener {
         Iterator<BlobIF> iter = flingable.objs.iterator();
         while (iter.hasNext())  {
             Flingable fling = (Flingable)iter.next();
-            fling.onFlingDown(f);
+            if (fling.getFlingExtent().contains(fling.getPosition(), new BlobPosition(f.startX, f.startY)))
+                fling.onFlingDown(f);
         }
         handleAllAdditionsAndRemovals();
     }
@@ -118,7 +124,7 @@ public class DragAndFlingDirectionListener implements DirectionListener {
         BlobPosition p = new BlobPosition(x,y);
         
         Iterator<BlobIF> iter = draggable.objs.iterator();
-        
+
         while (iter.hasNext()) {
             Draggable b = (Draggable)iter.next();
             if (b.getExtent().contains(b.getPosition(), p)) {

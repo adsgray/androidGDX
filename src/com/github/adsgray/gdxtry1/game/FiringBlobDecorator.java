@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
+import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
+import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.input.Draggable;
@@ -15,7 +17,9 @@ import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 public class FiringBlobDecorator extends BlobDecorator implements
         Flingable, Draggable {
 
-    BlobSource missileSource;
+    protected BlobSource missileSource;
+    protected ExtentIF flingExtent;
+    protected ExtentIF dragExtent;
 
     public FiringBlobDecorator(BlobIF component) {
         super(component);
@@ -33,6 +37,10 @@ public class FiringBlobDecorator extends BlobDecorator implements
                 return m;
             }
         };
+        
+        CircleExtent ce = (CircleExtent)component.getExtent();
+        flingExtent = new CircleExtent(ce.getRadius() * 3);
+        dragExtent = new CircleExtent(ce.getRadius() * 2);
     }
 
     @Override
@@ -61,5 +69,15 @@ public class FiringBlobDecorator extends BlobDecorator implements
     @Override
     public void completePan(PositionIF start, PositionIF stop) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public ExtentIF getFlingExtent() {
+        return flingExtent;
+    }
+
+    @Override
+    public ExtentIF getDragExtent() {
+        return dragExtent;
     }
 }

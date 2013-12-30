@@ -22,8 +22,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.github.adsgray.gdxtry1.engine.*;
+import com.github.adsgray.gdxtry1.game.FiringGameTest;
+import com.github.adsgray.gdxtry1.game.Game;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.input.DefaultDirectionListener;
+import com.github.adsgray.gdxtry1.input.DragAndFlingDirectionListener;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener;
 import com.github.adsgray.gdxtry1.output.Renderer;
@@ -91,17 +94,19 @@ public class MainPanel implements ApplicationListener {
 		Renderer.createRealInstance(shapes, batch);
 	    renderConfig = Renderer.getRealInstance();
 	    world = GameFactory.defaultWorld();
-	    populateWorld();
+	    //populateWorld();
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
 		
 		// Setup swipe/touch handling:
-		DirectionListener dl = new TestDirectionListener(world);
+		//DirectionListener dl = new TestDirectionListener(world);
+		DirectionListener dl = new DragAndFlingDirectionListener();
 		// The SimpleDirectionGestureDetector processes events, mangles the coordinates
 		// so that they're in relation to the camera, and fires the events in
 		// the DirecitonListener
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
+		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig);
 	}
 
     @Override
