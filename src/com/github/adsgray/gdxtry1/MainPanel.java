@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.input.DefaultDirectionListener;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener;
 import com.github.adsgray.gdxtry1.output.Renderer;
@@ -56,6 +57,32 @@ public class MainPanel implements ApplicationListener {
 	    //GameFactory.populateWorldTestMultiplyPosition(world,  renderConfig);
 	}
 
+	// make a DirectionListener that can affect the world
+	private class TestDirectionListener extends DefaultDirectionListener {
+	    protected WorldIF world;
+	    public TestDirectionListener(WorldIF world) {
+	        this.world = world;
+	    }
+	        
+	    @Override
+	    public void onUp(DirectionListener.FlingInfo f) {
+	        super.onUp(f);
+	        // velocities are "backwards"
+	        if (f.startY < 200 && f.velocityY < -800) {
+	            populateWorld();
+	        }
+	    }
+
+	    @Override
+	    public void onDown(DirectionListener.FlingInfo f) {
+	        Log.d("input", String.format("screen swiped DOWN start(%f,%f) vel(%f,%f)", f.startX, f.startY, f.velocityX, f.velocityY));
+	        if (f.startY > 1000) {
+	            world.killAllBlobs();
+	        }
+	    }
+	}	
+
+
 	@Override
 	public void create() {
 		shapes = new ShapeRenderer();
@@ -70,74 +97,11 @@ public class MainPanel implements ApplicationListener {
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
 		
 		// Setup swipe/touch handling:
-		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
-	
-		    private Vector3 convertCoords(float x, float y) {
-                Vector3 pos = new Vector3();
-                pos.set(x, y, 0);
-                camera.unproject(pos);
-                return pos;
-		    }
-		    
-		    private FlingInfo convertFlingInfoCoords(FlingInfo f) {
-		        Vector3 startpos = convertCoords(f.startX, f.startY);
-		        f.startX = startpos.x;
-		        f.startY = startpos.y;
-		        return f;
-		    }
-	    
-		    @Override
-		    public void onUp(DirectionListener.FlingInfo f) {
-		        // TODO Auto-generated method stub
-		        convertFlingInfoCoords(f);
-		        Log.d("input", String.format("screen swiped UP start(%f,%f) vel(%f,%f)", f.startX, f.startY, f.velocityX, f.velocityY));
-		        populateWorld();
-		    }
-
-		    @Override
-		    public void onRight(DirectionListener.FlingInfo f) {
-		        convertFlingInfoCoords(f);
-		        // TODO Auto-generated method stub
-
-		    }
-
-		    @Override
-		    public void onLeft(DirectionListener.FlingInfo f) {
-		        convertFlingInfoCoords(f);
-		        // TODO Auto-generated method stub
-
-		    }
-
-		    @Override
-		    public void onDown(DirectionListener.FlingInfo f) {
-		        convertFlingInfoCoords(f);
-		        if (f.startY > 1000) {
-		            world.killAllBlobs();
-		        }
-		    }
-
-            @Override
-            public void completePan(float sx, float sy, float ex, float ey) {
-                Vector3 sPos = convertCoords(sx, sy);
-                Vector3 ePos = convertCoords(ex, ey);
-                Log.d("input", String.format("completePan from (%f,%f) to (%f,%f)", sPos.x, sPos.y, ePos.x, ePos.y));
-            }
-
-            @Override
-            public void panStarted(float sx, float sy) {
-                Vector3 panStart = convertCoords(sx, sy);
-                Log.d("input", String.format("pan started at (%f, %f)", panStart.x, panStart.y));
-            }
-
-            @Override
-            public void panInProgress(float curx, float cury) {
-                Vector3 panPos = convertCoords(curx, cury);
-                Log.d("input", String.format("pan continues at (%f, %f)", panPos.x, panPos.y));
-            }
-		}));
-		
-		
-		
+		DirectionListener dl = new TestDirectionListener(world);
+		// The SimpleDirectionGestureDetector processes events, mangles the coordinates
+		// so that they're in relation to the camera, and fires the events in
+		// the DirecitonListener
+		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
 	}
 
     @Override

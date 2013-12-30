@@ -29,5 +29,4 @@ public class TestCircleExtent {
         assertTrue("yesIn is contained", c.contains(centre, yesIn));
         assertTrue("yesInToo is contained", c.contains(centre, yesInToo));
     }
-
 }
