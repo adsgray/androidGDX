@@ -38,6 +38,7 @@ public class FiringGameTest implements Game {
         b = new ShowExtentDecorator(b);
         b = new FiringBlobDecorator(b);
         world.addMissileToWorld(b);
+        b.registerCollisionTrigger(new DefenderCollisionTrigger());
         b.setLifeTime(1000000);
         return b;
     }
@@ -47,7 +48,8 @@ public class FiringGameTest implements Game {
         RectConfig rc = renderer.new RectConfig(Color.BLUE, 60, 60);
         BlobIF b = BlobFactory.rectangleBlob(p, PathFactory.squarePath(10, 5), rc, renderer);
         b = BlobFactory.throbber(b);
-        b.setLifeTime(1000000);
+        b.setLifeTime(100);
+        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop());
         return b;
     }
 

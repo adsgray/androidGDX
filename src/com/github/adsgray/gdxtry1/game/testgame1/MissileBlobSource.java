@@ -20,6 +20,7 @@ public class MissileBlobSource extends BlobSource {
         // create a missile blob whose initial position
         // is based on parent
         BlobIF m = BlobFactory.circleBlob(p, PathFactory.launchUp(), rc, r);
+        m.registerCollisionTrigger(new MissileCollisionTrigger());
         w.addMissileToWorld(m);
         return m;
     }
