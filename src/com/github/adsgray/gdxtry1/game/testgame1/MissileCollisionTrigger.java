@@ -20,14 +20,14 @@ public class MissileCollisionTrigger extends BlobTrigger {
         WorldIF w = source.getWorld();
 
         // Check to see if we're hitting an enemy ship
-        try {
+        if (secondary instanceof Enemy) {
             Enemy target = (Enemy)secondary;
             if (target.getType() == Enemy.Type.Initial) {
                 target.becomeAngry();
             } else {
                 TriggerFactory.replaceWithExplosion(secondary);
             }
-        } catch (ClassCastException e) {
+        } else {
             // if it's a regular 'target' (like a bomb) just explode it
             TriggerFactory.replaceWithExplosion(secondary);
         }

@@ -32,6 +32,9 @@ public class FiringBlobDecorator extends BlobDecorator implements
         CircleExtent ce = (CircleExtent)component.getExtent();
         flingExtent = new CircleExtent(ce.getRadius() * 3);
         dragExtent = new CircleExtent(ce.getRadius() * 2);
+        // TODO: text display 'widget' in engine, display these hitpoints
+        // at the top of the screen.
+        // When you go <= 0 you explode and can start again.
         hitPoints = 100;
     }
 
