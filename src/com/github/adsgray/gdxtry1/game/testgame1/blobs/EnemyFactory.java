@@ -10,6 +10,6 @@ import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
-public class Factory {
+public class EnemyFactory {
    
 }
