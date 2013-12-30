@@ -37,6 +37,8 @@ public class FiringBlobDecorator extends BlobDecorator implements
 
     @Override
     public void onFlingUp(FlingInfo f) {
+        // TODO: limit number of missiles that can be
+        // in the air at one time
         BlobIF missile = missileSource.get(this);
         // OK now set the missile's velocity based on FlingInfo
     }

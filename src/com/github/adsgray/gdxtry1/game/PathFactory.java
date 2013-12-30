@@ -114,6 +114,10 @@ public class PathFactory extends GameFactory {
         return new BlobPath(vel, acc);              
     }
 
+    public static BlobPath backAndForthLeft(int speed, int intervalFactor) {
+        return backAndForth(-speed, intervalFactor);
+    }
+
     public static BlobPath upAndDown(int speed, int intervalFactor) {
         VelocityIF vel = new BlobVelocity(0,speed);
         int interval = 5 * intervalFactor;

@@ -51,8 +51,8 @@ public class GameFactory {
     }
   
     // this should be a property of world?
-    private static final int BOUNDS_X = 800;
-    private static final int BOUNDS_Y = 1422;
+    public static final int BOUNDS_X = 800;
+    public static final int BOUNDS_Y = 1422;
 
     public static PositionIF randomPosition(int minX, int maxX, int minY, int maxY) {
         return new BlobPosition(rnd.nextInt(maxX - minX) + minX, rnd.nextInt(maxY - minY) + minY);

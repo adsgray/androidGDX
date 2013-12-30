@@ -1,5 +1,9 @@
 package com.github.adsgray.gdxtry1.game.testgame1;
 
+/**
+ * James calls this game "Bomb-Bomb"
+ * "Because the triangle is angry and wants to shoot bombs"
+ */
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
@@ -24,7 +28,7 @@ public class FiringGameTest implements Game {
     DragAndFlingDirectionListener input;
     WorldIF world;
     Renderer renderer;
-    static final int numEnemies = 10;
+    static final int numEnemies = 8;
 
     public class EnemyCreator implements GameCommand {
         @Override 
@@ -39,7 +43,7 @@ public class FiringGameTest implements Game {
         renderer = r;
         setupGame();
     }
-    
+ 
     private BlobIF createDefender() {
         PositionIF p = new BlobPosition(100,100);
         TriangleConfig rc = renderer.new TriangleConfig(Color.RED, 80);
@@ -55,10 +59,12 @@ public class FiringGameTest implements Game {
     private BlobIF createOneEnemy() {
         PositionIF p = GameFactory.randomPosition(10,800,700,1000);
         RectConfig rc = renderer.new RectConfig(GameFactory.randomColor(), 60, 60);
-        BlobIF b = BlobFactory.rectangleBlob(p, PathFactory.squarePath(10, 5), rc, renderer);
-        b.setLifeTime(100);
-        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop());
+        BlobIF b = BlobFactory.rectangleBlob(p, PathFactory.squarePath(15, 5), rc, renderer);
+        b.setLifeTime(TargetUtils.rnd.nextInt(200));
+        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(1000, TargetUtils.targetMissileSource));
         b = BlobFactory.throbber(b);
+        // N.B. this has to be the last decorator so that we can cast to Enemy
+        b = new EnemyDecorator(b);
         return b;
     }
 
@@ -66,6 +72,9 @@ public class FiringGameTest implements Game {
         int numToAdd = numEnemies - world.getNumTargets();
         if (numToAdd < 0) numToAdd = 0;
         
+        // if (numToAdd >= 3) create a 3 cluster...
+        // numToAdd -= 3
+
         while(numToAdd > 0) {
             BlobIF b = createOneEnemy();
             world.addTargetToWorld(b);
