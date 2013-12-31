@@ -13,14 +13,13 @@ import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 // the first time it is hit.
 public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableIF, EnemyIF {
 
-   public enum Type {
-       Initial, Angry
-   }
+    public enum Type {
+        Initial, Angry
+    }
 
-   protected int hitPoints;
-   protected Type type;
-   protected int bonusChance = 25;
-
+    protected int hitPoints;
+    protected Type type;
+    protected int bonusChance = 25;
 
     // set up stuff in this decorator constructor?
     public DefaultEnemy(BlobIF component) {
