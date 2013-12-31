@@ -6,9 +6,11 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.NullBlob;
+import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
+import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameFactory;
@@ -17,6 +19,7 @@ import com.github.adsgray.gdxtry1.game.PositionFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class EnemyFactory {
@@ -78,11 +81,12 @@ public class EnemyFactory {
         PositionIF p = GameFactory.randomPosition(20,GameFactory.BOUNDS_X - 20,GameFactory.BOUNDS_Y - 500,GameFactory.BOUNDS_Y - 100);
         return BlobFactory.createThreeCluster(p, randomPath(), sourceForClusterEnemies, randomClusterDistance(), world, renderer);
     }
-    
+
     public static BlobSource hitPointBonusSource = new BlobSource() {
         @Override protected BlobIF generate(BlobIF parent) {
             WorldIF w = parent.getWorld();
             Renderer r = parent.getRenderer();
+
             BlobIF b = BlobFactory.createPrizeBlob(w,r);
             b.setLifeTime(250);
             b = BlobFactory.rainbowColorCycler(b, 3);
@@ -90,8 +94,19 @@ public class EnemyFactory {
             b.setExtent(new CircleExtent(45)); // important! collision detection...
             b.setPosition(new BlobPosition(parent.getPosition()));
             b.setPath(PathFactory.straightUpDown(-9)); // down
-            b = new BonusDecorator(b, -5); // negative hitpoints means bonus hitpoints
+            
+            TextConfig textrc = r.new TextConfig(Color.WHITE, 1.5f);
+            TextBlobIF t = (TextBlobIF) BlobFactory.textBlob(
+                    new PositionComposeDecorator(b.getPosition(), new BlobPosition(-25,50)),
+                    PathFactory.stationary(), textrc, r);
+            t.setWorld(w);
+            t.setLifeTime(125);
+            t.setText("BONUS");
+            w.addBlobToWorld(BlobFactory.rainbowColorCycler(t, 3));
+
+            b = new BonusDecorator(b, t, -5); // negative hitpoints means bonus hitpoints
             w.addTargetToWorld(b);
+
             return b;
         }
     };

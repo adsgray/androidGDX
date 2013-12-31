@@ -97,6 +97,7 @@ public class FiringGameTest implements Game {
         TriangleConfig rc = renderer.new TriangleConfig(Color.RED, 80);
         BlobIF b = BlobFactory.triangleBlob(p, PathFactory.stationary(), rc, renderer);
         //b = new ShowExtentDecorator(b);
+        Log.d("testgame1", "creating firingblobdecorator");
         b = new FiringBlobDecorator(b, new EnemyCreator(), new IncShield());
         defender = (FiringBlobDecorator)b;
         b.registerCollisionTrigger(new DefenderCollisionTrigger(new DamageDefender()));
@@ -125,10 +126,10 @@ public class FiringGameTest implements Game {
 
     private ScoreTextDisplay createScoreDisplay() {
         //PositionIF p = new BlobPosition(10,50);
-        PositionIF p = new BlobPosition(200,GameFactory.BOUNDS_Y - 500);
+        PositionIF p = new BlobPosition(25,GameFactory.BOUNDS_Y - 50);
         //PositionIF p = new BlobPosition(500,500);
         BlobPath path = PathFactory.stationary();
-        TextConfig rc = renderer.new TextConfig(Color.WHITE, 1.8f);
+        TextConfig rc = renderer.new TextConfig(Color.WHITE, 2.0f);
         ScoreTextDisplay t = new ScoreTextDisplay(p, path.vel, path.acc, renderer, rc);
         t.setWorld(world);
         t.setLifeTime(1000000);
@@ -151,6 +152,7 @@ public class FiringGameTest implements Game {
 
         input.registerDraggable((Draggable) defender);
         input.registerFlingable((Flingable) defender);
+        scoreDisplay.setLastScore(score);
         score = 0;
         scoreDisplay.setScore(score);
         scoreDisplay.setNumShields(0);

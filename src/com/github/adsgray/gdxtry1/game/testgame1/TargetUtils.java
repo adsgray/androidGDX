@@ -7,12 +7,14 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
+import com.github.adsgray.gdxtry1.engine.blob.BaseTextBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.ExplosionBlob;
+import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
@@ -24,6 +26,7 @@ import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
 
 public class TargetUtils {
 
@@ -134,5 +137,18 @@ public class TargetUtils {
         w.addBlobToWorld(whiteBurst);
 
         return whiteBurst;
+    }
+    
+    public static TextBlobIF flashMessage(String txt, WorldIF w, Renderer r) {
+        PositionIF p = new BlobPosition(25,500);
+        BlobPath path = PathFactory.stationary();
+        TextConfig rc = r.new TextConfig(Color.WHITE, 2.5f);
+        TextBlobIF t = new BaseTextBlob(p, path.vel, path.acc, r, rc);
+        t.setText(txt);
+        t.setLifeTime(100);
+        t.setWorld(w);
+        t = (TextBlobIF) BlobFactory.grower(t, 5);
+        w.addBlobToWorld(t);
+        return t;
     }
 }

@@ -131,7 +131,6 @@ public class MainPanel implements ApplicationListener {
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);			// OpenGL code to clear the screen
 	    camera.update();
 	    
-	    //batch.setProjectionMatrix(camera.combined);
 	    //batch.begin();
 	    //world.getSpriteRenderer().render(batch);
 	    //batch.draw(smileyface, rect_smiley.x, rect_smiley.y);
@@ -139,6 +138,7 @@ public class MainPanel implements ApplicationListener {
 	    //batch.end();
 
 	    world.tick();
+	    batch.setProjectionMatrix(camera.combined);
 	    shapes.setProjectionMatrix(camera.combined);
 	    //shapeRenderer.setProjectionMatrix(camera.combined);
 

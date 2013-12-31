@@ -53,6 +53,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
                          // you can launch up to 2 simultaneous missiles
         this.incShield = incShield;
         numShields = 1;
+        Log.d("testgame1", "executing inshield exec in constructor");
         incShield.execute(1);
     }
 

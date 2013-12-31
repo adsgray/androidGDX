@@ -8,6 +8,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.Bonus;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damager;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.Enemy;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
@@ -73,6 +74,12 @@ public class MissileCollisionTrigger extends BlobTrigger {
             // if it's a regular 'target' (like a bomb) just explode it
             
             TriggerFactory.replaceWithExplosion(secondary);
+            
+            // we might have accidentally shot a Bonus
+            if (secondary instanceof Bonus) {
+                // get rid of companion text
+                ((Bonus)secondary).destroyCompanionBlobs();
+            }
         }
 
         source = postCollision(source, secondary);

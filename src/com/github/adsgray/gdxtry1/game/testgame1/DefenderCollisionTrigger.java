@@ -31,7 +31,9 @@ public class DefenderCollisionTrigger extends BlobTrigger {
         }
         
         if (secondary instanceof Bonus) {
+            // TODO: special explosion for bonuses
             TargetUtils.replaceWithBonusExplosion(secondary);
+            ((Bonus)secondary).destroyCompanionBlobs();
         }
 
         // could either be a bomb or a hitpoint bonus

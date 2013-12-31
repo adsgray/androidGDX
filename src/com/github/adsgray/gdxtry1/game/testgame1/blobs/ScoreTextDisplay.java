@@ -14,6 +14,7 @@ public class ScoreTextDisplay extends BaseTextBlob {
     protected int numShields = 0;
     protected int score = 0;
     protected int hitPoints = 0;
+    protected int lastScore = 0;
 
     public ScoreTextDisplay(PositionIF posin, VelocityIF velin, AccelIF accel,
             Renderer gdx, RenderConfigIF rc) {
@@ -21,7 +22,11 @@ public class ScoreTextDisplay extends BaseTextBlob {
     }
     
     private void updateTxt() {
-        txt = String.format("Score: %5d   HitPoints: %2d   Shields: %2d", score, hitPoints, numShields);
+        if (lastScore == 0) {
+            txt = String.format("Score: %5d   HitPoints: %2d   Shields: %2d", score, hitPoints, numShields);
+        } else {
+            txt = String.format("Score: %5d   HitPoints: %2d   Shields: %2d   Last Game: %2d", score, hitPoints, numShields, lastScore);
+        }
     }
 
     public int setScore(int s) { score = s; updateTxt(); return score; }
@@ -32,6 +37,9 @@ public class ScoreTextDisplay extends BaseTextBlob {
 
     public int setHitPoints(int s) { hitPoints = s; updateTxt(); return hitPoints; }
     public int incHitPoints(int s) { return setHitPoints(score + s); }
+
+    public int setLastScore(int s) { lastScore = s; updateTxt(); return lastScore; }
+    public int incLastScore(int s) { return setLastScore(score + s); }
     
     /*
     @Override public String getText() {

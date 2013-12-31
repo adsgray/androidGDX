@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
+import com.github.adsgray.gdxtry1.engine.blob.BaseTextBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.CircleBlob;
@@ -16,6 +17,7 @@ import com.github.adsgray.gdxtry1.engine.blob.ShrinkingCircleBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
+import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.TriangleBlob;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobCrazyAccelDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobRenderColorDecorator;
@@ -32,6 +34,7 @@ import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class BlobFactory extends GameFactory {
@@ -77,6 +80,14 @@ public class BlobFactory extends GameFactory {
         b.setExtent(new CircleExtent((int)(rc.radius * 0.80f)));
         return b;
     }
+    
+    public static TextBlobIF textBlob(PositionIF p, BlobPath path, TextConfig rc, Renderer r) {
+        TextBlobIF b = new BaseTextBlob(p, path.vel, path.acc, r, rc);
+        b.setRenderConfig(rc);
+        // no extent so don't make it a missile/target
+        return b;
+    }
+
     ///////////////////////
     
 
