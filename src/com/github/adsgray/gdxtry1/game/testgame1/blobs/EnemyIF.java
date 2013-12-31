@@ -1,6 +1,6 @@
 package com.github.adsgray.gdxtry1.game.testgame1.blobs;
 
-public interface Enemy {
+public interface EnemyIF {
     
     public enum Type {
         Initial, Angry

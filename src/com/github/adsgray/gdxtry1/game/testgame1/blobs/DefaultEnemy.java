@@ -8,16 +8,16 @@ import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 
-public class DefaultEnemy extends BlobDecorator implements Damager, Damagable, Enemy {
+public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableIF, EnemyIF {
 
     protected int hitPoints;
-    protected Enemy.Type type;
+    protected EnemyIF.Type type;
 
     // set up stuff in this decorator constructor?
     public DefaultEnemy(BlobIF component) {
         super(component);
         hitPoints = 10;
-        type = Enemy.Type.Initial;
+        type = EnemyIF.Type.Initial;
     }
 
     // Damagable:
@@ -44,8 +44,8 @@ public class DefaultEnemy extends BlobDecorator implements Damager, Damagable, E
 
     @Override
     public void becomeAngry() {
-        if (type == Enemy.Type.Initial) {
-            type = Enemy.Type.Angry;
+        if (type == EnemyIF.Type.Initial) {
+            type = EnemyIF.Type.Angry;
             BlobIF angryMe = BlobFactory.rainbowColorCycler(component, 5);
             component = angryMe;
             

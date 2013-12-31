@@ -19,8 +19,8 @@ import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.Game;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damagable;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damager;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagableIF;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DefaultEnemy;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.FiringBlobDecorator;
@@ -72,7 +72,7 @@ public class FiringGameTest implements Game {
     public class DamageDefender implements GameCommand {
         @Override 
         public void execute(int hitPoints) {
-            int hitPointsLeft = ((Damagable)defender).decHitPoints(hitPoints);
+            int hitPointsLeft = ((DamagableIF)defender).decHitPoints(hitPoints);
             scoreDisplay.setHitPoints(hitPointsLeft);
 
             if (hitPointsLeft <= 0) {

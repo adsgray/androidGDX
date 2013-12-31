@@ -7,9 +7,9 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.Bonus;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damagable;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damager;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.BonusIF;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagableIF;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyBomb;
 
 public class DefenderCollisionTrigger extends BlobTrigger {
@@ -30,16 +30,16 @@ public class DefenderCollisionTrigger extends BlobTrigger {
             TriggerFactory.replaceWithExplosion(secondary);
         }
         
-        if (secondary instanceof Bonus) {
+        if (secondary instanceof BonusIF) {
             // TODO: special explosion for bonuses
             // TODO: flash message "+5 HitPoints!"
             TargetUtils.replaceWithBonusExplosion(secondary);
-            ((Bonus)secondary).destroyCompanionBlobs();
+            ((BonusIF)secondary).destroyCompanionBlobs();
         }
 
         // could either be a bomb or a hitpoint bonus
-        if (secondary instanceof Damager) {
-            Damager bomb = (Damager)secondary;
+        if (secondary instanceof DamagerIF) {
+            DamagerIF bomb = (DamagerIF)secondary;
             damageCommand.execute(bomb.getHitPoints());
         }
 

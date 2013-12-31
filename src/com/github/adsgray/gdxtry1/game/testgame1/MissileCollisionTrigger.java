@@ -8,9 +8,9 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.Bonus;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damager;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.Enemy;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.BonusIF;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
 
 public class MissileCollisionTrigger extends BlobTrigger {
@@ -22,8 +22,8 @@ public class MissileCollisionTrigger extends BlobTrigger {
     }
 
     protected int getPointsFromEnemy(BlobIF enemy) {
-        if (enemy instanceof Damager) {
-            Damager bomb = (Damager)enemy;
+        if (enemy instanceof DamagerIF) {
+            DamagerIF bomb = (DamagerIF)enemy;
             return bomb.getHitPoints();
         }
         Log.d("testgame1", "hit something that's not a Damager??");
@@ -47,9 +47,9 @@ public class MissileCollisionTrigger extends BlobTrigger {
         postKillCommand.execute(getPointsFromEnemy(secondary));
 
         // Check to see if we're hitting an enemy ship
-        if (secondary instanceof Enemy) {
-            Enemy target = (Enemy)secondary;
-            if (target.getType() == Enemy.Type.Initial) {
+        if (secondary instanceof EnemyIF) {
+            EnemyIF target = (EnemyIF)secondary;
+            if (target.getType() == EnemyIF.Type.Initial) {
                 target.becomeAngry();
             } else {
                 
@@ -76,9 +76,9 @@ public class MissileCollisionTrigger extends BlobTrigger {
             TriggerFactory.replaceWithExplosion(secondary);
             
             // we might have accidentally shot a Bonus
-            if (secondary instanceof Bonus) {
+            if (secondary instanceof BonusIF) {
                 // get rid of companion text
-                ((Bonus)secondary).destroyCompanionBlobs();
+                ((BonusIF)secondary).destroyCompanionBlobs();
             }
         }
 

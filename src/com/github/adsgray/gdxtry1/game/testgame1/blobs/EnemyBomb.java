@@ -3,7 +3,7 @@ package com.github.adsgray.gdxtry1.game.testgame1.blobs;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 
-public class EnemyBomb extends BlobDecorator implements Damager {
+public class EnemyBomb extends BlobDecorator implements DamagerIF {
 
     int hitPoints;
 

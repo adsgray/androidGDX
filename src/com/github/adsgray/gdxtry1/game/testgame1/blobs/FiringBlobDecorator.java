@@ -26,7 +26,7 @@ import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
 
 public class FiringBlobDecorator extends BlobDecorator implements
-        Flingable, Draggable, Damagable {
+        Flingable, Draggable, DamagableIF {
 
     protected BlobSource missileSource;
     protected ExtentIF flingExtent;

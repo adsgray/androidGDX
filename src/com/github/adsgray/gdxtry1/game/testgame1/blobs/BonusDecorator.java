@@ -4,7 +4,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 
-public class BonusDecorator extends BlobDecorator implements Bonus {
+public class BonusDecorator extends BlobDecorator implements BonusIF {
 
     int hitPoints;
     TextBlobIF companionText;
