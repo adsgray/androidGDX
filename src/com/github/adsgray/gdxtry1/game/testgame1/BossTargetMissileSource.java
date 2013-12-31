@@ -38,8 +38,8 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
     // so that the bomb will drop from somewhere inside the boss
     protected PositionIF chooseSourcePosition(PositionIF origin) {
         // TODO send from somewhere other than middle of this enemy
-        return new BlobPosition(origin.getX() + TargetUtils.rnd.nextInt(200) + 100,
-                                origin.getY() + TargetUtils.rnd.nextInt(200) + 100);
+        return new BlobPosition(origin.getX() + TargetUtils.rnd.nextInt(300) - 150,
+                                origin.getY());
     }
     
     // based on p (source of bomb) and the target set in the constructor, create
@@ -66,13 +66,8 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
     }
     
     protected BlobTransform aimError = new BlobTransform() {
+        // TODO: introduce error? none right now...
         @Override public BlobIF transform(BlobIF b) {
-            /*
-            // introduce error:
-            VelocityIF v = b.getVelocity();
-            v.setXVelocity(v.getXVelocity() + (TargetUtils.rnd.nextInt(2 * maxError) - maxError));
-            v.setYVelocity(v.getYVelocity() + (TargetUtils.rnd.nextInt(2 * maxError) - maxError));
-            */
             return b;
         }
     };
@@ -90,8 +85,6 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
         BlobIF angryBomb = super.generate(parent);
         angryBomb.setPosition(chooseSourcePosition(parent.getPosition()));
         angryBomb.setVelocity(aimAtTargetFrom(angryBomb.getPosition()));
-        
-        logVelocity("boss", angryBomb.getVelocity());
         angryBomb = aimError.transform(angryBomb);
         return angryBomb;
     }

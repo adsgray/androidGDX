@@ -45,6 +45,7 @@ public class AngryTargetMissileSource extends BlobSource {
         
         
         // Also a N% chance that parent will move down closer to defender
+        // should this be in here??
         if (TargetUtils.rnd.nextInt(100) < 25) {
             PositionIF ppos = parent.getPosition();
             ppos.setY(ppos.getY() - 5);

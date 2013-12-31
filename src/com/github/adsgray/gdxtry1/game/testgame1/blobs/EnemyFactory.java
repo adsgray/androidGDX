@@ -55,14 +55,16 @@ public class EnemyFactory {
     
     // 800x1422
     public static BlobIF bossEnemy(WorldIF world, Renderer renderer, PositionIF aimTarget) {
-        PositionIF p = GameFactory.randomPosition(200,300,GameFactory.BOUNDS_Y - 500,GameFactory.BOUNDS_Y - 100);
+        PositionIF p = GameFactory.randomPosition(200,250,GameFactory.BOUNDS_Y - 500,GameFactory.BOUNDS_Y - 400);
         RectConfig rc = renderer.new RectConfig(GameFactory.randomColor(), 500, 300);
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
 
         b.setLifeTime(TargetUtils.rnd.nextInt(200));
-        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(300, new BossTargetMissileSource(aimTarget), 3));
+        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(100, new BossTargetMissileSource(aimTarget), 3));
 
         b = BlobFactory.throbber(b);
+        b = BlobFactory.flashColorCycler(b, 5);
+        b.setPath(PathFactory.backAndForth(5, 5));
         // N.B. this has to be the last decorator so that we can cast to Enemy
         b = new BossEnemy(b, aimTarget);
         world.addTargetToWorld(b);

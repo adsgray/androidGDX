@@ -35,8 +35,8 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
     
     protected void sendBonuses(int howMany) {
          for (int i = 0; i < howMany; i++) {
-            EnemyFactory.hitPointBonusSource.get(this);
-            // TODO introduce some variation in the source position...
+            BlobIF b = EnemyFactory.hitPointBonusSource.get(this);
+            b.setTickPause(TargetUtils.rnd.nextInt(20));
         }       
     }
     
