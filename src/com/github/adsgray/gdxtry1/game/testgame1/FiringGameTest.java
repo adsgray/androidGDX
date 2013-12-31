@@ -38,7 +38,7 @@ public class FiringGameTest implements Game {
     DragAndFlingDirectionListener input;
     WorldIF world;
     Renderer renderer;
-    static final int numEnemies = 8;
+    static final int numEnemies = 7;
     FiringBlobDecorator defender;
     protected int score;
     ScoreTextDisplay scoreDisplay;

@@ -53,6 +53,7 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
     protected void becomeAngry() {
         if (type == Type.Initial) {
             type = Type.Angry;
+
             BlobIF angryMe = BlobFactory.rainbowColorCycler(component, 5);
             component = angryMe;
             

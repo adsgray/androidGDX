@@ -45,6 +45,10 @@ public class MissileCollisionTrigger extends BlobTrigger {
         // we'll lose points here (that is on purpose) if we've hit a Bonus
         postKillCommand.execute(getPointsFromEnemy(secondary));
 
+        // For some reason this has to be done before the
+        // reactToMisisleHit below...
+        source = postCollision(source, secondary);
+
         // Check to see if we're hitting an enemy ship
         if (secondary instanceof EnemyIF) {
             ((EnemyIF)secondary).reactToMissileHit(source);
@@ -53,7 +57,6 @@ public class MissileCollisionTrigger extends BlobTrigger {
             TriggerFactory.replaceWithExplosion(secondary);
         }
 
-        source = postCollision(source, secondary);
         return source;
     }
 
