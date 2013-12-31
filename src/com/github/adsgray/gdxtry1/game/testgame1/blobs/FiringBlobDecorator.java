@@ -137,6 +137,9 @@ public class FiringBlobDecorator extends BlobDecorator implements
     }
     
     @Override public Boolean tick() {
+        // TODO idea: ammo limit, you get 1 ammo every 100 ticks
+        // and also get 2 ammos when you destroy an ememy object
+        // would have to add ammo to score display
         ticks++;
         return component.tick();
     }
