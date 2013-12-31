@@ -69,7 +69,7 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
             // fire almost immediately (after 10 ticks)
             setLifeTime(10);
             clearTickDeathTriggers();
-            registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(350, TargetUtils.angryTargetMissileSource));
+            registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(350, TargetUtils.angryTargetMissileSource, 1));
         }
     }
 

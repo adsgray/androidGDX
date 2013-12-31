@@ -110,6 +110,7 @@ public class FiringGameTest implements Game {
         int numToAdd = numEnemies - world.getNumTargets();
         if (numToAdd < 0) numToAdd = 0;
         
+        
         /*
         while (numToAdd >= 3) {
             BlobIF cluster = EnemyFactory.createThreeCluster(world, renderer);
@@ -117,10 +118,14 @@ public class FiringGameTest implements Game {
         }
         */
 
+        if (world.getNumTargets() > 0) return;
+        BlobIF boss = EnemyFactory.bossEnemy(world, renderer, defender.getPosition());
+        /*
         while(numToAdd > 0) {
             BlobIF b = EnemyFactory.defaultEnemy(world, renderer);
             numToAdd -= 1;
         }
+        */
     }
     
 

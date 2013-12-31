@@ -7,19 +7,20 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.PositionFactory;
+import com.github.adsgray.gdxtry1.game.TriggerFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.BossTargetMissileSource;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 
 public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, EnemyIF {
 
-    protected int hitPoints = 45;
+    protected int hitPoints = 75;
     protected PositionIF aimTarget;
+    protected int bonusAfterHitChance = 15;
     BlobSource missileSource;
 
     public BossEnemy(BlobIF component, PositionIF aimTarget) {
         super(component);
         this.aimTarget = aimTarget;
-        //missileSource = new BossTargetMissileSource(TargetUtils.displaceBomb);
         missileSource = new BossTargetMissileSource(aimTarget);
     }
     
@@ -32,11 +33,19 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
         }
     }
     
+    protected void sendBonuses(int howMany) {
+         for (int i = 0; i < howMany; i++) {
+            EnemyFactory.hitPointBonusSource.get(this);
+            // TODO introduce some variation in the source position...
+        }       
+    }
+    
     // called when this enemy has died
     protected BlobIF died() {
         // throw out a bunch of bombs
         sendAimedBombs(4);
-        return this;
+        sendBonuses(2);
+        return TriggerFactory.replaceWithExplosion(this);
     }
 
     @Override
@@ -56,8 +65,12 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
             return died();
         }
         
-        // send two aimed bombs 
-        sendAimedBombs(2);
+        // send some aimed bombs 
+        sendAimedBombs(3);
+        
+        if (TargetUtils.rnd.nextInt(100) < bonusAfterHitChance) {
+            sendBonuses(1);
+        }
         
         return this;
     }
@@ -66,5 +79,6 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
     @Override public int setHitPoints(int hp) { hitPoints = hp; return hitPoints; }
     @Override public int incHitPoints(int hp) { return setHitPoints(hp + hitPoints); }
     @Override public int decHitPoints(int hp) { return setHitPoints(hitPoints - hp); }
-    @Override public int getHitPoints() { return hitPoints; }
+    // this is how much each hit is worth in terms of points...
+    @Override public int getHitPoints() { return 15; }
 }

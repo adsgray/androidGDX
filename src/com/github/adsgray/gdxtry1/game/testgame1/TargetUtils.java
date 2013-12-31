@@ -60,23 +60,27 @@ public class TargetUtils {
 
         private int maxLifeTime;
         private BlobSource missileSource;
+        int num;
 
-        public missileTransform(int maxLifeTime, BlobSource missileSource) {
+        public missileTransform(int maxLifeTime, BlobSource missileSource, int num) {
             this.maxLifeTime = maxLifeTime;
             this.missileSource = missileSource;
+            this.num = num;
         }
 
         @Override public BlobIF transform(BlobIF b) {
             b.setLifeTime(rnd.nextInt(maxLifeTime));
-            BlobIF thing = missileSource.get(b);
+            for (int i = 0; i < num; i++) {
+                BlobIF thing = missileSource.get(b);
+            }
             return b;
         }
         
     }
     // function to generate a sequence of tickDeathTriggers
     // which cause a 'target' to shoot 'targets' down at the defender
-    public static BlobTrigger fireAtDefenderLoop(int maxLifeTime, BlobSource missileSource) {
-        BlobTransform fireAtDefender = new missileTransform(maxLifeTime, missileSource);
+    public static BlobTrigger fireAtDefenderLoop(int maxLifeTime, BlobSource missileSource, int num) {
+        BlobTransform fireAtDefender = new missileTransform(maxLifeTime, missileSource, num);
         List<BlobTransform> transforms = new ArrayList<BlobTransform>();
         transforms.add(fireAtDefender);
         
