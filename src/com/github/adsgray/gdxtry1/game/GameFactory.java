@@ -12,6 +12,7 @@ import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
 import com.github.adsgray.gdxtry1.engine.accel.WeirdAccel;
+import com.github.adsgray.gdxtry1.engine.blob.BaseTextBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.CircleBlob;
@@ -21,6 +22,7 @@ import com.github.adsgray.gdxtry1.engine.blob.RectangleBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
+import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.TriangleBlob;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobTrailDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
@@ -33,6 +35,7 @@ import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class GameFactory {
@@ -691,6 +694,18 @@ public class GameFactory {
         //set.setPath(PathFactory.backAndForth(1, 5));
         
 
+        return w;
+    }
+    
+    public static WorldIF populateWorldTestText(WorldIF w, Renderer r) {
+        TextConfig rc = r.new TextConfig(Color.WHITE, 1.4f);
+        PositionIF p = new BlobPosition(100,100);
+        TextBlobIF txt = new BaseTextBlob(p, GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r, rc);
+        txt.setText("hello world!");
+        txt.setWorld(w);
+        //txt.setPath(PathFactory.backAndForth(10, 4));
+        txt.setLifeTime(100000);
+        w.addBlobToWorld(txt);
         return w;
     }
     

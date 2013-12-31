@@ -8,10 +8,13 @@ import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.game.GameFactory;
+
 
 public class Renderer {
  
@@ -185,6 +188,36 @@ public class Renderer {
         }
     }
     
+    public class TextConfig extends BaseRenderConfig {
+        public float scaleamount;
+
+        public TextConfig(Color color, float scaleamount) {
+            super(color);
+            this.scaleamount = scaleamount;
+        }
+
+        @Override
+        public void scale(float factor) {
+            scaleamount *= factor;
+        }
+
+        @Override
+        public void render(BlobIF b) {
+            if (b instanceof TextBlobIF) {
+                // have to do this every time??
+                BitmapFont bitmapFont = new BitmapFont();
+                TextBlobIF t = (TextBlobIF)b;
+                spriteBatch.begin();
+                bitmapFont.scale(scaleamount);
+                bitmapFont.setColor(color);
+                bitmapFont.setUseIntegerPositions(false);
+                bitmapFont.draw(spriteBatch, t.getText(), b.getPosition().getX(), b.getPosition().getY());
+                spriteBatch.end();
+            }
+        }
+        
+    }
+    
     /*
     public static class TriangleConfig extends BaseRenderConfig {
         float height;
@@ -216,6 +249,7 @@ public class Renderer {
         tc.radius = rnd.nextInt(100);
         return tc;
     }
+    
 
     // http://libgdx.badlogicgames.com/nightlies/docs/api/com/badlogic/gdx/graphics/glutils/ShapeRenderer.html
 }
