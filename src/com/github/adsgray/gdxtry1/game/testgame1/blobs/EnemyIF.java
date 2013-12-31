@@ -1,11 +1,9 @@
 package com.github.adsgray.gdxtry1.game.testgame1.blobs;
 
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+
 public interface EnemyIF {
     
-    public enum Type {
-        Initial, Angry
-    }
-    
-    public void becomeAngry();
-    public Type getType();
+    public BlobIF reactToMissileHit(BlobIF missile);
+
 }

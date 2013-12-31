@@ -6,18 +6,27 @@ import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
+import com.github.adsgray.gdxtry1.game.TriggerFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 
+// this default enemy "evolves" into an "angry" version of itself
+// the first time it is hit.
 public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableIF, EnemyIF {
 
-    protected int hitPoints;
-    protected EnemyIF.Type type;
+   public enum Type {
+       Initial, Angry
+   }
+
+   protected int hitPoints;
+   protected Type type;
+   protected int bonusChance = 25;
+
 
     // set up stuff in this decorator constructor?
     public DefaultEnemy(BlobIF component) {
         super(component);
         hitPoints = 10;
-        type = EnemyIF.Type.Initial;
+        type = Type.Initial;
     }
 
     // Damagable:
@@ -42,10 +51,9 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
         }
     }
 
-    @Override
-    public void becomeAngry() {
-        if (type == EnemyIF.Type.Initial) {
-            type = EnemyIF.Type.Angry;
+    protected void becomeAngry() {
+        if (type == Type.Initial) {
+            type = Type.Angry;
             BlobIF angryMe = BlobFactory.rainbowColorCycler(component, 5);
             component = angryMe;
             
@@ -65,5 +73,32 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
         }
     }
 
-    @Override public Type getType() { return type; }
+    @Override
+    public BlobIF reactToMissileHit(BlobIF missile) {
+        BlobIF ret = this;
+
+        if (type == Type.Initial) {
+            becomeAngry();
+        } else {
+                
+            // explode
+            ret = TriggerFactory.replaceWithExplosion(this);
+
+            // then throw some more bombs down as we die
+            for (int i = 0; i < 2; i++) {
+                // angryTargetMissileSource adds the target to the world.
+                BlobIF bomb = TargetUtils.angryTargetMissileSource.get(this);
+            }
+            
+            // also randomly throw down some extra hit points
+            // set the hitPoints on this to negative so that
+            // (a) when it collides with the ship it gives hitPoints (subtract a neg. number)
+            // (b) if you shoot it, you lose points haha.
+            if (TargetUtils.rnd.nextInt(100) < bonusChance) {
+                EnemyFactory.hitPointBonusSource.get(this);
+            }
+        }
+        
+        return ret;
+    }
 }

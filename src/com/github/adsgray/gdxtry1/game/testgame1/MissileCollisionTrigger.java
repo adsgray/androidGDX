@@ -40,41 +40,18 @@ public class MissileCollisionTrigger extends BlobTrigger {
 
     // make source (missile) go away and make target (secondary) explode
     @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
-        WorldIF w = source.getWorld();
-
         // do this before possible "becomeAngry" so that 
         // the correct number of points is awarded.
+        // Note that if it's a Bonus we're destroying
+        // we'll lose points here (that is on purpose)
         postKillCommand.execute(getPointsFromEnemy(secondary));
 
         // Check to see if we're hitting an enemy ship
         if (secondary instanceof EnemyIF) {
-            EnemyIF target = (EnemyIF)secondary;
-            if (target.getType() == EnemyIF.Type.Initial) {
-                target.becomeAngry();
-            } else {
-                
-                // this should all go somewhere else...
-                
-                // throw some more bombs down as we die
-                TriggerFactory.replaceWithExplosion(secondary);
-                for (int i = 0; i < 2; i++) {
-                    // angryTargetMissileSource adds the target to the world.
-                    BlobIF bomb = TargetUtils.angryTargetMissileSource.get(secondary);
-                }
-                
-                // also randomly throw down some extra hit points
-                // set the hitPoints on this to negative so that
-                // (a) when it collides with the ship it gives hitPoints (subtract a neg. number)
-                // (b) if you shoot it, you lose points haha.
-                if (TargetUtils.rnd.nextInt(100) < 25) {
-                    EnemyFactory.hitPointBonusSource.get(secondary);
-                }
-            }
+            ((EnemyIF)secondary).reactToMissileHit(source);
         } else {
             // if it's a regular 'target' (like a bomb) just explode it
-            
             TriggerFactory.replaceWithExplosion(secondary);
-            
             // we might have accidentally shot a Bonus
             if (secondary instanceof BonusIF) {
                 // get rid of companion text
