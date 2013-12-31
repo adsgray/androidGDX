@@ -9,6 +9,7 @@ import android.util.Log;
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
@@ -34,14 +35,23 @@ public class FiringGameTest implements Game {
     WorldIF world;
     Renderer renderer;
     static final int numEnemies = 8;
-    Damagable defender;
+    FiringBlobDecorator defender;
     protected int score;
+
+    protected int shieldScoreIncrement = 500;
+    protected int scoreForNextShield = shieldScoreIncrement;
 
     public class EnemyCreator implements GameCommand {
         @Override 
         public void execute(int points) {
             FiringGameTest.this.createEnemies();
             score += points;
+            
+            if (score >= scoreForNextShield) {
+                defender.incrementNumShields(1);
+                scoreForNextShield += shieldScoreIncrement;
+            }
+
             Log.d("testgame1", String.format("Enemy destroyed for %d! %d total", points, score));
         }
     }
@@ -49,7 +59,7 @@ public class FiringGameTest implements Game {
     public class DamageDefender implements GameCommand {
         @Override 
         public void execute(int hitPoints) {
-            int hitPointsLeft = defender.decHitPoints(hitPoints);
+            int hitPointsLeft = ((Damagable)defender).decHitPoints(hitPoints);
 
             if (hitPointsLeft <= 0) {
                 Log.d("testgame1", String.format("Defender destroyed! Final score: %d", score));
@@ -74,7 +84,7 @@ public class FiringGameTest implements Game {
         BlobIF b = BlobFactory.triangleBlob(p, PathFactory.stationary(), rc, renderer);
         //b = new ShowExtentDecorator(b);
         b = new FiringBlobDecorator(b, new EnemyCreator());
-        defender = (Damagable)b;
+        defender = (FiringBlobDecorator)b;
         b.registerCollisionTrigger(new DefenderCollisionTrigger(new DamageDefender()));
         b.setLifeTime(1000000);
         world.addMissileToWorld(b);

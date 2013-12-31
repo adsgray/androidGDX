@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.engine.blob;
 
+import java.util.List;
+
 import com.github.adsgray.gdxtry1.engine.ClusterIF;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
@@ -114,6 +116,7 @@ public interface BlobIF {
     }
 
     public void registerCollisionTrigger(BlobTrigger trigger);
+    public List<BlobTrigger> getCollisionTriggers();
     public void deregisterCollisionTrigger(BlobTrigger trigger);
     public void clearCollisionTriggers();
     

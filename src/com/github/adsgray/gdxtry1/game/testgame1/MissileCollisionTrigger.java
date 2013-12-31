@@ -20,13 +20,21 @@ public class MissileCollisionTrigger extends BlobTrigger {
         postKillCommand = gc;
     }
 
-    private int getPointsFromEnemy(BlobIF enemy) {
+    protected int getPointsFromEnemy(BlobIF enemy) {
         if (enemy instanceof Damager) {
             Damager bomb = (Damager)enemy;
             return bomb.getHitPoints();
         }
         Log.d("testgame1", "hit something that's not a Damager??");
         return 0;
+    }
+    
+    protected BlobIF postCollision(BlobIF source, BlobIF secondary) {
+        WorldIF w = source.getWorld();
+        w.removeBlobFromWorld(source);
+        source = TargetUtils.disarmMissile.transform(source);
+        w.addBlobToWorld(source);
+        return source;
     }
 
     // make source (missile) go away and make target (secondary) explode
@@ -43,6 +51,9 @@ public class MissileCollisionTrigger extends BlobTrigger {
             if (target.getType() == Enemy.Type.Initial) {
                 target.becomeAngry();
             } else {
+                
+                // this should all go somewhere else...
+                
                 // throw some more bombs down as we die
                 TriggerFactory.replaceWithExplosion(secondary);
                 for (int i = 0; i < 2; i++) {
@@ -64,12 +75,7 @@ public class MissileCollisionTrigger extends BlobTrigger {
             TriggerFactory.replaceWithExplosion(secondary);
         }
 
-
-        // change missile into a regular blob
-        w.removeBlobFromWorld(source);
-        source = TargetUtils.disarmMissile.transform(source);
-        w.addBlobToWorld(source);
-        
+        source = postCollision(source, secondary);
         return source;
     }
 

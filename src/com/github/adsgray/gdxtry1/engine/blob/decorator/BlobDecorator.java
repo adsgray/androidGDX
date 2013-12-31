@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1.engine.blob.decorator;
 
+import java.util.List;
+
 import com.github.adsgray.gdxtry1.engine.ClusterIF;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
@@ -64,6 +66,7 @@ public abstract class BlobDecorator extends BaseBlob {
     @Override public void registerTickDeathTrigger(BlobTrigger trigger) { component.registerTickDeathTrigger(trigger);}
     @Override public void deregisterTickDeathTrigger(BlobTrigger trigger) { component.deregisterTickDeathTrigger(trigger);}
     @Override public void clearTickDeathTriggers() { component.clearTickDeathTriggers(); }
+    @Override public List<BlobTrigger> getCollisionTriggers() { return component.getCollisionTriggers(); }
     
     @Override public ClusterIF setCluster(ClusterIF c) { return component.setCluster(c); }
     @Override public ClusterIF getCluster() { return component.getCluster(); }

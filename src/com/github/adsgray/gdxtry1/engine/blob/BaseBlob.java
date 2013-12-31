@@ -71,6 +71,8 @@ public class BaseBlob implements BlobIF {
 
     protected List<BlobTrigger> collisionTriggers;
     protected List<BlobTrigger> tickDeathTriggers;
+    
+    @Override public List<BlobTrigger> getCollisionTriggers() { return collisionTriggers; }
 
     @Override public RenderConfigIF getRenderConfig() { return renderConfig; }
     @Override public void setRenderConfig(RenderConfigIF r) { renderConfig = r; }

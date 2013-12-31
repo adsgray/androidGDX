@@ -7,6 +7,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
+import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.game.AccelFactory;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
@@ -39,6 +40,14 @@ public class AngryTargetMissileSource extends BlobSource {
         // This decorator must be last for casting purposes in collision triggers
         b = new EnemyBomb(b, numHitPoints);
         w.addTargetToWorld(b);
+        
+        
+        // Also a N% chance that parent will move down closer to defender
+        if (TargetUtils.rnd.nextInt(100) < 25) {
+            PositionIF ppos = parent.getPosition();
+            ppos.setY(ppos.getY() - 5);
+        }
+        
         return b;
     }
 

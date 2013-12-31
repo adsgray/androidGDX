@@ -1,22 +1,29 @@
 package com.github.adsgray.gdxtry1.game.testgame1.blobs;
 
+import android.util.Log;
+
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
+import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
+import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.GameCommand;
 import com.github.adsgray.gdxtry1.game.testgame1.MissileBlobSource;
+import com.github.adsgray.gdxtry1.game.testgame1.MissileCollisionTrigger;
+import com.github.adsgray.gdxtry1.game.testgame1.ShieldCollisionTrigger;
 import com.github.adsgray.gdxtry1.input.Draggable;
 import com.github.adsgray.gdxtry1.input.Flingable;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener.FlingInfo;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
 
 public class FiringBlobDecorator extends BlobDecorator implements
         Flingable, Draggable, Damagable {
@@ -26,10 +33,14 @@ public class FiringBlobDecorator extends BlobDecorator implements
     protected ExtentIF dragExtent;
     protected int hitPoints;
     protected int maxMissiles; // max missiles in the air at one time
+    protected int numShields;
+    protected BlobTrigger shieldCollisionTrigger;
 
     public FiringBlobDecorator(BlobIF component, GameCommand postKillCommand) {
         super(component);
         missileSource = new MissileBlobSource(postKillCommand);
+        // shield acts like a "missile"
+        this.shieldCollisionTrigger = new ShieldCollisionTrigger(postKillCommand);
         CircleExtent ce = (CircleExtent)component.getExtent();
         flingExtent = new CircleExtent(ce.getRadius() * 3);
         dragExtent = new CircleExtent(ce.getRadius() * 2);
@@ -39,6 +50,12 @@ public class FiringBlobDecorator extends BlobDecorator implements
         hitPoints = 75;
         maxMissiles = 3; // the defender/triangle counts as a missile, so this means
                          // you can launch up to 2 simultaneous missiles
+        numShields = 1;
+    }
+
+    public int incrementNumShields(int ct) {
+        numShields += ct;
+        return numShields;
     }
 
     @Override
@@ -52,7 +69,10 @@ public class FiringBlobDecorator extends BlobDecorator implements
 
     @Override public void onFlingLeft(FlingInfo f) { }
     @Override public void onFlingRight(FlingInfo f) { }
-    @Override public void onFlingDown(FlingInfo f) { }
+
+    @Override public void onFlingDown(FlingInfo f) { 
+        shieldsUp();
+    }
 
     @Override
     public void panStarted(PositionIF start) {
@@ -64,7 +84,9 @@ public class FiringBlobDecorator extends BlobDecorator implements
         // discard Y coord changes
         // what if position is a decorator?
         PositionIF p = component.getPosition();
-        component.setPosition(new BlobPosition(cur.getX(), p.getY()));
+        p.setX(cur.getX());
+        // TODO: allow a small range of Y movement
+        //p.setY(cur.getY());
     }
 
     @Override
@@ -80,4 +102,37 @@ public class FiringBlobDecorator extends BlobDecorator implements
     @Override public int incHitPoints(int hp) { hitPoints += hp; return hitPoints; }
     @Override public int decHitPoints(int hp) { hitPoints -= hp; return hitPoints; }
     @Override public int getHitPoints() { return hitPoints; }
+    
+    private int ticksWhenShieldsWentUp = 0;
+    // this is how long you have to wait until you can put shields up again.
+    private int shieldTickInterval = 300;
+
+    public void shieldsUp() {
+        if (numShields == 0 || ticks - ticksWhenShieldsWentUp < shieldTickInterval) {
+            Log.d("testgame1", String.format("no shields right now: %d", numShields));
+            return;
+        }
+
+        numShields -= 1;
+        ticksWhenShieldsWentUp = ticks;
+
+        // shield moves with us
+        PositionIF p = new PositionComposeDecorator(component.getPosition(), new BlobPosition(0, 90));
+        RectConfig rc = renderer.new RectConfig(Color.RED, 100, 15);
+        BlobIF b = BlobFactory.rectangleBlob(p, PathFactory.stationary(), rc, renderer);
+        b.setExtent(new CircleExtent(100));
+        b.setLifeTime(135);
+        b = BlobFactory.flashColorCycler(b, 1);
+        b = BlobFactory.throbber(b);
+        b.setWorld(world);
+        
+        // behave like a missile
+        b.registerCollisionTrigger(shieldCollisionTrigger);
+        world.addMissileToWorld(b);
+    }
+    
+    @Override public Boolean tick() {
+        ticks++;
+        return component.tick();
+    }
 }

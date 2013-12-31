@@ -89,8 +89,8 @@ public class EnemyFactory {
             b = BlobFactory.throbber(b);
             b.setExtent(new CircleExtent(45)); // important! collision detection...
             b.setPosition(new BlobPosition(parent.getPosition()));
-            b.setPath(PathFactory.straightUpDown(-10)); // down
-            b = new BonusDecorator(b, -10); // negative hitpoints means bonus hitpoints
+            b.setPath(PathFactory.straightUpDown(-9)); // down
+            b = new BonusDecorator(b, -5); // negative hitpoints means bonus hitpoints
             w.addTargetToWorld(b);
             return b;
         }
