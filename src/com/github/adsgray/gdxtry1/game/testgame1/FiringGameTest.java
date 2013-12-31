@@ -160,7 +160,6 @@ public class FiringGameTest implements Game {
         scoreDisplay.setLastScore(score);
         score = 0;
         scoreDisplay.setScore(score);
-        scoreDisplay.setNumShields(0);
         createEnemies();
     }
 
