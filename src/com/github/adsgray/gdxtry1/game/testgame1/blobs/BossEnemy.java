@@ -15,7 +15,8 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
 
     protected int hitPoints = 75;
     protected PositionIF aimTarget;
-    protected int bonusAfterHitChance = 15;
+    protected int bonusAfterHitChance = 25;
+    protected int goLowerTickCount = 300;
     BlobSource missileSource;
 
     public BossEnemy(BlobIF component, PositionIF aimTarget) {
@@ -81,4 +82,13 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
     @Override public int decHitPoints(int hp) { return setHitPoints(hitPoints - hp); }
     // this is how much each hit is worth in terms of points...
     @Override public int getHitPoints() { return 15; }
+    
+    @Override public Boolean tick() {
+        ticks++;
+        if (ticks % goLowerTickCount == 0) {
+            PositionIF p = getPosition();
+            p.setY(p.getY() - 5);
+        }
+        return component.tick();
+    }
 }

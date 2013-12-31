@@ -55,7 +55,7 @@ public class EnemyFactory {
     
     // 800x1422
     public static BlobIF bossEnemy(WorldIF world, Renderer renderer, PositionIF aimTarget) {
-        PositionIF p = GameFactory.randomPosition(200,250,GameFactory.BOUNDS_Y - 500,GameFactory.BOUNDS_Y - 400);
+        PositionIF p = GameFactory.randomPosition(200,250,GameFactory.BOUNDS_Y - 450,GameFactory.BOUNDS_Y - 400);
         RectConfig rc = renderer.new RectConfig(GameFactory.randomColor(), 500, 300);
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
 

@@ -70,6 +70,15 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
             setLifeTime(10);
             clearTickDeathTriggers();
             registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(350, TargetUtils.angryTargetMissileSource, 1));
+ 
+            /*
+            // Also a N% chance that parent will move down closer to defender
+            // should this be in here??
+            if (TargetUtils.rnd.nextInt(100) < 25) {
+                PositionIF ppos = parent.getPosition();
+                ppos.setY(ppos.getY() - 5);
+            }
+            */
         }
     }
 
