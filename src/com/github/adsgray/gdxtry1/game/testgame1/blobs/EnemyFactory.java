@@ -16,6 +16,7 @@ import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.PositionFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.BossTargetMissileSource;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
@@ -42,12 +43,29 @@ public class EnemyFactory {
         RectConfig rc = renderer.new RectConfig(GameFactory.randomColor(), 60, 60);
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
         b.setLifeTime(TargetUtils.rnd.nextInt(200));
+
         b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(1000, TargetUtils.targetMissileSource));
+
         b = BlobFactory.throbber(b);
         // N.B. this has to be the last decorator so that we can cast to Enemy
         b = new DefaultEnemy(b);
         world.addTargetToWorld(b);
         return b;
+    }
+    
+    public static BlobIF bossEnemy(WorldIF world, Renderer renderer, PositionIF aimTarget) {
+        PositionIF p = GameFactory.randomPosition(20,GameFactory.BOUNDS_X - 20,GameFactory.BOUNDS_Y - 500,GameFactory.BOUNDS_Y - 100);
+        RectConfig rc = renderer.new RectConfig(GameFactory.randomColor(), 500, 300);
+        BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
+
+        b.setLifeTime(TargetUtils.rnd.nextInt(200));
+        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(300, new BossTargetMissileSource(aimTarget)));
+
+        b = BlobFactory.throbber(b);
+        // N.B. this has to be the last decorator so that we can cast to Enemy
+        b = new BossEnemy(b, aimTarget);
+        world.addTargetToWorld(b);
+        return b;       
     }
     
     // clusters cause a memory leak because the cluster
