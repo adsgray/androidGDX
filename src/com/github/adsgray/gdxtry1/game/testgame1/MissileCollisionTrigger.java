@@ -10,6 +10,7 @@ import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damager;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.Enemy;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
 
 public class MissileCollisionTrigger extends BlobTrigger {
 
@@ -42,10 +43,19 @@ public class MissileCollisionTrigger extends BlobTrigger {
             if (target.getType() == Enemy.Type.Initial) {
                 target.becomeAngry();
             } else {
+                // throw some more bombs down as we die
                 TriggerFactory.replaceWithExplosion(secondary);
                 for (int i = 0; i < 2; i++) {
                     // angryTargetMissileSource adds the target to the world.
                     BlobIF bomb = TargetUtils.angryTargetMissileSource.get(secondary);
+                }
+                
+                // also randomly throw down some extra hit points
+                // set the hitPoints on this to negative so that
+                // (a) when it collides with the ship it gives hitPoints (subtract a neg. number)
+                // (b) if you shoot it, you lose points haha.
+                if (TargetUtils.rnd.nextInt(100) < 25) {
+                    EnemyFactory.hitPointBonusSource.get(secondary);
                 }
             }
         } else {

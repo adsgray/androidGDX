@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
@@ -18,6 +19,7 @@ import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.AccelFactory;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
+import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
 import com.github.adsgray.gdxtry1.output.Renderer;
@@ -103,5 +105,34 @@ public class TargetUtils {
         ex.setLifeTime(20);
         ex.setBlobSource(bs);
         return ex;
+    }
+    
+    public static BlobPath chooseBackAndForthPath(PositionIF p, int speed, int interval) {
+        // if on the left, go the the right
+        // if on the right, go to the left
+        if (p.getX() < GameFactory.BOUNDS_X / 2) {
+            return PathFactory.backAndForth(speed,interval);
+        } else {
+            return PathFactory.backAndForthLeft(speed,interval);
+        }       
+    }
+
+    public static BlobPath chooseBackAndForthPath(PositionIF p) {
+        return chooseBackAndForthPath(p, 15, 5);
+    }
+    
+    public static BlobIF replaceWithBonusExplosion(BlobIF b) {
+        WorldIF w = b.getWorld();
+        Renderer r = b.getRenderer();
+        
+        CircleConfig rc = r.new CircleConfig(Color.WHITE, 5);
+        BlobIF whiteBurst = BlobFactory.circleBlob(new BlobPosition(b.getPosition()), PathFactory.stationary(), rc, r);
+        whiteBurst = BlobFactory.grower(whiteBurst, 1);
+        whiteBurst.setLifeTime(25);
+
+        w.removeBlobFromWorld(b);
+        w.addBlobToWorld(whiteBurst);
+
+        return whiteBurst;
     }
 }

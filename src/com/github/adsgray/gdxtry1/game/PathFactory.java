@@ -67,20 +67,9 @@ public class PathFactory extends GameFactory {
         AccelIF acc = new HardCodeAccel(arr);
         return new BlobPath(vel, acc);
     }
-
+    
     public static BlobPath squarePathClockwise(int speed, int interval) {
-        
-        VelocityIF vel = new BlobVelocity(0,0);
-        
-        int[][] arr = {
-           { 0, speed, interval },
-           { speed, 0, interval },
-           { 0, -speed, interval },
-           { -speed, 0, interval }
-        };
-
-        AccelIF acc = new HardCodeAccel(arr);
-        return new BlobPath(vel, acc);
+        return squarePath(-speed, interval);
     }
  
     // this one is not useful because it doesn't loop properly...

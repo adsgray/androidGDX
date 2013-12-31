@@ -366,7 +366,14 @@ public class BlobFactory extends GameFactory {
         };
         return new BlobScaleDecorator(in, entries);       
     }
-    
+
+    public static BlobIF grower(BlobIF in, int interval) {
+        int[][] entries = new int[][] {
+                { 1250, interval },
+        };
+        return new BlobScaleDecorator(in, entries);       
+    }
+      
     public static BlobIF rainbowColorCycler(BlobIF in, int interval) {
         ColorDecoratorEntry[] entries = new ColorDecoratorEntry[]  {
                 new ColorDecoratorEntry(Color.RED, interval),

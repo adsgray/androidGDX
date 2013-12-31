@@ -27,13 +27,7 @@ public class EnemyDecorator extends BlobDecorator implements Damager, Damagable,
     @Override public int getHitPoints() { return hitPoints; }
 
     private void setAngryPath() {
-        // if on the left, go the the right
-        // if on the right, go to the left
-        if (position.getX() < GameFactory.BOUNDS_X / 2) {
-            setPath(PathFactory.backAndForth(15,5));
-        } else {
-            setPath(PathFactory.backAndForthLeft(15,5));
-        }
+        setPath(TargetUtils.chooseBackAndForthPath(position));
     }
     
     private void angryExplosion() {
