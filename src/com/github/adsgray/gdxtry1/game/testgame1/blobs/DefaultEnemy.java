@@ -72,6 +72,7 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
         }
     }
 
+    // EnemyIF
     @Override
     public BlobIF reactToMissileHit(BlobIF missile) {
         BlobIF ret = this;

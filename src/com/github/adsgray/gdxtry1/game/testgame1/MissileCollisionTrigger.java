@@ -42,8 +42,7 @@ public class MissileCollisionTrigger extends BlobTrigger {
     @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
         // do this before possible "becomeAngry" so that 
         // the correct number of points is awarded.
-        // Note that if it's a Bonus we're destroying
-        // we'll lose points here (that is on purpose)
+        // we'll lose points here (that is on purpose) if we've hit a Bonus
         postKillCommand.execute(getPointsFromEnemy(secondary));
 
         // Check to see if we're hitting an enemy ship
@@ -52,11 +51,6 @@ public class MissileCollisionTrigger extends BlobTrigger {
         } else {
             // if it's a regular 'target' (like a bomb) just explode it
             TriggerFactory.replaceWithExplosion(secondary);
-            // we might have accidentally shot a Bonus
-            if (secondary instanceof BonusIF) {
-                // get rid of companion text
-                ((BonusIF)secondary).destroyCompanionBlobs();
-            }
         }
 
         source = postCollision(source, secondary);
