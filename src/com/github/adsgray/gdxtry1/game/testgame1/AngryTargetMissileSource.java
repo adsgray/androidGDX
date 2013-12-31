@@ -36,7 +36,9 @@ public class AngryTargetMissileSource extends BlobSource {
         b = BlobFactory.rainbowColorCycler(b, 1);
         b.setLifeTime(100);
         b = BlobFactory.addTriangleSmokeTrail(b);
-        b = transform.transform(b);
+        if (transform != null) {
+            b = transform.transform(b);
+        }
         // This decorator must be last for casting purposes in collision triggers
         b = new EnemyBomb(b, numHitPoints);
         w.addTargetToWorld(b);
