@@ -45,7 +45,7 @@ public class EnemyFactory {
         b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(1000, TargetUtils.targetMissileSource));
         b = BlobFactory.throbber(b);
         // N.B. this has to be the last decorator so that we can cast to Enemy
-        b = new EnemyDecorator(b);
+        b = new DefaultEnemy(b);
         world.addTargetToWorld(b);
         return b;
     }
@@ -68,7 +68,7 @@ public class EnemyFactory {
             b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(1000, TargetUtils.targetMissileSource));
             b = BlobFactory.throbber(b);
             // N.B. this has to be the last decorator so that we can cast to Enemy
-            b = new EnemyDecorator(b);
+            b = new DefaultEnemy(b);
             w.addTargetToWorld(b);
             return b;
         }

@@ -8,13 +8,13 @@ import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 
-public class EnemyDecorator extends BlobDecorator implements Damager, Damagable, Enemy {
+public class DefaultEnemy extends BlobDecorator implements Damager, Damagable, Enemy {
 
     protected int hitPoints;
     protected Enemy.Type type;
 
     // set up stuff in this decorator constructor?
-    public EnemyDecorator(BlobIF component) {
+    public DefaultEnemy(BlobIF component) {
         super(component);
         hitPoints = 10;
         type = Enemy.Type.Initial;

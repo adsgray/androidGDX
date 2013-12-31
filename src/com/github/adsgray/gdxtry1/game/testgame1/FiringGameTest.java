@@ -21,7 +21,7 @@ import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damagable;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damager;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyDecorator;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.DefaultEnemy;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.FiringBlobDecorator;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.ScoreTextDisplay;
