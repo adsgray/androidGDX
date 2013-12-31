@@ -16,7 +16,7 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
     protected int hitPoints = 75;
     protected PositionIF aimTarget;
     protected int bonusAfterHitChance = 25;
-    protected int goLowerTickCount = 300;
+    protected int goLowerTickCount = 400;
     BlobSource missileSource;
 
     public BossEnemy(BlobIF component, PositionIF aimTarget) {
@@ -67,7 +67,7 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
         }
         
         // send some aimed bombs 
-        sendAimedBombs(3);
+        sendAimedBombs(2);
         
         if (TargetUtils.rnd.nextInt(100) < bonusAfterHitChance) {
             sendBonuses(1);
@@ -91,4 +91,6 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
         }
         return component.tick();
     }
+
+    @Override public int getWeight() { return 10; } 
 }

@@ -23,6 +23,7 @@ import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagableIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DefaultEnemy;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.FiringBlobDecorator;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.ScoreTextDisplay;
 import com.github.adsgray.gdxtry1.input.DragAndFlingDirectionListener;
@@ -45,6 +46,9 @@ public class FiringGameTest implements Game {
 
     protected int shieldScoreIncrement = 500;
     protected int scoreForNextShield = shieldScoreIncrement;
+
+    protected int bossScoreIncrement = 1500; // you'll meet a boss every 1500 points
+    protected int scoreForNextBoss = bossScoreIncrement;
 
     public class EnemyCreator implements GameCommand {
         @Override 
@@ -108,8 +112,16 @@ public class FiringGameTest implements Game {
    
     private void createEnemies() {
         int numToAdd = numEnemies - world.getNumTargets();
-        if (numToAdd < 0) numToAdd = 0;
+
+        if (numToAdd <= 0) return;
         
+        if (score >= scoreForNextBoss) {
+            scoreForNextBoss += bossScoreIncrement;
+            EnemyIF boss = (EnemyIF)EnemyFactory.bossEnemy(world, renderer, defender.getPosition());
+            numToAdd -= boss.getWeight();
+        }
+
+        if (numToAdd <= 0) return;
         
         /*
         while (numToAdd >= 3) {
@@ -118,14 +130,10 @@ public class FiringGameTest implements Game {
         }
         */
 
-        if (world.getNumTargets() > 0) return;
-        BlobIF boss = EnemyFactory.bossEnemy(world, renderer, defender.getPosition());
-        /*
         while(numToAdd > 0) {
-            BlobIF b = EnemyFactory.defaultEnemy(world, renderer);
-            numToAdd -= 1;
+            EnemyIF b = (EnemyIF)EnemyFactory.defaultEnemy(world, renderer);
+            numToAdd -= b.getWeight();
         }
-        */
     }
     
 

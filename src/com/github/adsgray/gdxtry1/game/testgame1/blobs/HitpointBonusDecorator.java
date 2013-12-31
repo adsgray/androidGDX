@@ -30,4 +30,6 @@ public class HitpointBonusDecorator extends BlobDecorator implements BonusIF, En
         // TODO: special explosion type for HP bonuses
         return TriggerFactory.replaceWithExplosion(this);
     }
+
+    @Override public int getWeight() { return 1; } 
 }
