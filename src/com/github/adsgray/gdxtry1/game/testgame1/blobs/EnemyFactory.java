@@ -104,7 +104,7 @@ public class EnemyFactory {
             t.setText("BONUS");
             w.addBlobToWorld(BlobFactory.rainbowColorCycler(t, 3));
 
-            b = new BonusDecorator(b, t, -5); // negative hitpoints means bonus hitpoints
+            b = new HitpointBonusDecorator(b, t, -5); // negative hitpoints means bonus hitpoints
             w.addTargetToWorld(b);
 
             return b;

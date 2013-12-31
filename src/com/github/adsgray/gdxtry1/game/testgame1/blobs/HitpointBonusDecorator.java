@@ -4,12 +4,12 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 
-public class BonusDecorator extends BlobDecorator implements BonusIF {
+public class HitpointBonusDecorator extends BlobDecorator implements BonusIF {
 
     int hitPoints;
     TextBlobIF companionText;
 
-    public BonusDecorator(BlobIF component, TextBlobIF companionText, int hitPoints) {
+    public HitpointBonusDecorator(BlobIF component, TextBlobIF companionText, int hitPoints) {
         super(component);
         this.hitPoints = hitPoints;
         this.companionText = companionText;
