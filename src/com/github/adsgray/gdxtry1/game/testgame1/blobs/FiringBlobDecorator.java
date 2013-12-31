@@ -35,8 +35,9 @@ public class FiringBlobDecorator extends BlobDecorator implements
     protected int maxMissiles; // max missiles in the air at one time
     protected int numShields;
     protected BlobTrigger shieldCollisionTrigger;
+    GameCommand incShield;
 
-    public FiringBlobDecorator(BlobIF component, GameCommand postKillCommand) {
+    public FiringBlobDecorator(BlobIF component, GameCommand postKillCommand, GameCommand incShield) {
         super(component);
         missileSource = new MissileBlobSource(postKillCommand);
         // shield acts like a "missile"
@@ -50,7 +51,9 @@ public class FiringBlobDecorator extends BlobDecorator implements
         hitPoints = 75;
         maxMissiles = 3; // the defender/triangle counts as a missile, so this means
                          // you can launch up to 2 simultaneous missiles
+        this.incShield = incShield;
         numShields = 1;
+        incShield.execute(1);
     }
 
     public int incrementNumShields(int ct) {
@@ -114,6 +117,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
         }
 
         numShields -= 1;
+        incShield.execute(-1);
         ticksWhenShieldsWentUp = ticks;
 
         // shield moves with us

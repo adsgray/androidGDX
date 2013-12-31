@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
+import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
+import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
@@ -22,11 +24,13 @@ import com.github.adsgray.gdxtry1.game.testgame1.blobs.Damager;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyDecorator;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.FiringBlobDecorator;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.ScoreTextDisplay;
 import com.github.adsgray.gdxtry1.input.DragAndFlingDirectionListener;
 import com.github.adsgray.gdxtry1.input.Draggable;
 import com.github.adsgray.gdxtry1.input.Flingable;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class FiringGameTest implements Game {
@@ -37,6 +41,7 @@ public class FiringGameTest implements Game {
     static final int numEnemies = 8;
     FiringBlobDecorator defender;
     protected int score;
+    ScoreTextDisplay scoreDisplay;
 
     protected int shieldScoreIncrement = 500;
     protected int scoreForNextShield = shieldScoreIncrement;
@@ -46,9 +51,11 @@ public class FiringGameTest implements Game {
         public void execute(int points) {
             FiringGameTest.this.createEnemies();
             score += points;
+            scoreDisplay.incScore(points);
             
             if (score >= scoreForNextShield) {
                 defender.incrementNumShields(1);
+                scoreDisplay.incNumShields(1);
                 scoreForNextShield += shieldScoreIncrement;
             }
 
@@ -56,10 +63,17 @@ public class FiringGameTest implements Game {
         }
     }
     
+    public class IncShield implements GameCommand {
+        @Override public void execute(int arg) {
+            scoreDisplay.incNumShields(arg);
+        }
+    }
+    
     public class DamageDefender implements GameCommand {
         @Override 
         public void execute(int hitPoints) {
             int hitPointsLeft = ((Damagable)defender).decHitPoints(hitPoints);
+            scoreDisplay.setHitPoints(hitPointsLeft);
 
             if (hitPointsLeft <= 0) {
                 Log.d("testgame1", String.format("Defender destroyed! Final score: %d", score));
@@ -83,7 +97,7 @@ public class FiringGameTest implements Game {
         TriangleConfig rc = renderer.new TriangleConfig(Color.RED, 80);
         BlobIF b = BlobFactory.triangleBlob(p, PathFactory.stationary(), rc, renderer);
         //b = new ShowExtentDecorator(b);
-        b = new FiringBlobDecorator(b, new EnemyCreator());
+        b = new FiringBlobDecorator(b, new EnemyCreator(), new IncShield());
         defender = (FiringBlobDecorator)b;
         b.registerCollisionTrigger(new DefenderCollisionTrigger(new DamageDefender()));
         b.setLifeTime(1000000);
@@ -109,6 +123,19 @@ public class FiringGameTest implements Game {
     }
     
 
+    private ScoreTextDisplay createScoreDisplay() {
+        //PositionIF p = new BlobPosition(10,50);
+        PositionIF p = new BlobPosition(200,GameFactory.BOUNDS_Y - 500);
+        //PositionIF p = new BlobPosition(500,500);
+        BlobPath path = PathFactory.stationary();
+        TextConfig rc = renderer.new TextConfig(Color.WHITE, 1.8f);
+        ScoreTextDisplay t = new ScoreTextDisplay(p, path.vel, path.acc, renderer, rc);
+        t.setWorld(world);
+        t.setLifeTime(1000000);
+        world.addBlobToWorld(t);
+        return t;
+    }
+
     private void tearDownGame() {
         input.deregisterDraggable((Draggable) defender);
         input.deregisterFlingable((Flingable) defender);
@@ -116,10 +143,17 @@ public class FiringGameTest implements Game {
     }
 
     private void setupGame() {
+        // have to do this first because defender executes commands
+        // on the scoreboard when shield number is initialized:
+        scoreDisplay = createScoreDisplay();
+
         BlobIF defender = createDefender();
+
         input.registerDraggable((Draggable) defender);
         input.registerFlingable((Flingable) defender);
         score = 0;
+        scoreDisplay.setScore(score);
+        scoreDisplay.setNumShields(0);
         createEnemies();
     }
 

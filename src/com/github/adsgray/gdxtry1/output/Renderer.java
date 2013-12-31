@@ -21,6 +21,7 @@ public class Renderer {
     private static Random rnd = new Random();
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
+    BitmapFont bitmapFont = new BitmapFont();
     
     public Renderer() { }
     public Renderer(ShapeRenderer sr, SpriteBatch sb) {
@@ -204,11 +205,9 @@ public class Renderer {
         @Override
         public void render(BlobIF b) {
             if (b instanceof TextBlobIF) {
-                // have to do this every time??
-                BitmapFont bitmapFont = new BitmapFont();
                 TextBlobIF t = (TextBlobIF)b;
                 spriteBatch.begin();
-                bitmapFont.scale(scaleamount);
+                bitmapFont.setScale(scaleamount);
                 bitmapFont.setColor(color);
                 bitmapFont.setUseIntegerPositions(false);
                 bitmapFont.draw(spriteBatch, t.getText(), b.getPosition().getX(), b.getPosition().getY());

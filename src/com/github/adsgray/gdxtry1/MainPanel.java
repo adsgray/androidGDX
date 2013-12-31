@@ -103,12 +103,13 @@ public class MainPanel implements ApplicationListener {
 		// The SimpleDirectionGestureDetector processes events, mangles the coordinates
 		// so that they're in relation to the camera, and fires the events in
 		// the DirecitonListener
-		DirectionListener dl = new TestDirectionListener(world);
-		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
-	    populateWorld();
 
-		//DirectionListener dl = new DragAndFlingDirectionListener();
-		//Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig);
+		//DirectionListener dl = new TestDirectionListener(world);
+	    //populateWorld();
+
+		DirectionListener dl = new DragAndFlingDirectionListener();
+		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig);
+		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
 	}
 
     @Override
