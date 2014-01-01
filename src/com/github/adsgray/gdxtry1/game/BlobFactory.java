@@ -153,7 +153,7 @@ public class BlobFactory extends GameFactory {
         BlobIF b = new TriangleBlob(0, new BlobPosition(parent), randomVelocity(), 
                 AccelFactory.smokeTrailAccel(), parent.getRenderer(), tc);
         b = shrinker(b, 1);
-        b.setLifeTime(15);
+        b.setLifeTime(10);
         b.setTickPause(2);
         return b;
     }
@@ -167,7 +167,7 @@ public class BlobFactory extends GameFactory {
         }
     };
     static public BlobIF addTriangleSmokeTrail(BlobIF b) {
-        return new BlobTrailDecorator(b, triangleSmokeTrailBlobSource, 1);
+        return new BlobTrailDecorator(b, triangleSmokeTrailBlobSource, 2);
     }
 
     static Color[] explosionColors = new Color[] {
