@@ -9,6 +9,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.AccelFactory;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameFactory;
@@ -25,12 +26,14 @@ public class AngryTargetMissileSource extends BlobSource {
         this.transform = transform;
     }
     
+    protected VelocityIF downVel = new BlobVelocity(0,-15);
+
     // TODO: make these have hitpoints to inflict damage on defender
     @Override
     protected BlobIF generate(BlobIF parent) {
         WorldIF w = parent.getWorld();
         Renderer r = parent.getRenderer();
-        BlobPath path = new BlobPath(new BlobVelocity(0,-15), AccelFactory.zeroAccel());
+        BlobPath path = new BlobPath(downVel, AccelFactory.zeroAccel());
         CircleConfig rc = r.new CircleConfig(Color.CYAN, 14);
         BlobIF b = BlobFactory.circleBlob(new BlobPosition(parent.getPosition()), path, rc, r);
         b = BlobFactory.rainbowColorCycler(b, 1);

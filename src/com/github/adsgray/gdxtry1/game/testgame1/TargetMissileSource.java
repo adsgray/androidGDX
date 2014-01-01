@@ -7,6 +7,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.AccelFactory;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyBomb;
@@ -17,11 +18,13 @@ public class TargetMissileSource extends BlobSource {
 
     protected int numHitPoints = 5;
 
+    protected VelocityIF downVel = new BlobVelocity(0, -10);
+
     @Override
     protected BlobIF generate(BlobIF parent) {
         WorldIF w = parent.getWorld();
         Renderer r = parent.getRenderer();
-        BlobPath path = new BlobPath(new BlobVelocity(0,-10), AccelFactory.zeroAccel());
+        BlobPath path = new BlobPath(downVel, AccelFactory.zeroAccel());
         CircleConfig rc = r.new CircleConfig(Color.CYAN, 20);
         BlobIF b = BlobFactory.circleBlob(new BlobPosition(parent.getPosition()), path, rc, r);
         b.setLifeTime(200);

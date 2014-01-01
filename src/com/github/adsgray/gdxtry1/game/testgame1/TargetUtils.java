@@ -87,6 +87,9 @@ public class TargetUtils {
         return TriggerFactory.createTransformSequence(transforms, true);
     }
     
+    public static BlobTrigger defaultEnemyFireLoop = TargetUtils.fireAtDefenderLoop(1000, TargetUtils.targetMissileSource, 1);
+    public static BlobTrigger angryEnemyFireLoop = TargetUtils.fireAtDefenderLoop(350, TargetUtils.angryTargetMissileSource, 1);
+    
     public static BlobIF becomeAngryExplosion(BlobIF source) {
         //PositionIF p = new BlobPosition(source.getPosition());
         // have the explosion follow the parent around!

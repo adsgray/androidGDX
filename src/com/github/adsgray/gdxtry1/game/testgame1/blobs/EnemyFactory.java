@@ -48,7 +48,7 @@ public class EnemyFactory {
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
         b.setLifeTime(TargetUtils.rnd.nextInt(200));
 
-        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(1000, TargetUtils.targetMissileSource, 1));
+        b.registerTickDeathTrigger(TargetUtils.defaultEnemyFireLoop);
 
         b = BlobFactory.throbber(b);
         // N.B. this has to be the last decorator so that we can cast to Enemy
