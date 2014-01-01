@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game.testgame1.blobs;
+package com.github.adsgray.gdxtry1.testgame1.blobs;
 
 import android.util.Log;
 
@@ -21,11 +21,11 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.PathFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
-import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
-import com.github.adsgray.gdxtry1.game.testgame1.MissileBlobSource;
-import com.github.adsgray.gdxtry1.game.testgame1.MissileCollisionTrigger;
-import com.github.adsgray.gdxtry1.game.testgame1.ShieldCollisionTrigger;
+import com.github.adsgray.gdxtry1.testgame1.GameSound;
+import com.github.adsgray.gdxtry1.testgame1.MissileBlobSource;
+import com.github.adsgray.gdxtry1.testgame1.MissileCollisionTrigger;
+import com.github.adsgray.gdxtry1.testgame1.ShieldCollisionTrigger;
+import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
 
 public class FiringBlobDecorator extends BlobDecorator implements
         Flingable, Draggable, DamagableIF {

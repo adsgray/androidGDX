@@ -1,12 +1,12 @@
-package com.github.adsgray.gdxtry1.game.testgame1.blobs;
+package com.github.adsgray.gdxtry1.testgame1.blobs;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
-import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
-import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
+import com.github.adsgray.gdxtry1.testgame1.GameSound;
+import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
+import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
 
 public class HitpointBonusDecorator extends BlobDecorator implements BonusIF, EnemyIF {
 

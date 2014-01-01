@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game.testgame1;
+package com.github.adsgray.gdxtry1.testgame1;
 
 /**
  * James calls this game "Bomb-Bomb"
@@ -29,14 +29,14 @@ import com.github.adsgray.gdxtry1.game.Game;
 import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagableIF;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.DefaultEnemy;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyIF;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.FiringBlobDecorator;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.ScoreTextDisplay;
+import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
+import com.github.adsgray.gdxtry1.testgame1.blobs.DamagableIF;
+import com.github.adsgray.gdxtry1.testgame1.blobs.DamagerIF;
+import com.github.adsgray.gdxtry1.testgame1.blobs.DefaultEnemy;
+import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyFactory;
+import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyIF;
+import com.github.adsgray.gdxtry1.testgame1.blobs.FiringBlobDecorator;
+import com.github.adsgray.gdxtry1.testgame1.blobs.ScoreTextDisplay;
 
 public class FiringGameTest implements Game {
 

@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game.testgame1;
+package com.github.adsgray.gdxtry1.testgame1;
 
 import android.util.Log;
 
@@ -9,10 +9,10 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.BonusIF;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyIF;
-import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
+import com.github.adsgray.gdxtry1.testgame1.blobs.BonusIF;
+import com.github.adsgray.gdxtry1.testgame1.blobs.DamagerIF;
+import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyFactory;
+import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyIF;
 
 public class MissileCollisionTrigger extends BlobTrigger {
 

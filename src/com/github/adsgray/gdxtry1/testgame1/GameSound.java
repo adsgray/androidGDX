@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game.testgame1;
+package com.github.adsgray.gdxtry1.testgame1;
 
 import java.util.EnumMap;
 import java.util.Random;

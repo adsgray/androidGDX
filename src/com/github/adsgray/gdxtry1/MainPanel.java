@@ -33,7 +33,7 @@ import com.github.adsgray.gdxtry1.engine.output.SoundPoolPlayer;
 import com.github.adsgray.gdxtry1.game.Game;
 import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.GameFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.FiringGameTest;
+import com.github.adsgray.gdxtry1.testgame1.FiringGameTest;
 
 public class MainPanel implements ApplicationListener {
 

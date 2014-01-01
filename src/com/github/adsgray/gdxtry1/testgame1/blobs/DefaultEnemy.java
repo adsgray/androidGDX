@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game.testgame1.blobs;
+package com.github.adsgray.gdxtry1.testgame1.blobs;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
@@ -7,9 +7,9 @@ import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
-import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
-import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
-import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
+import com.github.adsgray.gdxtry1.testgame1.GameSound;
+import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
+import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
 
 // this default enemy "evolves" into an "angry" version of itself
 // the first time it is hit.

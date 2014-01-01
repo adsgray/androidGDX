@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game.testgame1;
+package com.github.adsgray.gdxtry1.testgame1;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.game.GameCommand;
