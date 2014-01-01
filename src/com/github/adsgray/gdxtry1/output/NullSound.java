@@ -80,4 +80,10 @@ public class NullSound implements SoundIF {
         
     }
 
+    @Override
+    public void shieldHit() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

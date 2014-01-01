@@ -16,4 +16,5 @@ public interface SoundIF {
     public void bossDie();
     public void defenderHit();
     public void welcome();
+    public void shieldHit();
 }

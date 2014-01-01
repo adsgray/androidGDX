@@ -27,6 +27,7 @@ public class SoundPoolPlayer implements SoundIF {
     private int sBossDie;
     private int sDefenderHit;
     private int sWelcome;
+    private int[] sShieldHit;
 
     Context context;
     Random rnd;
@@ -39,12 +40,17 @@ public class SoundPoolPlayer implements SoundIF {
         eFire = new int[] {
                 sounds.load(context, R.raw.enemyfire1, 1),
                 sounds.load(context, R.raw.enemyfire2, 1),
-                sounds.load(context, R.raw.enemyfire3, 1)
+                sounds.load(context, R.raw.enemyfire3, 1),
+                sounds.load(context, R.raw.enemyfire4, 1),
+                sounds.load(context, R.raw.enemyfire5, 1)
         };
         explosion = new int[] {
                 sounds.load(context, R.raw.explosion, 1),
                 sounds.load(context, R.raw.explosionshort, 1),
-                sounds.load(context, R.raw.explosionshort2, 1)
+                sounds.load(context, R.raw.explosionshort2, 1),
+                sounds.load(context, R.raw.explosion4, 1),
+                sounds.load(context, R.raw.explosion5, 1),
+                sounds.load(context, R.raw.explosion6, 1)
         };
         sEnemyCreated = sounds.load(context, R.raw.enemycreated, 1);
         sNoShield = sounds.load(context, R.raw.noshield, 1);
@@ -58,6 +64,10 @@ public class SoundPoolPlayer implements SoundIF {
         sBossDie = sounds.load(context, R.raw.bossdie, 1); 
         sDefenderHit = sounds.load(context, R.raw.defenderhit, 1); 
         sWelcome = sounds.load(context, R.raw.welcome, 1); 
+        sShieldHit = new int[] {
+                sounds.load(context, R.raw.shieldhit, 1),
+                sounds.load(context, R.raw.shieldhit2, 1),
+        };
 
     }
 
@@ -144,6 +154,11 @@ public class SoundPoolPlayer implements SoundIF {
     @Override
     public void welcome() {
         sounds.play(sWelcome, 1.0f, 1.0f, 0, 0, 1.5f);
+    }
+    
+    @Override
+    public void shieldHit() {
+        playRandom(sShieldHit);
     }
 
 }
