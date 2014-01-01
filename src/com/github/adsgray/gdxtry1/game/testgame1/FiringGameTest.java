@@ -61,6 +61,7 @@ public class FiringGameTest implements Game {
             if (score >= scoreForNextShield) {
                 defender.incrementNumShields(1);
                 scoreDisplay.incNumShields(1);
+                EnemyFactory.flashMessage(world, renderer, "Shield Bonus!", 50);
                 scoreForNextShield += shieldScoreIncrement;
             }
 
@@ -111,6 +112,12 @@ public class FiringGameTest implements Game {
         return b;
     }
    
+    // if we're within 500 points of the next boss then there is a chance
+    // to get a bonus dropper
+    protected Boolean createBonusDropper() {
+        return (scoreForNextBoss - score <= 500 && TargetUtils.rnd.nextInt() < bonusDropperChance);
+    }
+
     private void createEnemies() {
         int numToAdd = numEnemies - world.getNumTargets();
 
@@ -120,11 +127,12 @@ public class FiringGameTest implements Game {
             scoreForNextBoss += bossScoreIncrement;
             EnemyIF boss = (EnemyIF)EnemyFactory.bossEnemy(world, renderer, defender.getPosition());
             numToAdd -= boss.getWeight();
+            EnemyFactory.flashMessage(world, renderer, "Here's the Boss!", 60);
         }
 
         if (numToAdd <= 0) return;
         
-        if (TargetUtils.rnd.nextInt() < bonusDropperChance) {
+        if (createBonusDropper()) {
             EnemyIF bonusdropper = (EnemyIF)EnemyFactory.bonusDropper(world, renderer);
             numToAdd -= bonusdropper.getWeight();
         }
@@ -166,6 +174,7 @@ public class FiringGameTest implements Game {
         // have to do this first because defender executes commands
         // on the scoreboard when shield number is initialized:
         scoreDisplay = createScoreDisplay();
+        EnemyFactory.flashMessage(world,  renderer, "Good Luck!", 100);
 
         BlobIF defender = createDefender();
 

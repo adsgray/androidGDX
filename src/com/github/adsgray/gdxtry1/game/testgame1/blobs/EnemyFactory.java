@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.NullBlob;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
@@ -146,6 +147,29 @@ public class EnemyFactory {
         b.setWorld(world);
         world.addTargetToWorld(b);
         return b;
+    }
+    
+    public static BlobIF flashMessage(WorldIF world, Renderer renderer, String txt, int duration) {
+        PositionIF p = new BlobPosition(35,500);
+        BlobPath path = PathFactory.stationary();
+        TextConfig rc = renderer.new TextConfig(Color.WHITE, 2.0f);
+        FlashMessage fm = new FlashMessage(p, path.vel, path.acc, renderer, rc);
+        fm.setText(txt);
+
+        BlobTrigger flashMessageDeath = new BlobTrigger() {
+            @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
+                source.setPath(PathFactory.straightLeftRight(50));
+                source.setLifeTime(10);
+                return source;
+            }
+            
+        };
+
+        fm.setLifeTime(duration);
+        fm.registerTickDeathTrigger(flashMessageDeath);
+        fm.setWorld(world);
+        world.addBlobToWorld(fm);
+        return BlobFactory.flashColorCycler(fm, 5);
     }
     
 }

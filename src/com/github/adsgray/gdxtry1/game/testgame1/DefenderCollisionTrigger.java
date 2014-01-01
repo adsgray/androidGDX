@@ -11,6 +11,7 @@ import com.github.adsgray.gdxtry1.game.testgame1.blobs.BonusIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagableIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyBomb;
+import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
 
 public class DefenderCollisionTrigger extends BlobTrigger {
 
@@ -35,6 +36,7 @@ public class DefenderCollisionTrigger extends BlobTrigger {
             // TODO: flash message "+5 HitPoints!"
             TargetUtils.replaceWithBonusExplosion(secondary);
             ((BonusIF)secondary).destroyCompanionBlobs();
+            EnemyFactory.flashMessage(source.getWorld(), source.getRenderer(), "HitPoint Bonus!", 50);
         }
 
         // could either be a bomb or a hitpoint bonus
