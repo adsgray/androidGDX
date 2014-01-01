@@ -18,6 +18,7 @@ public class BaseGameConfig implements GameConfigIF {
     protected int bossFireRate;
     protected int bonusDropSpeed;
     protected int bonusDropperLifeTime;
+    protected int bonusDropperBossPointDiff; // when you're within this many points of a boss, you might get a bonusDropper
     protected int shieldLifeTime;
     // this is how long you have to wait until you can put shields up again.
     protected int shieldTickInterval;
@@ -34,6 +35,7 @@ public class BaseGameConfig implements GameConfigIF {
         bossFireRate = 2;
         bonusDropSpeed = -9;
         bonusDropperLifeTime = 400;
+        bonusDropperBossPointDiff = 500;
         shieldLifeTime = 150;
         shieldTickInterval = 150;
         shieldsUpOverride = false;
@@ -62,6 +64,7 @@ public class BaseGameConfig implements GameConfigIF {
 
     @Override public int bonusDropSpeed() { return bonusDropSpeed; }
     @Override public int bonusDropperLifeTime() { return bonusDropperLifeTime; }
+    @Override public int bonusDropperBossPointDiff() { return bonusDropperBossPointDiff; }
     @Override public int shieldLifeTime() { return shieldLifeTime; }
     @Override public int shieldTickInterval() { return shieldTickInterval; }
     @Override public Boolean shieldsUpOverride() { return shieldsUpOverride; }

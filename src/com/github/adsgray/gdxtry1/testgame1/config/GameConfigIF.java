@@ -17,6 +17,7 @@ public interface GameConfigIF {
     
     public int bonusDropSpeed();
     public int bonusDropperLifeTime();
+    public int bonusDropperBossPointDiff();
     public int shieldLifeTime();
     
     public Boolean shieldsUpOverride();

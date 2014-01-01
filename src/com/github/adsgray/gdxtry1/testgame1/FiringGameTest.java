@@ -165,7 +165,7 @@ public class FiringGameTest implements Game {
     // if we're within 500 points of the next boss then there is a chance
     // to get a bonus dropper
     protected Boolean createBonusDropper() {
-        return (scoreForNextBoss - score <= 500 && TargetUtils.rnd.nextInt() < bonusDropperChance);
+        return (scoreForNextBoss - score <= GameConfig.get().bonusDropperBossPointDiff() && TargetUtils.rnd.nextInt() < bonusDropperChance);
     }
 
     private void createEnemies() {

@@ -9,6 +9,7 @@ public class EasyGameConfig extends BaseGameConfig implements GameConfigIF {
         shieldScoreIncrement = 250;
         bossScoreIncrement = 1000000000; // never? James doesn't like Bosses.
         bonusDropperChance = 5;
+        bonusDropperBossPointDiff = bossScoreIncrement; // so always?
         damageDefender = false;
         defaultEnemyFireLoop = TargetUtils.defaultEnemyFireLoop;
         bossFireRate = 2;
