@@ -4,14 +4,14 @@ import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 
 public interface VelocityIF {
-    public Integer getXVelocity();
-    public Integer getYVelocity();
+    public int getXVelocity();
+    public int getYVelocity();
     
-    public Integer deltaX(Integer xin);
-    public Integer deltaY(Integer xin);
+    public int deltaX(int xin);
+    public int deltaY(int xin);
     
-    public Integer setXVelocity(Integer xin);
-    public Integer setYVelocity(Integer yin);
+    public int setXVelocity(int xin);
+    public int setYVelocity(int yin);
     
     public VelocityIF accelerate(AccelIF a);
     

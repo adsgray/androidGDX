@@ -7,8 +7,8 @@ import android.util.Log;
 
 public class BlobVelocity implements VelocityIF {
     
-    private Integer x;
-    private Integer y;
+    private int x;
+    private int y;
     
     public BlobVelocity(VelocityIF fromv) {
         x = fromv.getXVelocity();
@@ -21,12 +21,12 @@ public class BlobVelocity implements VelocityIF {
     }
     
     @Override
-    public Integer getXVelocity() {
+    public int getXVelocity() {
         return x;
     }
 
     @Override
-    public Integer getYVelocity() {
+    public int getYVelocity() {
         // argh copy-paste typo, this was "x"
         return y;
     }
@@ -45,14 +45,14 @@ public class BlobVelocity implements VelocityIF {
     */
 
     @Override
-    public Integer deltaX(Integer xin) {
+    public int deltaX(int xin) {
         //Log.d("velocity", String.format("xin is %d x is %d", xin, x));
         xin = xin + x;
         return xin;
     }
 
     @Override
-    public Integer deltaY(Integer yin) {
+    public int deltaY(int yin) {
         //Log.d("velocity", String.format("yin is %d y is %d", yin, y));
         // THESE TWO LINES ARE MOVING WHEN Y is 0??
         yin = yin + y;
@@ -60,13 +60,13 @@ public class BlobVelocity implements VelocityIF {
     }
 
     @Override
-    public Integer setXVelocity(Integer xin) {
+    public int setXVelocity(int xin) {
         x = xin;
         return x;
     }
 
     @Override
-    public Integer setYVelocity(Integer yin) {
+    public int setYVelocity(int yin) {
         y = yin;
         return y;
     }

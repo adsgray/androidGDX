@@ -10,11 +10,11 @@ public abstract class VelocityDecorator implements VelocityIF {
     
     public VelocityIF getComponent() { return component; }
 
-    @Override public Integer getXVelocity() { return component.getXVelocity(); }
-    @Override public Integer getYVelocity() { return component.getYVelocity(); }
-    @Override public Integer deltaX(Integer xin) { return component.deltaX(xin); }
-    @Override public Integer deltaY(Integer xin) { return component.deltaY(xin); }
-    @Override public Integer setXVelocity(Integer xin) { return component.setXVelocity(xin); }
-    @Override public Integer setYVelocity(Integer yin) { return component.setYVelocity(yin); }
+    @Override public int getXVelocity() { return component.getXVelocity(); }
+    @Override public int getYVelocity() { return component.getYVelocity(); }
+    @Override public int deltaX(int xin) { return component.deltaX(xin); }
+    @Override public int deltaY(int xin) { return component.deltaY(xin); }
+    @Override public int setXVelocity(int xin) { return component.setXVelocity(xin); }
+    @Override public int setYVelocity(int yin) { return component.setYVelocity(yin); }
 
 }

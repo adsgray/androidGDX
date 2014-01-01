@@ -17,17 +17,17 @@ public class VelocityComposeDecorator extends VelocityDecorator {
         this.primary = primary;
     }
     
-    @Override public Integer getXVelocity() { return component.getXVelocity() + primary.getXVelocity(); }
-    @Override public Integer getYVelocity() { return component.getYVelocity() + primary.getYVelocity(); }
-    @Override public Integer deltaX(Integer xin) { return primary.deltaX(component.deltaX(xin)); }
-    @Override public Integer deltaY(Integer yin) { return primary.deltaY(component.deltaY(yin)); }
+    @Override public int getXVelocity() { return component.getXVelocity() + primary.getXVelocity(); }
+    @Override public int getYVelocity() { return component.getYVelocity() + primary.getYVelocity(); }
+    @Override public int deltaX(int xin) { return primary.deltaX(component.deltaX(xin)); }
+    @Override public int deltaY(int yin) { return primary.deltaY(component.deltaY(yin)); }
     
     // not sure what to do with these...
-    @Override public Integer setXVelocity(Integer xin) { 
+    @Override public int setXVelocity(int xin) { 
         //Log.d("velocity", "calling SetX in compose");
         return x = xin;
     }
-    @Override public Integer setYVelocity(Integer yin) { 
+    @Override public int setYVelocity(int yin) { 
         //Log.d("velocity", "calling SetY in compose");
         return y = yin;
     }

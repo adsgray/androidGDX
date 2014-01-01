@@ -24,6 +24,7 @@ public class World implements WorldIF {
         blobs = new BlobManager();
         missiles = new BlobManager();
         targets = new BlobManager();
+        collisions = new CollisionMap();
     }
 
     /*
@@ -81,7 +82,7 @@ public class World implements WorldIF {
     
     private CollisionMap findCollisions() {
 
-        CollisionMap col = new CollisionMap();
+        CollisionMap col = collisions;
         // iterate over objs and return a HashMap of colliding Blobs
         // there will be one entry per collision participant
         //col.put(blobA, blobB);
@@ -118,6 +119,7 @@ public class World implements WorldIF {
     public void handleCollisions() {
 
         if (collisions == null) return;
+        if (collisions.isEmpty()) return;
 
         Iterator<BlobIF> iter = collisions.keySet().iterator();
 
@@ -130,6 +132,8 @@ public class World implements WorldIF {
             primary.collision(secondary);
             secondary.collision(primary);
         }
+        
+        collisions.clear();
     }
     
     static int ct = 0;
@@ -148,8 +152,11 @@ public class World implements WorldIF {
         }
         
         // save collisions for the next iteration and use it to optimize collision detection?
-        collisions = findCollisions();
-        handleCollisions();
+        // only every other tick
+        if (ct % 2 == 0) {
+            collisions = findCollisions();
+            handleCollisions(); 
+        }
     }
 
     @Override
