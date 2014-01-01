@@ -26,14 +26,14 @@ public class AngryTargetMissileSource extends BlobSource {
         this.transform = transform;
     }
     
-    protected VelocityIF downVel = new BlobVelocity(0,-15);
+    //protected VelocityIF downVel = new BlobVelocity(0,-15);
 
     // TODO: make these have hitpoints to inflict damage on defender
     @Override
     protected BlobIF generate(BlobIF parent) {
         WorldIF w = parent.getWorld();
         Renderer r = parent.getRenderer();
-        BlobPath path = new BlobPath(downVel, AccelFactory.zeroAccel());
+        BlobPath path = new BlobPath(new BlobVelocity(0,-15), AccelFactory.zeroAccel());
         CircleConfig rc = r.new CircleConfig(Color.CYAN, 14);
         BlobIF b = BlobFactory.circleBlob(new BlobPosition(parent.getPosition()), path, rc, r);
         b = BlobFactory.rainbowColorCycler(b, 1);

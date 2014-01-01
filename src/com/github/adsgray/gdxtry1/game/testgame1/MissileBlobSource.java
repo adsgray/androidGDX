@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
+import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
+import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
@@ -14,11 +16,13 @@ import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class MissileBlobSource extends BlobSource {
     GameCommand postKillCommand;
+    BlobTrigger collisionTrigger;
     
     public MissileBlobSource(GameCommand gc) {
         postKillCommand = gc;
+        collisionTrigger = new MissileCollisionTrigger(postKillCommand);
     }
-
+    
     @Override protected BlobIF generate(BlobIF parent) {
         WorldIF w = parent.getWorld();
         Renderer r = parent.getRenderer();
@@ -30,7 +34,7 @@ public class MissileBlobSource extends BlobSource {
         // is based on parent
         BlobIF m = BlobFactory.circleBlob(p, PathFactory.launchUp(70,-2), rc, r);
         m.setLifeTime(75);
-        m.registerCollisionTrigger(new MissileCollisionTrigger(postKillCommand));
+        m.registerCollisionTrigger(collisionTrigger);
         m = BlobFactory.addSmokeTrail(m);
         m = BlobFactory.flashColorCycler(m, 7);
         w.addMissileToWorld(m);
