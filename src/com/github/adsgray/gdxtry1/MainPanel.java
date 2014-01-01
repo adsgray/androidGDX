@@ -45,7 +45,6 @@ public class MainPanel implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private ShapeRenderer shapes;
-	private SoundIF sound;
 	Context context;
 	
 	public MainPanel(Context context) {
@@ -101,7 +100,6 @@ public class MainPanel implements ApplicationListener {
 	public void create() {
 		shapes = new ShapeRenderer();
 		batch = new SpriteBatch();
-		sound = new SoundPoolPlayer(context);
 
 		Renderer.createRealInstance(shapes, batch);
 	    renderConfig = Renderer.getRealInstance();
@@ -119,7 +117,7 @@ public class MainPanel implements ApplicationListener {
 	    //populateWorld();
 
 		DirectionListener dl = new DragAndFlingDirectionListener();
-		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, sound);
+		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context);
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
 	}
 

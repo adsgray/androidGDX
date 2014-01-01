@@ -15,7 +15,6 @@ public interface BlobIF {
     public PositionIF getPosition();
     public Integer getMass();
     public void setWorld(WorldIF w);
-    public void setSound(SoundIF s);
     public void setExtent(ExtentIF e);
     public void setAccel(AccelIF a);
     public void setVelocity(VelocityIF v);
@@ -35,7 +34,6 @@ public interface BlobIF {
     public ExtentIF getExtent();
     public Renderer getRenderer();
     public RenderConfigIF getRenderConfig();
-    public SoundIF getSound();
     public void setRenderConfig(RenderConfigIF r); 
     
     public void setLifeTime(Integer ticks);

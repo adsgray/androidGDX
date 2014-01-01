@@ -9,6 +9,7 @@ import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.PositionFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.BossTargetMissileSource;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 
 public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, EnemyIF {
@@ -46,6 +47,9 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
         // throw out a bunch of bombs
         sendAimedBombs(4);
         sendBonuses(2);
+        // two for good measure
+        GameSound.get().explosionLong();
+        GameSound.get().explosionLong();
         return TriggerFactory.replaceWithExplosion(this);
     }
 

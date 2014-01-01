@@ -1,20 +1,7 @@
 package com.github.adsgray.gdxtry1.output;
 
 public interface SoundIF {
-    public void crash(Integer intensity);
-    public void shoot();
-    
-    public void enemyfire();
-    public void explosion();
-    public void enemycreated();
-    public void shieldDenied();
-    public void enemyBecomeAngry();
-    public void bonusDrop();
-    public void bonusDropperAppear();
-    public void bonusReceive();
-    public void bonusShieldReceive();
-    public void bossDie();
-    public void defenderHit();
-    public void welcome();
-    public void shieldHit();
+    public int load(int resid);
+    public void play(int soundid);
+    public void play(Integer soundid);
 }

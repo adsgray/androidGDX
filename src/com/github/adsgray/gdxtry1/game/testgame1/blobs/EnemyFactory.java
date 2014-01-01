@@ -18,6 +18,8 @@ import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.PositionFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.BossTargetMissileSource;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
@@ -130,7 +132,7 @@ public class EnemyFactory {
             b = new HitpointBonusDecorator(b, t, -5); // negative hitpoints means bonus hitpoints
             w.addTargetToWorld(b);
             
-            parent.getSound().bonusDrop();
+            GameSound.get().playSoundId(SoundId.bonusDrop);
 
             return b;
         }

@@ -56,7 +56,6 @@ public class RectangleBlob extends BaseBlob {
     public List<BlobIF> explode(Integer numPieces) {
         List<BlobIF> vec = new ArrayList<BlobIF>();
         updateWorldAfterExplode(vec);
-        sound.crash(EXPLODE_INTENSITY);
         return vec;
     }
 }

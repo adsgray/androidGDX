@@ -13,7 +13,6 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
-import com.github.adsgray.gdxtry1.output.SoundIF;
 
 // I don't think base BlobDecorator should extend BaseBlob...
 public abstract class BlobDecorator extends BaseBlob {
@@ -34,13 +33,11 @@ public abstract class BlobDecorator extends BaseBlob {
     @Override public AccelIF getAccel() { return component.getAccel(); }
     @Override public Renderer getRenderer() { return component.getRenderer(); }
     @Override public RenderConfigIF getRenderConfig() { return component.getRenderConfig(); }
-    @Override public SoundIF getSound() { return component.getSound(); }
     @Override public void setRenderConfig(RenderConfigIF r) { component.setRenderConfig(r); }
     @Override public Integer getMass() { return component.getMass(); }
     @Override public void setAccel(AccelIF a) { component.setAccel(a); }
     @Override public void setVelocity(VelocityIF v) { component.setVelocity(v); }
     @Override public void setPosition(PositionIF p) { component.setPosition(p); }
-    @Override public void setSound(SoundIF s) { sound = s; component.setSound(s); }
     @Override public void setExtent(ExtentIF e) { component.setExtent(e); }
     @Override public void setLifeTime(Integer ticks) { component.setLifeTime(ticks); }
     @Override public void setTickPause(int ticks) { component.setTickPause(ticks); }

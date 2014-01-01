@@ -7,6 +7,8 @@ import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 
 // this default enemy "evolves" into an "angry" version of itself
@@ -89,11 +91,11 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
 
         if (type == Type.Initial) {
             becomeAngry();
-            missile.getSound().enemyBecomeAngry();
+            GameSound.get().playSoundId(SoundId.enemyBecomeAngry);
         } else {
                 
             // explode
-            missile.getSound().explosion();
+            GameSound.get().explosionAll();
             ret = TriggerFactory.replaceWithExplosion(this);
 
             // then throw some more bombs down as we die

@@ -7,6 +7,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.BonusIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagableIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
@@ -29,7 +30,7 @@ public class DefenderCollisionTrigger extends BlobTrigger {
     public BlobIF trigger(BlobIF source, BlobIF secondary) {
         if (secondary instanceof EnemyBomb) {
             TriggerFactory.replaceWithExplosion(secondary);
-            source.getSound().defenderHit();
+            GameSound.get().playSoundId(SoundId.defenderHit);
         }
         
         if (secondary instanceof BonusIF) {
@@ -38,7 +39,7 @@ public class DefenderCollisionTrigger extends BlobTrigger {
             TargetUtils.replaceWithBonusExplosion(secondary);
             ((BonusIF)secondary).destroyCompanionBlobs();
             EnemyFactory.flashMessage(source.getWorld(), source.getRenderer(), "HitPoint Bonus!", 50);
-            source.getSound().bonusReceive();
+            GameSound.get().playSoundId(SoundId.bonusReceive);
         }
 
         // could either be a bomb or a hitpoint bonus

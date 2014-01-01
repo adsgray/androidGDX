@@ -3,6 +3,7 @@ package com.github.adsgray.gdxtry1.game.testgame1.blobs;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
 
 
 public class BonusDropper extends BlobDecorator implements DamagableIF, EnemyIF {
@@ -15,6 +16,7 @@ public class BonusDropper extends BlobDecorator implements DamagableIF, EnemyIF 
     }
 
     protected BlobIF died() {
+        GameSound.get().explosionAll();
         return TriggerFactory.replaceWithExplosion(this);
     }
 

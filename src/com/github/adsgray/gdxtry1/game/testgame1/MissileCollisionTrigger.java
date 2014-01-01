@@ -54,7 +54,7 @@ public class MissileCollisionTrigger extends BlobTrigger {
             ((EnemyIF)secondary).reactToMissileHit(source);
         } else {
             // if it's a regular 'target' (like a bomb) just explode it
-            source.getSound().explosion();
+            GameSound.get().explosionAll();
             TriggerFactory.replaceWithExplosion(secondary);
         }
 

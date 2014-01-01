@@ -10,7 +10,7 @@ public class ShieldCollisionTrigger extends MissileCollisionTrigger {
 
     @Override protected BlobIF postCollision(BlobIF source, BlobIF secondary) {
         // do nothing as we want the shield to be able to kill multiple bombs
-        source.getSound().shieldHit();
+        GameSound.get().shieldHit();
         return source;
     }
 }

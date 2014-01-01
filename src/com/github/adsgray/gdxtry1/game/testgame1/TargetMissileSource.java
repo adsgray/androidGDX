@@ -29,7 +29,7 @@ public class TargetMissileSource extends BlobSource {
         // This decorator must be last for casting purposes in collision triggers
         b = new EnemyBomb(b, numHitPoints);
         w.addTargetToWorld(b);
-        parent.getSound().enemyfire();
+        GameSound.get().enemyFire();
         return b;
     }
 

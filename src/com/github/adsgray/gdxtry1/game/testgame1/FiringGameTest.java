@@ -4,6 +4,7 @@ package com.github.adsgray.gdxtry1.game.testgame1;
  * James calls this game "Bomb-Bomb"
  * "Because the triangle is angry and wants to shoot bombs"
  */
+import android.content.Context;
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +20,7 @@ import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.Game;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagableIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DefaultEnemy;
@@ -45,7 +47,6 @@ public class FiringGameTest implements Game {
     protected int score;
     ScoreTextDisplay scoreDisplay;
     protected int bonusDropperChance = 5;
-    protected SoundIF sound;
 
     // TODO: encapsulate this crap somewhere:
     protected int shieldScoreIncrement = 500;
@@ -64,7 +65,7 @@ public class FiringGameTest implements Game {
                 defender.incrementNumShields(1);
                 scoreDisplay.incNumShields(1);
                 EnemyFactory.flashMessage(world, renderer, "Shield Bonus!", 50);
-                sound.bonusShieldReceive();
+                GameSound.get().playSoundId(SoundId.bonusShieldReceive);
                 scoreForNextShield += shieldScoreIncrement;
             }
 
@@ -94,11 +95,11 @@ public class FiringGameTest implements Game {
         }
     }
 
-    public FiringGameTest(DragAndFlingDirectionListener dl, WorldIF w, Renderer r, SoundIF s) {
+    public FiringGameTest(DragAndFlingDirectionListener dl, WorldIF w, Renderer r, Context context) {
         input = dl;
         world = w;
         renderer = r;
-        sound = s;
+        GameSound.setRealInstance(context);
         setupGame();
     }
  
@@ -109,7 +110,6 @@ public class FiringGameTest implements Game {
         //b = new ShowExtentDecorator(b);
         Log.d("testgame1", "creating firingblobdecorator");
         b = new FiringBlobDecorator(b, new EnemyCreator(), new IncShield());
-        b.setSound(sound);
         defender = (FiringBlobDecorator)b;
         b.registerCollisionTrigger(new DefenderCollisionTrigger(new DamageDefender()));
         b.setLifeTime(1000000);
@@ -131,20 +131,18 @@ public class FiringGameTest implements Game {
         if (score >= scoreForNextBoss) {
             scoreForNextBoss += bossScoreIncrement;
             EnemyIF boss = (EnemyIF)EnemyFactory.bossEnemy(world, renderer, defender.getPosition());
-            ((BlobIF)boss).setSound(sound);
             numToAdd -= boss.getWeight();
             EnemyFactory.flashMessage(world, renderer, "Here's the Boss!", 60);
-            sound.enemycreated();
+            GameSound.get().playSoundId(SoundId.enemyCreated);
         }
 
         if (numToAdd <= 0) return;
         
         if (createBonusDropper()) {
             EnemyIF bonusdropper = (EnemyIF)EnemyFactory.bonusDropper(world, renderer);
-            ((BlobIF)bonusdropper).setSound(sound);
             numToAdd -= bonusdropper.getWeight();
             EnemyFactory.flashMessage(world, renderer, "Bonus Dropper!", 30);
-            sound.bonusDropperAppear();
+            GameSound.get().playSoundId(SoundId.bonusDropperAppear);
         }
         
         /*
@@ -156,8 +154,7 @@ public class FiringGameTest implements Game {
 
         while(numToAdd > 0) {
             EnemyIF b = (EnemyIF)EnemyFactory.defaultEnemy(world, renderer);
-            ((BlobIF)b).setSound(sound);
-            sound.enemycreated();
+            GameSound.get().playSoundId(SoundId.enemyCreated);
             numToAdd -= b.getWeight();
         }
     }
@@ -183,7 +180,7 @@ public class FiringGameTest implements Game {
     }
 
     private void setupGame() {
-        sound.welcome();
+        GameSound.get().playSoundId(SoundId.welcome);
         // have to do this first because defender executes commands
         // on the scoreboard when shield number is initialized:
         scoreDisplay = createScoreDisplay();

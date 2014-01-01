@@ -59,7 +59,6 @@ public class SplittingRectangleBlob extends RectangleBlob {
         }
 
         updateWorldAfterExplode(vec);
-        sound.crash(EXPLODE_INTENSITY);
         return vec;
     }
 

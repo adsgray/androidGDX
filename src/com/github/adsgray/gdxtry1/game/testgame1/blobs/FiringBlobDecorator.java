@@ -15,6 +15,8 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.GameCommand;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
+import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.game.testgame1.MissileBlobSource;
 import com.github.adsgray.gdxtry1.game.testgame1.MissileCollisionTrigger;
 import com.github.adsgray.gdxtry1.game.testgame1.ShieldCollisionTrigger;
@@ -53,7 +55,6 @@ public class FiringBlobDecorator extends BlobDecorator implements
                          // you can launch up to 2 simultaneous missiles
         this.incShield = incShield;
         numShields = 1;
-        Log.d("testgame1", "executing inshield exec in constructor");
         incShield.execute(1);
     }
 
@@ -66,10 +67,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
     public void onFlingUp(FlingInfo f) {
         if (world.getNumMissiles() < maxMissiles) {
             BlobIF missile = missileSource.get(this);
-            // ugh, should put sound into a singleton that everyone
-            // can access...
-            missile.setSound(sound);
-            sound.shoot();
+            GameSound.get().playSoundId(SoundId.shoot);
         }
         // else make the defender flash/shake?
         // OK now set the missile's velocity based on FlingInfo
@@ -117,7 +115,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
 
     public void shieldsUp() {
         if (numShields == 0 || ticks - ticksWhenShieldsWentUp < shieldTickInterval) {
-            sound.shieldDenied();
+            GameSound.get().playSoundId(SoundId.shieldDenied);
             EnemyFactory.flashMessage(world, renderer, "Shield Denied!", 20);
             return;
         }

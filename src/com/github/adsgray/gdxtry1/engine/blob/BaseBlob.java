@@ -19,10 +19,8 @@ import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.GameFactory;
-import com.github.adsgray.gdxtry1.output.NullSound;
 import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
-import com.github.adsgray.gdxtry1.output.SoundIF;
 
 public class BaseBlob implements BlobIF {
  
@@ -43,7 +41,6 @@ public class BaseBlob implements BlobIF {
     protected ExtentIF extent;
     protected AccelIF acceleration;
     protected WorldIF world = null;
-    protected SoundIF sound = new NullSound();
    
     @Override public WorldIF getWorld() { return world; }
     @Override public VelocityIF getVelocity() { return velocity; }
@@ -56,7 +53,6 @@ public class BaseBlob implements BlobIF {
     @Override public void setAccel(AccelIF a) { acceleration = a; }
     @Override public void setVelocity(VelocityIF vel) { velocity = vel; }
     @Override public void setPosition(PositionIF pos) { position = pos; }
-    @Override public void setSound(SoundIF s) { sound = s; }
     @Override public void setExtent(ExtentIF e) { extent = e; }
     @Override public void setLifeTime(Integer ticks) { this.ticks = 0; maxTicks = ticks; }
     @Override public void setPath(BlobPath p) { setVelocity(p.vel); setAccel(p.acc); }
@@ -76,7 +72,6 @@ public class BaseBlob implements BlobIF {
 
     @Override public RenderConfigIF getRenderConfig() { return renderConfig; }
     @Override public void setRenderConfig(RenderConfigIF r) { renderConfig = r; }
-    @Override public SoundIF getSound() { return sound; }
 
     public BaseBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx) {
         mass = massin;
@@ -180,7 +175,6 @@ public class BaseBlob implements BlobIF {
          * Blob "with" that we are colliding with. Note that that other
          * Blob will have to call .collision(us) to change its properties.
          */
-        //sound.crash(BUMP_INTENSITY);
 
         // TODO: take this Blob out of things considered for collisions?
         // or set it inelligible for collision detection for a time period

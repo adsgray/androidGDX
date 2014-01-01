@@ -37,7 +37,6 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
     // return a position that is within the bounds of this enemy
     // so that the bomb will drop from somewhere inside the boss
     protected PositionIF chooseSourcePosition(PositionIF origin) {
-        // TODO send from somewhere other than middle of this enemy
         return new BlobPosition(origin.getX() + TargetUtils.rnd.nextInt(300) - 150,
                                 origin.getY());
     }
@@ -86,7 +85,7 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
         angryBomb.setPosition(chooseSourcePosition(parent.getPosition()));
         angryBomb.setVelocity(aimAtTargetFrom(angryBomb.getPosition()));
         angryBomb = aimError.transform(angryBomb);
-        parent.getSound().enemyfire();
+        GameSound.get().enemyFire();
         return angryBomb;
     }
 
