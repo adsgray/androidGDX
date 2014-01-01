@@ -64,6 +64,7 @@ public class FiringGameTest implements Game {
                 defender.incrementNumShields(1);
                 scoreDisplay.incNumShields(1);
                 EnemyFactory.flashMessage(world, renderer, "Shield Bonus!", 50);
+                sound.bonusShieldReceive();
                 scoreForNextShield += shieldScoreIncrement;
             }
 
@@ -130,16 +131,20 @@ public class FiringGameTest implements Game {
         if (score >= scoreForNextBoss) {
             scoreForNextBoss += bossScoreIncrement;
             EnemyIF boss = (EnemyIF)EnemyFactory.bossEnemy(world, renderer, defender.getPosition());
+            ((BlobIF)boss).setSound(sound);
             numToAdd -= boss.getWeight();
             EnemyFactory.flashMessage(world, renderer, "Here's the Boss!", 60);
+            sound.enemycreated();
         }
 
         if (numToAdd <= 0) return;
         
         if (createBonusDropper()) {
             EnemyIF bonusdropper = (EnemyIF)EnemyFactory.bonusDropper(world, renderer);
+            ((BlobIF)bonusdropper).setSound(sound);
             numToAdd -= bonusdropper.getWeight();
             EnemyFactory.flashMessage(world, renderer, "Bonus Dropper!", 30);
+            sound.bonusDropperAppear();
         }
         
         /*
@@ -151,6 +156,8 @@ public class FiringGameTest implements Game {
 
         while(numToAdd > 0) {
             EnemyIF b = (EnemyIF)EnemyFactory.defaultEnemy(world, renderer);
+            ((BlobIF)b).setSound(sound);
+            sound.enemycreated();
             numToAdd -= b.getWeight();
         }
     }
@@ -176,6 +183,7 @@ public class FiringGameTest implements Game {
     }
 
     private void setupGame() {
+        sound.welcome();
         // have to do this first because defender executes commands
         // on the scoreboard when shield number is initialized:
         scoreDisplay = createScoreDisplay();

@@ -66,6 +66,9 @@ public class FiringBlobDecorator extends BlobDecorator implements
     public void onFlingUp(FlingInfo f) {
         if (world.getNumMissiles() < maxMissiles) {
             BlobIF missile = missileSource.get(this);
+            // ugh, should put sound into a singleton that everyone
+            // can access...
+            missile.setSound(sound);
             sound.shoot();
         }
         // else make the defender flash/shake?
@@ -110,11 +113,12 @@ public class FiringBlobDecorator extends BlobDecorator implements
     
     private int ticksWhenShieldsWentUp = 0;
     // this is how long you have to wait until you can put shields up again.
-    private int shieldTickInterval = 300;
+    private int shieldTickInterval = 150;
 
     public void shieldsUp() {
         if (numShields == 0 || ticks - ticksWhenShieldsWentUp < shieldTickInterval) {
-            Log.d("testgame1", String.format("no shields right now: %d", numShields));
+            sound.shieldDenied();
+            EnemyFactory.flashMessage(world, renderer, "Shield Denied!", 20);
             return;
         }
 

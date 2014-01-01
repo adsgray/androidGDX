@@ -35,6 +35,7 @@ public interface BlobIF {
     public ExtentIF getExtent();
     public Renderer getRenderer();
     public RenderConfigIF getRenderConfig();
+    public SoundIF getSound();
     public void setRenderConfig(RenderConfigIF r); 
     
     public void setLifeTime(Integer ticks);

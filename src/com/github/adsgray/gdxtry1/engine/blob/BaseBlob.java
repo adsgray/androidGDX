@@ -76,6 +76,7 @@ public class BaseBlob implements BlobIF {
 
     @Override public RenderConfigIF getRenderConfig() { return renderConfig; }
     @Override public void setRenderConfig(RenderConfigIF r) { renderConfig = r; }
+    @Override public SoundIF getSound() { return sound; }
 
     public BaseBlob(Integer massin, PositionIF posin, VelocityIF velin, AccelIF accel, Renderer gdx) {
         mass = massin;

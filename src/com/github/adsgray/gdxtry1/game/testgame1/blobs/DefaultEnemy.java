@@ -89,9 +89,11 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
 
         if (type == Type.Initial) {
             becomeAngry();
+            missile.getSound().enemyBecomeAngry();
         } else {
                 
             // explode
+            missile.getSound().explosion();
             ret = TriggerFactory.replaceWithExplosion(this);
 
             // then throw some more bombs down as we die

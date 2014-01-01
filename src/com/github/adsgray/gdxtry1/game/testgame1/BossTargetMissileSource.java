@@ -86,6 +86,7 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
         angryBomb.setPosition(chooseSourcePosition(parent.getPosition()));
         angryBomb.setVelocity(aimAtTargetFrom(angryBomb.getPosition()));
         angryBomb = aimError.transform(angryBomb);
+        parent.getSound().enemyfire();
         return angryBomb;
     }
 

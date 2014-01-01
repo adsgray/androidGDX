@@ -29,6 +29,7 @@ public class DefenderCollisionTrigger extends BlobTrigger {
     public BlobIF trigger(BlobIF source, BlobIF secondary) {
         if (secondary instanceof EnemyBomb) {
             TriggerFactory.replaceWithExplosion(secondary);
+            source.getSound().defenderHit();
         }
         
         if (secondary instanceof BonusIF) {
@@ -37,6 +38,7 @@ public class DefenderCollisionTrigger extends BlobTrigger {
             TargetUtils.replaceWithBonusExplosion(secondary);
             ((BonusIF)secondary).destroyCompanionBlobs();
             EnemyFactory.flashMessage(source.getWorld(), source.getRenderer(), "HitPoint Bonus!", 50);
+            source.getSound().bonusReceive();
         }
 
         // could either be a bomb or a hitpoint bonus

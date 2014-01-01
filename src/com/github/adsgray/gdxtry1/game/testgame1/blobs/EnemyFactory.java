@@ -129,6 +129,8 @@ public class EnemyFactory {
 
             b = new HitpointBonusDecorator(b, t, -5); // negative hitpoints means bonus hitpoints
             w.addTargetToWorld(b);
+            
+            parent.getSound().bonusDrop();
 
             return b;
         }

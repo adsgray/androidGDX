@@ -29,6 +29,7 @@ public class HitpointBonusDecorator extends BlobDecorator implements BonusIF, En
     public BlobIF reactToMissileHit(BlobIF missile) {
         destroyCompanionBlobs();
         EnemyFactory.flashMessage(world, renderer, "Lost Bonus :-(", 30);
+        missile.getSound().defenderHit(); // use this sound for now...
         return TargetUtils.replaceWithBonusExplosion(this);
     }
 

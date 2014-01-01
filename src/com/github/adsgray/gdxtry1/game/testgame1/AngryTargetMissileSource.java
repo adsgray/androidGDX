@@ -43,6 +43,7 @@ public class AngryTargetMissileSource extends BlobSource {
         b = new EnemyBomb(b, numHitPoints);
         w.addTargetToWorld(b);
         
+        parent.getSound().enemyfire();
         
         return b;
     }
