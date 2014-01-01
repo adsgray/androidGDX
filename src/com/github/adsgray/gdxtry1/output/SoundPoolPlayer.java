@@ -34,7 +34,7 @@ public class SoundPoolPlayer implements SoundIF {
     public SoundPoolPlayer(Context context) {
         this.context = context;
         rnd = new Random();
-        sounds = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
+        sounds = new SoundPool(20, AudioManager.STREAM_MUSIC,0);
         sShoot = sounds.load(context, R.raw.shoot1, 1);
         eFire = new int[] {
                 sounds.load(context, R.raw.enemyfire1, 1),
