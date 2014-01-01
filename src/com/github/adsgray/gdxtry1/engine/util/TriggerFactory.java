@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game;
+package com.github.adsgray.gdxtry1.engine.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;

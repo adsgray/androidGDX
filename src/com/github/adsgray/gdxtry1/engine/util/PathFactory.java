@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game;
+package com.github.adsgray.gdxtry1.engine.util;
 
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.engine.accel.AccelComposeDecorator;

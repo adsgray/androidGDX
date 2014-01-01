@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
-import com.github.adsgray.gdxtry1.game.PositionFactory;
+import com.github.adsgray.gdxtry1.engine.util.PositionFactory;
 
 public class TestCircleExtent {
 

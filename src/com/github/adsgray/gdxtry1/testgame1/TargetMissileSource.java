@@ -8,10 +8,10 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
+import com.github.adsgray.gdxtry1.engine.util.AccelFactory;
+import com.github.adsgray.gdxtry1.engine.util.BlobFactory;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.game.AccelFactory;
-import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyBomb;
 
 public class TargetMissileSource extends BlobSource {

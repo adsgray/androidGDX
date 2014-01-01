@@ -1,7 +1,7 @@
 package com.github.adsgray.gdxtry1.engine.blob.decorator;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
-import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 
 import android.util.Log;
 

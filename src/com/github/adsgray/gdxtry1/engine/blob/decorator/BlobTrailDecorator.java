@@ -3,8 +3,8 @@ package com.github.adsgray.gdxtry1.engine.blob.decorator;
 import android.util.Log;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
-import com.github.adsgray.gdxtry1.game.GameFactory;
-import com.github.adsgray.gdxtry1.game.BlobFactory;
+import com.github.adsgray.gdxtry1.engine.util.BlobFactory;
+import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 
 public class BlobTrailDecorator extends BlobDecorator {
 

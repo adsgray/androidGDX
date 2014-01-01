@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
-import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 
 
 public class Renderer {

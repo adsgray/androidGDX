@@ -1,7 +1,7 @@
 package com.github.adsgray.gdxtry1.testgame1;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
-import com.github.adsgray.gdxtry1.game.GameCommand;
+import com.github.adsgray.gdxtry1.engine.util.GameCommand;
 
 public class ShieldCollisionTrigger extends MissileCollisionTrigger {
 

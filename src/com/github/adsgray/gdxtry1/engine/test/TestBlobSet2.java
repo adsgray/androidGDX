@@ -13,11 +13,11 @@ import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.util.BlobFactory;
+import com.github.adsgray.gdxtry1.engine.util.PathFactory;
+import com.github.adsgray.gdxtry1.engine.util.PositionFactory;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.game.BlobFactory;
-import com.github.adsgray.gdxtry1.game.PathFactory;
-import com.github.adsgray.gdxtry1.game.PositionFactory;
 
 // This will be more like "integration"?
 public class TestBlobSet2 {

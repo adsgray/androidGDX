@@ -30,9 +30,9 @@ import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.Di
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.output.SoundIF;
 import com.github.adsgray.gdxtry1.engine.output.SoundPoolPlayer;
-import com.github.adsgray.gdxtry1.game.Game;
-import com.github.adsgray.gdxtry1.game.GameCommand;
-import com.github.adsgray.gdxtry1.game.GameFactory;
+import com.github.adsgray.gdxtry1.engine.util.Game;
+import com.github.adsgray.gdxtry1.engine.util.GameCommand;
+import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 import com.github.adsgray.gdxtry1.testgame1.FiringGameTest;
 
 public class MainPanel implements ApplicationListener {

@@ -1,7 +1,7 @@
 package com.github.adsgray.gdxtry1.engine.accel;
 
+import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.game.GameFactory;
 
 /* this class is actually not so much a decorator as a replacer.
  * It clobbers/replaces its initial component.
