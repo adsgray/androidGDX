@@ -1,13 +1,13 @@
-package com.github.adsgray.gdxtry1.test;
+package com.github.adsgray.gdxtry1.engine.test;
 
 
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.test.TestFactory.TestBlobTrigger;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.test.TestFactory.TestBlobTrigger;
 
 import org.junit.*;
 

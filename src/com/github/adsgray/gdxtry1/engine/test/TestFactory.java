@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.test;
+package com.github.adsgray.gdxtry1.engine.test;
 
 import com.github.adsgray.gdxtry1.engine.World;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
