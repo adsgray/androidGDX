@@ -43,6 +43,7 @@ public class FiringGameTest implements Game {
     FiringBlobDecorator defender;
     protected int score;
     ScoreTextDisplay scoreDisplay;
+    protected int bonusDropperChance = 5;
 
     protected int shieldScoreIncrement = 500;
     protected int scoreForNextShield = shieldScoreIncrement;
@@ -122,6 +123,11 @@ public class FiringGameTest implements Game {
         }
 
         if (numToAdd <= 0) return;
+        
+        if (TargetUtils.rnd.nextInt() < bonusDropperChance) {
+            EnemyIF bonusdropper = (EnemyIF)EnemyFactory.bonusDropper(world, renderer);
+            numToAdd -= bonusdropper.getWeight();
+        }
         
         /*
         while (numToAdd >= 3) {

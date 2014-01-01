@@ -67,7 +67,8 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
         }
         
         // send some aimed bombs 
-        sendAimedBombs(2);
+        // any number more than 1 makes it waaaay too difficult
+        sendAimedBombs(1);
         
         if (TargetUtils.rnd.nextInt(100) < bonusAfterHitChance) {
             sendBonuses(1);

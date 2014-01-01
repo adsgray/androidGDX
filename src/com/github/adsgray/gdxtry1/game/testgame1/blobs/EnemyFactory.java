@@ -19,6 +19,7 @@ import com.github.adsgray.gdxtry1.game.PositionFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.BossTargetMissileSource;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
@@ -60,7 +61,7 @@ public class EnemyFactory {
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
 
         b.setLifeTime(TargetUtils.rnd.nextInt(200));
-        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(100, new BossTargetMissileSource(aimTarget), 3));
+        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(250, new BossTargetMissileSource(aimTarget), 2));
 
         b = BlobFactory.throbber(b);
         b = BlobFactory.flashColorCycler(b, 5);
@@ -131,5 +132,20 @@ public class EnemyFactory {
             return b;
         }
     };
+    
+    public static BlobIF bonusDropper(WorldIF world, Renderer renderer) {
+        CircleConfig rc = renderer.new CircleConfig(Color.RED, 40);
+        PositionIF p = new BlobPosition(10, GameFactory.BOUNDS_Y - 70);
+        BlobPath path = PathFactory.backAndForth(15, 10);
+        BlobIF b = BlobFactory.circleBlob(p, path, rc, renderer);
+        b = BlobFactory.rainbowColorCycler(b, 1);
+        b = BlobFactory.flashColorCycler(b, 3);
+        b = BlobFactory.addAltSmokeTrail(b);
+        b.setLifeTime(400);
+        b = new BonusDropper(b, 5);
+        b.setWorld(world);
+        world.addTargetToWorld(b);
+        return b;
+    }
     
 }
