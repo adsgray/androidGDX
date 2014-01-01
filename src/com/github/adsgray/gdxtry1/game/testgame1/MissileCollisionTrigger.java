@@ -7,6 +7,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
+import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.BonusIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.DamagerIF;

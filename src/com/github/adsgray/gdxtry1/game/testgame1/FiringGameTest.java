@@ -18,6 +18,7 @@ import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.Game;
+import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
@@ -47,6 +48,7 @@ public class FiringGameTest implements Game {
     protected int score;
     ScoreTextDisplay scoreDisplay;
     protected int bonusDropperChance = 5;
+    Context context;
 
     // TODO: encapsulate this crap somewhere:
     protected int shieldScoreIncrement = 500;
@@ -54,6 +56,17 @@ public class FiringGameTest implements Game {
     protected int bossScoreIncrement = 1500; // you'll meet a boss every 1500 points
     protected int scoreForNextBoss = bossScoreIncrement;
 
+    public class ToggleSound implements GameCommand {
+        @Override 
+        public void execute(int onOrOff) {
+            if (onOrOff == 1) {
+                GameSound.setRealInstance(context);
+            } else {
+                GameSound.setFakeInstance();
+            }
+        }
+    }
+    
     public class EnemyCreator implements GameCommand {
         @Override 
         public void execute(int points) {
@@ -99,8 +112,7 @@ public class FiringGameTest implements Game {
         input = dl;
         world = w;
         renderer = r;
-        GameSound.setRealInstance(context);
-        setupGame();
+        this.context = context;
     }
  
     private BlobIF createDefender() {
@@ -197,4 +209,24 @@ public class FiringGameTest implements Game {
     }
 
     @Override public int getFinalScore() { return score; }
+
+    @Override
+    public void init() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void start() {
+        setupGame();
+    }
+
+    @Override
+    public void stop() {
+        tearDownGame();
+    }
+
+    @Override
+    public GameCommand getSoundToggle() {
+        return new ToggleSound();
+    }
 }

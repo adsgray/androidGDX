@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.game.testgame1;
+package com.github.adsgray.gdxtry1.game;
 
 public interface GameCommand {
     public void execute(int arg);

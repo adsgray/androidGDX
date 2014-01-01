@@ -8,6 +8,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
+import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyBomb;
 import com.github.adsgray.gdxtry1.output.Renderer;

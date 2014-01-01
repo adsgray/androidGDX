@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.github.adsgray.gdxtry1.engine.*;
 import com.github.adsgray.gdxtry1.game.Game;
+import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.FiringGameTest;
 import com.github.adsgray.gdxtry1.input.DefaultDirectionListener;
@@ -118,6 +119,10 @@ public class MainPanel implements ApplicationListener {
 
 		DirectionListener dl = new DragAndFlingDirectionListener();
 		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context);
+		// hacky, can specific commands be moved to Game interface? I don't think so. Need traits...
+		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
+		toggleSound.execute(1); // enable sound
+		game.start();
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
 	}
 

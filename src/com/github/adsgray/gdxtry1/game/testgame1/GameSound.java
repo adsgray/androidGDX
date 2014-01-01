@@ -6,11 +6,15 @@ import java.util.Random;
 import android.content.Context;
 
 import com.github.adsgray.gdxtry1.R;
+import com.github.adsgray.gdxtry1.output.NullSound;
+import com.github.adsgray.gdxtry1.output.SoundIF;
 import com.github.adsgray.gdxtry1.output.SoundPoolPlayer;
 
 public class GameSound {
-    private SoundPoolPlayer soundpool;
+    private SoundIF soundpool;
     private static GameSound instance;
+    private static GameSound realInstance; // plays sound
+    private static GameSound fakeInstance; // does not play any sound
     
     public static enum SoundId {
         welcome,
@@ -87,18 +91,27 @@ public class GameSound {
         sounds.put(SoundId.explosionshort2, soundpool.load(R.raw.explosionshort2));
     }
     
+    public GameSound() {
+        soundpool = new NullSound();
+    }
+
     public static GameSound get() {
         return instance;
     }
     
-    public GameSound() {}
     
     public static void setRealInstance(Context context) {
-        instance = new GameSound(context);
+        if (realInstance == null) {
+            realInstance = new GameSound(context);
+        }
+        instance = realInstance;
     }
     
-    public void setFakeInstance() {
-        instance = new GameSound();
+    public static void setFakeInstance() {
+        if (fakeInstance == null) {
+            fakeInstance = new GameSound();
+        }
+        instance = fakeInstance;
     }
     
     // game specific stuff:
