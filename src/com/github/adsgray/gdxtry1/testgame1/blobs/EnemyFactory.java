@@ -26,6 +26,7 @@ import com.github.adsgray.gdxtry1.testgame1.BossTargetMissileSource;
 import com.github.adsgray.gdxtry1.testgame1.GameSound;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
+import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
 
 public class EnemyFactory {
     
@@ -48,7 +49,7 @@ public class EnemyFactory {
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
         b.setLifeTime(TargetUtils.rnd.nextInt(200));
 
-        b.registerTickDeathTrigger(TargetUtils.defaultEnemyFireLoop);
+        b.registerTickDeathTrigger(GameConfig.get().defaultEnemyFireLoop());
 
         b = BlobFactory.throbber(b);
         // N.B. this has to be the last decorator so that we can cast to Enemy
@@ -64,7 +65,7 @@ public class EnemyFactory {
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
 
         b.setLifeTime(TargetUtils.rnd.nextInt(200));
-        b.registerTickDeathTrigger(TargetUtils.fireAtDefenderLoop(250, new BossTargetMissileSource(aimTarget), 2));
+        b.registerTickDeathTrigger(GameConfig.get().bossEnemyFireLoop(aimTarget));
 
         b = BlobFactory.throbber(b);
         b = BlobFactory.flashColorCycler(b, 5);
@@ -118,7 +119,7 @@ public class EnemyFactory {
             b = BlobFactory.throbber(b);
             b.setExtent(new CircleExtent(45)); // important! collision detection...
             b.setPosition(new BlobPosition(parent.getPosition()));
-            b.setPath(PathFactory.straightUpDown(-9)); // down
+            b.setPath(PathFactory.straightUpDown(GameConfig.get().bonusDropSpeed())); // down
             
             TextConfig textrc = r.new TextConfig(Color.WHITE, 1.5f);
             TextBlobIF t = (TextBlobIF) BlobFactory.textBlob(
@@ -146,7 +147,7 @@ public class EnemyFactory {
         b = BlobFactory.rainbowColorCycler(b, 1);
         b = BlobFactory.flashColorCycler(b, 3);
         b = BlobFactory.addAltSmokeTrail(b);
-        b.setLifeTime(400);
+        b.setLifeTime(GameConfig.get().bonusDropperLifeTime());
         b = new BonusDropper(b, 5);
         b.setWorld(world);
         world.addTargetToWorld(b);

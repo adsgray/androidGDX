@@ -11,6 +11,7 @@ import com.github.adsgray.gdxtry1.testgame1.GameSound;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils.Difficulty;
+import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
 
 // this default enemy "evolves" into an "angry" version of itself
 // the first time it is hit.
@@ -22,7 +23,6 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
 
     protected int hitPoints;
     protected Type type;
-    protected int bonusChance = 25;
 
     // set up stuff in this decorator constructor?
     public DefaultEnemy(BlobIF component) {
@@ -112,16 +112,12 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
             // set the hitPoints on this to negative so that
             // (a) when it collides with the ship it gives hitPoints (subtract a neg. number)
             // (b) if you shoot it, you lose points haha.
-            if (dropBonusOnDeath()) {
+            if (GameConfig.get().dropBonusOnDeath()) {
                 EnemyFactory.hitPointBonusSource.get(this);
             }
         }
         
         return ret;
-    }
-
-    protected Boolean dropBonusOnDeath() {
-        return TargetUtils.difficulty == Difficulty.easy || (TargetUtils.rnd.nextInt(100) < bonusChance);
     }
 
     @Override public int getWeight() { return 1; } 

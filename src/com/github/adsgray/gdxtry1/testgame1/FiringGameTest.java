@@ -38,6 +38,8 @@ import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyFactory;
 import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyIF;
 import com.github.adsgray.gdxtry1.testgame1.blobs.FiringBlobDecorator;
 import com.github.adsgray.gdxtry1.testgame1.blobs.ScoreTextDisplay;
+import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
+import com.github.adsgray.gdxtry1.testgame1.config.GameConfigIF;
 
 public class FiringGameTest implements Game {
 
@@ -70,16 +72,9 @@ public class FiringGameTest implements Game {
     }
     
     protected void doSettingsKnobs() {
-        switch (TargetUtils.difficulty) {
-            case easy:
-                numEnemies = 6;
-                bonusDropperChance = 50;
-                scoreForNextBoss = 10000000; // never?
-                break;
-            case normal:
-                numEnemies = 6;
-                break;
-        }
+        numEnemies = GameConfig.get().bonusDropperChance();
+        scoreForNextBoss = GameConfig.get().bossScoreIncrement();
+        shieldScoreIncrement = GameConfig.get().shieldScoreIncrement();
     }
 
     public class DifficultySetter implements GameCommand {
@@ -87,11 +82,15 @@ public class FiringGameTest implements Game {
         @Override
         public void execute(int arg) {
             switch (arg) {
-                case 0: TargetUtils.difficulty = Difficulty.easy;
-                break;
-                
-                case 1: TargetUtils.difficulty = Difficulty.normal;
-                break;
+                case 0:
+                    GameConfig.set(GameConfigIF.Difficulty.easy);
+                    break;
+                case 1:
+                    GameConfig.set(GameConfigIF.Difficulty.normal);
+                    break;
+                case 2:
+                    GameConfig.set(GameConfigIF.Difficulty.insane);
+                    break;
             }
             
             doSettingsKnobs();
@@ -127,7 +126,7 @@ public class FiringGameTest implements Game {
     public class DamageDefender implements GameCommand {
         @Override 
         public void execute(int hitPoints) {
-            if (TargetUtils.difficulty == Difficulty.easy) return;
+            if (!GameConfig.get().damageDefender()) return;
 
             int hitPointsLeft = ((DamagableIF)defender).decHitPoints(hitPoints);
             scoreDisplay.setHitPoints(hitPointsLeft);

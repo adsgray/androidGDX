@@ -26,6 +26,7 @@ import com.github.adsgray.gdxtry1.testgame1.MissileBlobSource;
 import com.github.adsgray.gdxtry1.testgame1.MissileCollisionTrigger;
 import com.github.adsgray.gdxtry1.testgame1.ShieldCollisionTrigger;
 import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
+import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 
 public class FiringBlobDecorator extends BlobDecorator implements
@@ -111,17 +112,11 @@ public class FiringBlobDecorator extends BlobDecorator implements
     @Override public int getHitPoints() { return hitPoints; }
     
     private int ticksWhenShieldsWentUp = 0;
-    // this is how long you have to wait until you can put shields up again.
-    private int shieldTickInterval = 150;
 
     protected Boolean canDoShieldsUp() {
-        switch(TargetUtils.difficulty) {
-            case easy:
-                return true;
-            case normal:
-            default:
-                return (numShields > 0 && ticks - ticksWhenShieldsWentUp >= shieldTickInterval);
-        }
+        // if config says yes, that overrides the later calculation
+        return GameConfig.get().shieldsUpOverride() ||
+                (numShields > 0 && ticks - ticksWhenShieldsWentUp >= GameConfig.get().shieldTickInterval());
     }
 
     public void shieldsUp() {
@@ -140,7 +135,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
         RectConfig rc = renderer.new RectConfig(Color.RED, 100, 15);
         BlobIF b = BlobFactory.rectangleBlob(p, PathFactory.stationary(), rc, renderer);
         b.setExtent(new CircleExtent(100));
-        b.setLifeTime(150);
+        b.setLifeTime(GameConfig.get().shieldLifeTime());
         b = BlobFactory.flashColorCycler(b, 1);
         b = BlobFactory.throbber(b);
         b.setWorld(world);
