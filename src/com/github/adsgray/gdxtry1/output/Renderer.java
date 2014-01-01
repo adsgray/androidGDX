@@ -21,12 +21,13 @@ public class Renderer {
     private static Random rnd = new Random();
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
-    BitmapFont bitmapFont = new BitmapFont();
+    BitmapFont bitmapFont;
     
     public Renderer() { }
     public Renderer(ShapeRenderer sr, SpriteBatch sb) {
         shapeRenderer = sr;
         spriteBatch = sb;
+        bitmapFont = new BitmapFont();
     }
     
     /// singleton crap ///
