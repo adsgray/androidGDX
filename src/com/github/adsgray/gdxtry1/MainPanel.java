@@ -119,7 +119,6 @@ public class MainPanel implements ApplicationListener {
 
 		DirectionListener dl = new DragAndFlingDirectionListener();
 		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context);
-		// hacky, can specific commands be moved to Game interface? I don't think so. Need traits...
 		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
 		toggleSound.execute(1); // enable sound
 		game.start();
@@ -129,13 +128,11 @@ public class MainPanel implements ApplicationListener {
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void pause() {
         // TODO Auto-generated method stub
-        
     }
 
 	@Override
@@ -145,41 +142,10 @@ public class MainPanel implements ApplicationListener {
 	    Gdx.gl.glClearColor(0f, 0f, 0f, 0.4f);	
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);			// OpenGL code to clear the screen
 	    camera.update();
-	    
-	    //batch.begin();
-	    //world.getSpriteRenderer().render(batch);
-	    //batch.draw(smileyface, rect_smiley.x, rect_smiley.y);
-	    //batch.draw(helloworld, rect_hello.x, rect_hello.y);
-	    //batch.end();
-
 	    world.tick();
 	    batch.setProjectionMatrix(camera.combined);
 	    shapes.setProjectionMatrix(camera.combined);
-	    //shapeRenderer.setProjectionMatrix(camera.combined);
-
 	    world.render();
-	    //shapeRenderer.setColor(0, 1, 0, 1);
-	    //shapeRenderer.rect(x, y, width, height);
-	    //shapeRenderer.circle(x, y, radius);
-	    //shapes.end();
-	    //world.handleCollisions();
-	    
-	    
-	    /** Simple technique to detect user input on the touch screen **/
-	    if(Gdx.input.isTouched()) {
-	        Vector3 touchPos = new Vector3();
-	        touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-	        camera.unproject(touchPos);
-	        
-	        //Log.d("input", "screen touched");
-	        
-	        // add some more blobs
-	        //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
-	        
-	        /** center the smiley face on the touch (x,y) coordinates **/
-	        //rect_smiley.x = touchPos.x - 128 / 2;
-	        //rect_smiley.y = touchPos.y - 128 / 2;
-	    }
 	}
 
     @Override
