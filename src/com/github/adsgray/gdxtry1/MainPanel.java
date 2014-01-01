@@ -9,6 +9,7 @@ import android.view.SurfaceView;
 */
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -30,6 +31,8 @@ import com.github.adsgray.gdxtry1.input.DragAndFlingDirectionListener;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector;
 import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener;
 import com.github.adsgray.gdxtry1.output.Renderer;
+import com.github.adsgray.gdxtry1.output.SoundIF;
+import com.github.adsgray.gdxtry1.output.SoundPoolPlayer;
 
 public class MainPanel implements ApplicationListener {
 
@@ -42,6 +45,13 @@ public class MainPanel implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private ShapeRenderer shapes;
+	private SoundIF sound;
+	Context context;
+	
+	public MainPanel(Context context) {
+	    super();
+	    this.context = context;
+	}
 	
 	private void populateWorld() {
 	    //GameFactory.populateWorldWithBlobs(world, numBlobs, renderConfig);
@@ -91,6 +101,7 @@ public class MainPanel implements ApplicationListener {
 	public void create() {
 		shapes = new ShapeRenderer();
 		batch = new SpriteBatch();
+		sound = new SoundPoolPlayer(context);
 
 		Renderer.createRealInstance(shapes, batch);
 	    renderConfig = Renderer.getRealInstance();
@@ -108,7 +119,7 @@ public class MainPanel implements ApplicationListener {
 	    //populateWorld();
 
 		DirectionListener dl = new DragAndFlingDirectionListener();
-		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig);
+		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, sound);
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
 	}
 
@@ -127,7 +138,8 @@ public class MainPanel implements ApplicationListener {
 	@Override
 	public void render() {
 	    // TODO: config class for colours
-	    Gdx.gl.glClearColor(0.199f, 0.398f, 0.598f, 0.4f);	// OpenGL code to make the screen blue
+	    //Gdx.gl.glClearColor(0.199f, 0.398f, 0.598f, 0.4f);	// OpenGL code to make the screen blue
+	    Gdx.gl.glClearColor(0f, 0f, 0f, 0.4f);	
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);			// OpenGL code to clear the screen
 	    camera.update();
 	    

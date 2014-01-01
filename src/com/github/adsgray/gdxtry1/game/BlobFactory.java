@@ -193,6 +193,7 @@ public class BlobFactory extends GameFactory {
             WorldIF w = parent.getWorld();
             BlobIF eb = createExplosionBlob(parent);
             // neither target nor missile ("ephemeral")
+            eb.setLifeTime(20);
             w.addBlobToWorld(eb);
             return eb;
         }

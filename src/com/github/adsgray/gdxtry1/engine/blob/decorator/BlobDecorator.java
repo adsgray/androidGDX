@@ -15,6 +15,7 @@ import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.output.SoundIF;
 
+// I don't think base BlobDecorator should extend BaseBlob...
 public abstract class BlobDecorator extends BaseBlob {
 
     protected BlobIF component;
@@ -38,7 +39,7 @@ public abstract class BlobDecorator extends BaseBlob {
     @Override public void setAccel(AccelIF a) { component.setAccel(a); }
     @Override public void setVelocity(VelocityIF v) { component.setVelocity(v); }
     @Override public void setPosition(PositionIF p) { component.setPosition(p); }
-    @Override public void setSound(SoundIF s) { component.setSound(s); }
+    @Override public void setSound(SoundIF s) { sound = s; component.setSound(s); }
     @Override public void setExtent(ExtentIF e) { component.setExtent(e); }
     @Override public void setLifeTime(Integer ticks) { component.setLifeTime(ticks); }
     @Override public void setTickPause(int ticks) { component.setTickPause(ticks); }

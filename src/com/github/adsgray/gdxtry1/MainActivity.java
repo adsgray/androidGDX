@@ -1,5 +1,6 @@
 package com.github.adsgray.gdxtry1;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 //import android.app.Activity;
@@ -13,7 +14,8 @@ public class MainActivity extends AndroidApplication {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("trace", "onCreate!");
         super.onCreate(savedInstanceState);
-		initialize(new MainPanel(), false);		// initialize a new instance of your Game class
+        Context context = getApplicationContext();
+		initialize(new MainPanel(context), false);		// initialize a new instance of your Game class
     }
 
 

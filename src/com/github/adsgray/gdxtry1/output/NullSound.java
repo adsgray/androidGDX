@@ -5,4 +5,7 @@ public class NullSound implements SoundIF {
     @Override
     public void crash(Integer intensity) { }
 
+    @Override
+    public void shoot() { }
+
 }

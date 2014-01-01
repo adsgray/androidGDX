@@ -33,21 +33,23 @@ import com.github.adsgray.gdxtry1.output.Renderer;
 import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
 import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
+import com.github.adsgray.gdxtry1.output.SoundIF;
 
 public class FiringGameTest implements Game {
 
     DragAndFlingDirectionListener input;
     WorldIF world;
     Renderer renderer;
-    static final int numEnemies = 7;
+    static final int numEnemies = 6; // TODO: make this go up as your score goes up?
     FiringBlobDecorator defender;
     protected int score;
     ScoreTextDisplay scoreDisplay;
     protected int bonusDropperChance = 5;
+    protected SoundIF sound;
 
+    // TODO: encapsulate this crap somewhere:
     protected int shieldScoreIncrement = 500;
     protected int scoreForNextShield = shieldScoreIncrement;
-
     protected int bossScoreIncrement = 1500; // you'll meet a boss every 1500 points
     protected int scoreForNextBoss = bossScoreIncrement;
 
@@ -91,10 +93,11 @@ public class FiringGameTest implements Game {
         }
     }
 
-    public FiringGameTest(DragAndFlingDirectionListener dl, WorldIF w, Renderer r) {
+    public FiringGameTest(DragAndFlingDirectionListener dl, WorldIF w, Renderer r, SoundIF s) {
         input = dl;
         world = w;
         renderer = r;
+        sound = s;
         setupGame();
     }
  
@@ -105,6 +108,7 @@ public class FiringGameTest implements Game {
         //b = new ShowExtentDecorator(b);
         Log.d("testgame1", "creating firingblobdecorator");
         b = new FiringBlobDecorator(b, new EnemyCreator(), new IncShield());
+        b.setSound(sound);
         defender = (FiringBlobDecorator)b;
         b.registerCollisionTrigger(new DefenderCollisionTrigger(new DamageDefender()));
         b.setLifeTime(1000000);
@@ -135,6 +139,7 @@ public class FiringGameTest implements Game {
         if (createBonusDropper()) {
             EnemyIF bonusdropper = (EnemyIF)EnemyFactory.bonusDropper(world, renderer);
             numToAdd -= bonusdropper.getWeight();
+            EnemyFactory.flashMessage(world, renderer, "Bonus Dropper!", 30);
         }
         
         /*

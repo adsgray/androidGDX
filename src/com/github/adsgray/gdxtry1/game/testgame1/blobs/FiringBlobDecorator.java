@@ -66,6 +66,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
     public void onFlingUp(FlingInfo f) {
         if (world.getNumMissiles() < maxMissiles) {
             BlobIF missile = missileSource.get(this);
+            sound.shoot();
         }
         // else make the defender flash/shake?
         // OK now set the missile's velocity based on FlingInfo

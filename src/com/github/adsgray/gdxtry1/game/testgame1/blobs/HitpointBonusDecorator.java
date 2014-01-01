@@ -4,6 +4,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
+import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
 
 public class HitpointBonusDecorator extends BlobDecorator implements BonusIF, EnemyIF {
 
@@ -27,8 +28,8 @@ public class HitpointBonusDecorator extends BlobDecorator implements BonusIF, En
     @Override
     public BlobIF reactToMissileHit(BlobIF missile) {
         destroyCompanionBlobs();
-        // TODO: special explosion type for HP bonuses
-        return TriggerFactory.replaceWithExplosion(this);
+        EnemyFactory.flashMessage(world, renderer, "Lost Bonus :-(", 30);
+        return TargetUtils.replaceWithBonusExplosion(this);
     }
 
     @Override public int getWeight() { return 1; } 

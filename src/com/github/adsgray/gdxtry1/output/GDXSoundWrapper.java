@@ -7,4 +7,9 @@ public class GDXSoundWrapper implements SoundIF {
 
     }
 
+    @Override
+    public void shoot() {
+        
+    }
+
 }
