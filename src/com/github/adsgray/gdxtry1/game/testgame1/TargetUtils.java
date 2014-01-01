@@ -15,6 +15,9 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.ExplosionBlob;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TextConfig;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
@@ -24,9 +27,6 @@ import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.TriggerFactory;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
 
 public class TargetUtils {
 

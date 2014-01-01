@@ -23,17 +23,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.github.adsgray.gdxtry1.engine.*;
+import com.github.adsgray.gdxtry1.engine.input.DefaultDirectionListener;
+import com.github.adsgray.gdxtry1.engine.input.DragAndFlingDirectionListener;
+import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector;
+import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.DirectionListener;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.SoundIF;
+import com.github.adsgray.gdxtry1.engine.output.SoundPoolPlayer;
 import com.github.adsgray.gdxtry1.game.Game;
 import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.GameFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.FiringGameTest;
-import com.github.adsgray.gdxtry1.input.DefaultDirectionListener;
-import com.github.adsgray.gdxtry1.input.DragAndFlingDirectionListener;
-import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector;
-import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.SoundIF;
-import com.github.adsgray.gdxtry1.output.SoundPoolPlayer;
 
 public class MainPanel implements ApplicationListener {
 

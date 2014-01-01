@@ -12,12 +12,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 // BlobSet is like a mini-world: it has responsibility/control of Blobs.
 public class BlobSet extends BaseBlob {

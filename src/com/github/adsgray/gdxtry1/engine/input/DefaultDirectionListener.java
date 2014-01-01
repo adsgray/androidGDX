@@ -1,9 +1,9 @@
-package com.github.adsgray.gdxtry1.input;
+package com.github.adsgray.gdxtry1.engine.input;
 
 import android.util.Log;
 
 import com.github.adsgray.gdxtry1.engine.WorldIF;
-import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener;
+import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.DirectionListener;
 
 public class DefaultDirectionListener implements DirectionListener {
     	

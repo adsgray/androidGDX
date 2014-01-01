@@ -6,11 +6,11 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.GameFactory;
-import com.github.adsgray.gdxtry1.output.Renderer;
 
 public class SplittingRectangleBlob extends RectangleBlob {
 

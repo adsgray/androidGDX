@@ -28,15 +28,15 @@ import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobTrailDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
 import com.github.adsgray.gdxtry1.engine.extent.RectangleExtent;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TextConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TriangleConfig;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class GameFactory {
     public static WorldIF defaultWorld() {

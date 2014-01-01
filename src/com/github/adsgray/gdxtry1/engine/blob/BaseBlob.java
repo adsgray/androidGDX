@@ -14,13 +14,13 @@ import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.accel.LinearAccel;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.GameFactory;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 public class BaseBlob implements BlobIF {
  

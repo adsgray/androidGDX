@@ -1,11 +1,11 @@
-package com.github.adsgray.gdxtry1.input;
+package com.github.adsgray.gdxtry1.engine.input;
 
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector3;
-import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener.FlingInfo;
+import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.DirectionListener.FlingInfo;
 
 
 // from: 

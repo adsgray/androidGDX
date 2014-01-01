@@ -9,10 +9,10 @@ import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 // I don't think base BlobDecorator should extend BaseBlob...
 public abstract class BlobDecorator extends BaseBlob {

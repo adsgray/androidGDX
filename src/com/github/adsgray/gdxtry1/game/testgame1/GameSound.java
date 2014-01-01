@@ -6,9 +6,9 @@ import java.util.Random;
 import android.content.Context;
 
 import com.github.adsgray.gdxtry1.R;
-import com.github.adsgray.gdxtry1.output.NullSound;
-import com.github.adsgray.gdxtry1.output.SoundIF;
-import com.github.adsgray.gdxtry1.output.SoundPoolPlayer;
+import com.github.adsgray.gdxtry1.engine.output.NullSound;
+import com.github.adsgray.gdxtry1.engine.output.SoundIF;
+import com.github.adsgray.gdxtry1.engine.output.SoundPoolPlayer;
 
 public class GameSound {
     private SoundIF soundpool;

@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.CircleBlob;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
-import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 
 public class ShowExtentDecorator extends BlobDecorator {
 

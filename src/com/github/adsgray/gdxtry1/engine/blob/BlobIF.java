@@ -6,10 +6,10 @@ import com.github.adsgray.gdxtry1.engine.ClusterIF;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
+import com.github.adsgray.gdxtry1.engine.output.*;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.*;
-import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 public interface BlobIF {
     public PositionIF getPosition();

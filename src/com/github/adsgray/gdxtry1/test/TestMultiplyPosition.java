@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.RectangleBlob;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.MultiplyPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
@@ -18,7 +19,6 @@ import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.PositionFactory;
-import com.github.adsgray.gdxtry1.output.Renderer;
 
 public class TestMultiplyPosition {
 

@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.input;
+package com.github.adsgray.gdxtry1.engine.input;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,8 +7,8 @@ import java.util.List;
 import android.util.Log;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.DirectionListener;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
-import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener;
 
 public class DragAndFlingDirectionListener implements DirectionListener {
 

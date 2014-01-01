@@ -6,14 +6,14 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TriangleConfig;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
 import com.github.adsgray.gdxtry1.game.GameCommand;
 import com.github.adsgray.gdxtry1.game.PathFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyBomb;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class MissileBlobSource extends BlobSource {
     GameCommand postKillCommand;

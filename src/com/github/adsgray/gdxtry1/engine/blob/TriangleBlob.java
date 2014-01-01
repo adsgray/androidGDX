@@ -3,11 +3,11 @@ package com.github.adsgray.gdxtry1.engine.blob;
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TriangleConfig;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class TriangleBlob extends BaseBlob {
 

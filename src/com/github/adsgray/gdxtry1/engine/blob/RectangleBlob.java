@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
 import com.github.adsgray.gdxtry1.engine.extent.FakeRectangleExtent;
+import com.github.adsgray.gdxtry1.engine.output.*;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.*;
-import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.RenderConfigIF;
 
 import android.util.Log;
 

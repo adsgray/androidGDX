@@ -1,4 +1,4 @@
-package com.github.adsgray.gdxtry1.output;
+package com.github.adsgray.gdxtry1.engine.output;
 
 public class NullSound implements SoundIF {
     @Override public int load(int resid) { return 0; }

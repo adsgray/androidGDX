@@ -14,6 +14,14 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
+import com.github.adsgray.gdxtry1.engine.input.DragAndFlingDirectionListener;
+import com.github.adsgray.gdxtry1.engine.input.Draggable;
+import com.github.adsgray.gdxtry1.engine.input.Flingable;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.SoundIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TextConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TriangleConfig;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.game.BlobFactory;
@@ -29,14 +37,6 @@ import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyFactory;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.EnemyIF;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.FiringBlobDecorator;
 import com.github.adsgray.gdxtry1.game.testgame1.blobs.ScoreTextDisplay;
-import com.github.adsgray.gdxtry1.input.DragAndFlingDirectionListener;
-import com.github.adsgray.gdxtry1.input.Draggable;
-import com.github.adsgray.gdxtry1.input.Flingable;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
-import com.github.adsgray.gdxtry1.output.SoundIF;
 
 public class FiringGameTest implements Game {
 

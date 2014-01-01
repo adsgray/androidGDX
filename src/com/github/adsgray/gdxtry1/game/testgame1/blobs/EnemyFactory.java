@@ -10,6 +10,11 @@ import com.github.adsgray.gdxtry1.engine.blob.NullBlob;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RectConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TextConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.TriangleConfig;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
@@ -21,11 +26,6 @@ import com.github.adsgray.gdxtry1.game.testgame1.BossTargetMissileSource;
 import com.github.adsgray.gdxtry1.game.testgame1.GameSound;
 import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.game.testgame1.TargetUtils;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TextConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.TriangleConfig;
 
 public class EnemyFactory {
     

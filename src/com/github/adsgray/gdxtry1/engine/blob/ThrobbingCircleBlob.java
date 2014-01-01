@@ -3,10 +3,10 @@ package com.github.adsgray.gdxtry1.engine.blob;
 import android.util.Log;
 
 import com.github.adsgray.gdxtry1.engine.accel.AccelIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
 
 public class ThrobbingCircleBlob extends CircleBlob {
 

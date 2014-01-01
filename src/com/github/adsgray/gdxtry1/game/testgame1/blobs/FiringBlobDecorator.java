@@ -9,6 +9,12 @@ import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
 import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
+import com.github.adsgray.gdxtry1.engine.input.Draggable;
+import com.github.adsgray.gdxtry1.engine.input.Flingable;
+import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.DirectionListener.FlingInfo;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
+import com.github.adsgray.gdxtry1.engine.output.Renderer.RectConfig;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionComposeDecorator;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
@@ -20,12 +26,6 @@ import com.github.adsgray.gdxtry1.game.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.game.testgame1.MissileBlobSource;
 import com.github.adsgray.gdxtry1.game.testgame1.MissileCollisionTrigger;
 import com.github.adsgray.gdxtry1.game.testgame1.ShieldCollisionTrigger;
-import com.github.adsgray.gdxtry1.input.Draggable;
-import com.github.adsgray.gdxtry1.input.Flingable;
-import com.github.adsgray.gdxtry1.input.SimpleDirectionGestureDetector.DirectionListener.FlingInfo;
-import com.github.adsgray.gdxtry1.output.Renderer;
-import com.github.adsgray.gdxtry1.output.Renderer.CircleConfig;
-import com.github.adsgray.gdxtry1.output.Renderer.RectConfig;
 
 public class FiringBlobDecorator extends BlobDecorator implements
         Flingable, Draggable, DamagableIF {
