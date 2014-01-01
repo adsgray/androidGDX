@@ -30,6 +30,7 @@ import com.github.adsgray.gdxtry1.engine.util.GameCommand;
 import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 import com.github.adsgray.gdxtry1.engine.util.PathFactory;
 import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
+import com.github.adsgray.gdxtry1.testgame1.TargetUtils.Difficulty;
 import com.github.adsgray.gdxtry1.testgame1.blobs.DamagableIF;
 import com.github.adsgray.gdxtry1.testgame1.blobs.DamagerIF;
 import com.github.adsgray.gdxtry1.testgame1.blobs.DefaultEnemy;
@@ -43,19 +44,20 @@ public class FiringGameTest implements Game {
     DragAndFlingDirectionListener input;
     WorldIF world;
     Renderer renderer;
-    static final int numEnemies = 6; // TODO: make this go up as your score goes up?
+    protected int numEnemies = 6; // TODO: make this go up as your score goes up?
     FiringBlobDecorator defender;
     protected int score;
     ScoreTextDisplay scoreDisplay;
     protected int bonusDropperChance = 5;
     Context context;
 
+    // config parameters singleton class. easy, normal, insane.
     // TODO: encapsulate this crap somewhere:
     protected int shieldScoreIncrement = 500;
     protected int scoreForNextShield = shieldScoreIncrement;
     protected int bossScoreIncrement = 1500; // you'll meet a boss every 1500 points
     protected int scoreForNextBoss = bossScoreIncrement;
-
+    
     public class ToggleSound implements GameCommand {
         @Override 
         public void execute(int onOrOff) {
@@ -65,6 +67,36 @@ public class FiringGameTest implements Game {
                 GameSound.setFakeInstance();
             }
         }
+    }
+    
+    protected void doSettingsKnobs() {
+        switch (TargetUtils.difficulty) {
+            case easy:
+                numEnemies = 6;
+                bonusDropperChance = 50;
+                scoreForNextBoss = 10000000; // never?
+                break;
+            case normal:
+                numEnemies = 6;
+                break;
+        }
+    }
+
+    public class DifficultySetter implements GameCommand {
+
+        @Override
+        public void execute(int arg) {
+            switch (arg) {
+                case 0: TargetUtils.difficulty = Difficulty.easy;
+                break;
+                
+                case 1: TargetUtils.difficulty = Difficulty.normal;
+                break;
+            }
+            
+            doSettingsKnobs();
+        }
+        
     }
     
     public class EnemyCreator implements GameCommand {
@@ -82,7 +114,7 @@ public class FiringGameTest implements Game {
                 scoreForNextShield += shieldScoreIncrement;
             }
 
-            Log.d("testgame1", String.format("Enemy destroyed for %d! %d total", points, score));
+            //Log.d("testgame1", String.format("Enemy destroyed for %d! %d total", points, score));
         }
     }
     
@@ -95,15 +127,17 @@ public class FiringGameTest implements Game {
     public class DamageDefender implements GameCommand {
         @Override 
         public void execute(int hitPoints) {
+            if (TargetUtils.difficulty == Difficulty.easy) return;
+
             int hitPointsLeft = ((DamagableIF)defender).decHitPoints(hitPoints);
             scoreDisplay.setHitPoints(hitPointsLeft);
 
             if (hitPointsLeft <= 0) {
-                Log.d("testgame1", String.format("Defender destroyed! Final score: %d", score));
+                //Log.d("testgame1", String.format("Defender destroyed! Final score: %d", score));
                 tearDownGame();
                 setupGame();
             } else {
-                Log.d("testgame1", String.format("Defender hit for %d! %d left", hitPoints, hitPointsLeft));
+                //Log.d("testgame1", String.format("Defender hit for %d! %d left", hitPoints, hitPointsLeft));
             }
         }
     }
@@ -205,6 +239,7 @@ public class FiringGameTest implements Game {
         scoreDisplay.setLastScore(score);
         score = 0;
         scoreDisplay.setScore(score);
+        doSettingsKnobs();
         createEnemies();
     }
 
@@ -228,5 +263,10 @@ public class FiringGameTest implements Game {
     @Override
     public GameCommand getSoundToggle() {
         return new ToggleSound();
+    }
+
+    @Override
+    public GameCommand getDifficultySetter() {
+        return new DifficultySetter();
     }
 }

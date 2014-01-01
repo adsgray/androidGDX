@@ -10,6 +10,7 @@ import com.github.adsgray.gdxtry1.engine.util.TriggerFactory;
 import com.github.adsgray.gdxtry1.testgame1.GameSound;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
+import com.github.adsgray.gdxtry1.testgame1.TargetUtils.Difficulty;
 
 // this default enemy "evolves" into an "angry" version of itself
 // the first time it is hit.
@@ -89,6 +90,9 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
     public BlobIF reactToMissileHit(BlobIF missile) {
         BlobIF ret = this;
 
+        // show a quick little flash message
+        // at the location of the enemy to show the
+        // number of points awarded? or is that too busy?
         if (type == Type.Initial) {
             becomeAngry();
             GameSound.get().playSoundId(SoundId.enemyBecomeAngry);
@@ -108,12 +112,16 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
             // set the hitPoints on this to negative so that
             // (a) when it collides with the ship it gives hitPoints (subtract a neg. number)
             // (b) if you shoot it, you lose points haha.
-            if (TargetUtils.rnd.nextInt(100) < bonusChance) {
+            if (dropBonusOnDeath()) {
                 EnemyFactory.hitPointBonusSource.get(this);
             }
         }
         
         return ret;
+    }
+
+    protected Boolean dropBonusOnDeath() {
+        return TargetUtils.difficulty == Difficulty.easy || (TargetUtils.rnd.nextInt(100) < bonusChance);
     }
 
     @Override public int getWeight() { return 1; } 
