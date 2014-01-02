@@ -16,6 +16,7 @@ import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyBomb;
+import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
 import com.badlogic.gdx.graphics.Color;
 public class AngryTargetMissileSource extends BlobSource {
 
@@ -26,14 +27,12 @@ public class AngryTargetMissileSource extends BlobSource {
         this.transform = transform;
     }
     
-    //protected VelocityIF downVel = new BlobVelocity(0,-15);
-
     // TODO: make these have hitpoints to inflict damage on defender
     @Override
     protected BlobIF generate(BlobIF parent) {
         WorldIF w = parent.getWorld();
         Renderer r = parent.getRenderer();
-        BlobPath path = new BlobPath(new BlobVelocity(0,-15), AccelFactory.zeroAccel());
+        BlobPath path = new BlobPath(GameConfig.get().angryEnemyBombVel(), AccelFactory.zeroAccel());
         CircleConfig rc = r.new CircleConfig(Color.CYAN, 14);
         BlobIF b = BlobFactory.circleBlob(new BlobPosition(parent.getPosition()), path, rc, r);
         b = BlobFactory.rainbowColorCycler(b, 1);

@@ -78,7 +78,6 @@ public class FiringGameTest implements Game {
     }
 
     public class DifficultySetter implements GameCommand {
-
         @Override
         public void execute(int arg) {
             switch (arg) {
@@ -95,7 +94,6 @@ public class FiringGameTest implements Game {
             
             doSettingsKnobs();
         }
-        
     }
     
     public class EnemyCreator implements GameCommand {

@@ -2,6 +2,7 @@ package com.github.adsgray.gdxtry1.testgame1.config;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 
 public interface GameConfigIF {
     
@@ -13,6 +14,9 @@ public interface GameConfigIF {
 
     public Boolean dropBonusOnDeath(); // for enemies
     public BlobTrigger defaultEnemyFireLoop();
+    public BlobTrigger angryEnemyFireLoop();
+    public VelocityIF defaultEnemyBombVel();
+    public VelocityIF angryEnemyBombVel(); // must not be shared (must be constructed)
     public BlobTrigger bossEnemyFireLoop(PositionIF target);
     
     public int bonusDropSpeed();

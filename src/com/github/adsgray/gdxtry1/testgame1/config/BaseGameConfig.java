@@ -2,6 +2,8 @@ package com.github.adsgray.gdxtry1.testgame1.config;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
+import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
+import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
 import com.github.adsgray.gdxtry1.testgame1.BossTargetMissileSource;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 
@@ -13,8 +15,9 @@ public class BaseGameConfig implements GameConfigIF {
     protected int bossScoreIncrement;
     protected int shieldScoreIncrement;
     protected Boolean damageDefender;
-    protected int bonusDeathChance = 25;
+    protected int bonusDeathChance;
     protected BlobTrigger defaultEnemyFireLoop;
+    protected BlobTrigger angryEnemyFireLoop;
     protected int bossFireRate;
     protected int bonusDropSpeed;
     protected int bonusDropperLifeTime;
@@ -23,6 +26,7 @@ public class BaseGameConfig implements GameConfigIF {
     // this is how long you have to wait until you can put shields up again.
     protected int shieldTickInterval;
     protected Boolean shieldsUpOverride;
+    protected VelocityIF defaultEnemyBombVel;
 
 
     public BaseGameConfig() {
@@ -32,13 +36,16 @@ public class BaseGameConfig implements GameConfigIF {
         bonusDropperChance = 5;
         damageDefender = true;
         defaultEnemyFireLoop = TargetUtils.defaultEnemyFireLoop;
+        angryEnemyFireLoop = TargetUtils.angryEnemyFireLoop;
         bossFireRate = 2;
         bonusDropSpeed = -9;
         bonusDropperLifeTime = 400;
         bonusDropperBossPointDiff = 500;
+        bonusDeathChance = 25;
         shieldLifeTime = 150;
         shieldTickInterval = 150;
         shieldsUpOverride = false;
+        defaultEnemyBombVel = new BlobVelocity(0, -10);
     }
 
     @Override public int numEnemies() { return numEnemies; }
@@ -58,6 +65,11 @@ public class BaseGameConfig implements GameConfigIF {
     }
 
     @Override
+    public BlobTrigger angryEnemyFireLoop() {
+        return angryEnemyFireLoop;
+    }
+
+    @Override
     public BlobTrigger bossEnemyFireLoop(PositionIF target) {
         return TargetUtils.fireAtDefenderLoop(250, new BossTargetMissileSource(target), bossFireRate);
     }
@@ -68,4 +80,12 @@ public class BaseGameConfig implements GameConfigIF {
     @Override public int shieldLifeTime() { return shieldLifeTime; }
     @Override public int shieldTickInterval() { return shieldTickInterval; }
     @Override public Boolean shieldsUpOverride() { return shieldsUpOverride; }
+
+    @Override public VelocityIF defaultEnemyBombVel() { return defaultEnemyBombVel; }
+
+    @Override
+    public VelocityIF angryEnemyBombVel() {
+        return new BlobVelocity(0,-15);
+    }
+
 }

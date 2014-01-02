@@ -25,8 +25,10 @@ public class GameConfig {
                 case easy:
                     config = new EasyGameConfig();
                     break;
-                case normal:
                 case insane:
+                    config = new InsaneGameConfig();
+                    break;
+                case normal:
                 default:
                     config = new BaseGameConfig();
                     break;
