@@ -144,6 +144,7 @@ public class FiringGameTest implements Game {
         world = w;
         renderer = r;
         this.context = context;
+        CreateEnemyTrigger.createInstance(new EnemyCreator());
     }
  
     private BlobIF createDefender() {

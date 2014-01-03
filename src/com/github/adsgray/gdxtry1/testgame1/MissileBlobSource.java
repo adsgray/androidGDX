@@ -38,6 +38,8 @@ public class MissileBlobSource extends BlobSource {
         m.registerCollisionTrigger(collisionTrigger);
         m = BlobFactory.addSmokeTrail(m);
         m = BlobFactory.flashColorCycler(m, 7);
+        m.setDebugStr("missile");
+        m.registerTickDeathTrigger(CreateEnemyTrigger.get());
         w.addMissileToWorld(m);
         return m;
     }
