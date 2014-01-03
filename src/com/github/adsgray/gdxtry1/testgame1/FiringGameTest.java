@@ -72,7 +72,7 @@ public class FiringGameTest implements Game {
     }
     
     protected void doSettingsKnobs() {
-        numEnemies = GameConfig.get().bonusDropperChance();
+        numEnemies = GameConfig.get().numEnemies();
         scoreForNextBoss = GameConfig.get().bossScoreIncrement();
         shieldScoreIncrement = GameConfig.get().shieldScoreIncrement();
     }
