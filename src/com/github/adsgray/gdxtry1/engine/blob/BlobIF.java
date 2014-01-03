@@ -126,4 +126,7 @@ public interface BlobIF {
     // if this BlobIF is the top of a chain of decorators this
     // will return the concrete BlobIF that is at the bottom.
     public BlobIF baseBlob();
+    
+    public String setDebugStr(String str);
+    public String getDebugStr();
 }

@@ -26,6 +26,7 @@ public class ExplosionBlob extends BaseBlob {
         for (int i = 0; i < numPerTick; i++) {
             BlobIF b = bs.generate(this);
             b.setLifeTime(10);
+            //b.setDebugStr("explosionparticle");
             //world.addBlobToWorld(b);
         }
     }

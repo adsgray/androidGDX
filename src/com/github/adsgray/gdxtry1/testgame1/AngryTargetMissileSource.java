@@ -43,6 +43,7 @@ public class AngryTargetMissileSource extends BlobSource {
         }
         // This decorator must be last for casting purposes in collision triggers
         b = new EnemyBomb(b, numHitPoints);
+        //b.setDebugStr("angryTargetMissile");
         w.addTargetToWorld(b);
         
         GameSound.get().enemyFire();

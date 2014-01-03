@@ -237,6 +237,7 @@ public class FiringGameTest implements Game {
         scoreDisplay.setLastScore(score);
         score = 0;
         scoreDisplay.setScore(score);
+        //scoreDisplay.setHitPoints(((DamagableIF)defender).getHitPoints()); // TODO: test
         doSettingsKnobs();
         createEnemies();
     }

@@ -33,6 +33,7 @@ public class MissileCollisionTrigger extends BlobTrigger {
     
     protected BlobIF postCollision(BlobIF source, BlobIF secondary) {
         WorldIF w = source.getWorld();
+        // maybe this is the leak??
         w.removeBlobFromWorld(source);
         source = TargetUtils.disarmMissile.transform(source);
         w.addBlobToWorld(source);

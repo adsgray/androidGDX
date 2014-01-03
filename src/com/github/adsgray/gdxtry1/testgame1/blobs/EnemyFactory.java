@@ -52,6 +52,7 @@ public class EnemyFactory {
         b.registerTickDeathTrigger(GameConfig.get().defaultEnemyFireLoop());
 
         b = BlobFactory.throbber(b);
+        //b.setDebugStr("defaultEnemy");
         // N.B. this has to be the last decorator so that we can cast to Enemy
         b = new DefaultEnemy(b);
         world.addTargetToWorld(b);
@@ -64,6 +65,7 @@ public class EnemyFactory {
         RectConfig rc = renderer.new RectConfig(GameFactory.randomColor(), 500, 300);
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
 
+        //b.setDebugStr("bossEnemy");
         b.setLifeTime(TargetUtils.rnd.nextInt(200));
         b.registerTickDeathTrigger(GameConfig.get().bossEnemyFireLoop(aimTarget));
 
@@ -128,9 +130,10 @@ public class EnemyFactory {
             t.setWorld(w);
             t.setLifeTime(125);
             t.setText("BONUS");
-            w.addBlobToWorld(BlobFactory.rainbowColorCycler(t, 3));
+            w.addBlobToWorld(BlobFactory.rainbowColorCycler(t, 2)); // flash at a different rate than the blob
 
             b = new HitpointBonusDecorator(b, t, -5); // negative hitpoints means bonus hitpoints
+            //b.setDebugStr("bonus");
             w.addTargetToWorld(b);
             
             GameSound.get().playSoundId(SoundId.bonusDrop);
@@ -150,10 +153,15 @@ public class EnemyFactory {
         b.setLifeTime(GameConfig.get().bonusDropperLifeTime());
         b = new BonusDropper(b, 5);
         b.setWorld(world);
+        //b.setDebugStr("bonusDropper");
         world.addTargetToWorld(b);
         return b;
     }
     
+
+    // TODO: add BlobTransform arg here so that we can optionally add
+    // decorators to the text before returning. Then have defaultFlashMessage
+    // do what this method does (no decorator)
     public static BlobIF flashMessage(WorldIF world, Renderer renderer, String txt, int duration) {
         PositionIF p = new BlobPosition(35,500);
         BlobPath path = PathFactory.stationary();
@@ -171,11 +179,12 @@ public class EnemyFactory {
             
         };
 
+        //fm.setDebugStr("flashMessage");
         fm.setLifeTime(duration);
         fm.registerTickDeathTrigger(flashMessageDeath);
         fm.setWorld(world);
         world.addBlobToWorld(fm);
-        return BlobFactory.flashColorCycler(fm, 5);
+        return fm;
     }
     
 }

@@ -14,9 +14,10 @@ import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 
 public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, EnemyIF {
 
+    // TODO: put all of this into GameConfig
     protected int hitPoints = 75;
     protected PositionIF aimTarget;
-    protected int bonusAfterHitChance = 25;
+    protected int bonusAfterHitChance = 25; 
     protected int goLowerTickCount = 400;
     BlobSource missileSource;
 
@@ -45,6 +46,7 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
     // called when this enemy has died
     protected BlobIF died() {
         // throw out a bunch of bombs
+        // TODO: put these in GameConfig
         sendAimedBombs(4);
         sendBonuses(2);
         // two for good measure

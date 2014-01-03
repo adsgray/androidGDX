@@ -57,6 +57,7 @@ public class DefaultEnemy extends BlobDecorator implements DamagerIF, DamagableI
         if (type == Type.Initial) {
             type = Type.Angry;
 
+            // is this where the leak is?
             BlobIF angryMe = BlobFactory.rainbowColorCycler(component, 5);
             component = angryMe;
             

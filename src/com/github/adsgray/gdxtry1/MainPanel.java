@@ -121,7 +121,7 @@ public class MainPanel implements ApplicationListener {
 		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context);
 		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
 		GameCommand difficulty = game.getDifficultySetter();
-		difficulty.execute(2); // 0 = easy, 1 = normal, 2 = insane
+		difficulty.execute(1); // 0 = easy, 1 = normal, 2 = insane
 		toggleSound.execute(1); // enable sound
 		game.start();
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));

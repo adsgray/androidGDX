@@ -7,6 +7,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.adsgray.gdxtry1.engine.BlobSet2;
+import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobPath;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;

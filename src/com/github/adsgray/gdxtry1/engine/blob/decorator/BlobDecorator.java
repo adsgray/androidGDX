@@ -73,4 +73,7 @@ public abstract class BlobDecorator extends BaseBlob {
     @Override public BlobIF baseBlob() { return component.baseBlob(); }
     
     public BlobIF getComponent() { return component; }
+
+    @Override public String setDebugStr(String str) { return component.setDebugStr(str); }
+    @Override public String getDebugStr() { return component.getDebugStr(); }
 }

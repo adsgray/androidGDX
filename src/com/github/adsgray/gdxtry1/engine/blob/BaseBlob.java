@@ -81,6 +81,7 @@ public class BaseBlob implements BlobIF {
         renderer = gdx;
         //extent = new CircleExtent(30);
         ticks = 0;
+        //debugStr = "default"; // only when debugging
     }
     
     public BaseBlob(BlobIF in) {
@@ -265,4 +266,9 @@ public class BaseBlob implements BlobIF {
     
     @Override
     public BlobIF baseBlob() { return this; }
+
+    protected String debugStr;
+
+    @Override public String setDebugStr(String str) { debugStr = str; return debugStr; }
+    @Override public String getDebugStr() { return debugStr; }
 }

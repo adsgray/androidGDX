@@ -7,7 +7,7 @@ import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 public class InsaneGameConfig extends BaseGameConfig implements GameConfigIF {
 
    public InsaneGameConfig() {
-        numEnemies = 10;
+        numEnemies = 8;
         shieldScoreIncrement = 800;
         bossScoreIncrement = 1200; 
         bonusDropperChance = 5;
