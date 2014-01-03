@@ -10,6 +10,7 @@ import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BaseBlob;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
+import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 import com.github.adsgray.gdxtry1.engine.extent.CircleExtent;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
@@ -143,4 +144,42 @@ public class TestWorld {
 
     }
 
+    
+    // doesn't actually decorate, just needed for BlobIF reference
+    private static class TestDecorator extends BlobDecorator {
+        public TestDecorator(BlobIF component) { super(component); }
+    }
+
+    // Test that blobs are moved properly when they are decorated
+    @Test
+    public void testBlobManagersWithDecorators() {
+        WorldIF w = TestFactory.world();
+        Renderer r = TestFactory.renderer();
+
+        //BlobIF nontarget = new BaseBlob(0, PositionFactory.origin(), GameFactory.zeroVelocity(), AccelFactory.zeroAccel(), r);
+        //nontarget.setExtent(new CircleExtent(10));
+        BlobIF missile = new BaseBlob(0, new BlobPosition(0,21), new BlobVelocity(0,-1), AccelFactory.zeroAccel(), r);
+        missile.setExtent(new CircleExtent(10));
+        
+        BlobIF decoratedMissile = new TestDecorator(missile);
+        w.addBlobToWorld(decoratedMissile);
+        w.tick();
+        assertEquals("one blob", 1, w.getNumBlobs());
+        
+        // now remove the base blob
+        w.removeBlobFromWorld(missile);
+        w.tick();
+        assertEquals("blob removed", 0, w.getNumBlobs());
+        
+        // multilevel:
+        BlobIF doubleDecorated = new TestDecorator(decoratedMissile);
+        w.addBlobToWorld(doubleDecorated);
+        w.tick();
+        assertEquals("one blob", 1, w.getNumBlobs());
+
+        // now remove the base blob
+        w.removeBlobFromWorld(missile);
+        w.tick();
+        assertEquals("blob removed", 0, w.getNumBlobs());
+    }
 }

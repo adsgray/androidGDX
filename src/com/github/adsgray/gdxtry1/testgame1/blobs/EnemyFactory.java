@@ -165,6 +165,7 @@ public class EnemyFactory {
             @Override public BlobIF trigger(BlobIF source, BlobIF secondary) {
                 source.setPath(PathFactory.straightLeftRight(50));
                 source.setLifeTime(10);
+                source.clearTickDeathTriggers(); // fixed the leak??
                 return source;
             }
             

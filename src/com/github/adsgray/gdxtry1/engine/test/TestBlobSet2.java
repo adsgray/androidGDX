@@ -48,6 +48,11 @@ public class TestBlobSet2 {
         Renderer r = TestFactory.renderer();
         BlobPath path = PathFactory.stationary();
         BlobIF bs2 = testBlobSet2();
+        WorldIF w = TestFactory.world();
+
+        w.addBlobToWorld(bs2);
+
+        assertEquals("one blob in world", 1, w.getNumBlobs());
         
         BlobIF b1 = BlobFactory.createBaseBlob(PositionFactory.origin(), path, r);
         BlobIF b2 = BlobFactory.createBaseBlob(PositionFactory.origin(), path, r);
@@ -59,6 +64,8 @@ public class TestBlobSet2 {
         
         bs2.absorbBlob(b1);
         bs2.absorbBlob(b2);
+
+        assertEquals("one blob in world after absorb", 1, w.getNumBlobs());
 
         // verify that only position is being composed, not velocity
         assertFalse(b1.getVelocity() instanceof VelocityComposeDecorator);
