@@ -8,6 +8,7 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobSource;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTransform;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
+import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.output.Renderer.RenderConfigIF;
 import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
@@ -68,5 +69,10 @@ public class TestFactory {
             num += 1;
             return source;
         }
+    }
+    
+    // doesn't actually decorate, just needed for BlobIF reference
+    public static class TestDecorator extends BlobDecorator {
+        public TestDecorator(BlobIF component) { super(component); }
     }
 }

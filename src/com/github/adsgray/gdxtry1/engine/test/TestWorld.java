@@ -104,10 +104,14 @@ public class TestWorld {
         w.addMissileToWorld(missile);
         
         // should not collide after 1 tick. They're juuuuust barely touching
+        // Note: world has changed to only do collision detection every second tick.
+        // should make it configurable...
+        w.tick();
         w.tick();
         assertEquals("missile trigger count", 0, trigger.num);
 
         // should collide now
+        w.tick();
         w.tick();
         assertEquals("missile trigger count", 1, trigger.num);
     }
@@ -144,11 +148,6 @@ public class TestWorld {
 
     }
 
-    
-    // doesn't actually decorate, just needed for BlobIF reference
-    private static class TestDecorator extends BlobDecorator {
-        public TestDecorator(BlobIF component) { super(component); }
-    }
 
     // Test that blobs are moved properly when they are decorated
     @Test
@@ -161,7 +160,7 @@ public class TestWorld {
         BlobIF missile = new BaseBlob(0, new BlobPosition(0,21), new BlobVelocity(0,-1), AccelFactory.zeroAccel(), r);
         missile.setExtent(new CircleExtent(10));
         
-        BlobIF decoratedMissile = new TestDecorator(missile);
+        BlobIF decoratedMissile = new TestFactory.TestDecorator(missile);
         w.addBlobToWorld(decoratedMissile);
         w.tick();
         assertEquals("one blob", 1, w.getNumBlobs());
@@ -172,7 +171,7 @@ public class TestWorld {
         assertEquals("blob removed", 0, w.getNumBlobs());
         
         // multilevel:
-        BlobIF doubleDecorated = new TestDecorator(decoratedMissile);
+        BlobIF doubleDecorated = new TestFactory.TestDecorator(decoratedMissile);
         w.addBlobToWorld(doubleDecorated);
         w.tick();
         assertEquals("one blob", 1, w.getNumBlobs());
@@ -181,5 +180,36 @@ public class TestWorld {
         w.removeBlobFromWorld(missile);
         w.tick();
         assertEquals("blob removed", 0, w.getNumBlobs());
+    }
+
+    // try to re-create memory leak
+    @Test
+    public void testBlobManagersWithDecoratorsMissiles() {
+        WorldIF w = TestFactory.world();
+        Renderer r = TestFactory.renderer();
+
+        BlobIF missile = new BaseBlob(0, new BlobPosition(0,21), new BlobVelocity(0,-1), AccelFactory.zeroAccel(), r);
+        missile.setExtent(new CircleExtent(10));
+        missile.setLifeTime(3);
+        
+        missile = new TestFactory.TestDecorator(missile);
+
+        w.addMissileToWorld(missile);
+        w.tick();
+
+        // 1 tick left on missile
+        w.removeBlobFromWorld(missile);
+        // double decorate
+        missile = new TestFactory.TestDecorator(missile);
+        w.addBlobToWorld(missile);
+        w.tick();
+        w.tick();
+        w.tick();
+        w.tick();
+
+        // what is the state of w now?? should not have any blobs
+        assertEquals("no blobs", 0, w.getNumBlobs());
+        assertEquals("no missiles", 0, w.getNumMissiles());
+        assertEquals("no targets", 0, w.getNumTargets());
     }
 }
