@@ -13,13 +13,6 @@ import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyFactory;
 
 /*
- * To add a new bonus type:
- * 1. Add GameCommand as a protected field
- * 2. Add bonus type to Type enum
- * 3. Init GameCommand class from FiringGameTest in constructor
- * 4. Create protected function which returns a GameCommand that executes (3)
- * and makes a sound, flashes a message, etc.
- * 5. Add that to the bonusMap
  */
 public class BonusFactory {
 
