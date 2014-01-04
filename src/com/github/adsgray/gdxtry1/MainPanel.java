@@ -105,6 +105,9 @@ public class MainPanel implements ApplicationListener {
 		Renderer.createRealInstance(shapes, batch);
 	    renderConfig = Renderer.getRealInstance();
 	    world = GameFactory.defaultWorld();
+	    
+	    //Gdx.graphics.setContinuousRendering(false);
+	    //Gdx.graphics.requestRendering();
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
@@ -138,14 +141,26 @@ public class MainPanel implements ApplicationListener {
         // TODO Auto-generated method stub
     }
 
+	protected long millisOfLastTick = 0;
+	//protected long milliDelta = 33; // about 30 ticks per second?
+	protected long milliDelta = 25; // 40 ticks per second
+
 	@Override
 	public void render() {
 	    // TODO: config class for colours
 	    //Gdx.gl.glClearColor(0.199f, 0.398f, 0.598f, 0.4f);	// OpenGL code to make the screen blue
 	    Gdx.gl.glClearColor(0f, 0f, 0f, 0.4f);	
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);			// OpenGL code to clear the screen
+	    
+	    // only tick 30 times per second
+	    long curMillis = System.currentTimeMillis();
+	    if (curMillis - millisOfLastTick >= milliDelta) {
+	        millisOfLastTick = curMillis;
+	        world.tick();
+	    }
+
+	    // but we have to render all the time
 	    camera.update();
-	    world.tick();
 	    batch.setProjectionMatrix(camera.combined);
 	    shapes.setProjectionMatrix(camera.combined);
 	    world.render();
