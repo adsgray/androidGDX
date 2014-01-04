@@ -41,6 +41,7 @@ public class HitpointBonusDecorator extends BlobDecorator implements BonusIF, En
 
     @Override
     public void grantBonus() {
+        destroyCompanionBlobs();
         bonusCommand.execute();
     }
 

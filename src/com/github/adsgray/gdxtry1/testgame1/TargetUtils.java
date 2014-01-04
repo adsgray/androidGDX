@@ -135,7 +135,8 @@ public class TargetUtils {
     }
 
     public static BlobPath chooseBackAndForthPath(PositionIF p) {
-        return chooseBackAndForthPath(p, 15, 5);
+        //return chooseBackAndForthPath(p, 15, 5);
+        return chooseBackAndForthPath(p, 20, 5);
     }
     
     public static BlobIF replaceWithBonusExplosion(BlobIF b) {

@@ -20,8 +20,8 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
     public BossTargetMissileSource(PositionIF aimTarget) {
         super(null);
         this.aimTarget = aimTarget;
-        minSpeed = 16;
-        maxSpeed = 22;
+        minSpeed = 20;
+        maxSpeed = 28;
         maxError = 50;
     }
     

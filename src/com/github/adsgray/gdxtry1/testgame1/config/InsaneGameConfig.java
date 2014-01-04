@@ -18,14 +18,14 @@ public class InsaneGameConfig extends BaseGameConfig implements GameConfigIF {
         bonusDeathChance = 5;
         damageDefender = true; 
         bossFireRate = 3;
-        bonusDropSpeed = -11; 
+        bonusDropSpeed = -18; 
         bonusDropperLifeTime = 300;
         shieldLifeTime = 125;
         shieldsUpOverride = false; 
         shieldTickInterval = 175;
         defaultEnemyFireLoop = TargetUtils.fireAtDefenderLoop(800, TargetUtils.targetMissileSource, 1);
         angryEnemyFireLoop = TargetUtils.fireAtDefenderLoop(250, TargetUtils.angryTargetMissileSource, 2);
-        defaultEnemyBombVel = new BlobVelocity(0, -13);
+        defaultEnemyBombVel = new BlobVelocity(0, -19);
     }
 
     protected void initBonuses() {
@@ -36,7 +36,7 @@ public class InsaneGameConfig extends BaseGameConfig implements GameConfigIF {
 
     @Override
     public VelocityIF angryEnemyBombVel() {
-        return new BlobVelocity(0,-18);
+        return new BlobVelocity(0,-26); 
     }
 }
 

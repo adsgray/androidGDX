@@ -19,13 +19,13 @@ public class EasyGameConfig extends BaseGameConfig implements GameConfigIF {
         bonusDropperBossPointDiff = bossScoreIncrement; // so always?
         damageDefender = true; // can't make it *too* easy
         bossFireRate = 2;
-        bonusDropSpeed = -7; // make them drop slower
+        bonusDropSpeed = -9; // make them drop slower
         bonusDropperLifeTime = 1000;
         shieldLifeTime = 500;
         shieldsUpOverride = true; // no limits on deploying shields
         defaultEnemyFireLoop = TargetUtils.fireAtDefenderLoop(2000, TargetUtils.targetMissileSource, 1);
         angryEnemyFireLoop = TargetUtils.fireAtDefenderLoop(500, TargetUtils.angryTargetMissileSource, 1);
-        defaultEnemyBombVel = new BlobVelocity(0, -7);
+        defaultEnemyBombVel = new BlobVelocity(0, -10);
     }
 
     protected void initBonuses() {
@@ -36,6 +36,6 @@ public class EasyGameConfig extends BaseGameConfig implements GameConfigIF {
 
     @Override
     public VelocityIF angryEnemyBombVel() {
-        return new BlobVelocity(0,-10);
+        return new BlobVelocity(0,-15);
     }
 }

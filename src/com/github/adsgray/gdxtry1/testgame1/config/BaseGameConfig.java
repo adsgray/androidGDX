@@ -47,7 +47,7 @@ public class BaseGameConfig implements GameConfigIF {
         defaultEnemyFireLoop = TargetUtils.defaultEnemyFireLoop;
         angryEnemyFireLoop = TargetUtils.angryEnemyFireLoop;
         bossFireRate = 2;
-        bonusDropSpeed = -9;
+        bonusDropSpeed = -15;
         bonusDropperLifeTime = 400;
         bonusDropperBossPointDiff = 500;
         bonusDestroyPenaltyHitPoints = -5; // negative number means you lose hitpoints for destroying a bonus
@@ -55,7 +55,7 @@ public class BaseGameConfig implements GameConfigIF {
         shieldLifeTime = 150;
         shieldTickInterval = 150;
         shieldsUpOverride = false;
-        defaultEnemyBombVel = new BlobVelocity(0, -10);
+        defaultEnemyBombVel = new BlobVelocity(0, -15);
 
         bonuses = new ArrayList<BonusCommandIF>();
         initBonuses();
@@ -106,7 +106,7 @@ public class BaseGameConfig implements GameConfigIF {
 
     @Override
     public VelocityIF angryEnemyBombVel() {
-        return new BlobVelocity(0,-15);
+        return new BlobVelocity(0,-21);
     }
 
     @Override

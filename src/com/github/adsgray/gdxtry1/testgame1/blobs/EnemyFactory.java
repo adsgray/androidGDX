@@ -37,9 +37,11 @@ public class EnemyFactory {
     // and fires more/faster
     private static BlobPath randomPath() {
         if (TargetUtils.rnd.nextInt(100) < 50) {
-            return PathFactory.squarePath(15,5);
+            //return PathFactory.squarePath(15,5);
+            return PathFactory.squarePath(20,5);
         } else {
-            return PathFactory.squarePathClockwise(15,5);
+            //return PathFactory.squarePathClockwise(15,5);
+            return PathFactory.squarePathClockwise(20,5);
         }
     }
     
