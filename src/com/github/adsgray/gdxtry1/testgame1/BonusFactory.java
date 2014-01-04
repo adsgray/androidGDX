@@ -37,9 +37,6 @@ public class BonusFactory {
         public void execute();
     }
 
-    /* eg. BonusCommand shieldBonus = new BonusCommand(BonusFactory.get().shieldBonus(), 1)
-     * 
-     */
     public static class BonusCommand implements BonusCommandIF {
         protected GameCommand cmd;
         protected int num;
@@ -100,7 +97,9 @@ public class BonusFactory {
     // singleton
     protected static BonusFactory instance;
     public static BonusFactory createInstance(FiringGameTest game, WorldIF world, Renderer renderer) {
-        instance = new BonusFactory(game, world, renderer);
+        if (instance == null) {
+            instance = new BonusFactory(game, world, renderer);
+        }
         return instance;
     }
     public static BonusFactory get() { return instance; }
