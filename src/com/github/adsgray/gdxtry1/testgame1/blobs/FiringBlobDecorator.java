@@ -52,12 +52,11 @@ public class FiringBlobDecorator extends BlobDecorator implements
         // TODO: text display 'widget' in engine, display these hitpoints
         // at the top of the screen.
         // When you go <= 0 you explode and can start again.
-        hitPoints = 50;
+        hitPoints = 0; // set by the FiringGame class in setupGame
         maxMissiles = 3; // the defender/triangle counts as a missile, so this means
                          // you can launch up to 2 simultaneous missiles
         this.incShield = incShield;
-        numShields = 1;
-        incShield.execute(1);
+        numShields = 0; // the controlling Game tells us how many shields we start with after creating us
     }
 
     public int incrementNumShields(int ct) {
@@ -126,7 +125,6 @@ public class FiringBlobDecorator extends BlobDecorator implements
             return;
         }
 
-        numShields -= 1;
         incShield.execute(-1);
         ticksWhenShieldsWentUp = ticks;
 

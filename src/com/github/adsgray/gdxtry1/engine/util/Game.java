@@ -11,4 +11,11 @@ public interface Game {
     public GameCommand getDifficultySetter();
 
     public int getFinalScore();
+
+    public GameState getState();
+    public void restoreState(GameState state);
+
+    // must be serializable?
+    public interface GameState {
+    }
 }

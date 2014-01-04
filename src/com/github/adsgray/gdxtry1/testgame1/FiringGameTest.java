@@ -46,22 +46,27 @@ public class FiringGameTest implements Game {
     DragAndFlingDirectionListener input;
     WorldIF world;
     Renderer renderer;
-    protected int numEnemies = 6; // TODO: make this go up as your score goes up?
+    protected int numEnemies = 6; // TODO: make this go up as your score goes
+                                  // up?
     FiringBlobDecorator defender;
     protected int score;
     ScoreTextDisplay scoreDisplay;
     protected int bonusDropperChance = 5;
     Context context;
+    GameCommand incShield;
+    GameCommand incHitPoints;
+    GameCommand incScore;
 
     // config parameters singleton class. easy, normal, insane.
     // TODO: encapsulate this crap somewhere:
     protected int shieldScoreIncrement = 500;
     protected int scoreForNextShield = shieldScoreIncrement;
-    protected int bossScoreIncrement = 1500; // you'll meet a boss every 1500 points
+    protected int bossScoreIncrement = 1500; // you'll meet a boss every 1500
+                                             // points
     protected int scoreForNextBoss = bossScoreIncrement;
-    
+
     public class ToggleSound implements GameCommand {
-        @Override 
+        @Override
         public void execute(int onOrOff) {
             if (onOrOff == 1) {
                 GameSound.setRealInstance(context);
@@ -70,7 +75,7 @@ public class FiringGameTest implements Game {
             }
         }
     }
-    
+
     protected void doSettingsKnobs() {
         numEnemies = GameConfig.get().numEnemies();
         scoreForNextBoss = GameConfig.get().bossScoreIncrement();
@@ -81,86 +86,118 @@ public class FiringGameTest implements Game {
         @Override
         public void execute(int arg) {
             switch (arg) {
-                case 0:
-                    GameConfig.set(GameConfigIF.Difficulty.easy);
-                    break;
-                case 1:
-                    GameConfig.set(GameConfigIF.Difficulty.normal);
-                    break;
-                case 2:
-                    GameConfig.set(GameConfigIF.Difficulty.insane);
-                    break;
+            case 0:
+                GameConfig.set(GameConfigIF.Difficulty.easy);
+                break;
+            case 1:
+                GameConfig.set(GameConfigIF.Difficulty.normal);
+                break;
+            case 2:
+                GameConfig.set(GameConfigIF.Difficulty.insane);
+                break;
             }
-            
+
             doSettingsKnobs();
         }
     }
-    
+
+    // todo: rename EnemyKilled ?
     public class EnemyCreator implements GameCommand {
-        @Override 
+        @Override
         public void execute(int points) {
-            FiringGameTest.this.createEnemies();
-            score += points;
-            scoreDisplay.incScore(points);
-            
+            createEnemies();
+
+            incScore.execute(points);
+
             if (score >= scoreForNextShield) {
-                defender.incrementNumShields(1);
-                scoreDisplay.incNumShields(1);
+                incShield.execute(1);
                 EnemyFactory.flashMessage(world, renderer, "Shield Bonus!", 50);
                 GameSound.get().playSoundId(SoundId.bonusShieldReceive);
                 scoreForNextShield += shieldScoreIncrement;
             }
 
-            //Log.d("testgame1", String.format("Enemy destroyed for %d! %d total", points, score));
+            // Log.d("testgame1",
+            // String.format("Enemy destroyed for %d! %d total", points,
+            // score));
         }
     }
-    
+
     public class IncShield implements GameCommand {
-        @Override public void execute(int arg) {
+        @Override
+        public void execute(int arg) {
+            defender.incrementNumShields(arg);
             scoreDisplay.incNumShields(arg);
         }
     }
-    
-    public class DamageDefender implements GameCommand {
-        @Override 
-        public void execute(int hitPoints) {
-            if (!GameConfig.get().damageDefender()) return;
 
-            int hitPointsLeft = ((DamagableIF)defender).decHitPoints(hitPoints);
-            scoreDisplay.setHitPoints(hitPointsLeft);
+    public class IncHitPoints implements GameCommand {
+        @Override
+        public void execute(int arg) {
+            defender.incHitPoints(arg);
+            scoreDisplay.setHitPoints(defender.getHitPoints());
+        }
+    }
+
+    public class IncScore implements GameCommand {
+        @Override
+        public void execute(int arg) {
+            score += arg;
+            scoreDisplay.setScore(score);
+        }
+
+    }
+
+    public class DamageDefender implements GameCommand {
+        @Override
+        public void execute(int hitPoints) {
+            if (!GameConfig.get().damageDefender())
+                return;
+
+            incHitPoints.execute(-hitPoints);
+            int hitPointsLeft = defender.getHitPoints();
 
             if (hitPointsLeft <= 0) {
-                //Log.d("testgame1", String.format("Defender destroyed! Final score: %d", score));
+                // Log.d("testgame1",
+                // String.format("Defender destroyed! Final score: %d", score));
+                // TODO: call a command supplied by outer creator of Game to
+                // save high score or something
                 tearDownGame();
                 setupGame();
             } else {
-                //Log.d("testgame1", String.format("Defender hit for %d! %d left", hitPoints, hitPointsLeft));
+                // Log.d("testgame1",
+                // String.format("Defender hit for %d! %d left", hitPoints,
+                // hitPointsLeft));
             }
         }
     }
 
-    public FiringGameTest(DragAndFlingDirectionListener dl, WorldIF w, Renderer r, Context context) {
+    public FiringGameTest(DragAndFlingDirectionListener dl, WorldIF w,
+            Renderer r, Context context) {
         input = dl;
         world = w;
         renderer = r;
         this.context = context;
         CreateEnemyTrigger.createInstance(new EnemyCreator());
+        incShield = new IncShield();
+        incHitPoints = new IncHitPoints();
+        incScore = new IncScore();
     }
- 
+
     private BlobIF createDefender() {
-        PositionIF p = new BlobPosition(TargetUtils.rnd.nextInt(GameFactory.BOUNDS_X - 500) + 200,100);
+        PositionIF p = new BlobPosition(TargetUtils.rnd.nextInt(GameFactory.BOUNDS_X - 500) + 200, 100);
         TriangleConfig rc = renderer.new TriangleConfig(Color.RED, 80);
         BlobIF b = BlobFactory.triangleBlob(p, PathFactory.stationary(), rc, renderer);
-        //b = new ShowExtentDecorator(b);
+        // b = new ShowExtentDecorator(b);
         Log.d("testgame1", "creating firingblobdecorator");
         b = new FiringBlobDecorator(b, new EnemyCreator(), new IncShield());
-        defender = (FiringBlobDecorator)b;
+        defender = (FiringBlobDecorator) b;
         b.registerCollisionTrigger(new DefenderCollisionTrigger(new DamageDefender()));
+        // TODO: need immortal blobs!
         b.setLifeTime(1000000);
         world.addMissileToWorld(b);
         return b;
     }
-   
+
     // if we're within 500 points of the next boss then there is a chance
     // to get a bonus dropper
     protected Boolean createBonusDropper() {
@@ -171,43 +208,41 @@ public class FiringGameTest implements Game {
         int numToAdd = numEnemies - world.getNumTargets();
 
         if (numToAdd <= 0) return;
-        
+
         if (score >= scoreForNextBoss) {
             scoreForNextBoss += bossScoreIncrement;
-            EnemyIF boss = (EnemyIF)EnemyFactory.bossEnemy(world, renderer, defender.getPosition());
+            EnemyIF boss = (EnemyIF) EnemyFactory.bossEnemy(world, renderer,
+                    defender.getPosition());
             numToAdd -= boss.getWeight();
             EnemyFactory.flashMessage(world, renderer, "Here's the Boss!", 60);
             GameSound.get().playSoundId(SoundId.enemyCreated);
         }
 
         if (numToAdd <= 0) return;
-        
+
         if (createBonusDropper()) {
-            EnemyIF bonusdropper = (EnemyIF)EnemyFactory.bonusDropper(world, renderer);
+            EnemyIF bonusdropper = (EnemyIF) EnemyFactory.bonusDropper(world, renderer);
             numToAdd -= bonusdropper.getWeight();
             EnemyFactory.flashMessage(world, renderer, "Bonus Dropper!", 30);
             GameSound.get().playSoundId(SoundId.bonusDropperAppear);
         }
-        
-        /*
-        while (numToAdd >= 3) {
-            BlobIF cluster = EnemyFactory.createThreeCluster(world, renderer);
-            numToAdd -= 3;
-        }
-        */
 
-        while(numToAdd > 0) {
-            EnemyIF b = (EnemyIF)EnemyFactory.defaultEnemy(world, renderer);
+        /*
+         * while (numToAdd >= 3) { BlobIF cluster =
+         * EnemyFactory.createThreeCluster(world, renderer); numToAdd -= 3; }
+         */
+
+        while (numToAdd > 0) {
+            EnemyIF b = (EnemyIF) EnemyFactory.defaultEnemy(world, renderer);
             GameSound.get().playSoundId(SoundId.enemyCreated);
             numToAdd -= b.getWeight();
         }
     }
-    
 
     private ScoreTextDisplay createScoreDisplay() {
-        //PositionIF p = new BlobPosition(10,50);
-        PositionIF p = new BlobPosition(25,GameFactory.BOUNDS_Y - 50);
-        //PositionIF p = new BlobPosition(500,500);
+        // PositionIF p = new BlobPosition(10,50);
+        PositionIF p = new BlobPosition(25, GameFactory.BOUNDS_Y - 50);
+        // PositionIF p = new BlobPosition(500,500);
         BlobPath path = PathFactory.stationary();
         TextConfig rc = renderer.new TextConfig(Color.WHITE, 2.0f);
         ScoreTextDisplay t = new ScoreTextDisplay(p, path.vel, path.acc, renderer, rc);
@@ -228,21 +263,30 @@ public class FiringGameTest implements Game {
         // have to do this first because defender executes commands
         // on the scoreboard when shield number is initialized:
         scoreDisplay = createScoreDisplay();
-        EnemyFactory.flashMessage(world,  renderer, "Good Luck!", 100);
+        EnemyFactory.flashMessage(world, renderer, "Good Luck!", 100);
 
         BlobIF defender = createDefender();
+
+        // TODO: put these into gameconfig. Easy starts with more shields and
+        // more hitpoints?
+        incShield.execute(1);
+        incHitPoints.execute(50);
 
         input.registerDraggable((Draggable) defender);
         input.registerFlingable((Flingable) defender);
         scoreDisplay.setLastScore(score);
         score = 0;
         scoreDisplay.setScore(score);
-        //scoreDisplay.setHitPoints(((DamagableIF)defender).getHitPoints()); // TODO: test
+        // scoreDisplay.setHitPoints(((DamagableIF)defender).getHitPoints()); //
+        // TODO: test
         doSettingsKnobs();
         createEnemies();
     }
 
-    @Override public int getFinalScore() { return score; }
+    @Override
+    public int getFinalScore() {
+        return score;
+    }
 
     @Override
     public void init() {
@@ -267,5 +311,16 @@ public class FiringGameTest implements Game {
     @Override
     public GameCommand getDifficultySetter() {
         return new DifficultySetter();
+    }
+
+    @Override
+    public GameState getState() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void restoreState(GameState state) {
+        // TODO Auto-generated method stub
     }
 }
