@@ -59,8 +59,6 @@ public class FiringGameTest implements Game {
 
     // config parameters singleton class. easy, normal, insane.
     // TODO: encapsulate this crap somewhere:
-    protected int shieldScoreIncrement = 500;
-    protected int scoreForNextShield = shieldScoreIncrement;
     protected int bossScoreIncrement = 1500; // you'll meet a boss every 1500
                                              // points
     protected int scoreForNextBoss = bossScoreIncrement;
@@ -79,7 +77,6 @@ public class FiringGameTest implements Game {
     protected void doSettingsKnobs() {
         numEnemies = GameConfig.get().numEnemies();
         scoreForNextBoss = GameConfig.get().bossScoreIncrement();
-        shieldScoreIncrement = GameConfig.get().shieldScoreIncrement();
     }
 
     public class DifficultySetter implements GameCommand {
@@ -106,16 +103,7 @@ public class FiringGameTest implements Game {
         @Override
         public void execute(int points) {
             createEnemies();
-
             incScore.execute(points);
-
-            if (score >= scoreForNextShield) {
-                incShield.execute(1);
-                EnemyFactory.flashMessage(world, renderer, "Shield Bonus!", 50);
-                GameSound.get().playSoundId(SoundId.bonusShieldReceive);
-                scoreForNextShield += shieldScoreIncrement;
-            }
-
             // Log.d("testgame1",
             // String.format("Enemy destroyed for %d! %d total", points,
             // score));
@@ -178,6 +166,7 @@ public class FiringGameTest implements Game {
         renderer = r;
         this.context = context;
         CreateEnemyTrigger.createInstance(new EnemyCreator());
+        BonusFactory.createInstance(this, world, renderer);
         incShield = new IncShield();
         incHitPoints = new IncHitPoints();
         incScore = new IncScore();
@@ -269,8 +258,8 @@ public class FiringGameTest implements Game {
 
         // TODO: put these into gameconfig. Easy starts with more shields and
         // more hitpoints?
-        incShield.execute(1);
-        incHitPoints.execute(50);
+        incShield.execute(GameConfig.get().initialShields());
+        incHitPoints.execute(GameConfig.get().initialHitPoints());
 
         input.registerDraggable((Draggable) defender);
         input.registerFlingable((Flingable) defender);
@@ -290,7 +279,6 @@ public class FiringGameTest implements Game {
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
     }
 
     @Override

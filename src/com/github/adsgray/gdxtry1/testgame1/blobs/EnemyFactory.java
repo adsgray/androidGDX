@@ -132,7 +132,11 @@ public class EnemyFactory {
             t.setText("BONUS");
             w.addBlobToWorld(BlobFactory.rainbowColorCycler(t, 2)); // flash at a different rate than the blob
 
-            b = new HitpointBonusDecorator(b, t, -5); // negative hitpoints means bonus hitpoints
+            // negative hitpoints means you *lose* points for shooting it
+            b = new HitpointBonusDecorator(b, t, 
+                    GameConfig.get().bonusDestroyPenaltyHitPoints(),
+                    GameConfig.get().bonusCommand()); 
+
             //b.setDebugStr("bonus");
             w.addTargetToWorld(b);
             

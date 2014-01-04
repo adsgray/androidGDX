@@ -1,9 +1,14 @@
 package com.github.adsgray.gdxtry1.testgame1.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF.BlobTrigger;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
+import com.github.adsgray.gdxtry1.testgame1.BonusFactory.BonusCommandIF;
+import com.github.adsgray.gdxtry1.testgame1.BonusFactory;
 import com.github.adsgray.gdxtry1.testgame1.BossTargetMissileSource;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 
@@ -11,9 +16,10 @@ import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 public class BaseGameConfig implements GameConfigIF {
 
     protected int numEnemies;
+    protected int initialShields;
+    protected int initialHitPoints;
     protected int bonusDropperChance;
     protected int bossScoreIncrement;
-    protected int shieldScoreIncrement;
     protected Boolean damageDefender;
     protected int bonusDeathChance;
     protected BlobTrigger defaultEnemyFireLoop;
@@ -22,16 +28,19 @@ public class BaseGameConfig implements GameConfigIF {
     protected int bonusDropSpeed;
     protected int bonusDropperLifeTime;
     protected int bonusDropperBossPointDiff; // when you're within this many points of a boss, you might get a bonusDropper
+    protected int bonusDestroyPenaltyHitPoints;
     protected int shieldLifeTime;
     // this is how long you have to wait until you can put shields up again.
     protected int shieldTickInterval;
     protected Boolean shieldsUpOverride;
     protected VelocityIF defaultEnemyBombVel;
+    protected List<BonusCommandIF> bonuses;
 
 
     public BaseGameConfig() {
         numEnemies = 6;
-        shieldScoreIncrement = 500;
+        initialShields = 1;
+        initialHitPoints = 50;
         bossScoreIncrement = 1500; // you'll meet a boss every 1500 points
         bonusDropperChance = 5;
         damageDefender = true;
@@ -41,17 +50,29 @@ public class BaseGameConfig implements GameConfigIF {
         bonusDropSpeed = -9;
         bonusDropperLifeTime = 400;
         bonusDropperBossPointDiff = 500;
+        bonusDestroyPenaltyHitPoints = -5; // negative number means you lose hitpoints for destroying a bonus
         bonusDeathChance = 25;
         shieldLifeTime = 150;
         shieldTickInterval = 150;
         shieldsUpOverride = false;
         defaultEnemyBombVel = new BlobVelocity(0, -10);
+
+        bonuses = new ArrayList<BonusCommandIF>();
+        initBonuses();
     }
+    
+    protected void initBonuses() {
+        bonuses.add(BonusFactory.get().scoreBonus(10));
+        bonuses.add(BonusFactory.get().hitPointBonus(5));
+        bonuses.add(BonusFactory.get().shieldBonus(1));
+    }
+
+    @Override public int initialShields() { return initialShields; }
+    @Override public int initialHitPoints() { return initialHitPoints; }
 
     @Override public int numEnemies() { return numEnemies; }
     @Override public int bonusDropperChance() { return bonusDropperChance; }
     @Override public int bossScoreIncrement() { return bossScoreIncrement; }
-    @Override public int shieldScoreIncrement() { return shieldScoreIncrement; }
     @Override public Boolean damageDefender() { return damageDefender; }
 
     @Override
@@ -86,6 +107,17 @@ public class BaseGameConfig implements GameConfigIF {
     @Override
     public VelocityIF angryEnemyBombVel() {
         return new BlobVelocity(0,-15);
+    }
+
+    @Override
+    public int bonusDestroyPenaltyHitPoints() {
+        return bonusDestroyPenaltyHitPoints;
+    }
+
+    @Override
+    public BonusCommandIF bonusCommand() {
+        int choice = TargetUtils.rnd.nextInt(bonuses.size());
+        return bonuses.get(choice);
     }
 
 }

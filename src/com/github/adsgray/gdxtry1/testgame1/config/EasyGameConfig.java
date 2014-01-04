@@ -2,13 +2,17 @@ package com.github.adsgray.gdxtry1.testgame1.config;
 
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
+import com.github.adsgray.gdxtry1.testgame1.BonusFactory;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 
 public class EasyGameConfig extends BaseGameConfig implements GameConfigIF {
 
     public EasyGameConfig() {
+        super();
+        // now override some values:
         numEnemies = 4;
-        shieldScoreIncrement = 250;
+        initialShields = 2;
+        initialHitPoints = 75;
         bossScoreIncrement = 1000000000; // never? James doesn't like Bosses.
         bonusDropperChance = 5;
         bonusDeathChance = 100;
@@ -22,6 +26,12 @@ public class EasyGameConfig extends BaseGameConfig implements GameConfigIF {
         defaultEnemyFireLoop = TargetUtils.fireAtDefenderLoop(2000, TargetUtils.targetMissileSource, 1);
         angryEnemyFireLoop = TargetUtils.fireAtDefenderLoop(500, TargetUtils.angryTargetMissileSource, 1);
         defaultEnemyBombVel = new BlobVelocity(0, -7);
+    }
+
+    protected void initBonuses() {
+        bonuses.add(BonusFactory.get().scoreBonus(15));
+        bonuses.add(BonusFactory.get().hitPointBonus(10));
+        bonuses.add(BonusFactory.get().shieldBonus(2));
     }
 
     @Override

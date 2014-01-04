@@ -119,6 +119,7 @@ public class MainPanel implements ApplicationListener {
 
 		DirectionListener dl = new DragAndFlingDirectionListener();
 		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context);
+		game.init();
 		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
 		GameCommand difficulty = game.getDifficultySetter();
 		difficulty.execute(1); // 0 = easy, 1 = normal, 2 = insane

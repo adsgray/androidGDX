@@ -6,7 +6,11 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 
+import com.github.adsgray.gdxtry1.engine.WorldIF;
+import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.util.GameCommand;
+import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
+import com.github.adsgray.gdxtry1.testgame1.blobs.EnemyFactory;
 
 /*
  * To add a new bonus type:
@@ -22,76 +26,89 @@ public class BonusFactory {
     protected GameCommand incShield;
     protected GameCommand incHitPoints;
     protected GameCommand incScore;
+    // required for creating FlashMessages
+    protected WorldIF world;
+    protected Renderer renderer;
     
-    protected enum Type {
-        shield,
-        hitPoints,
-        score
-    }
 
-    protected EnumMap<Type, GameCommand> bonusMap;
+    public BonusFactory(FiringGameTest game, WorldIF world, Renderer renderer) {
+        this.world = world;
+        this.renderer = renderer;
 
-    // http://stackoverflow.com/questions/1972392/java-pick-a-random-value-from-an-enum
-    private static final List<Type> VALUES = Collections.unmodifiableList(Arrays.asList(Type.values()));
-    private static final int SIZE = VALUES.size();
-    protected Type randomBonusEnum() {
-        return VALUES.get(TargetUtils.rnd.nextInt(SIZE));
-    }
-
-    
-    public BonusFactory(FiringGameTest game) {
         incShield = game.new IncShield();
         incHitPoints = game.new IncHitPoints();
         incScore = game.new IncScore();
-        
-        bonusMap = new EnumMap<Type, GameCommand>(Type.class);
-        bonusMap.put(Type.shield, shieldBonus());
-        bonusMap.put(Type.hitPoints, hitPointBonus());
-        bonusMap.put(Type.score, scoreBonus());
+    }
+    
+    public static interface BonusCommandIF {
+        public void execute();
     }
 
-    
-    public GameCommand randomBonus() {
-        return bonusMap.get(randomBonusEnum());
+    /* eg. BonusCommand shieldBonus = new BonusCommand(BonusFactory.get().shieldBonus(), 1)
+     * 
+     */
+    public static class BonusCommand implements BonusCommandIF {
+        protected GameCommand cmd;
+        protected int num;
+
+        public BonusCommand(GameCommand cmd, int num) {
+            this.cmd = cmd;
+            this.num = num;
+        }
+
+        @Override
+        public void execute() {
+            cmd.execute(num);
+        }
+        
     }
     
+    protected void postBonusExecute(String msg) {
+        EnemyFactory.flashMessage(world, renderer, msg, 70);
+        GameSound.get().playSoundId(SoundId.bonusReceive);
+    }
+
     // TODO: put the number of shields/hitpoints/score that you get for
     // a bonus in GameConfig. Different configs can return either a fixed
     // number or a choice from a set of numbers (eg. points == 10,25,50)
-    protected GameCommand shieldBonus() {
-        return new GameCommand() {
+    public BonusCommandIF shieldBonus(int num) {
+        GameCommand bonus = new GameCommand() {
             @Override public void execute(int num) {
                 incShield.execute(num);
-                // display flash message
-                // play sound
+                postBonusExecute(String.format("%d Shield Bonus!", num));
             }
         };
+        
+        return new BonusCommand(bonus, num);
     } 
-
-    protected GameCommand hitPointBonus() {
-        return new GameCommand() {
+    
+    public BonusCommandIF hitPointBonus(int num) {
+        GameCommand bonus = new GameCommand() {
             @Override public void execute(int num) {
                 incHitPoints.execute(num);
-                // display flash message
-                // play sound
+                postBonusExecute(String.format("%d HitPoint Bonus!", num));
             }
         };
+        
+        return new BonusCommand(bonus, num);
     }
    
-    protected GameCommand scoreBonus() {
-        return new GameCommand() {
+    public BonusCommandIF scoreBonus(int num) {
+        GameCommand bonus = new GameCommand() {
             @Override public void execute(int num) {
                 incScore.execute(num);
-                // display flash message
-                // play sound
+                postBonusExecute(String.format("%d Score Bonus!", num));
             }
         };
+        
+        return new BonusCommand(bonus, num);
     }
     
     // singleton
     protected static BonusFactory instance;
-    public static BonusFactory createInstance(FiringGameTest game) {
-        return new BonusFactory(game);
+    public static BonusFactory createInstance(FiringGameTest game, WorldIF world, Renderer renderer) {
+        instance = new BonusFactory(game, world, renderer);
+        return instance;
     }
     public static BonusFactory get() { return instance; }
 }

@@ -38,9 +38,7 @@ public class DefenderCollisionTrigger extends BlobTrigger {
             // TODO: special explosion for bonuses
             // TODO: flash message "+5 HitPoints!"
             TargetUtils.replaceWithBonusExplosion(secondary);
-            ((BonusIF)secondary).destroyCompanionBlobs();
-            EnemyFactory.flashMessage(source.getWorld(), source.getRenderer(), "HitPoint Bonus!", 50);
-            GameSound.get().playSoundId(SoundId.bonusReceive);
+            ((BonusIF)secondary).grantBonus();
         }
 
         // could either be a bomb or a hitpoint bonus

@@ -4,26 +4,28 @@ import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.TextBlobIF;
 import com.github.adsgray.gdxtry1.engine.blob.decorator.BlobDecorator;
 import com.github.adsgray.gdxtry1.engine.util.TriggerFactory;
+import com.github.adsgray.gdxtry1.testgame1.BonusFactory.BonusCommandIF;
 import com.github.adsgray.gdxtry1.testgame1.GameSound;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
 
 public class HitpointBonusDecorator extends BlobDecorator implements BonusIF, EnemyIF {
 
-    int hitPoints;
-    TextBlobIF companionText;
+    protected int hitPoints;
+    protected TextBlobIF companionText;
+    protected BonusCommandIF bonusCommand;
 
-    public HitpointBonusDecorator(BlobIF component, TextBlobIF companionText, int hitPoints) {
+    public HitpointBonusDecorator(BlobIF component, TextBlobIF companionText, int hitPoints, BonusCommandIF bonusCommand) {
         super(component);
         this.hitPoints = hitPoints;
         this.companionText = companionText;
+        this.bonusCommand = bonusCommand;
     }
 
     @Override
     public int getHitPoints() { return hitPoints; }
     
-    @Override
-    public void destroyCompanionBlobs() {
+    protected void destroyCompanionBlobs() {
         companionText.setLifeTime(0);
     }
 
@@ -35,5 +37,11 @@ public class HitpointBonusDecorator extends BlobDecorator implements BonusIF, En
         return TargetUtils.replaceWithBonusExplosion(this);
     }
 
-    @Override public int getWeight() { return 1; } 
+    @Override public int getWeight() { return 1; }
+
+    @Override
+    public void grantBonus() {
+        bonusCommand.execute();
+    }
+
 }
