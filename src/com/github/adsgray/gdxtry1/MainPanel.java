@@ -52,7 +52,21 @@ public class MainPanel implements ApplicationListener {
 	private ShapeRenderer shapes;
 	private Timer worldTimer;
 	private TimerTask worldTick;
+	private GameFinished gameFinished; // executed by the Game when it is complete
 	Context context;
+	
+	private class GameFinished implements GameCommand {
+	    protected Game game;
+	    
+	    public void setGame(Game game) { this.game = game; }
+
+        @Override public void execute(int arg) {
+            Log.d("trace", "Game finished");
+            game.stop();
+            // pop back to previous view?? for now just restart the game:
+            game.start();
+        }
+	}
 	
 	public MainPanel(Context context) {
 	    super();
@@ -117,6 +131,7 @@ public class MainPanel implements ApplicationListener {
 	public void create() {
 		shapes = new ShapeRenderer();
 		batch = new SpriteBatch();
+		gameFinished = new GameFinished();
 
 		Renderer.createRealInstance(shapes, batch);
 	    renderConfig = Renderer.getRealInstance();
@@ -137,7 +152,8 @@ public class MainPanel implements ApplicationListener {
 	    //populateWorld();
 
 		DirectionListener dl = new DragAndFlingDirectionListener();
-		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context);
+		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context, gameFinished);
+		gameFinished.setGame(game);
 		game.init();
 		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
 		GameCommand difficulty = game.getDifficultySetter();

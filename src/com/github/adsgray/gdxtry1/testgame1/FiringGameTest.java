@@ -53,9 +53,10 @@ public class FiringGameTest implements Game {
     ScoreTextDisplay scoreDisplay;
     protected int bonusDropperChance = 5;
     Context context;
-    GameCommand incShield;
-    GameCommand incHitPoints;
-    GameCommand incScore;
+    protected GameCommand incShield;
+    protected GameCommand incHitPoints;
+    protected GameCommand incScore;
+    protected GameCommand gameFinished;
 
     // config parameters singleton class. easy, normal, insane.
     // TODO: encapsulate this crap somewhere:
@@ -151,8 +152,7 @@ public class FiringGameTest implements Game {
                 // String.format("Defender destroyed! Final score: %d", score));
                 // TODO: call a command supplied by outer creator of Game to
                 // save high score or something
-                tearDownGame();
-                setupGame();
+                gameFinished.execute(score);
             } else {
                 // Log.d("testgame1",
                 // String.format("Defender hit for %d! %d left", hitPoints,
@@ -162,11 +162,12 @@ public class FiringGameTest implements Game {
     }
 
     public FiringGameTest(DragAndFlingDirectionListener dl, WorldIF w,
-            Renderer r, Context context) {
+            Renderer r, Context context, GameCommand gameFinished) {
         input = dl;
         world = w;
         renderer = r;
         this.context = context;
+        this.gameFinished = gameFinished;
         CreateEnemyTrigger.createInstance(new EnemyCreator());
         BonusFactory.createInstance(this, world, renderer);
         incShield = new IncShield();
