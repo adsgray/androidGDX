@@ -39,7 +39,7 @@ import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 import com.github.adsgray.gdxtry1.engine.util.WorldTickTask;
 import com.github.adsgray.gdxtry1.testgame1.FiringGameTest;
 
-public class MainPanel implements ApplicationListener {
+public class GameScreen implements ApplicationListener {
 
     private static final int CAMERA_WIDTH = 800;
 	private static final int CAMERA_HEIGHT = 1422;
@@ -68,7 +68,7 @@ public class MainPanel implements ApplicationListener {
         }
 	}
 	
-	public MainPanel(Context context) {
+	public GameScreen(Context context) {
 	    super();
 	    this.context = context;
 	}

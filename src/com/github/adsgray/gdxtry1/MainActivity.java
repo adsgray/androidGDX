@@ -15,7 +15,7 @@ public class MainActivity extends AndroidApplication {
         Log.d("trace", "onCreate!");
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
-		initialize(new MainPanel(context), false);		// initialize a new instance of your Game class
+		initialize(new GameScreen(context), false);		// initialize a new instance of your Game class
     }
 
 
