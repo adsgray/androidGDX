@@ -157,7 +157,7 @@ public class MainPanel implements ApplicationListener {
 		game.init();
 		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
 		GameCommand difficulty = game.getDifficultySetter();
-		difficulty.execute(2); // 0 = easy, 1 = normal, 2 = insane
+		difficulty.execute(1); // 0 = easy, 1 = normal, 2 = insane
 		toggleSound.execute(1); // enable sound
 		game.start();
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
@@ -172,6 +172,7 @@ public class MainPanel implements ApplicationListener {
     public void pause() {
         worldTimer.cancel();
         worldTimer.purge();
+        worldTimer = null;
     }
 
 	protected long millisOfLastTick = 0;
@@ -209,7 +210,9 @@ public class MainPanel implements ApplicationListener {
 
     @Override
     public void resume() {
-        startWorldTicker();
+        if (worldTimer == null) {
+            startWorldTicker();
+        }
     }
 
 }

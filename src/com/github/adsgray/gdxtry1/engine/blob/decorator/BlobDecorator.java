@@ -42,6 +42,7 @@ public abstract class BlobDecorator extends BaseBlob {
     @Override public void setLifeTime(Integer ticks) { component.setLifeTime(ticks); }
     @Override public void setTickPause(int ticks) { component.setTickPause(ticks); }
     @Override public void setPath(BlobPath p) { component.setPath(p); }
+    @Override public void setImmortal(Boolean flag) { component.setImmortal(flag); }
     @Override public int getClientType() { return component.getClientType(); }
     @Override public void setClientType(int clientType) { component.setClientType(clientType); }
 

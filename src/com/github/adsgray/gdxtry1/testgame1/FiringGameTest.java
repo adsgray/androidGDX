@@ -185,7 +185,7 @@ public class FiringGameTest implements Game {
         defender = (FiringBlobDecorator) b;
         b.registerCollisionTrigger(new DefenderCollisionTrigger(new DamageDefender()));
         // TODO: need immortal blobs!
-        b.setLifeTime(1000000);
+        b.setImmortal(true);
         world.addMissileToWorld(b);
         return b;
     }
@@ -239,7 +239,7 @@ public class FiringGameTest implements Game {
         TextConfig rc = renderer.new TextConfig(Color.WHITE, 2.0f);
         ScoreTextDisplay t = new ScoreTextDisplay(p, path.vel, path.acc, renderer, rc);
         t.setWorld(world);
-        t.setLifeTime(1000000);
+        t.setImmortal(true);
         world.addBlobToWorld(t);
         return t;
     }

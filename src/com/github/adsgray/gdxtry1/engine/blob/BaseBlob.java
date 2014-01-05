@@ -28,6 +28,7 @@ public class BaseBlob implements BlobIF {
     protected static final Integer EXPLODE_INTENSITY = 5;
     protected static final Integer BUMP_INTENSITY = 2;
     protected static final Integer MAX_TICKS = 250; // die after this number of ticks
+    protected Boolean immortal = false;
 
     protected Integer ticks; // how many ticks this Blob has been alive for 
     protected Integer tickPause = 0; // freeze for this many ticks
@@ -56,6 +57,7 @@ public class BaseBlob implements BlobIF {
     @Override public void setExtent(ExtentIF e) { extent = e; }
     @Override public void setLifeTime(Integer ticks) { this.ticks = 0; maxTicks = ticks; }
     @Override public void setPath(BlobPath p) { setVelocity(p.vel); setAccel(p.acc); }
+    @Override public void setImmortal(Boolean flag) { immortal = flag; }
     
     @Override public void setClientType(int clientType) { this.clientType = clientType; }
     @Override public int getClientType() { return clientType; }
@@ -110,7 +112,7 @@ public class BaseBlob implements BlobIF {
             doTriggers(tickDeathTriggers, null);
         }
 
-        if (ticks >= maxTicks) {
+        if (!immortal && ticks >= maxTicks) {
             // once we return false here we'll be removed
             // from the world, so leave whatever cluster
             // we belong to (if applicable).

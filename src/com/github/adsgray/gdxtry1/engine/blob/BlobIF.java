@@ -21,6 +21,7 @@ public interface BlobIF {
     public void setPosition(PositionIF p);
     
     public void setPath(BlobPath p);
+    public void setImmortal(Boolean flag);
     
     public BlobIF absorbBlob(BlobIF b); // return self
     public BlobIF absorbBlob(BlobIF b, BlobTransform transform); // return self
