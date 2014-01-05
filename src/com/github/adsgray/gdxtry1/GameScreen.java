@@ -64,6 +64,10 @@ public class GameScreen implements ApplicationListener {
             Log.d("trace", "Game finished");
             game.stop();
             // pop back to previous view?? for now just restart the game:
+            GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
+            GameCommand difficulty = game.getDifficultySetter();
+            difficulty.execute(1); // 0 = easy, 1 = normal, 2 = insane
+            toggleSound.execute(1); // enable sound
             game.start();
         }
 	}
