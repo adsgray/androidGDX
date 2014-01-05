@@ -15,7 +15,7 @@ public class InsaneGameConfig extends BaseGameConfig implements GameConfigIF {
         bossScoreIncrement = 1200; 
         bonusDropperChance = 5;
         bonusDropperBossPointDiff = 250; 
-        bonusDeathChance = 5;
+        bonusDeathChance = 10;
         damageDefender = true; 
         bossFireRate = 3;
         bonusDropSpeed = -18; 
@@ -25,7 +25,7 @@ public class InsaneGameConfig extends BaseGameConfig implements GameConfigIF {
         shieldTickInterval = 175;
         defaultEnemyFireLoop = TargetUtils.fireAtDefenderLoop(800, TargetUtils.targetMissileSource, 1);
         angryEnemyFireLoop = TargetUtils.fireAtDefenderLoop(250, TargetUtils.angryTargetMissileSource, 2);
-        defaultEnemyBombVel = new BlobVelocity(0, -19);
+        defaultEnemyBombVel = new BlobVelocity(0, -19 - 2 * bossesKilled);
     }
 
     protected void initBonuses() {
@@ -36,7 +36,7 @@ public class InsaneGameConfig extends BaseGameConfig implements GameConfigIF {
 
     @Override
     public VelocityIF angryEnemyBombVel() {
-        return new BlobVelocity(0,-26); 
+        return new BlobVelocity(0,-26 - 2 * bossesKilled); 
     }
 }
 

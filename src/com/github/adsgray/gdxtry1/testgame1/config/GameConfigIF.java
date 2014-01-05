@@ -11,6 +11,7 @@ public interface GameConfigIF {
     public int bonusDropperChance();
     public int bossScoreIncrement();
     public Boolean damageDefender();
+    public void incBossesKilled();
     
     public int initialShields();
     public int initialHitPoints();

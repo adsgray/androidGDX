@@ -21,6 +21,7 @@ public class BaseGameConfig implements GameConfigIF {
     protected int bonusDropperChance;
     protected int bossScoreIncrement;
     protected Boolean damageDefender;
+    protected int bossesKilled;
     protected int bonusDeathChance;
     protected BlobTrigger defaultEnemyFireLoop;
     protected BlobTrigger angryEnemyFireLoop;
@@ -44,6 +45,7 @@ public class BaseGameConfig implements GameConfigIF {
         bossScoreIncrement = 1500; // you'll meet a boss every 1500 points
         bonusDropperChance = 5;
         damageDefender = true;
+        bossesKilled = 0;
         defaultEnemyFireLoop = TargetUtils.defaultEnemyFireLoop;
         angryEnemyFireLoop = TargetUtils.angryEnemyFireLoop;
         bossFireRate = 2;
@@ -55,7 +57,7 @@ public class BaseGameConfig implements GameConfigIF {
         shieldLifeTime = 150;
         shieldTickInterval = 150;
         shieldsUpOverride = false;
-        defaultEnemyBombVel = new BlobVelocity(0, -15);
+        defaultEnemyBombVel = new BlobVelocity(0, -15 - bossesKilled);
 
         bonuses = new ArrayList<BonusCommandIF>();
         initBonuses();
@@ -74,6 +76,7 @@ public class BaseGameConfig implements GameConfigIF {
     @Override public int bonusDropperChance() { return bonusDropperChance; }
     @Override public int bossScoreIncrement() { return bossScoreIncrement; }
     @Override public Boolean damageDefender() { return damageDefender; }
+    @Override public void incBossesKilled() { bossesKilled += 1; }
 
     @Override
     public Boolean dropBonusOnDeath() {
@@ -92,7 +95,7 @@ public class BaseGameConfig implements GameConfigIF {
 
     @Override
     public BlobTrigger bossEnemyFireLoop(PositionIF target) {
-        return TargetUtils.fireAtDefenderLoop(250, new BossTargetMissileSource(target), bossFireRate);
+        return TargetUtils.fireAtDefenderLoop(250 - 5 * bossesKilled, new BossTargetMissileSource(target), bossFireRate);
     }
 
     @Override public int bonusDropSpeed() { return bonusDropSpeed; }
@@ -106,12 +109,12 @@ public class BaseGameConfig implements GameConfigIF {
 
     @Override
     public VelocityIF angryEnemyBombVel() {
-        return new BlobVelocity(0,-21);
+        return new BlobVelocity(0,-21 - bossesKilled);
     }
 
     @Override
     public int bonusDestroyPenaltyHitPoints() {
-        return bonusDestroyPenaltyHitPoints;
+        return bonusDestroyPenaltyHitPoints - bossesKilled;
     }
 
     @Override
