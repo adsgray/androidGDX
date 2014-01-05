@@ -32,6 +32,7 @@ public class DefenderCollisionTrigger extends BlobTrigger {
         if (secondary instanceof EnemyBomb) {
             TriggerFactory.replaceWithExplosion(secondary);
             GameSound.get().playSoundId(SoundId.defenderHit);
+            Vibrate.get().vibrate(50);
         }
         
         if (secondary instanceof BonusIF) {

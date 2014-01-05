@@ -68,8 +68,10 @@ public class FiringGameTest implements Game {
         public void execute(int onOrOff) {
             if (onOrOff == 1) {
                 GameSound.setRealInstance(context);
+                Vibrate.setRealInstance(context);
             } else {
                 GameSound.setFakeInstance();
+                Vibrate.setFakeInstance();
             }
         }
     }
