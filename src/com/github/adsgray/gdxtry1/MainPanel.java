@@ -102,6 +102,16 @@ public class MainPanel implements ApplicationListener {
 	    }
 	}	
 
+	// amazingly, yes, in resume() we need an entirely new
+	// Timer and Task. You can't just create a new timer and put
+	// the old task on it. That's an exception.
+	// 01-04 16:29:19.190: E/AndroidRuntime(14979): java.lang.IllegalStateException: TimerTask is scheduled already
+	private void startWorldTicker() {
+	    // create timer task that will call tick on world every 25 ms
+	    worldTimer = new Timer("worldTickTimer");
+	    worldTick = WorldTickTask.createInstance(world);
+	    worldTimer.scheduleAtFixedRate(worldTick, 0, 25);
+	}
 
 	@Override
 	public void create() {
@@ -113,12 +123,8 @@ public class MainPanel implements ApplicationListener {
 	    world = GameFactory.defaultWorld();
 	    
 	    Gdx.graphics.setContinuousRendering(false);
-	    
-	    // create timer task that will call tick on world every 25 ms
-	    worldTimer = new Timer("worldTickTimer");
-	    worldTick = WorldTickTask.createInstance(world);
-	    worldTimer.scheduleAtFixedRate(worldTick, 0, 25);
-
+	    startWorldTicker();
+	   
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
 		
@@ -135,7 +141,7 @@ public class MainPanel implements ApplicationListener {
 		game.init();
 		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
 		GameCommand difficulty = game.getDifficultySetter();
-		difficulty.execute(1); // 0 = easy, 1 = normal, 2 = insane
+		difficulty.execute(2); // 0 = easy, 1 = normal, 2 = insane
 		toggleSound.execute(1); // enable sound
 		game.start();
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
@@ -148,7 +154,8 @@ public class MainPanel implements ApplicationListener {
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
+        worldTimer.cancel();
+        worldTimer.purge();
     }
 
 	protected long millisOfLastTick = 0;
@@ -186,8 +193,7 @@ public class MainPanel implements ApplicationListener {
 
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
-        
+        startWorldTicker();
     }
 
 }

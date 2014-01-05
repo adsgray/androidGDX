@@ -14,16 +14,15 @@ public class WorldTickTask {
         public WorldTask(WorldIF w) { this.w = w; }
     }
     
+    // always clobber instance here:
     public static TimerTask createInstance(WorldIF w) {
-        if (instance == null) {
-            instance = new WorldTask(w) {
-                @Override
-                public void run() {
-                    w.tick();
-                    Gdx.graphics.requestRendering();
-                }
-            };
-        }
+        instance = new WorldTask(w) {
+            @Override
+            public void run() {
+                w.tick();
+                Gdx.graphics.requestRendering();
+            }
+        };
         return instance;
     }
     
