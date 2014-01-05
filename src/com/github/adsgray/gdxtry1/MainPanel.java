@@ -9,6 +9,9 @@ import android.view.SurfaceView;
 */
 
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -33,6 +36,7 @@ import com.github.adsgray.gdxtry1.engine.output.SoundPoolPlayer;
 import com.github.adsgray.gdxtry1.engine.util.Game;
 import com.github.adsgray.gdxtry1.engine.util.GameCommand;
 import com.github.adsgray.gdxtry1.engine.util.GameFactory;
+import com.github.adsgray.gdxtry1.engine.util.WorldTickTask;
 import com.github.adsgray.gdxtry1.testgame1.FiringGameTest;
 
 public class MainPanel implements ApplicationListener {
@@ -46,6 +50,8 @@ public class MainPanel implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private ShapeRenderer shapes;
+	private Timer worldTimer;
+	private TimerTask worldTick;
 	Context context;
 	
 	public MainPanel(Context context) {
@@ -106,8 +112,12 @@ public class MainPanel implements ApplicationListener {
 	    renderConfig = Renderer.getRealInstance();
 	    world = GameFactory.defaultWorld();
 	    
-	    //Gdx.graphics.setContinuousRendering(false);
-	    //Gdx.graphics.requestRendering();
+	    Gdx.graphics.setContinuousRendering(false);
+	    
+	    // create timer task that will call tick on world every 25 ms
+	    worldTimer = new Timer("worldTickTimer");
+	    worldTick = WorldTickTask.createInstance(world);
+	    worldTimer.scheduleAtFixedRate(worldTick, 0, 25);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); // the camera is like a window into our game world
@@ -153,11 +163,13 @@ public class MainPanel implements ApplicationListener {
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);			// OpenGL code to clear the screen
 	    
 	    // only tick 30 times per second
+	    /*
 	    long curMillis = System.currentTimeMillis();
 	    if (curMillis - millisOfLastTick >= milliDelta) {
 	        millisOfLastTick = curMillis;
 	        world.tick();
 	    }
+	    */
 
 	    // but we have to render all the time
 	    camera.update();

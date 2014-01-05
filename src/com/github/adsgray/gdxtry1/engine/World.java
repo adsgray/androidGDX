@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
@@ -16,6 +18,7 @@ public class World implements WorldIF {
     private BlobManager blobs;
     private BlobManager missiles;
     private BlobManager targets;
+    private Synchro synchro;
 
     protected CollisionMap collisions;
 
@@ -25,7 +28,30 @@ public class World implements WorldIF {
         missiles = new BlobManager();
         targets = new BlobManager();
         collisions = new CollisionMap();
+        synchro = new RealSynchro();
     }
+    
+    private static interface Synchro {
+        public void lock();
+        public void unlock();
+    }
+    
+    private static class RealSynchro implements Synchro {
+        private Lock m;
+
+        public RealSynchro() {
+            m = new ReentrantLock(true);
+        }
+
+        @Override public void lock() { m.lock(); }
+        @Override public void unlock() { m.unlock(); }
+    }
+    
+    private static class FakeSynchro implements Synchro {
+        @Override public void lock() { }
+        @Override public void unlock() { }
+    }
+
 
     /*
     public World(RenderConfig r) { renderer = r; }
@@ -139,6 +165,7 @@ public class World implements WorldIF {
     static int ct = 0;
     @Override
     public void tick() {
+        synchro.lock();
 
         blobs.tick();
         missiles.tick();
@@ -161,13 +188,17 @@ public class World implements WorldIF {
             collisions = findCollisions();
             handleCollisions(); 
         }
+        
+        synchro.unlock();
     }
 
     @Override
     public void render() {
+        synchro.lock();
         blobs.render();
         missiles.render();
         targets.render();
+        synchro.unlock();
     }
 
     // another C struct
