@@ -72,7 +72,7 @@ public class BaseGameConfig implements GameConfigIF {
     @Override public int initialShields() { return initialShields; }
     @Override public int initialHitPoints() { return initialHitPoints; }
 
-    @Override public int numEnemies() { return numEnemies; }
+    @Override public int numEnemies() { return numEnemies + 2 * bossesKilled; }
     @Override public int bonusDropperChance() { return bonusDropperChance; }
     @Override public int bossScoreIncrement() { return bossScoreIncrement; }
     @Override public Boolean damageDefender() { return damageDefender; }
