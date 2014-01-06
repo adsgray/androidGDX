@@ -6,9 +6,11 @@ import java.util.Random;
 
 import android.util.Log;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
@@ -23,17 +25,23 @@ public class Renderer {
     private SpriteBatch spriteBatch;
     BitmapFont bitmapFont;
     
+    public static final String FONT_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890,./;'[]\\`~!@#$%^&*()_+{}|:\"<>?";
+
     public Renderer() { }
     public Renderer(ShapeRenderer sr, SpriteBatch sb) {
         shapeRenderer = sr;
         spriteBatch = sb;
-        bitmapFont = new BitmapFont();
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/unispace.ttf"));
+        bitmapFont = fontGenerator.generateFont(10, FONT_CHARSET, false);
+        fontGenerator.dispose(); // remember to dispose the generator after used
+        //bitmapFont = new BitmapFont();
     }
     
     /// singleton crap ///
     private static Renderer realInstance;
     private static Renderer testInstance;
     public static Renderer createRealInstance(ShapeRenderer sr, SpriteBatch sb) {
+        realInstance = null;
         if (realInstance == null) {
             realInstance = new Renderer(sr, sb);
         }

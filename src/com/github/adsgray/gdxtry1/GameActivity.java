@@ -10,10 +10,12 @@ public class GameActivity extends AndroidApplication {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("trace", "onCreate!");
+        Bundle extras = getIntent().getExtras();
+        Log.d("trace", "GameActivity onCreate!");
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
-		initialize(new GameScreen(context), false);		// initialize a new instance of your Game class
+        int difficultyLevel =  extras.getInt("DIFFICULTY_LEVEL");
+		initialize(new GameScreen(context, difficultyLevel), false);		// initialize a new instance of your Game class
     }
 
 }

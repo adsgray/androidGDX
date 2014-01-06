@@ -72,9 +72,12 @@ public class GameScreen implements ApplicationListener {
         }
 	}
 	
-	public GameScreen(Context context) {
+	protected int difficultyLevel = 1;
+
+	public GameScreen(Context context, int difficultyLevel) {
 	    super();
 	    this.context = context;
+	    this.difficultyLevel = difficultyLevel;
 	}
 	
 	private void populateWorld() {
@@ -133,9 +136,11 @@ public class GameScreen implements ApplicationListener {
 
 	@Override
 	public void create() {
-		shapes = new ShapeRenderer();
+	    shapes = new ShapeRenderer();
 		batch = new SpriteBatch();
 		gameFinished = new GameFinished();
+		
+		Log.d("trace", "in gamescreen create");
 
 		Renderer.createRealInstance(shapes, batch);
 	    renderConfig = Renderer.getRealInstance();
@@ -161,9 +166,10 @@ public class GameScreen implements ApplicationListener {
 		game.init();
 		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
 		GameCommand difficulty = game.getDifficultySetter();
-		difficulty.execute(1); // 0 = easy, 1 = normal, 2 = insane
+		difficulty.execute(difficultyLevel); // 0 = easy, 1 = normal, 2 = insane
 		toggleSound.execute(1); // enable sound
 		game.start();
+
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
 	}
 
@@ -218,5 +224,5 @@ public class GameScreen implements ApplicationListener {
             startWorldTicker();
         }
     }
-
+    
 }

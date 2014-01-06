@@ -10,9 +10,12 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 
 public class MainActivity extends Activity {
+
+    protected int difficultyLevel = 1;
 
     private OnClickListener playButtonListener = new OnClickListener() {
         @Override public void onClick(View arg0) {
@@ -20,6 +23,7 @@ public class MainActivity extends Activity {
             //initialize(new MainPanel(getApplicationContext()), false); 
             Log.d("trace", "play button tapped");
             Intent myIntent = new Intent(MainActivity.this, GameActivity.class);
+            myIntent.putExtra("DIFFICULTY_LEVEL", difficultyLevel);
             MainActivity.this.startActivity(myIntent);
         }
     };
@@ -41,6 +45,28 @@ public class MainActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+    
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        
+        switch (view.getId()) {
+            case R.id.difficulty_easy:
+                if (checked) {
+                    difficultyLevel = 0;
+                }
+                break;
+            case R.id.difficulty_normal:
+                if (checked) {
+                    difficultyLevel = 1;
+                }
+                break;
+            case R.id.difficulty_hard:
+                if (checked) {
+                    difficultyLevel = 2;
+                }
+                break;
+        }
     }
     
 }
