@@ -46,4 +46,9 @@ public class DefaultDirectionListener implements DirectionListener {
             public void panInProgress(float curx, float cury) {
                 Log.d("input", String.format("pan continues at (%f, %f)", curx, cury));
             }
+
+            @Override
+            public void onTap(float x, float y, int count) {
+                Log.d("input", String.format("tap at (%f, %f) count=%d", x, y, count));
+            }
 }

@@ -41,11 +41,13 @@ public class DragAndFlingDirectionListener implements DirectionListener {
     protected BlobManager draggable;
     protected BlobManager beingDragged;
     protected BlobManager flingable;
+    protected BlobManager tappable;
 
     public DragAndFlingDirectionListener() {
         draggable = new BlobManager();
         beingDragged = new BlobManager();
         flingable = new BlobManager();
+        tappable = new BlobManager();
     }
     
     public Boolean registerDraggable(Draggable b) {
@@ -62,10 +64,18 @@ public class DragAndFlingDirectionListener implements DirectionListener {
         return flingable.toRemove.add(b);
     }
 
+    public Boolean registerTappable(Tappable b) {
+        return tappable.toAdd.add(b);
+    }
+    public Boolean deregisterTappable(Tappable b) {
+        return tappable.toRemove.add(b);
+    }
+
     protected void handleAllAdditionsAndRemovals() {
         draggable.handleAdditionsAndRemovals();
         beingDragged.handleAdditionsAndRemovals();
         flingable.handleAdditionsAndRemovals();
+        tappable.handleAdditionsAndRemovals();
     }
 
     @Override
@@ -127,7 +137,7 @@ public class DragAndFlingDirectionListener implements DirectionListener {
 
         while (iter.hasNext()) {
             Draggable b = (Draggable)iter.next();
-            if (b.getExtent().contains(b.getPosition(), p)) {
+            if (b.getDragExtent().contains(b.getPosition(), p)) {
                 beingDragged.toAdd.add(b);
             }
         }
@@ -164,5 +174,22 @@ public class DragAndFlingDirectionListener implements DirectionListener {
         beingDragged.objs.clear();
         handleAllAdditionsAndRemovals();
     }
+
+    @Override
+    public void onTap(float x, float y, int count) {
+        Iterator<BlobIF> iter = tappable.objs.iterator();
+        
+        // tap position
+        BlobPosition tp = new BlobPosition((int)x, (int)y);
+        
+        // if any tappable blobs contain this position:
+        while (iter.hasNext()) {
+            Tappable b = (Tappable)iter.next();
+            if (b.getTapExtent().contains(b.getPosition(), tp)) {
+                b.onTap(tp, count);
+            }
+        }
+    }
+    
 
 }

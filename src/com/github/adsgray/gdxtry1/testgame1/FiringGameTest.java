@@ -17,6 +17,7 @@ import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.input.DragAndFlingDirectionListener;
 import com.github.adsgray.gdxtry1.engine.input.Draggable;
 import com.github.adsgray.gdxtry1.engine.input.Flingable;
+import com.github.adsgray.gdxtry1.engine.input.Tappable;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.output.SoundIF;
 import com.github.adsgray.gdxtry1.engine.output.Renderer.RectConfig;
@@ -249,6 +250,7 @@ public class FiringGameTest implements Game {
     private void tearDownGame() {
         input.deregisterDraggable((Draggable) defender);
         input.deregisterFlingable((Flingable) defender);
+        input.deregisterTappable((Tappable) defender);
         world.killAllBlobs();
     }
 
@@ -270,6 +272,7 @@ public class FiringGameTest implements Game {
 
         input.registerDraggable((Draggable) defender);
         input.registerFlingable((Flingable) defender);
+        input.registerTappable((Tappable)defender);
         scoreDisplay.setLastScore(score);
         score = 0;
         scoreDisplay.setScore(score);

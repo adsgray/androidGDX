@@ -56,6 +56,8 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
         // a completed pan from (sx,sy) to (ex,ey)
         void completePan(float sx, float sy, float ex, float ey);
         
+        void onTap(float x, float y, int count);
+        
         // useful info when getting a fling event
         public static class FlingInfo {
             public float startX;
@@ -163,6 +165,13 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
                 }
             }
             return super.fling(velocityX, velocityY, button);
+        }
+        
+        @Override
+        public boolean tap(float x, float y, int count, int button) {
+            Vector3 posConverted = convertCoords(x,y);
+            directionListener.onTap(posConverted.x,posConverted.y,count);
+            return super.tap(x,y,count,button);
         }
 
     }

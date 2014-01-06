@@ -12,6 +12,7 @@ import com.github.adsgray.gdxtry1.engine.extent.ExtentIF;
 import com.github.adsgray.gdxtry1.engine.input.Draggable;
 import com.github.adsgray.gdxtry1.engine.input.Flingable;
 import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.DirectionListener.FlingInfo;
+import com.github.adsgray.gdxtry1.engine.input.Tappable;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.output.Renderer.CircleConfig;
 import com.github.adsgray.gdxtry1.engine.output.Renderer.RectConfig;
@@ -25,16 +26,18 @@ import com.github.adsgray.gdxtry1.testgame1.GameSound;
 import com.github.adsgray.gdxtry1.testgame1.MissileBlobSource;
 import com.github.adsgray.gdxtry1.testgame1.MissileCollisionTrigger;
 import com.github.adsgray.gdxtry1.testgame1.ShieldCollisionTrigger;
+import com.github.adsgray.gdxtry1.testgame1.Vibrate;
 import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 
 public class FiringBlobDecorator extends BlobDecorator implements
-        Flingable, Draggable, DamagableIF {
+        Flingable, Draggable, Tappable, DamagableIF {
 
     protected BlobSource missileSource;
     protected ExtentIF flingExtent;
     protected ExtentIF dragExtent;
+    protected ExtentIF tapExtent;
     protected int hitPoints;
     protected int maxMissiles; // max missiles in the air at one time
     protected int numShields;
@@ -49,6 +52,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
         CircleExtent ce = (CircleExtent)component.getExtent();
         flingExtent = new CircleExtent(ce.getRadius() * 3);
         dragExtent = new CircleExtent(ce.getRadius() * 3);
+        tapExtent = new CircleExtent(ce.getRadius() * 3);
         // TODO: text display 'widget' in engine, display these hitpoints
         // at the top of the screen.
         // When you go <= 0 you explode and can start again.
@@ -66,12 +70,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
 
     @Override
     public void onFlingUp(FlingInfo f) {
-        if (world.getNumMissiles() < maxMissiles) {
-            BlobIF missile = missileSource.get(this);
-            GameSound.get().playSoundId(SoundId.shoot);
-        }
-        // else make the defender flash/shake?
-        // OK now set the missile's velocity based on FlingInfo
+
     }
 
     @Override public void onFlingLeft(FlingInfo f) { }
@@ -79,6 +78,18 @@ public class FiringBlobDecorator extends BlobDecorator implements
 
     @Override public void onFlingDown(FlingInfo f) { 
         shieldsUp();
+    }
+
+    @Override
+    public void onTap(PositionIF pos, int count) {
+         if (world.getNumMissiles() < maxMissiles) {
+            BlobIF missile = missileSource.get(this);
+            GameSound.get().playSoundId(SoundId.shoot);
+            // TODO: make this disable-able in options:
+            Vibrate.get().vibrate(25);
+        }
+        // else make the defender flash/shake?
+        // OK now set the missile's velocity based on FlingInfo       
     }
 
     @Override
@@ -103,6 +114,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
 
     @Override public ExtentIF getFlingExtent() { return flingExtent; }
     @Override public ExtentIF getDragExtent() { return dragExtent; }
+    @Override public ExtentIF getTapExtent() { return tapExtent; }
 
     // Damagable:
     @Override public int setHitPoints(int hp) { hitPoints = hp; return hitPoints; }
@@ -150,4 +162,6 @@ public class FiringBlobDecorator extends BlobDecorator implements
         ticks++;
         return component.tick();
     }
+
+
 }
