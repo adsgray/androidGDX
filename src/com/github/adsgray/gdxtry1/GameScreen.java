@@ -53,6 +53,7 @@ public class GameScreen implements ApplicationListener {
 	private Timer worldTimer;
 	private TimerTask worldTick;
 	private GameFinished gameFinished; // executed by the Game when it is complete
+	protected int difficultyLevel = 1;
 	Context context;
 	
 	private class GameFinished implements GameCommand {
@@ -66,13 +67,12 @@ public class GameScreen implements ApplicationListener {
             // pop back to previous view?? for now just restart the game:
             GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
             GameCommand difficulty = game.getDifficultySetter();
-            difficulty.execute(1); // 0 = easy, 1 = normal, 2 = insane
+            difficulty.execute(difficultyLevel); // 0 = easy, 1 = normal, 2 = insane
             toggleSound.execute(1); // enable sound
             game.start();
         }
 	}
 	
-	protected int difficultyLevel = 1;
 
 	public GameScreen(Context context, int difficultyLevel) {
 	    super();

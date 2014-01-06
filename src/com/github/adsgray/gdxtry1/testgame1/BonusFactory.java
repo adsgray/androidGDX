@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 
+import android.util.Log;
+
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.util.GameCommand;
@@ -97,6 +99,9 @@ public class BonusFactory {
     // singleton
     protected static BonusFactory instance;
     public static BonusFactory createInstance(FiringGameTest game, WorldIF world, Renderer renderer) {
+        // clobber instance. Anything that references world/renderer has to
+        // be clobbered on creation.
+        instance = null;
         if (instance == null) {
             instance = new BonusFactory(game, world, renderer);
         }

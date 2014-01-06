@@ -85,6 +85,10 @@ public class FiringGameTest implements Game {
     public class DifficultySetter implements GameCommand {
         @Override
         public void execute(int arg) {
+
+            // set game config requires BonusFactory
+            BonusFactory.createInstance(FiringGameTest.this, world, renderer);
+
             switch (arg) {
             case 0:
                 GameConfig.set(GameConfigIF.Difficulty.easy);
@@ -168,8 +172,6 @@ public class FiringGameTest implements Game {
         renderer = r;
         this.context = context;
         this.gameFinished = gameFinished;
-        CreateEnemyTrigger.createInstance(new EnemyCreator());
-        BonusFactory.createInstance(this, world, renderer);
         incShield = new IncShield();
         incHitPoints = new IncHitPoints();
         incScore = new IncScore();
@@ -255,7 +257,9 @@ public class FiringGameTest implements Game {
         // have to do this first because defender executes commands
         // on the scoreboard when shield number is initialized:
         scoreDisplay = createScoreDisplay();
+        CreateEnemyTrigger.createInstance(new EnemyCreator());
         EnemyFactory.flashMessage(world, renderer, "Good Luck!", 100);
+
 
         BlobIF defender = createDefender();
 

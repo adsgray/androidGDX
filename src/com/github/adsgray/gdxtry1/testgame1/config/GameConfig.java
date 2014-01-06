@@ -19,6 +19,12 @@ public class GameConfig {
 
     protected static GameConfigIF getConfig(GameConfigIF.Difficulty which) {
         GameConfigIF config = configs.get(which);
+        // must clobber this and create a new one every time getConfig is called.
+        // otherwise on resume the old gameconfig instance is hanging around
+        // and contains references to previous world/renderer
+        // TODO: add destroyInstance() method which can be called
+        // in game.stop() or something.
+        config = null;
         if (config == null) {
             /// init config and put it in the map
             switch (which) {
