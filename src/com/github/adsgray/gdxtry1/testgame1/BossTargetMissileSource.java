@@ -31,7 +31,7 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
      
     protected float bombSpeed() {
         // minimum 8, maximum 16?
-        return TargetUtils.rnd.nextFloat() * minSpeed + (maxSpeed - minSpeed);
+        return TargetUtils.rnd.nextFloat() * (maxSpeed - minSpeed) + minSpeed;
     }
     
     // return a position that is within the bounds of this enemy
