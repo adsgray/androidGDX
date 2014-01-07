@@ -38,6 +38,7 @@ public class Renderer {
     }
     
     /// singleton crap ///
+    private static Renderer instance;
     private static Renderer realInstance;
     private static Renderer testInstance;
     public static Renderer createRealInstance(ShapeRenderer sr, SpriteBatch sb) {
@@ -45,6 +46,7 @@ public class Renderer {
         if (realInstance == null) {
             realInstance = new Renderer(sr, sb);
         }
+        instance = realInstance;
         return realInstance;
     }
     public static Renderer getRealInstance() { return realInstance; }
@@ -52,8 +54,10 @@ public class Renderer {
         if (testInstance == null) {
             testInstance = new Renderer();
         }
+        instance = testInstance;
         return testInstance;
     }
+    public static Renderer get() { return instance; }
     /// ///
     
     public interface RenderConfigIF {
