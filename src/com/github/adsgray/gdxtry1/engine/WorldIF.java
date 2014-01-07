@@ -1,6 +1,7 @@
 package com.github.adsgray.gdxtry1.engine;
 
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
+import com.github.adsgray.gdxtry1.engine.util.StateIF;
 
 /*
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -41,5 +42,6 @@ public interface WorldIF {
     public void setRenderer(RenderConfig r);
     public RenderConfig getRenderer();
     */
-
+    
+    public StateIF getState();
 }

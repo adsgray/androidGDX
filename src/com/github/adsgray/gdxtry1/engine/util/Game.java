@@ -12,10 +12,5 @@ public interface Game {
 
     public int getFinalScore();
 
-    public GameState getState();
-    public void restoreState(GameState state);
-
-    // must be serializable?
-    public interface GameState {
-    }
+    public StateIF getState();
 }

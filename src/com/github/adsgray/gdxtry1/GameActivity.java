@@ -15,6 +15,7 @@ public class GameActivity extends AndroidApplication {
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
         int difficultyLevel =  extras.getInt("DIFFICULTY_LEVEL");
+        // int resumeGame = extras.getInt("RESUME_GAME");
 		initialize(new GameScreen(context, difficultyLevel), false);		// initialize a new instance of your Game class
     }
 

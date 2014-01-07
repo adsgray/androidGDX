@@ -10,6 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
+import com.github.adsgray.gdxtry1.engine.util.StateIF;
 
 import android.util.Log;
 
@@ -303,4 +304,20 @@ public class World implements WorldIF {
     @Override public int getNumTargets() { return targets.objs.size(); }
     @Override public int getNumMissiles() { return missiles.objs.size(); }
     @Override public int getNumBlobs() { return blobs.objs.size(); }
+    
+    private class WorldState implements StateIF {
+        
+        public WorldState() {
+            // save everything about this world in protected
+            // member variables
+        }
+
+        @Override
+        public void restore() {
+            // put those saved things back into
+            // this World
+        }
+    }
+
+    @Override public StateIF getState() { return new WorldState(); }
 }

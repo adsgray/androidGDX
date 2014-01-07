@@ -189,6 +189,7 @@ public class DragAndFlingDirectionListener implements DirectionListener {
                 b.onTap(tp, count);
             }
         }
+        handleAllAdditionsAndRemovals();
     }
     
 

@@ -30,6 +30,7 @@ import com.github.adsgray.gdxtry1.engine.util.Game;
 import com.github.adsgray.gdxtry1.engine.util.GameCommand;
 import com.github.adsgray.gdxtry1.engine.util.GameFactory;
 import com.github.adsgray.gdxtry1.engine.util.PathFactory;
+import com.github.adsgray.gdxtry1.engine.util.StateIF;
 import com.github.adsgray.gdxtry1.testgame1.GameSound.SoundId;
 import com.github.adsgray.gdxtry1.testgame1.TargetUtils.Difficulty;
 import com.github.adsgray.gdxtry1.testgame1.blobs.DamagableIF;
@@ -311,14 +312,18 @@ public class FiringGameTest implements Game {
         return new DifficultySetter();
     }
 
-    @Override
-    public GameState getState() {
-        // TODO Auto-generated method stub
-        return null;
+    private class GameState implements StateIF {
+
+        public GameState() {
+            // save game state in protected vars
+        }
+
+        @Override
+        public void restore() {
+            // restore state from protected vars
+        }
+        
     }
 
-    @Override
-    public void restoreState(GameState state) {
-        // TODO Auto-generated method stub
-    }
+    @Override public StateIF getState() { return new GameState(); }
 }
