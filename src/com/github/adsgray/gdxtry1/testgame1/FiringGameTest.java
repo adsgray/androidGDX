@@ -5,8 +5,12 @@ package com.github.adsgray.gdxtry1.testgame1;
  * "Because the triangle is angry and wants to shoot bombs"
  */
 import android.content.Context;
+import android.text.Editable;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.github.adsgray.gdxtry1.engine.WorldIF;
 import com.github.adsgray.gdxtry1.engine.blob.BlobIF;
@@ -17,6 +21,7 @@ import com.github.adsgray.gdxtry1.engine.blob.decorator.ShowExtentDecorator;
 import com.github.adsgray.gdxtry1.engine.input.DragAndFlingDirectionListener;
 import com.github.adsgray.gdxtry1.engine.input.Draggable;
 import com.github.adsgray.gdxtry1.engine.input.Flingable;
+import com.github.adsgray.gdxtry1.engine.input.KeyListener;
 import com.github.adsgray.gdxtry1.engine.input.Tappable;
 import com.github.adsgray.gdxtry1.engine.output.Renderer;
 import com.github.adsgray.gdxtry1.engine.output.SoundIF;
@@ -43,7 +48,7 @@ import com.github.adsgray.gdxtry1.testgame1.blobs.ScoreTextDisplay;
 import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
 import com.github.adsgray.gdxtry1.testgame1.config.GameConfigIF;
 
-public class FiringGameTest implements Game {
+public class FiringGameTest implements Game, KeyListener {
 
     DragAndFlingDirectionListener input;
     WorldIF world;
@@ -326,4 +331,13 @@ public class FiringGameTest implements Game {
     }
 
     @Override public StateIF getState() { return new GameState(); }
+
+    @Override
+    public void keyDown(int key) {
+        if (key == Keys.BACK) {
+            Log.d("trace", "BACK pressed");
+            // save game state
+        }
+    }
+
 }

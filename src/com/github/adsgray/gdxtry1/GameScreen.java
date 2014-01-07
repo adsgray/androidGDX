@@ -53,6 +53,7 @@ public class GameScreen implements ApplicationListener {
 	private Timer worldTimer;
 	private TimerTask worldTick;
 	private GameFinished gameFinished; // executed by the Game when it is complete
+	Game game;
 	protected int difficultyLevel = 1;
 	Context context;
 	
@@ -161,7 +162,7 @@ public class GameScreen implements ApplicationListener {
 	    //populateWorld();
 
 		DirectionListener dl = new DragAndFlingDirectionListener();
-		Game game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context, gameFinished);
+		game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context, gameFinished);
 		gameFinished.setGame(game);
 		game.init();
 		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
@@ -171,12 +172,17 @@ public class GameScreen implements ApplicationListener {
 		game.start();
 
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
+		//Gdx.input.setCatchBackKey(true);
 	}
+	
 
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
         Log.d("trace", "GameScreen dispose");
+        shapes.dispose();
+        batch.dispose();
+        Renderer.get().dispose();
     }
 
     @Override

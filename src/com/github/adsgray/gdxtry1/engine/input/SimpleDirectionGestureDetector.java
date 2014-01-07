@@ -2,6 +2,8 @@ package com.github.adsgray.gdxtry1.engine.input;
 
 import android.util.Log;
 
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector3;
@@ -40,10 +42,20 @@ import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.Di
     }
 }));
  */
-public class SimpleDirectionGestureDetector extends GestureDetector {
+public class SimpleDirectionGestureDetector extends GestureDetector  {
     
+    protected DirectionListener directionListener;
     
+    @Override
+    public boolean keyDown(int keycode) {
+        directionListener.keyDown(keycode);
+        return false;
+    }
+
     public interface DirectionListener {
+        
+        void keyDown(int key);
+
         void onLeft(FlingInfo f);
         void onRight(FlingInfo f);
         void onUp(FlingInfo f);
@@ -78,6 +90,7 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
 
     public SimpleDirectionGestureDetector(OrthographicCamera camera, DirectionListener directionListener) {
         super(new DirectionGestureListener(camera, directionListener));
+        this.directionListener = directionListener;
     }
      
     private static class DirectionGestureListener extends GestureAdapter{

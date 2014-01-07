@@ -7,6 +7,11 @@ import com.github.adsgray.gdxtry1.engine.input.SimpleDirectionGestureDetector.Di
 
 public class DefaultDirectionListener implements DirectionListener {
     	
+            @Override 
+            public void keyDown(int key) {
+		        Log.d("input", String.format("keyDown %d", key));
+            }
+
 		    @Override
 		    public void onUp(DirectionListener.FlingInfo f) {
 		        // TODO Auto-generated method stub

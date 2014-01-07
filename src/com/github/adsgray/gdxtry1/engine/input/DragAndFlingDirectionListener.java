@@ -42,12 +42,21 @@ public class DragAndFlingDirectionListener implements DirectionListener {
     protected BlobManager beingDragged;
     protected BlobManager flingable;
     protected BlobManager tappable;
+    protected List<KeyListener> keyListeners;
 
     public DragAndFlingDirectionListener() {
         draggable = new BlobManager();
         beingDragged = new BlobManager();
         flingable = new BlobManager();
         tappable = new BlobManager();
+        keyListeners = new ArrayList<KeyListener>();
+    }
+    
+    public Boolean registerKeyListener(KeyListener k) {
+        return keyListeners.add(k);
+    }
+    public Boolean deregisterKeyListener(KeyListener k) {
+        return keyListeners.remove(k);
     }
     
     public Boolean registerDraggable(Draggable b) {
@@ -191,6 +200,14 @@ public class DragAndFlingDirectionListener implements DirectionListener {
         }
         handleAllAdditionsAndRemovals();
     }
-    
 
+    @Override
+    public void keyDown(int key) {
+        Iterator<KeyListener> iter = keyListeners.iterator();
+        
+        while (iter.hasNext()) {
+            KeyListener k = iter.next();
+            k.keyDown(key);
+        }
+    }
 }

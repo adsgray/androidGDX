@@ -60,6 +60,12 @@ public class Renderer {
     public static Renderer get() { return instance; }
     /// ///
     
+    public void dispose() {
+        if (bitmapFont != null) {
+            bitmapFont.dispose();
+        }
+    }
+    
     public interface RenderConfigIF {
         public void scale(float factor);
         public void setColor(Color c);
