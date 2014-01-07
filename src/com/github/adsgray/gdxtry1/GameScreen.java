@@ -176,6 +176,7 @@ public class GameScreen implements ApplicationListener {
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
+        Log.d("trace", "GameScreen dispose");
     }
 
     @Override
@@ -183,6 +184,13 @@ public class GameScreen implements ApplicationListener {
         worldTimer.cancel();
         worldTimer.purge();
         worldTimer = null;
+        Log.d("trace", "GameScreen pause");
+        /*
+         * stash game state somewhere
+         * score
+         * blobs
+         * etc
+         */
     }
 
 	protected long millisOfLastTick = 0;
@@ -215,11 +223,13 @@ public class GameScreen implements ApplicationListener {
     @Override
     public void resize(int arg0, int arg1) {
         // TODO Auto-generated method stub
+        Log.d("trace", "GameScreen resize");
         
     }
 
     @Override
     public void resume() {
+        Log.d("trace", "GameScreen resume");
         if (worldTimer == null) {
             startWorldTicker();
         }
