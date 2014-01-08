@@ -35,11 +35,14 @@ public class DefenderCollisionTrigger extends BlobTrigger {
             Vibrate.get().vibrate(50);
         }
         
+        // A BonusIF is also a DamagerIF so we have
+        // to return early if it's a BonusIF
         if (secondary instanceof BonusIF) {
             // TODO: special explosion for bonuses
             // TODO: flash message "+5 HitPoints!"
             TargetUtils.replaceWithBonusExplosion(secondary);
             ((BonusIF)secondary).grantBonus();
+            return source;
         }
 
         // could either be a bomb or a hitpoint bonus
