@@ -36,6 +36,8 @@ import com.github.adsgray.gdxtry1.engine.output.SoundPoolPlayer;
 import com.github.adsgray.gdxtry1.engine.util.Game;
 import com.github.adsgray.gdxtry1.engine.util.GameCommand;
 import com.github.adsgray.gdxtry1.engine.util.GameFactory;
+import com.github.adsgray.gdxtry1.engine.util.HighScoreSaveIF;
+import com.github.adsgray.gdxtry1.engine.util.LocalHighScore;
 import com.github.adsgray.gdxtry1.engine.util.WorldTickTask;
 import com.github.adsgray.gdxtry1.testgame1.FiringGameTest;
 
@@ -53,6 +55,8 @@ public class GameScreen implements ApplicationListener {
 	private Timer worldTimer;
 	private TimerTask worldTick;
 	private GameFinished gameFinished; // executed by the Game when it is complete
+	private GameCommand exitGame; // called by this ApplicationListener to go back to menu screen
+    private HighScoreSaveIF highScore;
 	Game game;
 	protected int difficultyLevel = 1;
 	Context context;
@@ -62,22 +66,29 @@ public class GameScreen implements ApplicationListener {
 	    
 	    public void setGame(Game game) { this.game = game; }
 
-        @Override public void execute(int arg) {
+        @Override public void execute(int score) {
             Log.d("trace", "Game finished");
             game.stop();
+            // make a funciton that maps from difficulty level to score string
+            // used here and in score display activity/view
+            highScore.submitScore(String.format("high_score_%d", difficultyLevel), score);
             // pop back to previous view?? for now just restart the game:
+            exitGame.execute(score);
+            /*
             GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
             GameCommand difficulty = game.getDifficultySetter();
             difficulty.execute(difficultyLevel); // 0 = easy, 1 = normal, 2 = insane
             toggleSound.execute(1); // enable sound
             game.start();
+            */
         }
 	}
 	
 
-	public GameScreen(Context context, int difficultyLevel) {
+	public GameScreen(Context context, GameCommand exitGame, int difficultyLevel) {
 	    super();
 	    this.context = context;
+	    this.exitGame = exitGame;
 	    this.difficultyLevel = difficultyLevel;
 	}
 	
@@ -140,6 +151,7 @@ public class GameScreen implements ApplicationListener {
 	    shapes = new ShapeRenderer();
 		batch = new SpriteBatch();
 		gameFinished = new GameFinished();
+        highScore = LocalHighScore.createInstance(context);
 		
 		Log.d("trace", "in gamescreen create");
 
