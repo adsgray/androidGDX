@@ -72,8 +72,10 @@ public class GameScreen implements ApplicationListener {
             // make a funciton that maps from difficulty level to score string
             // used here and in score display activity/view
             highScore.submitScore(String.format("high_score_%d", difficultyLevel), score);
+
             // pop back to previous view?? for now just restart the game:
             exitGame.execute(score);
+
             /*
             GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
             GameCommand difficulty = game.getDifficultySetter();
@@ -199,6 +201,7 @@ public class GameScreen implements ApplicationListener {
 
     @Override
     public void pause() {
+        worldTick.cancel();
         worldTimer.cancel();
         worldTimer.purge();
         worldTimer = null;
@@ -217,6 +220,7 @@ public class GameScreen implements ApplicationListener {
 
 	@Override
 	public void render() {
+	    
 	    // TODO: config class for colours
 	    //Gdx.gl.glClearColor(0.199f, 0.398f, 0.598f, 0.4f);	// OpenGL code to make the screen blue
 	    Gdx.gl.glClearColor(0f, 0f, 0f, 0.4f);	

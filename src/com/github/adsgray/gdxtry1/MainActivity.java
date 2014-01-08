@@ -13,11 +13,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 
     protected int difficultyLevel = 1;
+    protected final static int START_GAME = 1;
 
     private OnClickListener playButtonListener = new OnClickListener() {
         @Override public void onClick(View arg0) {
@@ -26,9 +28,21 @@ public class MainActivity extends Activity {
             Log.d("trace", "play button tapped");
             Intent myIntent = new Intent(MainActivity.this, GameActivity.class);
             myIntent.putExtra("DIFFICULTY_LEVEL", difficultyLevel);
-            MainActivity.this.startActivity(myIntent);
+            MainActivity.this.startActivityForResult(myIntent, START_GAME);
         }
     };
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case START_GAME:
+                if (resultCode == RESULT_OK) {
+                    int score = data.getIntExtra("score", 0);
+                    // Show the score
+                    Toast.makeText(getApplicationContext(), String.format("Score: %d", score), Toast.LENGTH_LONG).show();
+                } 
+            break;
+        }
+    }
 
 
     protected void setFontOnText() {

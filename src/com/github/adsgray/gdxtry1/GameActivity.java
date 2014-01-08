@@ -1,8 +1,11 @@
 package com.github.adsgray.gdxtry1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.github.adsgray.gdxtry1.engine.util.GameCommand;
@@ -23,6 +26,9 @@ public class GameActivity extends AndroidApplication {
     private class ExitGame implements GameCommand {
         @Override
         public void execute(int arg) {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("score",arg);
+            setResult(RESULT_OK,returnIntent);     
             GameActivity.this.finish();
         }
     }
