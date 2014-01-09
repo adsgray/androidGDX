@@ -12,5 +12,8 @@
     <string name="high_scores">High Scores</string>
     <string name="high_score_title">High Scores</string>
     <string name="settings_button">Settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_vibration">Enable Vibration</string>
+    <string name="settings_sound">Enable Sound</string>
 
 </resources>

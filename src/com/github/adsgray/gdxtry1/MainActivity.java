@@ -30,8 +30,11 @@ public class MainActivity extends Activity {
             //initialize(new MainPanel(getApplicationContext()), false); 
             Log.d("trace", "play button tapped");
             Intent myIntent = new Intent(MainActivity.this, GameActivity.class);
+
+            // remember this choice FOREVER
             GamePreferences.get().setDifficulty(difficultyLevel);
             GamePreferences.get().save();
+
             myIntent.putExtra("DIFFICULTY_LEVEL", difficultyLevel);
             MainActivity.this.startActivityForResult(myIntent, START_GAME);
         }
