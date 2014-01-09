@@ -1,5 +1,8 @@
 package com.github.adsgray.gdxtry1.testgame1.config;
 
+import com.github.adsgray.gdxtry1.testgame1.GameSound;
+import com.github.adsgray.gdxtry1.testgame1.Vibrate;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -9,9 +12,11 @@ public class GamePreferences {
     protected int sound;
     protected int vibrate;
     protected int difficulty;
+    protected Context context;
     protected SharedPreferences store;
     
     public GamePreferences(Context context) { 
+        this.context = context;
         store = PreferenceManager.getDefaultSharedPreferences(context);
     }
     
@@ -42,7 +47,28 @@ public class GamePreferences {
         editor.putInt(createKey("difficulty"), difficulty);
         editor.commit();
     }
-    
+   
+    // set up singletons based on preferences
+    public void doInitFromPreferences() {
+        switch(sound) {
+            case 0:
+                GameSound.setFakeInstance();
+                break;
+            case 1:
+                GameSound.setRealInstance(context);
+                break;
+        }
+
+        switch(vibrate) {
+            case 0:
+                Vibrate.setFakeInstance();
+                break;
+            case 1:
+                Vibrate.setRealInstance(context);
+                break;
+        }
+    }
+         
     protected static GamePreferences instance;
     public static GamePreferences createInstance(Context context) {
         instance = new GamePreferences(context);

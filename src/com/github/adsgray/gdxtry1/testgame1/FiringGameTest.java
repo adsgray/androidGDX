@@ -76,12 +76,23 @@ public class FiringGameTest implements Game, KeyListener {
         public void execute(int onOrOff) {
             if (onOrOff == 1) {
                 GameSound.setRealInstance(context);
-                Vibrate.setRealInstance(context);
             } else {
                 GameSound.setFakeInstance();
-                Vibrate.setFakeInstance();
             }
         }
+    }
+    
+    public class ToggleVibrate implements GameCommand {
+
+        @Override
+        public void execute(int onOrOff) {
+             if (onOrOff == 1) {
+                Vibrate.setRealInstance(context);
+            } else {
+                Vibrate.setFakeInstance();
+            }           
+        }
+        
     }
 
     protected void doSettingsKnobs() {
@@ -310,6 +321,11 @@ public class FiringGameTest implements Game, KeyListener {
     @Override
     public GameCommand getSoundToggle() {
         return new ToggleSound();
+    }
+
+    @Override
+    public GameCommand getVibrateToggle() {
+        return new ToggleVibrate();
     }
 
     @Override

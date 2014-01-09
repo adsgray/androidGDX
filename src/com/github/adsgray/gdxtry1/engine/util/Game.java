@@ -8,6 +8,7 @@ public interface Game {
     public void stop();
     
     public GameCommand getSoundToggle();
+    public GameCommand getVibrateToggle();
     public GameCommand getDifficultySetter();
 
     public int getFinalScore();

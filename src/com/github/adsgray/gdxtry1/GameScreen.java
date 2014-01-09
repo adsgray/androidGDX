@@ -179,10 +179,10 @@ public class GameScreen implements ApplicationListener {
 		game = new FiringGameTest((DragAndFlingDirectionListener)dl, world, renderConfig, context, gameFinished);
 		gameFinished.setGame(game);
 		game.init();
-		GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
+		//GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
 		GameCommand difficulty = game.getDifficultySetter();
 		difficulty.execute(difficultyLevel); // 0 = easy, 1 = normal, 2 = insane
-		toggleSound.execute(1); // enable sound
+		//toggleSound.execute(1); // enable sound
 		game.start();
 
 		Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(camera, dl));
