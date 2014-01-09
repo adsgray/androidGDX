@@ -153,7 +153,7 @@ public class GameScreen implements ApplicationListener {
 	    shapes = new ShapeRenderer();
 		batch = new SpriteBatch();
 		gameFinished = new GameFinished();
-        highScore = LocalHighScore.createInstance(context);
+        highScore = LocalHighScore.get();
 		
 		Log.d("trace", "in gamescreen create");
 

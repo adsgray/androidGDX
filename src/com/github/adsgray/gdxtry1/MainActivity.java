@@ -1,5 +1,7 @@
 package com.github.adsgray.gdxtry1;
 
+import com.github.adsgray.gdxtry1.engine.util.LocalHighScore;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +33,17 @@ public class MainActivity extends Activity {
             MainActivity.this.startActivityForResult(myIntent, START_GAME);
         }
     };
-    
+ 
+    private OnClickListener highScoreButtonListener = new OnClickListener() {
+        @Override public void onClick(View arg0) {
+            // initialize a new instance of your Game class
+            //initialize(new MainPanel(getApplicationContext()), false); 
+            Log.d("trace", "high score button tapped");
+            Intent myIntent = new Intent(MainActivity.this, HighScoreView.class);
+            MainActivity.this.startActivity(myIntent);
+        }
+    };
+      
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
             case START_GAME:
@@ -51,7 +63,8 @@ public class MainActivity extends Activity {
                 (RadioButton) findViewById(R.id.difficulty_easy),
                 (RadioButton) findViewById(R.id.difficulty_normal),
                 (RadioButton) findViewById(R.id.difficulty_hard),
-                (Button) findViewById(R.id.play_button)
+                (Button) findViewById(R.id.play_button),
+                (Button) findViewById(R.id.high_score_button)
         };
 
         Typeface unispace = Typeface.createFromAsset(getAssets(),"data/unispace.ttf");
@@ -66,12 +79,15 @@ public class MainActivity extends Activity {
         Log.d("trace", "onCreate!");
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
+        LocalHighScore.createInstance(context);
 
         setContentView(R.layout.activity_main);
         setFontOnText();
         
         Button playbutton = (Button)findViewById(R.id.play_button);
         playbutton.setOnClickListener(playButtonListener);
+        Button highScorebutton = (Button)findViewById(R.id.high_score_button);
+        highScorebutton.setOnClickListener(highScoreButtonListener);
     }
 
 
