@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:label="@string/app_name" android:name="HighScoreView"></activity>
+        <activity android:name="SettingsView" android:label="@string/app_name"></activity>
 
     </application>
 
