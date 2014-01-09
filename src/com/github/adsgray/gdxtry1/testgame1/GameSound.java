@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Random;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.github.adsgray.gdxtry1.R;
 import com.github.adsgray.gdxtry1.engine.output.NullSound;
@@ -54,11 +55,10 @@ public class GameSound {
     private EnumMap<SoundId, Integer> sounds;
     private Random rnd;
     
-    public GameSound(Context context) {
-        soundpool = new SoundPoolPlayer(context);
+    protected void initSoundsFromSoundpool() {
         sounds = new EnumMap<SoundId, Integer>(SoundId.class);
         rnd = new Random();
-        
+    
         sounds.put(SoundId.welcome, soundpool.load(R.raw.welcome));
         sounds.put(SoundId.shoot, soundpool.load(R.raw.shoot1));
 
@@ -90,9 +90,15 @@ public class GameSound {
         sounds.put(SoundId.explosionshort1, soundpool.load(R.raw.explosionshort));
         sounds.put(SoundId.explosionshort2, soundpool.load(R.raw.explosionshort2));
     }
+
+    public GameSound(Context context) {
+        soundpool = new SoundPoolPlayer(context);
+        initSoundsFromSoundpool();
+    }
     
     public GameSound() {
         soundpool = new NullSound();
+        initSoundsFromSoundpool();
     }
 
     public static GameSound get() {
