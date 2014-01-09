@@ -43,10 +43,10 @@ public class GamePreferences {
         editor.commit();
     }
     
-    static GamePreferences instance;
-    static GamePreferences createInstance(Context context) {
+    protected static GamePreferences instance;
+    public static GamePreferences createInstance(Context context) {
         instance = new GamePreferences(context);
         return instance;
     }
-    static GamePreferences get() { return instance; }
+    public static GamePreferences get() { return instance; }
 }
