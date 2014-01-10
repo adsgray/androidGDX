@@ -72,20 +72,12 @@ public class GameScreen implements ApplicationListener {
             Log.d("trace", "Game finished");
             game.stop();
             SavedGame.get().clearSavedGame();
+
             // make a funciton that maps from difficulty level to score string
             // used here and in score display activity/view
+
             highScore.submitScore(String.format("high_score_%d", GameConfig.get().getDifficultyLevel()), score);
-
-            // pop back to previous view?? for now just restart the game:
             exitGame.execute(score);
-
-            /*
-            GameCommand toggleSound = game.getSoundToggle(); // get sound toggler command
-            GameCommand difficulty = game.getDifficultySetter();
-            difficulty.execute(difficultyLevel); // 0 = easy, 1 = normal, 2 = insane
-            toggleSound.execute(1); // enable sound
-            game.start();
-            */
         }
 	}
 	

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,20 +26,31 @@ public class MainActivity extends Activity {
 
     protected int difficultyLevel = 1;
     protected final static int START_GAME = 1;
+    protected Typeface unispace;
+    View optionalResumeButton;
+
+    private void startGame() {
+        Intent myIntent = new Intent(MainActivity.this, GameActivity.class);
+        myIntent.putExtra("DIFFICULTY_LEVEL", difficultyLevel);
+        MainActivity.this.startActivityForResult(myIntent, START_GAME);       
+    }
 
     private OnClickListener playButtonListener = new OnClickListener() {
         @Override public void onClick(View arg0) {
-            // initialize a new instance of your Game class
-            //initialize(new MainPanel(getApplicationContext()), false); 
             Log.d("trace", "play button tapped");
-            Intent myIntent = new Intent(MainActivity.this, GameActivity.class);
-
+            SavedGame.get().clearSavedGame();
             // remember this choice FOREVER
             GamePreferences.get().setDifficulty(difficultyLevel);
             GamePreferences.get().save();
+            startGame();
+        }
+    };
 
-            myIntent.putExtra("DIFFICULTY_LEVEL", difficultyLevel);
-            MainActivity.this.startActivityForResult(myIntent, START_GAME);
+    private OnClickListener resumeButtonListener = new OnClickListener() {
+        @Override
+        public void onClick(View arg0) {
+            Log.d("trace", "resume button tapped");
+            startGame();
         }
     };
  
@@ -86,7 +98,7 @@ public class MainActivity extends Activity {
                 (Button) findViewById(R.id.settings_button)
         };
 
-        Typeface unispace = Typeface.createFromAsset(getAssets(),"data/unispace.ttf");
+        unispace = Typeface.createFromAsset(getAssets(),"data/unispace.ttf");
         
         for (int ct = 0; ct < textIds.length; ct++) {
             textIds[ct].setTypeface(unispace);
@@ -116,8 +128,50 @@ public class MainActivity extends Activity {
         highScorebutton.setOnClickListener(highScoreButtonListener);
         Button settingsbutton = (Button)findViewById(R.id.settings_button);
         settingsbutton.setOnClickListener(settingsButtonListener);
+        
+        if (SavedGame.get().getSavedGamePresent()) {
+            createOptionalResumeButton();
+        }
     }
 
+    protected void createOptionalResumeButton() {
+        Button resumeButton = new Button(this);
+
+        // clone properties of play_button
+        Button playButton = (Button) findViewById(R.id.play_button);
+        resumeButton.setPadding(playButton.getPaddingLeft(), 
+                playButton.getPaddingTop(), 
+                playButton.getPaddingRight(), 
+                playButton.getPaddingBottom());
+
+        resumeButton.setText(R.string.resume_button);
+        resumeButton.setTypeface(unispace);
+
+        // put it to the right of play_button
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(playButton.getLayoutParams());
+        lp.addRule(RelativeLayout.RIGHT_OF, R.id.play_button);
+        resumeButton.setLayoutParams(lp);
+
+        // add it to the game_buttons RelativeLayout chunk
+        RelativeLayout gamebuttons = (RelativeLayout) findViewById(R.id.game_buttons);
+        gamebuttons.addView(resumeButton);
+
+        resumeButton.setOnClickListener(resumeButtonListener);
+        this.optionalResumeButton = resumeButton;
+    }
+    
+    @Override
+    public void onResume() {
+        Log.d("trace", "mainactivity onResume");
+        super.onResume();
+        if (optionalResumeButton != null && !SavedGame.get().getSavedGamePresent()) {
+            RelativeLayout gamebuttons = (RelativeLayout) findViewById(R.id.game_buttons);
+            gamebuttons.removeView(optionalResumeButton);
+            optionalResumeButton = null;
+        } else if (optionalResumeButton == null && SavedGame.get().getSavedGamePresent()) {
+            createOptionalResumeButton();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -8,24 +8,31 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
+<RelativeLayout 
+    android:id="@+id/game_buttons"
+	android:layout_below="@+id/difficulty_choices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+    >
     <Button
         android:id="@+id/play_button"
         android:text="@string/play_button" 
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
 
 
-		android:layout_below="@+id/difficulty_choices"
-        android:layout_marginTop="20dp"
-
-        android:paddingBottom="20dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:paddingTop="20dp"
-
+        android:paddingBottom="15dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="15dp"
         />
+        <!--   
+
+        -->
+</RelativeLayout>
     
     <!-- 
     
@@ -46,14 +53,14 @@
             
 	        android:layout_centerHorizontal="true"
 
-            android:layout_below="@+id/play_button"
+            android:layout_below="@+id/game_buttons"
 
             android:layout_marginTop="20dp"
 
-        	android:paddingBottom="20dp"
-        	android:paddingLeft="40dp"
-        	android:paddingRight="40dp"
-        	android:paddingTop="20dp" 
+        	android:paddingBottom="15dp"
+        	android:paddingLeft="25dp"
+        	android:paddingRight="25dp"
+        	android:paddingTop="15dp" 
             />
         
         <!--   
@@ -73,10 +80,10 @@
         android:layout_below="@+id/high_score_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:paddingBottom="20dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:paddingTop="20dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="15dp"
         android:text="@string/settings_button" />
 
     <TextView
