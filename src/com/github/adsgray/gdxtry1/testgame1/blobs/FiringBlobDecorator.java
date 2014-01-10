@@ -121,6 +121,7 @@ public class FiringBlobDecorator extends BlobDecorator implements
     @Override public int incHitPoints(int hp) { hitPoints += hp; return hitPoints; }
     @Override public int decHitPoints(int hp) { hitPoints -= hp; return hitPoints; }
     @Override public int getHitPoints() { return hitPoints; }
+    public int getShields() { return numShields; }
     
     private int ticksWhenShieldsWentUp = 0;
 

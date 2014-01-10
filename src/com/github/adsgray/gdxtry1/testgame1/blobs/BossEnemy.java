@@ -25,6 +25,7 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
     public BossEnemy(BlobIF component, PositionIF aimTarget) {
         super(component);
         this.aimTarget = aimTarget;
+        hitPoints += 5 * GameConfig.get().getNumBossesKilled();
         missileSource = new BossTargetMissileSource(aimTarget);
     }
     
@@ -49,7 +50,7 @@ public class BossEnemy extends BlobDecorator implements DamagerIF, DamagableIF, 
         // throw out a bunch of bombs
         // TODO: put these in GameConfig
         sendAimedBombs(4);
-        sendBonuses(2);
+        sendBonuses(1);
         // two for good measure
         GameSound.get().explosionLong();
         GameSound.get().explosionLong();

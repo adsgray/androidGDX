@@ -47,18 +47,21 @@ import com.github.adsgray.gdxtry1.testgame1.blobs.FiringBlobDecorator;
 import com.github.adsgray.gdxtry1.testgame1.blobs.ScoreTextDisplay;
 import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
 import com.github.adsgray.gdxtry1.testgame1.config.GameConfigIF;
+import com.github.adsgray.gdxtry1.testgame1.config.SavedGame;
 
 public class FiringGameTest implements Game, KeyListener {
 
     DragAndFlingDirectionListener input;
     WorldIF world;
     Renderer renderer;
-    protected int numEnemies = 6; // TODO: make this go up as your score goes
-                                  // up?
+    protected Boolean stopped = false;
+    protected int numEnemies = 6; 
+    protected int enemyTrackingId;
     FiringBlobDecorator defender;
     protected int score;
     ScoreTextDisplay scoreDisplay;
     protected int bonusDropperChance = 5;
+    protected int difficultyLevel = 1;
     Context context;
     protected GameCommand incShield;
     protected GameCommand incHitPoints;
@@ -106,6 +109,8 @@ public class FiringGameTest implements Game, KeyListener {
 
             // set game config requires BonusFactory
             BonusFactory.createInstance(FiringGameTest.this, world, renderer);
+            
+            difficultyLevel = arg;
 
             switch (arg) {
             case 0:
@@ -129,9 +134,6 @@ public class FiringGameTest implements Game, KeyListener {
         public void execute(int points) {
             createEnemies();
             incScore.execute(points);
-            // Log.d("testgame1",
-            // String.format("Enemy destroyed for %d! %d total", points,
-            // score));
         }
     }
 
@@ -168,7 +170,7 @@ public class FiringGameTest implements Game, KeyListener {
 
             incHitPoints.execute(-hitPoints);
             int hitPointsLeft = defender.getHitPoints();
-
+            
             if (hitPointsLeft <= 0) {
                 // Log.d("testgame1",
                 // String.format("Defender destroyed! Final score: %d", score));
@@ -188,6 +190,7 @@ public class FiringGameTest implements Game, KeyListener {
         input = dl;
         world = w;
         renderer = r;
+        enemyTrackingId = world.createTrackableBlobList();
         this.context = context;
         this.gameFinished = gameFinished;
         incShield = new IncShield();
@@ -217,7 +220,7 @@ public class FiringGameTest implements Game, KeyListener {
     }
 
     private void createEnemies() {
-        int numToAdd = numEnemies - world.getNumTargets();
+        int numToAdd = numEnemies - world.trackableBlobListCount(enemyTrackingId);
 
         if (numToAdd <= 0) return;
 
@@ -226,6 +229,7 @@ public class FiringGameTest implements Game, KeyListener {
             EnemyIF boss = (EnemyIF) EnemyFactory.bossEnemy(world, renderer,
                     defender.getPosition());
             numToAdd -= boss.getWeight();
+            world.addBlobToTrackableBlobList(enemyTrackingId, (BlobIF)boss); 
             EnemyFactory.flashMessage(world, renderer, "Here's the Boss!", 60);
             GameSound.get().playSoundId(SoundId.enemyCreated);
         }
@@ -246,6 +250,7 @@ public class FiringGameTest implements Game, KeyListener {
 
         while (numToAdd > 0) {
             EnemyIF b = (EnemyIF) EnemyFactory.defaultEnemy(world, renderer);
+            world.addBlobToTrackableBlobList(enemyTrackingId, (BlobIF)b); 
             GameSound.get().playSoundId(SoundId.enemyCreated);
             numToAdd -= b.getWeight();
         }
@@ -279,19 +284,30 @@ public class FiringGameTest implements Game, KeyListener {
         CreateEnemyTrigger.createInstance(new EnemyCreator());
         EnemyFactory.flashMessage(world, renderer, "Good Luck!", 100);
 
-
-        BlobIF defender = createDefender();
-
-        // TODO: put these into gameconfig. Easy starts with more shields and
-        // more hitpoints?
-        incShield.execute(GameConfig.get().initialShields());
-        incHitPoints.execute(GameConfig.get().initialHitPoints());
+        defender = (FiringBlobDecorator)createDefender();
 
         input.registerDraggable((Draggable) defender);
         input.registerFlingable((Flingable) defender);
         input.registerTappable((Tappable)defender);
-        scoreDisplay.setLastScore(score);
-        score = 0;
+        
+        // restore from saved state if present
+        SavedGame savegame = SavedGame.get();
+        if (savegame.getSavedGamePresent()) {
+            SavedGame.GameState gs = savegame.getState();
+            score = gs.score;
+            incShield.execute(gs.shields);
+            incHitPoints.execute(gs.hitPoints);
+            GameConfig.get().setBossesKilled(gs.bossesKilled);
+            (new DifficultySetter()).execute(gs.difficulty);
+            defender.setPosition(new BlobPosition(gs.defenderPos));
+        } else {
+            score = 0;
+            incShield.execute(GameConfig.get().initialShields());
+            incHitPoints.execute(GameConfig.get().initialHitPoints());
+        }
+
+        //scoreDisplay.setLastScore(score);
+
         scoreDisplay.setScore(score);
         // scoreDisplay.setHitPoints(((DamagableIF)defender).getHitPoints()); //
         // TODO: test
@@ -315,6 +331,7 @@ public class FiringGameTest implements Game, KeyListener {
 
     @Override
     public void stop() {
+        stopped = true;
         tearDownGame();
     }
 
@@ -333,27 +350,30 @@ public class FiringGameTest implements Game, KeyListener {
         return new DifficultySetter();
     }
 
-    private class GameState implements StateIF {
-
-        public GameState() {
-            // save game state in protected vars
-        }
-
-        @Override
-        public void restore() {
-            // restore state from protected vars
-        }
-        
-    }
-
-    @Override public StateIF getState() { return new GameState(); }
-
     @Override
     public void keyDown(int key) {
         if (key == Keys.BACK) {
             Log.d("trace", "BACK pressed");
             // save game state
         }
+    }
+
+    // Knows about SavedGame and GameState
+    @Override 
+    public void save() {
+        // don't save the game if it is complete
+        if (stopped) return;
+        SavedGame savegame = SavedGame.get();
+        SavedGame.GameState gs = new SavedGame.GameState();
+        
+        gs.hitPoints = defender.getHitPoints();
+        gs.shields = defender.getShields();
+        gs.bossesKilled = GameConfig.get().getNumBossesKilled();
+        gs.difficulty = difficultyLevel;
+        gs.score = score;
+        gs.defenderPos = new BlobPosition(defender.getPosition());
+        
+        savegame.setGameState(gs).save();
     }
 
 }

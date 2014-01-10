@@ -32,7 +32,7 @@ public class GamePreferences {
     public void load() {
         sound = store.getInt(createKey("sound"), 1);
         vibrate = store.getInt(createKey("vibrate"), 1);
-        difficulty = store.getInt(createKey("difficulty"), 1);
+        difficulty = store.getInt(createKey("difficulty"), 1); // default to Normal
     }
     
     public int getSound() { return sound; }

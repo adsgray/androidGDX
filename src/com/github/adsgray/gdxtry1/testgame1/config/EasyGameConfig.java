@@ -10,6 +10,7 @@ public class EasyGameConfig extends BaseGameConfig implements GameConfigIF {
     public EasyGameConfig() {
         super();
         // now override some values:
+        difficultyLevel = 0; // Easy
         numEnemies = 4;
         initialShields = 2;
         initialHitPoints = 75;

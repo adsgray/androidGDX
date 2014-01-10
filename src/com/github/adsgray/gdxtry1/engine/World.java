@@ -20,6 +20,7 @@ public class World implements WorldIF {
     private BlobManager missiles;
     private BlobManager targets;
     private Synchro synchro;
+    private List<BlobManager> trackBlobs;
 
     protected CollisionMap collisions;
 
@@ -30,6 +31,8 @@ public class World implements WorldIF {
         targets = new BlobManager();
         collisions = new CollisionMap();
         synchro = new RealSynchro();
+
+        trackBlobs = new ArrayList<BlobManager>();
     }
     
     private static interface Synchro {
@@ -67,6 +70,7 @@ public class World implements WorldIF {
   
     @Override
     public Boolean removeBlobFromWorld(BlobIF b) {
+        removeFromTrackableBlobLists(b);
         missiles.scheduleRemoval(b);
         targets.scheduleRemoval(b);
         return blobs.scheduleRemoval(b);
@@ -171,6 +175,7 @@ public class World implements WorldIF {
         blobs.tick();
         missiles.tick();
         targets.tick();
+        handleTrackableBlobListsAddsRemovals();
         
         ct += 1;
         if (ct == 100) {
@@ -181,6 +186,7 @@ public class World implements WorldIF {
             //missiles.debugDump();
             Log.d("trace", String.format("to add counts: b=%d m=%d t=%d", blobs.toAdd.size(), missiles.toAdd.size(), targets.toAdd.size()));
             //targets.debugDump();
+            dumpTrackableBlobLists();
         }
         
         // save collisions for the next iteration and use it to optimize collision detection?
@@ -320,4 +326,57 @@ public class World implements WorldIF {
     }
 
     @Override public StateIF getState() { return new WorldState(); }
+
+
+    // game created BlobIF tracking lists
+    @Override
+    public int createTrackableBlobList() {
+        int num = trackBlobs.size();
+        BlobManager tracklist = new BlobManager();
+        trackBlobs.add(tracklist);
+        return num;
+    }
+
+    @Override
+    public Boolean addBlobToTrackableBlobList(int listid, BlobIF b) {
+        BlobManager tracklist = trackBlobs.get(listid);
+        return tracklist.scheduleAdd(b);
+    }
+
+    @Override
+    public int trackableBlobListCount(int listid) {
+        BlobManager tracklist = trackBlobs.get(listid);
+        return tracklist.objs.size();
+    }
+
+
+    // remove b from all tracking lists
+    private void removeFromTrackableBlobLists(BlobIF b) {
+        Iterator<BlobManager> listiter = trackBlobs.iterator();
+
+        while (listiter.hasNext()) {
+            BlobManager tracklist = listiter.next();
+            tracklist.scheduleRemoval(b);
+        }
+    }
+
+    private void handleTrackableBlobListsAddsRemovals() {
+        Iterator<BlobManager> listiter = trackBlobs.iterator();
+
+        while (listiter.hasNext()) {
+            BlobManager tracklist = listiter.next();
+            tracklist.handleScheduledAddsAndRemovals();
+        }
+    }
+    
+    private void dumpTrackableBlobLists() {
+        Iterator<BlobManager> listiter = trackBlobs.iterator();
+        
+        int ct = 0;
+        while (listiter.hasNext()) {
+            BlobManager tracklist = listiter.next();
+            Log.d("trace", String.format("blob track %d size: %d", ct, tracklist.objs.size()));
+            ct++;
+        }
+    }
 }

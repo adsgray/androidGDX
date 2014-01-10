@@ -3,6 +3,7 @@ package com.github.adsgray.gdxtry1;
 import com.github.adsgray.gdxtry1.engine.util.LocalHighScore;
 import com.github.adsgray.gdxtry1.testgame1.GameSound;
 import com.github.adsgray.gdxtry1.testgame1.config.GamePreferences;
+import com.github.adsgray.gdxtry1.testgame1.config.SavedGame;
 
 import android.app.Activity;
 import android.content.Context;
@@ -99,7 +100,9 @@ public class MainActivity extends Activity {
         Context context = getApplicationContext();
         LocalHighScore.createInstance(context);
         GamePreferences.createInstance(context).load();
+        SavedGame.createInstance(context).load();
         GamePreferences.get().doInitFromPreferences();
+        difficultyLevel = GamePreferences.get().getDifficulty();
 
         setContentView(R.layout.activity_main);
 

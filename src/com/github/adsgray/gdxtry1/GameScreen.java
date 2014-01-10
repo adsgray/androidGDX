@@ -40,6 +40,8 @@ import com.github.adsgray.gdxtry1.engine.util.HighScoreSaveIF;
 import com.github.adsgray.gdxtry1.engine.util.LocalHighScore;
 import com.github.adsgray.gdxtry1.engine.util.WorldTickTask;
 import com.github.adsgray.gdxtry1.testgame1.FiringGameTest;
+import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
+import com.github.adsgray.gdxtry1.testgame1.config.SavedGame;
 
 public class GameScreen implements ApplicationListener {
 
@@ -69,9 +71,10 @@ public class GameScreen implements ApplicationListener {
         @Override public void execute(int score) {
             Log.d("trace", "Game finished");
             game.stop();
+            SavedGame.get().clearSavedGame();
             // make a funciton that maps from difficulty level to score string
             // used here and in score display activity/view
-            highScore.submitScore(String.format("high_score_%d", difficultyLevel), score);
+            highScore.submitScore(String.format("high_score_%d", GameConfig.get().getDifficultyLevel()), score);
 
             // pop back to previous view?? for now just restart the game:
             exitGame.execute(score);
@@ -212,6 +215,7 @@ public class GameScreen implements ApplicationListener {
          * blobs
          * etc
          */
+        game.save();
     }
 
 	protected long millisOfLastTick = 0;

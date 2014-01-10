@@ -8,6 +8,7 @@ import com.github.adsgray.gdxtry1.engine.position.BlobPosition;
 import com.github.adsgray.gdxtry1.engine.position.PositionIF;
 import com.github.adsgray.gdxtry1.engine.velocity.BlobVelocity;
 import com.github.adsgray.gdxtry1.engine.velocity.VelocityIF;
+import com.github.adsgray.gdxtry1.testgame1.config.GameConfig;
 
 // This aims bombs at the target supplied to constructor
 public class BossTargetMissileSource extends AngryTargetMissileSource {
@@ -20,8 +21,8 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
     public BossTargetMissileSource(PositionIF aimTarget) {
         super(null);
         this.aimTarget = aimTarget;
-        minSpeed = 20;
-        maxSpeed = 28;
+        minSpeed = 20 + (float)GameConfig.get().getNumBossesKilled();
+        maxSpeed = 28 + (float)GameConfig.get().getNumBossesKilled();
         maxError = 50;
     }
     
@@ -30,8 +31,7 @@ public class BossTargetMissileSource extends AngryTargetMissileSource {
     public int setMaxError(int in) { maxError = in; return maxError; }
      
     protected float bombSpeed() {
-        // minimum 8, maximum 16?
-        return TargetUtils.rnd.nextFloat() * (maxSpeed - minSpeed) + minSpeed;
+        return Math.round((TargetUtils.rnd.nextFloat() * (maxSpeed - minSpeed)) + minSpeed);
     }
     
     // return a position that is within the bounds of this enemy

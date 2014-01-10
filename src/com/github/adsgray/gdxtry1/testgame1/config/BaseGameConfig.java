@@ -15,6 +15,7 @@ import com.github.adsgray.gdxtry1.testgame1.TargetUtils;
 // this is the "normal" config
 public class BaseGameConfig implements GameConfigIF {
 
+    protected int difficultyLevel;
     protected int numEnemies;
     protected int initialShields;
     protected int initialHitPoints;
@@ -39,6 +40,7 @@ public class BaseGameConfig implements GameConfigIF {
 
 
     public BaseGameConfig() {
+        difficultyLevel = 1; // Normal
         numEnemies = 6;
         initialShields = 1;
         initialHitPoints = 50;
@@ -49,7 +51,7 @@ public class BaseGameConfig implements GameConfigIF {
         defaultEnemyFireLoop = TargetUtils.defaultEnemyFireLoop;
         angryEnemyFireLoop = TargetUtils.angryEnemyFireLoop;
         bossFireRate = 2;
-        bonusDropSpeed = -15;
+        bonusDropSpeed = -15 - bossesKilled;
         bonusDropperLifeTime = 400;
         bonusDropperBossPointDiff = 500;
         bonusDestroyPenaltyHitPoints = -5; // negative number means you lose hitpoints for destroying a bonus
@@ -57,7 +59,7 @@ public class BaseGameConfig implements GameConfigIF {
         shieldLifeTime = 150;
         shieldTickInterval = 150;
         shieldsUpOverride = false;
-        defaultEnemyBombVel = new BlobVelocity(0, -15 - bossesKilled);
+        defaultEnemyBombVel = new BlobVelocity(0, -15 - 2 * bossesKilled);
 
         bonuses = new ArrayList<BonusCommandIF>();
         initBonuses();
@@ -76,7 +78,9 @@ public class BaseGameConfig implements GameConfigIF {
     @Override public int bonusDropperChance() { return bonusDropperChance; }
     @Override public int bossScoreIncrement() { return bossScoreIncrement; }
     @Override public Boolean damageDefender() { return damageDefender; }
+    @Override public void setBossesKilled(int num) { bossesKilled = num; } // for SavedGame restore
     @Override public void incBossesKilled() { bossesKilled += 1; }
+    @Override public int getNumBossesKilled() { return bossesKilled; }
 
     @Override
     public Boolean dropBonusOnDeath() {
@@ -95,7 +99,9 @@ public class BaseGameConfig implements GameConfigIF {
 
     @Override
     public BlobTrigger bossEnemyFireLoop(PositionIF target) {
-        return TargetUtils.fireAtDefenderLoop(250 - 5 * bossesKilled, new BossTargetMissileSource(target), bossFireRate);
+        int delay = 200 - 5 * bossesKilled;
+        if (delay <= 0) delay = 10;
+        return TargetUtils.fireAtDefenderLoop(delay, new BossTargetMissileSource(target), bossFireRate);
     }
 
     @Override public int bonusDropSpeed() { return bonusDropSpeed; }
@@ -109,18 +115,23 @@ public class BaseGameConfig implements GameConfigIF {
 
     @Override
     public VelocityIF angryEnemyBombVel() {
-        return new BlobVelocity(0,-21 - bossesKilled);
+        return new BlobVelocity(0,-21 - 2 * bossesKilled);
     }
 
     @Override
     public int bonusDestroyPenaltyHitPoints() {
-        return bonusDestroyPenaltyHitPoints - bossesKilled;
+        return bonusDestroyPenaltyHitPoints - 2 * bossesKilled;
     }
 
     @Override
     public BonusCommandIF bonusCommand() {
         int choice = TargetUtils.rnd.nextInt(bonuses.size());
         return bonuses.get(choice);
+    }
+
+    @Override
+    public int getDifficultyLevel() {
+        return difficultyLevel;
     }
 
 }

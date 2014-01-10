@@ -57,7 +57,7 @@ public class HighScoreView extends Activity {
         String[] labels = new String[] {
                 "Easy",
                 "Normal",
-                "Dificult"
+                "Hard"
         };
         
         String[] keys = new String[] {

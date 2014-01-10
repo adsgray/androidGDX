@@ -26,6 +26,11 @@ public interface WorldIF {
     public int getNumMissiles();
     public int getNumBlobs();
 
+    // returns identifier
+    public int createTrackableBlobList();
+    public Boolean addBlobToTrackableBlobList(int listid, BlobIF b);
+    public int trackableBlobListCount(int listid);
+
     public void killAllBlobs();
     
     public void tick();

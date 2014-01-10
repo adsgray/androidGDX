@@ -31,6 +31,13 @@ public class BlobCluster extends BaseBlob implements ClusterIF {
     public Boolean leaveCluster(BlobIF b) {
         Boolean ret = objs.remove(b);
         updateRenderConfig();
+
+        // once all Blobs have left the cluster let it die.
+        if (objs.size() == 0) {
+            clearTickDeathTriggers();
+            setLifeTime(0);
+        }
+
         return ret;
     }
 
@@ -55,8 +62,8 @@ public class BlobCluster extends BaseBlob implements ClusterIF {
 
     @Override
     public BlobIF swap(BlobIF in, BlobIF out) {
-        leaveCluster(out);
         absorbBlob(in);
+        leaveCluster(out);
         return in;
     }
 }

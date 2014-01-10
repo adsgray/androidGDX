@@ -7,11 +7,14 @@ import com.github.adsgray.gdxtry1.testgame1.BonusFactory.BonusCommandIF;
 
 public interface GameConfigIF {
     
+    public int getDifficultyLevel();
     public int numEnemies();
     public int bonusDropperChance();
     public int bossScoreIncrement();
     public Boolean damageDefender();
+    public void setBossesKilled(int num);
     public void incBossesKilled();
+    public int getNumBossesKilled();
     
     public int initialShields();
     public int initialHitPoints();

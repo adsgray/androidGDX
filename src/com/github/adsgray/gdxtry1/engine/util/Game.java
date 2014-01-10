@@ -5,6 +5,7 @@ public interface Game {
 
     public void init();
     public void start();
+    public void save(); // save state to SavedGame
     public void stop();
     
     public GameCommand getSoundToggle();
@@ -12,6 +13,5 @@ public interface Game {
     public GameCommand getDifficultySetter();
 
     public int getFinalScore();
-
-    public StateIF getState();
+    
 }

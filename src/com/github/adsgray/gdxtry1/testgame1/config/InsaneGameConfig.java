@@ -9,16 +9,17 @@ public class InsaneGameConfig extends BaseGameConfig implements GameConfigIF {
 
    public InsaneGameConfig() {
        super();
+        difficultyLevel = 2; // Hard
         numEnemies = 8;
         initialShields = 0;
         initialHitPoints = 45;
-        bossScoreIncrement = 1200; 
+        bossScoreIncrement = 900; 
         bonusDropperChance = 5;
         bonusDropperBossPointDiff = 250; 
         bonusDeathChance = 10;
         damageDefender = true; 
         bossFireRate = 3;
-        bonusDropSpeed = -18; 
+        bonusDropSpeed = -18 - bossesKilled; 
         bonusDropperLifeTime = 300;
         shieldLifeTime = 125;
         shieldsUpOverride = false; 

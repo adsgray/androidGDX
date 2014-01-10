@@ -68,7 +68,7 @@ public class EnemyFactory {
         BlobIF b = BlobFactory.rectangleBlob(p, randomPath(), rc, renderer);
 
         //b.setDebugStr("bossEnemy");
-        b.setLifeTime(TargetUtils.rnd.nextInt(200));
+        b.setLifeTime(TargetUtils.rnd.nextInt(20) + 10);
         b.registerTickDeathTrigger(GameConfig.get().bossEnemyFireLoop(aimTarget));
 
         b = BlobFactory.throbber(b);
