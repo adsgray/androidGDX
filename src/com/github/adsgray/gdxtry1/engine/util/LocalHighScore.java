@@ -56,6 +56,12 @@ public class LocalHighScore implements HighScoreSaveIF {
         }
         return false;
     }
+    
+    public void clear(String key) {
+        SharedPreferences.Editor editor = store.edit();
+        editor.putInt(key, 0);
+        editor.commit();
+    }
 
 
     protected static LocalHighScore instance;
