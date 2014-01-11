@@ -292,6 +292,7 @@ public class World implements WorldIF {
                 // BUT they will be rendered to the screen during this World tick()
                 if (!b.tick()) {
                     scheduleRemoval(b);
+                    removeFromTrackableBlobLists(b);
                 }
             }
 
