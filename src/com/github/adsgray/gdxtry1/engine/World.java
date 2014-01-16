@@ -63,44 +63,74 @@ public class World implements WorldIF {
     public void setRenderer(RenderConfig r) { renderer = r; }
     */
     
+    /* synchro is a re-entrant lock so we can do nested lock/unlock 
+     * The reason we have to do this here is because there are potentially 2 (or 3?)
+     * threads all trying to look at BlobManager.objs at the same time.
+     * 
+     * 1. World.tick() --> WorldTimer thread --> holds the lock
+     * 2. World.render() --> libGDX render thread --> holds the lock
+     * 3. Gesture/Input thread? Does not hold the lock if any of that code calls add*ToWorld()
+     *    which it potentially can (And does in shape-mergency: tap the triangle and it adds missiles
+     *    to the world. I can't believe it doesn't constantly crash. I've only seen it a couple
+     *    of times.
+     * */
+    protected Boolean scheduleAddBlobToBlobManager(BlobIF b, BlobManager manager) {
+        synchro.lock();
+        boolean ret = manager.scheduleAdd(b);
+        synchro.unlock();
+        return ret;
+    }
+    
+    protected Boolean scheduleRemoveBlobFromBlobManager(BlobIF b, BlobManager manager) {
+        synchro.lock();
+        boolean ret = manager.scheduleRemoval(b);
+        synchro.unlock();
+        return ret;
+    }
+
     @Override
     public Boolean addBlobToWorld(BlobIF b) {
-        return blobs.scheduleAdd(b);
+        return scheduleAddBlobToBlobManager(b, blobs);
     }
   
     @Override
     public Boolean removeBlobFromWorld(BlobIF b) {
+        synchro.lock();
         removeFromTrackableBlobLists(b);
         missiles.scheduleRemoval(b);
         targets.scheduleRemoval(b);
-        return blobs.scheduleRemoval(b);
+        boolean ret = blobs.scheduleRemoval(b);
+        synchro.unlock();
+        return ret;
     }
  
     @Override
     public Boolean addTargetToWorld(BlobIF b) {
-        return targets.scheduleAdd(b);
+        return scheduleAddBlobToBlobManager(b, targets);
     }
   
     @Override
     public Boolean removeTargetFromWorld(BlobIF b) {
-        return targets.scheduleRemoval(b);
+        return scheduleRemoveBlobFromBlobManager(b, targets);
     }
  
     @Override
     public Boolean addMissileToWorld(BlobIF b) {
-        return missiles.scheduleAdd(b);
+        return scheduleAddBlobToBlobManager(b, missiles);
     }
   
     @Override
     public Boolean removeMissileFromWorld(BlobIF b) {
-        return missiles.scheduleRemoval(b);
+        return scheduleRemoveBlobFromBlobManager(b, missiles);
     }
 
     @Override
     public void killAllBlobs() {
+        synchro.lock();
         blobs.killAllBlobs();
         targets.killAllBlobs();
         missiles.killAllBlobs();
+        synchro.unlock();
     }
     
     // this is the accepted lame way of doing type aliases in Java?
