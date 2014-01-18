@@ -261,7 +261,7 @@ public class BaseBlob implements BlobIF {
     @Override public void clearCollisionTriggers() { collisionTriggers.clear(); }
     @Override public void registerTickDeathTrigger(BlobTrigger trigger) { tickDeathTriggers = addTrigger(tickDeathTriggers, trigger); }
     @Override public void deregisterTickDeathTrigger(BlobTrigger trigger) { removeTrigger(tickDeathTriggers, trigger); }
-    @Override public void clearTickDeathTriggers() { tickDeathTriggers.clear(); }
+    @Override public void clearTickDeathTriggers() { tickDeathTriggers = null; }
     
     @Override public ClusterIF setCluster(ClusterIF c) { cluster = c; return c; }
     @Override public ClusterIF getCluster() { return cluster; }
